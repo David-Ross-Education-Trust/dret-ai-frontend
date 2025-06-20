@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Layout from "./layout";
 import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 
 export default function ToolTemplate({ agentId, prompts, title, description }) {
   const [fields, setFields] = useState(() =>
