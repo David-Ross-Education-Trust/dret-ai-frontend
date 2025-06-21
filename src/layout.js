@@ -30,12 +30,12 @@ const Layout = ({ children }) => {
       {/* Fixed sidebar */}
       <aside className="w-60 bg-[var(--trust-green)] text-white h-screen fixed left-0 top-0 flex flex-col justify-between">
         {/* Logo at the top */}
-        <div className="p-6 flex justify-center">
+        <div className="w-full h-24 flex items-center">
           <img
             src={dretaiLogo}
             alt="DRET.AI Logo"
-            className="h-14 w-auto object-contain"
-            style={{ maxWidth: 180 }}
+            className="w-full h-full object-contain"
+            style={{ display: "block" }}
           />
         </div>
 
