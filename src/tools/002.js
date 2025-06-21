@@ -112,7 +112,7 @@ Please format your response in markdown.
                 type="text"
                 value={fields.firstName}
                 onChange={e => handleChange("firstName", e.target.value)}
-                placeholder="e.g. Alex"
+                placeholder="Alex"
                 className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm"
               />
             </div>
@@ -122,7 +122,7 @@ Please format your response in markdown.
                 type="text"
                 value={fields.yearGroup}
                 onChange={e => handleChange("yearGroup", e.target.value)}
-                placeholder="e.g. Year 7"
+                placeholder="Year 7"
                 className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm"
               />
             </div>
