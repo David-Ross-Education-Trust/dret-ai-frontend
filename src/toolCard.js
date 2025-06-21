@@ -1,4 +1,3 @@
-// src/toolCard.js
 import React from "react";
 import { Star, Flame, Sparkles } from "lucide-react";
 

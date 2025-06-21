@@ -8,7 +8,6 @@ const UserMenu = () => {
   const account = accounts[0];
   const isSignedIn = !!account;
   const navigate = useNavigate();
-
   const [open, setOpen] = useState(false);
 
   const handleLogin = () => instance.loginRedirect();
@@ -35,7 +34,6 @@ const UserMenu = () => {
           )}
         </div>
       </div>
-
       {isSignedIn && open && (
         <div className="absolute left-4 bottom-14 w-48 bg-white text-gray-800 rounded-md shadow-md z-50 font-avenir">
           <div

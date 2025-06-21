@@ -70,18 +70,15 @@ export default function Homepage({ showOnlyFavourites }) {
       if (tool.comingSoon) {
         return searchTerm.trim() === "" && (selectedCategory === "All");
       }
-
       const matchesSearch =
         (tool.name && tool.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
         (tool.description && tool.description.toLowerCase().includes(searchTerm.toLowerCase()));
-
       let matchesCategory = false;
       if (showOnlyFavourites) matchesCategory = favourites.includes(tool.name);
       else if (selectedCategory === "All") matchesCategory = true;
       else if (selectedCategory === "Favourites") matchesCategory = favourites.includes(tool.name);
       else if (selectedCategory === "New") matchesCategory = tool.tag === "New";
       else matchesCategory = tool.category === selectedCategory;
-
       return matchesSearch && matchesCategory;
     })
     .sort((a, b) => {

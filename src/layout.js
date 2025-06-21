@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useMsal } from "@azure/msal-react";
 import { FaUserCircle } from "react-icons/fa";
 import { FiChevronDown } from "react-icons/fi";
@@ -16,7 +16,6 @@ const Layout = ({ children }) => {
   const account = accounts[0];
   const isSignedIn = !!account;
   const [menuOpen, setMenuOpen] = useState(false);
-  const navigate = useNavigate();
 
   const handleLogin = () => {
     instance.loginRedirect();
@@ -73,15 +72,6 @@ const Layout = ({ children }) => {
                   onClick={() => alert("Preferences coming soon!")}
                 >
                   Preferences
-                </div>
-                <div
-                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                  onClick={() => {
-                    setMenuOpen(false);
-                    navigate("/tool-renderer");
-                  }}
-                >
-                  Tool Renderer
                 </div>
                 <div
                   className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
