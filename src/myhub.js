@@ -84,7 +84,7 @@ export default function MyHub() {
     else if (activeNote > idx) setActiveNote(activeNote - 1);
   };
 
-  const [favourites, setFavourites] = useState(() => {
+  const [favourites] = useState(() => {
     const saved = localStorage.getItem("favourites");
     return saved ? JSON.parse(saved) : [];
   });
