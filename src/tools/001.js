@@ -41,7 +41,7 @@ Topic: ${fields.topic}
 Brief Description: ${fields.description}
 Length (minutes): ${fields.length}
 
-Please generate a detailed lesson plan with objectives, activities, and time breakdown, formatted with clear markdown headings, tables, and lists.
+Please format your response in markdown.
     `.trim();
 
     setLoading(true);

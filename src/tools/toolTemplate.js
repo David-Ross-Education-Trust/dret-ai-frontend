@@ -6,7 +6,7 @@ import { marked } from "marked";
 import htmlDocx from "html-docx-js/dist/html-docx";
 
 // 1. Change the export function name and the default function name to match your tool!
-export default function ToolTemplate() {
+export default function LessonPlanningTool() {
   // 2. Modify the field names, keys, and default values as needed for your tool inputs
   const [fields, setFields] = useState({
     subject: "",
@@ -50,7 +50,7 @@ Topic: ${fields.topic}
 Brief Description: ${fields.description}
 Length (minutes): ${fields.length}
 
-Add any prompt wording or formatting instructions here.
+Please format your response in markdown.
     `.trim();
 
     // 6. If you need to use a different agentId, set it below
