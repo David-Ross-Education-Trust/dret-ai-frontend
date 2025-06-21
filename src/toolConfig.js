@@ -16,7 +16,7 @@ export const toolsConfig = [
 
   {
     id: "lesson-planner",
-    name: "Legacy Lesson Planner",
+    name: "Lesson Planner",
     description: "Plan and manage lessons with ease.",
     category: "Planning",
     tag: "New",
