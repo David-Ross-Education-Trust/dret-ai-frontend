@@ -172,7 +172,6 @@ Please generate a detailed lesson plan with objectives, activities, and time bre
                 ref={scrollAreaRef}
                 className="flex-1 overflow-y-auto px-6 pt-6 pb-4 custom-scrollbar prose prose-sm max-w-none"
                 style={{
-                  color: "#205c40",
                   minHeight: 120,
                 }}
               >
@@ -198,7 +197,7 @@ Please generate a detailed lesson plan with objectives, activities, and time bre
               {response && !loading && (
                 <div className="border-t border-gray-100 px-6 py-3 bg-white rounded-b-xl sticky bottom-0 z-10 flex justify-end">
                   <button
-                    className="bg-[var(--trust-green)] text-white px-4 py-2 rounded hover:bg-[var(--trust-green-dark)] transition text-sm font-semibold font-avenir"
+                    className="bg-[var(--trust-green)] text-white px-4 py-2 rounded-md hover:bg-green-800 transition text-sm font-semibold font-avenir"
                     onClick={exportToDocx}
                     type="button"
                   >
