@@ -85,9 +85,7 @@ Please generate a detailed lesson plan with objectives, activities, and time bre
   return (
     <Layout>
       <div className="font-sans bg-gray-50 min-h-screen h-screen flex flex-col">
-        {/* Sticky Header Bar */}
         <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-6 h-20 flex items-center sticky top-0">
-          {/* Trust Green Accent + Tool Name */}
           <span
             className="inline-block"
             style={{
@@ -102,10 +100,7 @@ Please generate a detailed lesson plan with objectives, activities, and time bre
             Lesson Planner
           </h1>
         </div>
-
-        {/* Main content: Form + Response */}
         <div className="flex flex-1 min-h-0 w-full gap-8 px-8 py-8 bg-gray-100">
-          {/* Input form */}
           <form
             onSubmit={handleSubmit}
             className="bg-white rounded-xl shadow-md p-6 w-[340px] flex flex-col gap-3 h-fit text-[15px]"
@@ -151,7 +146,6 @@ Please generate a detailed lesson plan with objectives, activities, and time bre
                 rows={3}
               />
             </div>
-            {/* Length (minutes) input */}
             <div className="mb-4">
               <label className="block text-xs font-medium text-gray-700 mb-1">
                 Length (minutes)
@@ -167,13 +161,11 @@ Please generate a detailed lesson plan with objectives, activities, and time bre
             <button
               type="submit"
               disabled={loading}
-              className="bg-[var(--trust-green)] text-white px-4 py-2 rounded-md hover:bg-green-800 transition text-sm font-semibold mt-2"
+              className="bg-[var(--trust-green)] text-white px-4 py-2 rounded-md hover:bg-green-800 transition text-sm font-semibold mt-2 font-avenir"
             >
               {loading ? "Generating..." : "Generate"}
             </button>
           </form>
-
-          {/* Response Box: fixed height, scrollable content, export pinned to bottom */}
           <div className="flex-1 min-w-0 flex flex-col">
             <div className="bg-white rounded-xl shadow-md h-full flex flex-col relative">
               <div
@@ -196,21 +188,20 @@ Please generate a detailed lesson plan with objectives, activities, and time bre
                   </div>
                 )}
               </div>
-              {/* Export button pinned at bottom, in trust green */}
-              <div className="border-t border-gray-100 px-6 py-3 bg-white rounded-b-xl sticky bottom-0 z-10 flex justify-end">
-                <button
-                  className="bg-[var(--trust-green)] text-white px-4 py-2 rounded hover:bg-[var(--trust-green-dark)] transition text-sm"
-                  onClick={exportToDocx}
-                  disabled={!response || loading}
-                  type="button"
-                >
-                  Export to DOCX
-                </button>
-              </div>
+              {response && !loading && (
+                <div className="border-t border-gray-100 px-6 py-3 bg-white rounded-b-xl sticky bottom-0 z-10 flex justify-end">
+                  <button
+                    className="bg-[var(--trust-green)] text-white px-4 py-2 rounded-md hover:bg-green-800 transition text-sm font-semibold font-avenir"
+                    onClick={exportToDocx}
+                    type="button"
+                  >
+                    Export
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
-        {/* Scrollbar styles just for the response box */}
         <style>
           {`
             .custom-scrollbar {
