@@ -14,10 +14,11 @@ module.exports = {
       },
       fontFamily: {
         sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        avenir: ['"Avenir LT Std Light"', 'AvenirLTStdLight', 'Avenir', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
-        xl: '1rem',       // 16px
-        '2xl': '1.5rem',  // 24px
+        xl: '1rem',
+        '2xl': '1.5rem',
       },
       animation: {
         'ping-once': 'pingOnce 0.4s ease-out',

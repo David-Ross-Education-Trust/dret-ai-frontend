@@ -13,7 +13,7 @@ const UserMenu = () => {
   const handleLogout = () => instance.logoutRedirect();
 
   return (
-    <div className="relative">
+    <div className="relative font-avenir">
       <div
         className="flex items-center gap-3 px-4 py-3 rounded hover:bg-green-800 transition cursor-pointer"
         onClick={() => {
@@ -34,9 +34,8 @@ const UserMenu = () => {
         </div>
       </div>
 
-      {/* Dropdown menu */}
       {isSignedIn && open && (
-        <div className="absolute left-4 bottom-14 w-40 bg-white text-gray-800 rounded-md shadow-md z-50">
+        <div className="absolute left-4 bottom-14 w-40 bg-white text-gray-800 rounded-md shadow-md z-50 font-avenir">
           <div
             className="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded-t-md"
             onClick={() => alert("Preferences coming soon!")}
