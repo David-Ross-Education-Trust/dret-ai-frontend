@@ -69,7 +69,7 @@ export default function Homepage() {
       if (tool.comingSoon) return true;
 
       const matchesSearch =
-        tool.name && tool.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (tool.name && tool.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
         (tool.description && tool.description.toLowerCase().includes(searchTerm.toLowerCase()));
       let matchesCategory = false;
 
@@ -83,7 +83,6 @@ export default function Homepage() {
     .sort((a, b) => {
       if (a.comingSoon && !b.comingSoon) return 1;
       if (!a.comingSoon && b.comingSoon) return -1;
-
       const aFav = favourites.includes(a.name);
       const bFav = favourites.includes(b.name);
       if (aFav && !bFav) return -1;
@@ -153,7 +152,6 @@ export default function Homepage() {
               </div>
             </div>
           </div>
-
           <div className="scroll-area flex-1 overflow-y-auto bg-gray-100">
             <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 pb-16">
               {filteredTools.map((tool, idx) =>
@@ -216,7 +214,6 @@ export default function Homepage() {
                         }}
                       />
                     </button>
-
                     <div className="flex flex-col gap-0 mb-10 mt-1">
                       <h3 className="text-base font-bold pr-8 leading-tight">
                         {tool.name}
@@ -225,7 +222,6 @@ export default function Homepage() {
                         {tool.description}
                       </p>
                     </div>
-
                     <div className="absolute bottom-3 left-3 flex flex-wrap gap-2 text-xs text-gray-500 items-center">
                       <span className="bg-green-50 text-green-700 px-2 py-0.5 rounded-full font-medium">
                         {tool.category}
