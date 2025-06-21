@@ -20,7 +20,7 @@ export const toolsConfig = [
     description: "Plan and manage lessons with ease.",
     category: "Planning",
     tag: "New",
-    href: "tool/lesson-planner",
+    href: "/tool/lesson-planner",
     component: LessonPlanningTool,
     comingSoon: false,
   },
