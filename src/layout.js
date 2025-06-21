@@ -27,16 +27,13 @@ const Layout = ({ children }) => {
 
   return (
     <div className="flex font-sans">
-      {/* Fixed sidebar */}
-      <aside className="w-60 bg-[var(--trust-green)] text-white h-screen fixed left-0 top-0 flex flex-col justify-between">
-        {/* Website name - Centered horizontally at the top */}
-        <div className="p-6 text-4xl font-bold flex justify-center">
+      <aside className="w-60 bg-[var(--trust-green)] text-white h-screen fixed left-0 top-0 flex flex-col justify-between font-avenir">
+        <div className="p-6 text-4xl font-bold flex justify-center font-avenir">
           DRET.AI
         </div>
 
-        {/* Navigation */}
         {isSignedIn && (
-          <div className="p-6 flex flex-col gap-4 overflow-y-auto mt-4">
+          <div className="p-6 flex flex-col gap-4 overflow-y-auto mt-4 font-avenir">
             {navItems.map((item, index) => (
               <Link
                 key={index}
@@ -49,9 +46,8 @@ const Layout = ({ children }) => {
           </div>
         )}
 
-        {/* User section */}
         {isSignedIn && (
-          <div className="relative p-4 border-t border-[#184b34]">
+          <div className="relative p-4 border-t border-[#184b34] font-avenir">
             <div
               onClick={isSignedIn ? () => setMenuOpen(!menuOpen) : handleLogin}
               className="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-[#184b34] transition"
@@ -66,8 +62,6 @@ const Layout = ({ children }) => {
                 <span className="font-medium text-sm">Sign in</span>
               )}
             </div>
-
-            {/* Dropdown menu */}
             {isSignedIn && menuOpen && (
               <div className="absolute bottom-16 left-4 bg-white text-black rounded shadow-md w-48 z-50">
                 <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Preferences</div>
@@ -82,8 +76,6 @@ const Layout = ({ children }) => {
           </div>
         )}
       </aside>
-
-      {/* Main content */}
       <main className="ml-60 w-full min-h-screen overflow-y-auto bg-gray-50">
         {children}
       </main>
