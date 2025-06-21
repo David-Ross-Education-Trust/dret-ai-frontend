@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import Layout from "../layout";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { marked } from "marked";
 import htmlDocx from "html-docx-js/dist/html-docx";
 
@@ -186,7 +187,9 @@ Please generate a detailed lesson plan with objectives, activities, and time bre
                 {loading ? (
                   <div className="text-gray-500 italic">Generating lesson plan...</div>
                 ) : response ? (
-                  <ReactMarkdown>{response}</ReactMarkdown>
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    {response}
+                  </ReactMarkdown>
                 ) : (
                   <div className="text-gray-400 italic text-sm">
                     Your lesson plan will appear here.
