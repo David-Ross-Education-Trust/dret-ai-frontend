@@ -7,9 +7,9 @@ import { toolsConfig } from "./toolConfig";
 
 function LoginSplash({ onLogin }) {
   return (
-    <div className="flex flex-col items-center justify-center h-[calc(100vh)] w-full">
+    <div className="flex flex-col items-center justify-center h-[calc(100vh)] w-full bg-gray-100">
       <div className="bg-white p-10 rounded-2xl shadow-xl flex flex-col items-center max-w-md mx-auto">
-        <h1 className="text-3xl font-bold mb-3 text-[var(--trust-green)]">Welcome to DRET.AI</h1>
+        <h1 className="text-3xl font-bold mb-8 text-[var(--trust-green)]">Welcome to DRET.AI</h1>
         <button
           onClick={onLogin}
           className="bg-[var(--trust-green)] text-white px-8 py-2 rounded-full font-semibold text-lg hover:bg-green-900 transition"
@@ -66,7 +66,9 @@ export default function Homepage() {
 
   const filteredTools = toolsConfig
     .filter((tool) => {
-      if (tool.comingSoon) return true;
+      if (tool.comingSoon) {
+        return searchTerm.trim() === "" && (selectedCategory === "All");
+      }
 
       const matchesSearch =
         (tool.name && tool.name.toLowerCase().includes(searchTerm.toLowerCase())) ||

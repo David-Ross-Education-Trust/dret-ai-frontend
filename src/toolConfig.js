@@ -42,5 +42,29 @@ export const toolsConfig = [
   {
     id: "009",
     comingSoon: true,
+  },
+  {
+    id: "010",
+    comingSoon: true,
+  },
+  {
+    id: "011",
+    comingSoon: true,
+  },
+  {
+    id: "012",
+    comingSoon: true,
+  },
+  {
+    id: "013",
+    comingSoon: true,
+  },
+  {
+    id: "014",
+    comingSoon: true,
+  },
+  {
+    id: "015",
+    comingSoon: true,
   }
 ];

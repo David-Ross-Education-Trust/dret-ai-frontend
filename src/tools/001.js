@@ -99,7 +99,7 @@ Please generate a detailed lesson plan with objectives, activities, and time bre
             }}
           />
           <h1 className="text-xl font-bold" style={{ color: "#205c40" }}>
-            Lesson Planning
+            Lesson Planner
           </h1>
         </div>
 
