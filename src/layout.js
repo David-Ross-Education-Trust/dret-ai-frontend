@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useMsal } from "@azure/msal-react";
 import { FaUserCircle } from "react-icons/fa";
 import { FiChevronDown } from "react-icons/fi";
+import dretaiLogo from "./assets/dretai-logo.png";
 
 const navItems = [
   { label: "Home", icon: "fas fa-home", to: "/" },
@@ -14,7 +15,6 @@ const Layout = ({ children }) => {
   const { accounts, instance } = useMsal();
   const account = accounts[0];
   const isSignedIn = !!account;
-
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLogin = () => {
@@ -27,13 +27,21 @@ const Layout = ({ children }) => {
 
   return (
     <div className="flex font-sans">
-      <aside className="w-60 bg-[var(--trust-green)] text-white h-screen fixed left-0 top-0 flex flex-col justify-between font-avenir">
-        <div className="p-6 text-4xl font-bold flex justify-center font-avenir">
-          DRET.AI
+      {/* Fixed sidebar */}
+      <aside className="w-60 bg-[var(--trust-green)] text-white h-screen fixed left-0 top-0 flex flex-col justify-between">
+        {/* Logo at the top */}
+        <div className="p-6 flex justify-center">
+          <img
+            src={dretaiLogo}
+            alt="DRET.AI Logo"
+            className="h-14 w-auto object-contain"
+            style={{ maxWidth: 180 }}
+          />
         </div>
 
+        {/* Navigation */}
         {isSignedIn && (
-          <div className="p-6 flex flex-col gap-4 overflow-y-auto mt-4 font-avenir">
+          <div className="p-6 flex flex-col gap-4 overflow-y-auto mt-4">
             {navItems.map((item, index) => (
               <Link
                 key={index}
@@ -46,8 +54,9 @@ const Layout = ({ children }) => {
           </div>
         )}
 
+        {/* User section */}
         {isSignedIn && (
-          <div className="relative p-4 border-t border-[#184b34] font-avenir">
+          <div className="relative p-4 border-t border-[#184b34]">
             <div
               onClick={isSignedIn ? () => setMenuOpen(!menuOpen) : handleLogin}
               className="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-[#184b34] transition"
@@ -62,6 +71,8 @@ const Layout = ({ children }) => {
                 <span className="font-medium text-sm">Sign in</span>
               )}
             </div>
+
+            {/* Dropdown menu */}
             {isSignedIn && menuOpen && (
               <div className="absolute bottom-16 left-4 bg-white text-black rounded shadow-md w-48 z-50">
                 <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Preferences</div>
@@ -76,6 +87,8 @@ const Layout = ({ children }) => {
           </div>
         )}
       </aside>
+
+      {/* Main content */}
       <main className="ml-60 w-full min-h-screen overflow-y-auto bg-gray-50">
         {children}
       </main>
