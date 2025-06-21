@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Search, Star, Flame, Sparkles, X } from "lucide-react";
+import { Search, X } from "lucide-react";
 import Layout from "./layout";
 import { useNavigate } from "react-router-dom";
 import { useMsal } from "@azure/msal-react";
 import { toolsConfig } from "./toolConfig";
+import ToolCard from "./toolCard";
 
 function LoginSplash({ onLogin }) {
   return (
@@ -69,17 +70,14 @@ export default function Homepage() {
       if (tool.comingSoon) {
         return searchTerm.trim() === "" && (selectedCategory === "All");
       }
-
       const matchesSearch =
         (tool.name && tool.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
         (tool.description && tool.description.toLowerCase().includes(searchTerm.toLowerCase()));
       let matchesCategory = false;
-
       if (selectedCategory === "All") matchesCategory = true;
       else if (selectedCategory === "Favourites") matchesCategory = favourites.includes(tool.name);
       else if (selectedCategory === "New") matchesCategory = tool.tag === "New";
       else matchesCategory = tool.category === selectedCategory;
-
       return matchesSearch && matchesCategory;
     })
     .sort((a, b) => {
@@ -89,7 +87,7 @@ export default function Homepage() {
       const bFav = favourites.includes(b.name);
       if (aFav && !bFav) return -1;
       if (!aFav && bFav) return 1;
-      return parseInt(b.id || "0") - parseInt(a.id || "0");
+      return parseInt(a.id || "0") - parseInt(b.id || "0");
     });
 
   return (
@@ -165,83 +163,14 @@ export default function Homepage() {
                     <span className="text-base font-semibold">New tools coming soon</span>
                   </div>
                 ) : (
-                  <div
+                  <ToolCard
                     key={tool.id || idx}
-                    onClick={() => handleCardClick(tool)}
-                    className="relative rounded-xl bg-white shadow-md hover:shadow-lg transition-shadow cursor-pointer p-4 pt-3 h-[150px] flex flex-col justify-start"
-                  >
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        toggleFavourite(tool.name);
-                      }}
-                      className="absolute top-3 right-3 p-2 rounded-full group transition z-20"
-                      aria-label={
-                        favourites.includes(tool.name)
-                          ? "Unfavourite"
-                          : "Favourite"
-                      }
-                    >
-                      <Star
-                        className={`w-5 h-5 transition-transform duration-300 ${
-                          favourites.includes(tool.name)
-                            ? "text-yellow-400"
-                            : "text-gray-300"
-                        } opacity-60 ${
-                          clickedStar === tool.name ? "scale-125 animate-ping-once" : ""
-                        }`}
-                        strokeWidth={1.5}
-                        fill={
-                          favourites.includes(tool.name)
-                            ? "#fde047"
-                            : "none"
-                        }
-                        style={{
-                          fill: !favourites.includes(tool.name)
-                            ? "none"
-                            : "#fde047",
-                          transition: "fill 0.2s",
-                        }}
-                        onMouseEnter={e => {
-                          if (!favourites.includes(tool.name)) {
-                            e.currentTarget.style.fill = "#fde047";
-                            e.currentTarget.style.opacity = "1";
-                          }
-                        }}
-                        onMouseLeave={e => {
-                          if (!favourites.includes(tool.name)) {
-                            e.currentTarget.style.fill = "none";
-                            e.currentTarget.style.opacity = "0.6";
-                          }
-                        }}
-                      />
-                    </button>
-                    <div className="flex flex-col gap-0 mb-10 mt-1">
-                      <h3 className="text-base font-bold pr-8 leading-tight">
-                        {tool.name}
-                      </h3>
-                      <p className="text-[13px] text-gray-500 font-normal leading-snug mt-2">
-                        {tool.description}
-                      </p>
-                    </div>
-                    <div className="absolute bottom-3 left-3 flex flex-wrap gap-2 text-xs text-gray-500 items-center">
-                      <span className="bg-green-50 text-green-700 px-2 py-0.5 rounded-full font-medium">
-                        {tool.category}
-                      </span>
-                      {tool.tag === "Hot" && (
-                        <span className="bg-red-50 text-red-600 px-2 py-0.5 rounded-full font-medium flex items-center gap-1">
-                          <Flame className="w-3 h-3" />
-                          Hot
-                        </span>
-                      )}
-                      {tool.tag === "New" && (
-                        <span className="bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full font-medium flex items-center gap-1">
-                          <Sparkles className="w-3 h-3" />
-                          New
-                        </span>
-                      )}
-                    </div>
-                  </div>
+                    tool={tool}
+                    isFavourite={favourites.includes(tool.name)}
+                    onToggleFavourite={toggleFavourite}
+                    clickedStar={clickedStar}
+                    onCardClick={handleCardClick}
+                  />
                 )
               )}
             </div>

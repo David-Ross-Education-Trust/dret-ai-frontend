@@ -4,8 +4,8 @@ import Layout from "./layout";
 import { useNavigate } from "react-router-dom";
 import { useMsal } from "@azure/msal-react";
 import { toolsConfig } from "./toolConfig";
+import ToolCard from "./toolCard";
 
-// Calendar widget
 function CalendarWidget() {
   const now = new Date();
   const year = now.getFullYear();
@@ -14,7 +14,6 @@ function CalendarWidget() {
   const firstDay = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const weekDays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
-
   let days = [];
   for (let i = 0; i < firstDay; i++) days.push(null);
   for (let d = 1; d <= daysInMonth; d++) days.push(d);
@@ -57,8 +56,6 @@ export default function MyHub() {
   const account = accounts[0];
   const isSignedIn = !!account;
   const userName = account ? account.name.split(" ")[0] : "there";
-
-  // Notes with binder-style tabs
   const [notes, setNotes] = useState(() => {
     const saved = localStorage.getItem("myhub-notes");
     return saved ? JSON.parse(saved) : [{ id: Date.now(), text: "" }];
@@ -98,33 +95,26 @@ export default function MyHub() {
     }
   };
 
-  // Only show favourited tools
   const filteredTools = toolsConfig
     .filter((tool) => favourites.includes(tool.name))
-    .sort((a, b) => parseInt(b.id) - parseInt(a.id)); // newest first
+    .sort((a, b) => parseInt(b.id) - parseInt(a.id));
 
   return (
     <Layout>
       <div className="font-sans bg-gray-100 min-h-screen h-screen flex flex-col">
-        {/* Announcement Bar */}
         <div className="w-full flex items-center bg-yellow-100 border-b border-yellow-300 px-3 py-1 mb-3 rounded-t-xl shadow-sm">
           <Megaphone className="text-yellow-600 mr-2 h-4 w-4" />
           <span className="text-xs text-yellow-800 font-medium truncate">
             Welcome to DRET.AI! Staff meeting Friday at 4pm in the Hall. 🎉
           </span>
         </div>
-
         <div className="px-3 pt-3 bg-gray-50/80 backdrop-blur-md shadow-sm">
           <h2 className="text-lg font-bold mb-6">Welcome back, {userName}!</h2>
-
-          {/* Widgets Row */}
           <div className="flex flex-col md:flex-row gap-x-10 gap-y-4 items-start mb-8 md:pl-4">
             <div className="pl-2 w-full md:w-auto flex-shrink-0">
               <CalendarWidget />
             </div>
-            {/* Sticky note with right-side, paper-like tabs (compact) */}
             <div className="relative w-full md:w-72 flex-shrink-0 flex items-start justify-center" style={{ minHeight: "10rem" }}>
-              {/* Sticky Note */}
               <div
                 className="relative rounded-xl shadow-lg h-48 w-full flex flex-row items-start overflow-visible bg-note-yellow"
                 style={{
@@ -133,7 +123,6 @@ export default function MyHub() {
                   minHeight: "9rem",
                 }}
               >
-                {/* Sticky note content */}
                 <div className="flex-1 h-full relative pl-2 pr-0">
                   {notes.length > 1 && (
                     <button
@@ -152,7 +141,6 @@ export default function MyHub() {
                     placeholder="Jot down something for later…"
                   />
                 </div>
-                {/* Paper-like tabs on the right */}
                 <div className="flex flex-col gap-1 h-full pt-2 pl-2 pr-0 items-end">
                   {notes.map((note, idx) => (
                     <button
@@ -179,7 +167,6 @@ export default function MyHub() {
                       <span className="mx-auto text-yellow-900">{idx + 1}</span>
                     </button>
                   ))}
-                  {/* Add Note Tab */}
                   <button
                     onClick={addNote}
                     className="flex items-center h-8 w-8 -mr-5 mt-2 rounded-r-xl bg-yellow-200 hover:bg-yellow-300 text-yellow-700 shadow border border-yellow-400 transition"
@@ -199,34 +186,23 @@ export default function MyHub() {
             </div>
           </div>
         </div>
-
-        {/* Favourites Grid */}
         <div className="scroll-area flex-1 overflow-y-auto bg-gray-100">
           {filteredTools.length === 0 ? (
             <div className="p-4 text-center text-gray-500 text-sm">
-              You haven't pinned any apps yet.<br />
+              You haven't pinned any tools yet.<br />
               Go to the Home page and click the <Star className="inline w-3 h-3 text-yellow-400" /> to add tools to your hub.
             </div>
           ) : (
             <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 pb-16">
               {filteredTools.map((tool, idx) => (
-                <div
-                  key={idx}
-                  onClick={() => handleCardClick(tool)}
-                  className={`relative rounded-xl bg-white shadow-md hover:shadow-lg transition-shadow cursor-pointer p-4 pt-3 h-[150px] flex flex-col justify-start ${
-                    !isSignedIn ? "opacity-50 pointer-events-none" : ""
-                  }`}
-                >
-                  {!isSignedIn && (
-                    <div className="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center z-10 text-gray-600 text-xs font-medium">
-                      Sign in to use this tool
-                    </div>
-                  )}
-                  <div className="flex flex-col gap-0 mb-10 mt-1">
-                    <h3 className="text-base font-bold pr-8 leading-tight">{tool.name}</h3>
-                    <p className="text-[13px] text-gray-500 font-normal leading-snug mt-2">{tool.description}</p>
-                  </div>
-                </div>
+                <ToolCard
+                  key={tool.id || idx}
+                  tool={tool}
+                  isFavourite={true}
+                  onToggleFavourite={() => {}}
+                  clickedStar={null}
+                  onCardClick={handleCardClick}
+                />
               ))}
             </div>
           )}
