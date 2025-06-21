@@ -1,4 +1,4 @@
-import LessonPlannerComponent from "./LessonPlannerComponent";
+import $001 from "./tools/001";
 
 export const toolsConfig = [
   {
@@ -6,9 +6,9 @@ export const toolsConfig = [
     name: "Lesson Planner",
     description: "Plan and manage your lessons with ease.",
     category: "Planning",
-    tag: "",
+    tag: "New",
     href: "/lesson-planner",
-    component: LessonPlannerComponent,
+    component: $001,
     comingSoon: false,
   },
   {
