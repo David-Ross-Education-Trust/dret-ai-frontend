@@ -35,48 +35,52 @@ const Layout = ({ children }) => {
         </div>
 
         {/* Navigation */}
-        <div className="p-6 flex flex-col gap-4 overflow-y-auto mt-4">
-          {navItems.map((item, index) => (
-            <Link
-              key={index}
-              to={item.to}
-              className="flex items-center gap-2 px-4 py-2 rounded hover:bg-[#184b34] transition"
-            >
-              <i className={item.icon}></i> {item.label}
-            </Link>
-          ))}
-        </div>
+        {isSignedIn && (
+          <div className="p-6 flex flex-col gap-4 overflow-y-auto mt-4">
+            {navItems.map((item, index) => (
+              <Link
+                key={index}
+                to={item.to}
+                className="flex items-center gap-2 px-4 py-2 rounded hover:bg-[#184b34] transition"
+              >
+                <i className={item.icon}></i> {item.label}
+              </Link>
+            ))}
+          </div>
+        )}
 
         {/* User section */}
-        <div className="relative p-4 border-t border-[#184b34]">
-          <div
-            onClick={isSignedIn ? () => setMenuOpen(!menuOpen) : handleLogin}
-            className="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-[#184b34] transition"
-          >
-            <FaUserCircle className="text-2xl" />
-            {isSignedIn ? (
-              <div className="flex items-center gap-1">
-                <span className="font-medium text-sm">{account.name}</span>
-                <FiChevronDown className="text-xs" />
+        {isSignedIn && (
+          <div className="relative p-4 border-t border-[#184b34]">
+            <div
+              onClick={isSignedIn ? () => setMenuOpen(!menuOpen) : handleLogin}
+              className="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-[#184b34] transition"
+            >
+              <FaUserCircle className="text-2xl" />
+              {isSignedIn ? (
+                <div className="flex items-center gap-1">
+                  <span className="font-medium text-sm">{account.name}</span>
+                  <FiChevronDown className="text-xs" />
+                </div>
+              ) : (
+                <span className="font-medium text-sm">Sign in</span>
+              )}
+            </div>
+
+            {/* Dropdown menu */}
+            {isSignedIn && menuOpen && (
+              <div className="absolute bottom-16 left-4 bg-white text-black rounded shadow-md w-48 z-50">
+                <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Preferences</div>
+                <div
+                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                  onClick={handleLogout}
+                >
+                  Sign out
+                </div>
               </div>
-            ) : (
-              <span className="font-medium text-sm">Sign in</span>
             )}
           </div>
-
-          {/* Dropdown menu */}
-          {isSignedIn && menuOpen && (
-            <div className="absolute bottom-16 left-4 bg-white text-black rounded shadow-md w-48 z-50">
-              <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Preferences</div>
-              <div
-                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                onClick={handleLogout}
-              >
-                Sign out
-              </div>
-            </div>
-          )}
-        </div>
+        )}
       </aside>
 
       {/* Main content */}

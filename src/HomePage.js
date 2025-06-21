@@ -5,15 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { useMsal } from "@azure/msal-react";
 import { toolsConfig } from "./toolConfig";
 
-// Splash screen for login
 function LoginSplash({ onLogin }) {
   return (
     <div className="flex flex-col items-center justify-center h-[calc(100vh)] w-full">
       <div className="bg-white p-10 rounded-2xl shadow-xl flex flex-col items-center max-w-md mx-auto">
         <h1 className="text-3xl font-bold mb-3 text-[var(--trust-green)]">Welcome to DRET.AI</h1>
-        <p className="mb-6 text-gray-600 text-center">
-          Please sign in with your school account to access DRET.AI tools.
-        </p>
         <button
           onClick={onLogin}
           className="bg-[var(--trust-green)] text-white px-8 py-2 rounded-full font-semibold text-lg hover:bg-green-900 transition"
@@ -70,9 +66,11 @@ export default function Homepage() {
 
   const filteredTools = toolsConfig
     .filter((tool) => {
+      if (tool.comingSoon) return true;
+
       const matchesSearch =
-        tool.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        tool.description.toLowerCase().includes(searchTerm.toLowerCase());
+        tool.name && tool.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (tool.description && tool.description.toLowerCase().includes(searchTerm.toLowerCase()));
       let matchesCategory = false;
 
       if (selectedCategory === "All") matchesCategory = true;
@@ -83,27 +81,27 @@ export default function Homepage() {
       return matchesSearch && matchesCategory;
     })
     .sort((a, b) => {
+      if (a.comingSoon && !b.comingSoon) return 1;
+      if (!a.comingSoon && b.comingSoon) return -1;
+
       const aFav = favourites.includes(a.name);
       const bFav = favourites.includes(b.name);
       if (aFav && !bFav) return -1;
       if (!aFav && bFav) return 1;
-      return parseInt(b.id) - parseInt(a.id); // newest first
+      return parseInt(b.id || "0") - parseInt(a.id || "0");
     });
 
   return (
     <Layout>
-      {/* If not signed in, show splash in content area only */}
       {!isSignedIn ? (
         <div className="h-screen flex items-center justify-center">
           <LoginSplash onLogin={() => instance.loginRedirect()} />
         </div>
       ) : (
         <div className="font-sans bg-gray-50 min-h-screen h-screen flex flex-col">
-          {/* Sticky Search & Category Bar */}
           <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-4 h-20 flex items-center">
             <div className="w-full">
               <div className="flex items-center gap-x-6 w-full">
-                {/* Filter badges (Category buttons) */}
                 <div className="flex flex-1 justify-between">
                   {categories.map((tag, idx) => (
                     <span
@@ -124,7 +122,6 @@ export default function Homepage() {
                     </span>
                   ))}
                 </div>
-                {/* Add a larger gap between filters and search bar */}
                 <div className="relative w-full md:w-72 ml-4">
                   <input
                     type="text"
@@ -157,90 +154,98 @@ export default function Homepage() {
             </div>
           </div>
 
-          {/* Scrollable Tool List */}
           <div className="scroll-area flex-1 overflow-y-auto bg-gray-100">
             <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 pb-16">
-              {filteredTools.map((tool, idx) => (
-                <div
-                  key={idx}
-                  onClick={() => handleCardClick(tool)}
-                  className={`relative rounded-xl bg-white shadow-md hover:shadow-lg transition-shadow cursor-pointer p-4 pt-3 h-[150px] flex flex-col justify-start`}
-                >
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleFavourite(tool.name);
-                    }}
-                    className="absolute top-3 right-3 p-2 rounded-full group transition z-20"
-                    aria-label={
-                      favourites.includes(tool.name)
-                        ? "Unfavourite"
-                        : "Favourite"
-                    }
+              {filteredTools.map((tool, idx) =>
+                tool.comingSoon ? (
+                  <div
+                    key={tool.id || idx}
+                    className="relative rounded-xl bg-gray-200 text-gray-500 shadow-md flex flex-col items-center justify-center p-4 h-[150px] opacity-70 select-none cursor-default border-2 border-dashed border-gray-300"
                   >
-                    <Star
-                      className={`w-5 h-5 transition-transform duration-300 ${
+                    <span className="text-base font-semibold">New tools coming soon</span>
+                  </div>
+                ) : (
+                  <div
+                    key={tool.id || idx}
+                    onClick={() => handleCardClick(tool)}
+                    className="relative rounded-xl bg-white shadow-md hover:shadow-lg transition-shadow cursor-pointer p-4 pt-3 h-[150px] flex flex-col justify-start"
+                  >
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleFavourite(tool.name);
+                      }}
+                      className="absolute top-3 right-3 p-2 rounded-full group transition z-20"
+                      aria-label={
                         favourites.includes(tool.name)
-                          ? "text-yellow-400"
-                          : "text-gray-300"
-                      } opacity-60 ${
-                        clickedStar === tool.name ? "scale-125 animate-ping-once" : ""
-                      }`}
-                      strokeWidth={1.5}
-                      fill={
-                        favourites.includes(tool.name)
-                          ? "#fde047"
-                          : "none"
+                          ? "Unfavourite"
+                          : "Favourite"
                       }
-                      style={{
-                        fill: !favourites.includes(tool.name)
-                          ? "none"
-                          : "#fde047",
-                        transition: "fill 0.2s",
-                      }}
-                      onMouseEnter={e => {
-                        if (!favourites.includes(tool.name)) {
-                          e.currentTarget.style.fill = "#fde047";
-                          e.currentTarget.style.opacity = "1";
+                    >
+                      <Star
+                        className={`w-5 h-5 transition-transform duration-300 ${
+                          favourites.includes(tool.name)
+                            ? "text-yellow-400"
+                            : "text-gray-300"
+                        } opacity-60 ${
+                          clickedStar === tool.name ? "scale-125 animate-ping-once" : ""
+                        }`}
+                        strokeWidth={1.5}
+                        fill={
+                          favourites.includes(tool.name)
+                            ? "#fde047"
+                            : "none"
                         }
-                      }}
-                      onMouseLeave={e => {
-                        if (!favourites.includes(tool.name)) {
-                          e.currentTarget.style.fill = "none";
-                          e.currentTarget.style.opacity = "0.6";
-                        }
-                      }}
-                    />
-                  </button>
+                        style={{
+                          fill: !favourites.includes(tool.name)
+                            ? "none"
+                            : "#fde047",
+                          transition: "fill 0.2s",
+                        }}
+                        onMouseEnter={e => {
+                          if (!favourites.includes(tool.name)) {
+                            e.currentTarget.style.fill = "#fde047";
+                            e.currentTarget.style.opacity = "1";
+                          }
+                        }}
+                        onMouseLeave={e => {
+                          if (!favourites.includes(tool.name)) {
+                            e.currentTarget.style.fill = "none";
+                            e.currentTarget.style.opacity = "0.6";
+                          }
+                        }}
+                      />
+                    </button>
 
-                  <div className="flex flex-col gap-0 mb-10 mt-1">
-                    <h3 className="text-base font-bold pr-8 leading-tight">
-                      {tool.name}
-                    </h3>
-                    <p className="text-[13px] text-gray-500 font-normal leading-snug mt-2">
-                      {tool.description}
-                    </p>
-                  </div>
+                    <div className="flex flex-col gap-0 mb-10 mt-1">
+                      <h3 className="text-base font-bold pr-8 leading-tight">
+                        {tool.name}
+                      </h3>
+                      <p className="text-[13px] text-gray-500 font-normal leading-snug mt-2">
+                        {tool.description}
+                      </p>
+                    </div>
 
-                  <div className="absolute bottom-3 left-3 flex flex-wrap gap-2 text-xs text-gray-500 items-center">
-                    <span className="bg-green-50 text-green-700 px-2 py-0.5 rounded-full font-medium">
-                      {tool.category}
-                    </span>
-                    {tool.tag === "Hot" && (
-                      <span className="bg-red-50 text-red-600 px-2 py-0.5 rounded-full font-medium flex items-center gap-1">
-                        <Flame className="w-3 h-3" />
-                        Hot
+                    <div className="absolute bottom-3 left-3 flex flex-wrap gap-2 text-xs text-gray-500 items-center">
+                      <span className="bg-green-50 text-green-700 px-2 py-0.5 rounded-full font-medium">
+                        {tool.category}
                       </span>
-                    )}
-                    {tool.tag === "New" && (
-                      <span className="bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full font-medium flex items-center gap-1">
-                        <Sparkles className="w-3 h-3" />
-                        New
-                      </span>
-                    )}
+                      {tool.tag === "Hot" && (
+                        <span className="bg-red-50 text-red-600 px-2 py-0.5 rounded-full font-medium flex items-center gap-1">
+                          <Flame className="w-3 h-3" />
+                          Hot
+                        </span>
+                      )}
+                      {tool.tag === "New" && (
+                        <span className="bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full font-medium flex items-center gap-1">
+                          <Sparkles className="w-3 h-3" />
+                          New
+                        </span>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                )
+              )}
             </div>
           </div>
         </div>
