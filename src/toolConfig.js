@@ -5,11 +5,11 @@ export const toolsConfig = [
 
   {
     id: "report-writer",
-    name: "Report Writing Tool",
-    description: "Generate constructive, supportive student report comments.",
+    name: "Report Writer",
+    description: "Generate constructive student reports.",
     category: "Assessment",
     tag: "New",
-    href: "/tool/report-writing",
+    href: "/tool/report-writer",
     component: ReportWritingTool,
     comingSoon: false,
   },
