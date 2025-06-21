@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useMsal } from "@azure/msal-react";
 import { FaUserCircle } from "react-icons/fa";
 import { FiChevronDown } from "react-icons/fi";
@@ -16,6 +16,7 @@ const Layout = ({ children }) => {
   const account = accounts[0];
   const isSignedIn = !!account;
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogin = () => {
     instance.loginRedirect();
@@ -27,9 +28,7 @@ const Layout = ({ children }) => {
 
   return (
     <div className="flex font-sans">
-      {/* Fixed sidebar */}
       <aside className="w-60 bg-[var(--trust-green)] text-white h-screen fixed left-0 top-0 flex flex-col justify-between">
-        {/* Logo at the top */}
         <div className="w-full h-24 flex items-center">
           <img
             src={dretaiLogo}
@@ -38,8 +37,6 @@ const Layout = ({ children }) => {
             style={{ display: "block" }}
           />
         </div>
-
-        {/* Navigation */}
         {isSignedIn && (
           <div className="p-6 flex flex-col gap-4 overflow-y-auto mt-4">
             {navItems.map((item, index) => (
@@ -53,8 +50,6 @@ const Layout = ({ children }) => {
             ))}
           </div>
         )}
-
-        {/* User section */}
         {isSignedIn && (
           <div className="relative p-4 border-t border-[#184b34]">
             <div
@@ -71,11 +66,23 @@ const Layout = ({ children }) => {
                 <span className="font-medium text-sm">Sign in</span>
               )}
             </div>
-
-            {/* Dropdown menu */}
             {isSignedIn && menuOpen && (
               <div className="absolute bottom-16 left-4 bg-white text-black rounded shadow-md w-48 z-50">
-                <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Preferences</div>
+                <div
+                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                  onClick={() => alert("Preferences coming soon!")}
+                >
+                  Preferences
+                </div>
+                <div
+                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                  onClick={() => {
+                    setMenuOpen(false);
+                    navigate("/tool-renderer");
+                  }}
+                >
+                  Tool Renderer
+                </div>
                 <div
                   className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                   onClick={handleLogout}
@@ -87,8 +94,6 @@ const Layout = ({ children }) => {
           </div>
         )}
       </aside>
-
-      {/* Main content */}
       <main className="ml-60 w-full min-h-screen overflow-y-auto bg-gray-50">
         {children}
       </main>

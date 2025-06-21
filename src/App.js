@@ -13,6 +13,8 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/favourites" element={<FavouritesPage />} />
         <Route path="/hub" element={<MyHub />} />
+        {/* Add admin tool renderer route */}
+        <Route path="/tool-renderer" element={<ToolRenderer admin={true} />} />
         {toolsConfig.map((tool) => {
           if (tool.comingSoon) return null;
           if (tool.component) {
