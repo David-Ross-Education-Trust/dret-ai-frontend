@@ -46,7 +46,7 @@ Please generate a detailed lesson plan with objectives, activities, and time bre
     setLoading(true);
     setResponse("");
     try {
-      const res = await fetch("/ask", {
+      const res = await fetch("https://dret-ai-backend-f9drcacng0f2gmc4.uksouth-01.azurewebsites.net/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

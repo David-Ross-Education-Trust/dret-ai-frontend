@@ -25,7 +25,7 @@ export default function ToolTemplate({ agentId, prompts, title, description }) {
     setLoading(true);
     setResponse("Thinking...");
     try {
-      const res = await fetch("/ask", {
+      const res = await fetch("https://dret-ai-backend-f9drcacng0f2gmc4.uksouth-01.azurewebsites.net/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ agentId, message }),
