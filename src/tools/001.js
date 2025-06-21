@@ -84,7 +84,7 @@ Please generate a detailed lesson plan with objectives, activities, and time bre
 
   return (
     <Layout>
-      <div className="font-sans bg-gray-50 min-h-screen h-screen flex flex-col">
+      <div className="font-avenir bg-gray-50 min-h-screen h-screen flex flex-col">
         <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-6 h-20 flex items-center sticky top-0">
           <span
             className="inline-block"
@@ -177,7 +177,14 @@ Please generate a detailed lesson plan with objectives, activities, and time bre
                 }}
               >
                 {loading ? (
-                  <div className="text-gray-500 italic">Generating lesson plan...</div>
+                  <div className="flex flex-col items-center justify-center h-full w-full py-10">
+                    <div className="flex space-x-2 mt-4">
+                      <span className="inline-block w-3 h-3 rounded-full bg-[var(--trust-green)] animate-bounce [animation-delay:-0.3s]"></span>
+                      <span className="inline-block w-3 h-3 rounded-full bg-[var(--trust-green)] animate-bounce [animation-delay:-0.15s]"></span>
+                      <span className="inline-block w-3 h-3 rounded-full bg-[var(--trust-green)] animate-bounce"></span>
+                    </div>
+                    <div className="text-gray-500 italic text-sm mt-3">Generating lesson plan...</div>
+                  </div>
                 ) : response ? (
                   <ReactMarkdown remarkPlugins={[remarkGfm]}>
                     {response}
@@ -191,7 +198,7 @@ Please generate a detailed lesson plan with objectives, activities, and time bre
               {response && !loading && (
                 <div className="border-t border-gray-100 px-6 py-3 bg-white rounded-b-xl sticky bottom-0 z-10 flex justify-end">
                   <button
-                    className="bg-[var(--trust-green)] text-white px-4 py-2 rounded-md hover:bg-green-800 transition text-sm font-semibold font-avenir"
+                    className="bg-[var(--trust-green)] text-white px-4 py-2 rounded hover:bg-[var(--trust-green-dark)] transition text-sm font-semibold font-avenir"
                     onClick={exportToDocx}
                     type="button"
                   >
