@@ -33,7 +33,7 @@ const categories = [
   "Admin",
 ];
 
-export default function Homepage() {
+export default function Homepage({ showOnlyFavourites }) {
   const navigate = useNavigate();
   const { accounts, instance } = useMsal();
   const isSignedIn = accounts.length > 0;
@@ -70,14 +70,18 @@ export default function Homepage() {
       if (tool.comingSoon) {
         return searchTerm.trim() === "" && (selectedCategory === "All");
       }
+
       const matchesSearch =
         (tool.name && tool.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
         (tool.description && tool.description.toLowerCase().includes(searchTerm.toLowerCase()));
+
       let matchesCategory = false;
-      if (selectedCategory === "All") matchesCategory = true;
+      if (showOnlyFavourites) matchesCategory = favourites.includes(tool.name);
+      else if (selectedCategory === "All") matchesCategory = true;
       else if (selectedCategory === "Favourites") matchesCategory = favourites.includes(tool.name);
       else if (selectedCategory === "New") matchesCategory = tool.tag === "New";
       else matchesCategory = tool.category === selectedCategory;
+
       return matchesSearch && matchesCategory;
     })
     .sort((a, b) => {
@@ -87,7 +91,7 @@ export default function Homepage() {
       const bFav = favourites.includes(b.name);
       if (aFav && !bFav) return -1;
       if (!aFav && bFav) return 1;
-      return parseInt(a.id || "0") - parseInt(b.id || "0");
+      return parseInt(b.id || "0") - parseInt(a.id || "0");
     });
 
   return (
@@ -167,9 +171,10 @@ export default function Homepage() {
                     key={tool.id || idx}
                     tool={tool}
                     isFavourite={favourites.includes(tool.name)}
-                    onToggleFavourite={toggleFavourite}
+                    onFavourite={toggleFavourite}
+                    onClick={handleCardClick}
                     clickedStar={clickedStar}
-                    onCardClick={handleCardClick}
+                    disabled={!isSignedIn}
                   />
                 )
               )}

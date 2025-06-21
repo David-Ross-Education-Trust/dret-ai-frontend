@@ -84,7 +84,7 @@ export default function MyHub() {
     else if (activeNote > idx) setActiveNote(activeNote - 1);
   };
 
-  const [favourites] = useState(() => {
+  const [favourites, setFavourites] = useState(() => {
     const saved = localStorage.getItem("favourites");
     return saved ? JSON.parse(saved) : [];
   });
@@ -97,7 +97,7 @@ export default function MyHub() {
 
   const filteredTools = toolsConfig
     .filter((tool) => favourites.includes(tool.name))
-    .sort((a, b) => parseInt(b.id) - parseInt(a.id));
+    .sort((a, b) => parseInt(b.id || "0") - parseInt(a.id || "0"));
 
   return (
     <Layout>
@@ -199,9 +199,10 @@ export default function MyHub() {
                   key={tool.id || idx}
                   tool={tool}
                   isFavourite={true}
-                  onToggleFavourite={() => {}}
+                  onFavourite={() => {}}
                   clickedStar={null}
-                  onCardClick={handleCardClick}
+                  onClick={handleCardClick}
+                  disabled={!isSignedIn}
                 />
               ))}
             </div>
