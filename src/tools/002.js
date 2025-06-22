@@ -98,7 +98,7 @@ Please format your response in markdown.
               marginRight: "1.1rem",
             }}
           />
-          <h1 className="text-xl font-bold" style={{ color: "#205c40", marginTop: "4px" }}>
+          <h1 className="text-xl font-bold" style={{ color: "#205c40" }}>
             Report Writer
           </h1>
         </div>
