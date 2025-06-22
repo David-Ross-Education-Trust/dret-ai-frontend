@@ -99,7 +99,7 @@ export default function Homepage({ showOnlyFavourites }) {
         </div>
       ) : (
         <div className="font-sans bg-gray-50 min-h-screen h-screen flex flex-col">
-          <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-4 h-20 flex items-center">
+          <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-4 h-24 flex items-center">
             <div className="w-full">
               <div className="flex items-center gap-x-6 w-full">
                 <div className="flex flex-1 justify-between">
