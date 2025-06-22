@@ -16,6 +16,7 @@ export default function ReportWritingTool() {
   const [response, setResponse] = useState("");
   const [loading, setLoading] = useState(false);
   const scrollAreaRef = useRef(null);
+  const inputScrollRef = useRef(null);
 
   const handleChange = (name, value) => {
     setFields((prev) => ({ ...prev, [name]: value }));
@@ -101,71 +102,76 @@ Please format your response in markdown.
           </h1>
         </div>
         <div className="flex flex-1 min-h-0 w-full gap-8 px-8 py-8 bg-gray-100">
-          <form
-            onSubmit={handleSubmit}
-            className="bg-white rounded-xl shadow-md p-6 w-[340px] flex flex-col gap-3 h-fit text-[15px]"
-            style={{ minWidth: 280, maxWidth: 360 }}
-          >
-            <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">First Name</label>
-              <input
-                type="text"
-                value={fields.firstName}
-                onChange={e => handleChange("firstName", e.target.value)}
-                placeholder="Alex"
-                className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">Year Group</label>
-              <input
-                type="text"
-                value={fields.yearGroup}
-                onChange={e => handleChange("yearGroup", e.target.value)}
-                placeholder="Year 7"
-                className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">Strengths</label>
-              <textarea
-                value={fields.strengths}
-                onChange={e => handleChange("strengths", e.target.value)}
-                placeholder="Describe the student's strengths"
-                className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm min-h-[60px]"
-                rows={2}
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">Areas to Improve</label>
-              <textarea
-                value={fields.areasToImprove}
-                onChange={e => handleChange("areasToImprove", e.target.value)}
-                placeholder="Areas the student can work on"
-                className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm min-h-[60px]"
-                rows={2}
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-xs font-medium text-gray-700 mb-1">
-                Specific Feedback/Comments
-              </label>
-              <textarea
-                value={fields.comments}
-                onChange={e => handleChange("comments", e.target.value)}
-                placeholder="Personalised feedback and comments"
-                className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm min-h-[60px]"
-                rows={2}
-              />
-            </div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="bg-[var(--trust-green)] text-white px-4 py-2 rounded-md hover:bg-green-800 transition text-sm font-semibold mt-2 font-avenir"
+          <div className="bg-white rounded-xl shadow-md w-[340px] flex flex-col h-full" style={{ minWidth: 280, maxWidth: 360 }}>
+            <div
+              ref={inputScrollRef}
+              className="flex-1 min-h-0 overflow-y-auto px-6 pt-6 pb-4 custom-scrollbar"
+              style={{ minHeight: 120 }}
             >
-              {loading ? "Generating..." : "Generate"}
-            </button>
-          </form>
+              <div>
+                <label className="block text-xs font-medium text-gray-700 mb-1">First Name</label>
+                <input
+                  type="text"
+                  value={fields.firstName}
+                  onChange={e => handleChange("firstName", e.target.value)}
+                  placeholder="Alex"
+                  className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-gray-700 mb-1">Year Group</label>
+                <input
+                  type="text"
+                  value={fields.yearGroup}
+                  onChange={e => handleChange("yearGroup", e.target.value)}
+                  placeholder="Year 7"
+                  className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-gray-700 mb-1">Strengths</label>
+                <textarea
+                  value={fields.strengths}
+                  onChange={e => handleChange("strengths", e.target.value)}
+                  placeholder="Describe the student's strengths"
+                  className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm min-h-[60px]"
+                  rows={2}
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-gray-700 mb-1">Areas to Improve</label>
+                <textarea
+                  value={fields.areasToImprove}
+                  onChange={e => handleChange("areasToImprove", e.target.value)}
+                  placeholder="Areas the student can work on"
+                  className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm min-h-[60px]"
+                  rows={2}
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-xs font-medium text-gray-700 mb-1">
+                  Specific Feedback/Comments
+                </label>
+                <textarea
+                  value={fields.comments}
+                  onChange={e => handleChange("comments", e.target.value)}
+                  placeholder="Personalised feedback and comments"
+                  className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm min-h-[60px]"
+                  rows={2}
+                />
+              </div>
+            </div>
+            <div className="border-t border-gray-100 px-6 py-3 bg-white rounded-b-xl sticky bottom-0 z-10 flex justify-end">
+              <button
+                type="submit"
+                disabled={loading}
+                onClick={handleSubmit}
+                className="bg-[var(--trust-green)] text-white px-4 py-2 rounded-md hover:bg-green-800 transition text-sm font-semibold font-avenir"
+              >
+                {loading ? "Generating..." : "Generate"}
+              </button>
+            </div>
+          </div>
           <div className="flex-1 min-w-0 flex flex-col">
             <div className="bg-white rounded-xl shadow-md h-full flex flex-col relative">
               <div
