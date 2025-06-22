@@ -28,12 +28,14 @@ const Layout = ({ children }) => {
   return (
     <div className="flex font-sans">
       <aside className="w-60 bg-[var(--trust-green)] text-white h-screen fixed left-0 top-0 flex flex-col justify-between">
-        <img
-          src={dretaiLogo}
-          alt="DRET.AI Logo"
-          className="w-full h-full object-contain"
-          style={{ display: "block", maxHeight: "86px" }}
-        />
+        <div className="w-full h-24 flex items-center">
+          <img
+            src={dretaiLogo}
+            alt="DRET.AI Logo"
+            className="w-full h-full object-contain"
+            style={{ display: "block", maxHeight: "86px" }}
+          />
+        </div>
         {isSignedIn && (
           <div className="p-6 flex flex-col gap-4 overflow-y-auto mt-4">
             {navItems.map((item, index) => (
