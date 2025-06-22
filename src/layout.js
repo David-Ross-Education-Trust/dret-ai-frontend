@@ -28,7 +28,7 @@ const Layout = ({ children }) => {
   return (
     <div className="flex font-sans">
       <aside className="w-60 bg-[var(--trust-green)] text-white h-screen fixed left-0 top-0 flex flex-col justify-between">
-        <div className="w-full h-24 flex items-center">
+        <div className="w-full h-[92px] flex items-center">
           <img
             src={dretaiLogo}
             alt="DRET.AI Logo"
