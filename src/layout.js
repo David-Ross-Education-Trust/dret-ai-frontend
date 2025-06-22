@@ -32,7 +32,7 @@ const Layout = ({ children }) => {
           src={dretaiLogo}
           alt="DRET.AI Logo"
           className="w-full h-full object-contain"
-          style={{ display: "block", maxHeight: "96px" }}
+          style={{ display: "block", maxHeight: "86px" }}
         />
         {isSignedIn && (
           <div className="p-6 flex flex-col gap-4 overflow-y-auto mt-4">
