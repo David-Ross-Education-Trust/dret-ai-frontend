@@ -70,6 +70,7 @@ Please format your response in markdown.
   };
 
   const exportToDocx = () => {
+    if (!response) return;
     const html = marked.parse(response);
     const fullHtml = `<html><body>${html}</body></html>`;
     const docxBlob = htmlDocx.asBlob(fullHtml);
@@ -200,17 +201,20 @@ Please format your response in markdown.
                   </div>
                 )}
               </div>
-              {response && !loading && (
-                <div className="border-t border-gray-100 px-6 py-3 bg-white rounded-b-xl sticky bottom-0 z-10 flex justify-end">
-                  <button
-                    className="bg-[var(--trust-green)] text-white px-4 py-2 rounded-md hover:bg-green-800 transition text-sm font-semibold font-avenir"
-                    onClick={exportToDocx}
-                    type="button"
-                  >
-                    Export
-                  </button>
-                </div>
-              )}
+              <div className="border-t border-gray-100 px-6 py-3 bg-white rounded-b-xl sticky bottom-0 z-10 flex justify-end">
+                <button
+                  className={`px-4 py-2 rounded-md text-sm font-semibold font-avenir transition ${
+                    response
+                      ? "bg-[var(--trust-green)] text-white hover:bg-green-800 cursor-pointer"
+                      : "bg-[var(--trust-green)] text-white opacity-50 cursor-not-allowed"
+                  }`}
+                  onClick={response ? exportToDocx : undefined}
+                  type="button"
+                  disabled={!response}
+                >
+                  Export
+                </button>
+              </div>
             </div>
           </div>
         </div>
