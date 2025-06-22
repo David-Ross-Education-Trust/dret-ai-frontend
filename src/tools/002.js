@@ -88,19 +88,21 @@ Please format your response in markdown.
     <Layout>
       <div className="font-avenir bg-gray-50 min-h-screen h-screen flex flex-col">
         <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-6 h-24 flex items-center sticky top-0">
-          <span
-            className="inline-block"
-            style={{
-              width: 6,
-              height: 34,
-              borderRadius: 6,
-              background: "#205c40",
-              marginRight: "1.1rem",
-            }}
-          />
-          <h1 className="text-xl font-bold" style={{ color: "#205c40" }}>
-            Report Writer
-          </h1>
+          <div style={{ display: "flex", alignItems: "center", transform: "translateY(2px)" }}>
+            <span
+              className="inline-block"
+              style={{
+                width: 6,
+                height: 34,
+                borderRadius: 6,
+                background: "#205c40",
+                marginRight: "1.1rem",
+              }}
+            />
+            <h1 className="text-xl font-bold" style={{ color: "#205c40" }}>
+              Report Writer
+            </h1>
+          </div>
         </div>
         <div className="flex flex-1 min-h-0 w-full gap-8 px-8 py-8 bg-gray-100">
           <div className="bg-white rounded-xl shadow-md w-[340px] flex flex-col h-full" style={{ minWidth: 280, maxWidth: 360 }}>
