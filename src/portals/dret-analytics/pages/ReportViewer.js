@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { categories } from "./reports";
+import { categories } from "../components/reports";
 import Layout from "../../../layout";
 import { PowerBIEmbed } from "powerbi-client-react";
 import { models } from "powerbi-client";

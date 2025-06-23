@@ -1,5 +1,5 @@
 import React from "react";
-import { categories } from "./reports";
+import { categories } from "../components/reports";
 import Layout from "../../../layout";
 import { useNavigate } from "react-router-dom";
 
