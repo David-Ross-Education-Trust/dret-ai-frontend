@@ -1,26 +1,26 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import HomePage from "./HomePage";
-import FavouritesPage from "./favourites";
-import MyHub from "./myhub";
-import { toolsConfig } from "./toolConfig";
+import SplashScreen from "./splash/SplashScreen";
+
+import AiHomePage from "./portals/dret-ai/pages/HomePage";
+import FavouritesPage from "./portals/dret-ai/pages/favourites";
+import MyHub from "./portals/dret-ai/pages/myhub";
+
+import AnalyticsHomePage from "./portals/dret-analytics/pages/HomePage";
+import ReportViewer from "./portals/dret-analytics/pages/ReportViewer";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/favourites" element={<FavouritesPage />} />
-        <Route path="/hub" element={<MyHub />} />
-        {toolsConfig.map((tool) =>
-          !tool.comingSoon && tool.component && tool.href ? (
-            <Route
-              key={tool.id}
-              path={tool.href}
-              element={<tool.component />}
-            />
-          ) : null
-        )}
+        <Route path="/" element={<SplashScreen />} />
+
+        <Route path="/ai" element={<AiHomePage />} />
+        <Route path="/ai/favourites" element={<FavouritesPage />} />
+        <Route path="/ai/myhub" element={<MyHub />} />
+
+        <Route path="/analytics" element={<AnalyticsHomePage />} />
+        <Route path="/analytics/report/:reportId" element={<ReportViewer />} />
       </Routes>
     </Router>
   );

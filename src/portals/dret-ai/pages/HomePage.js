@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Search, X } from "lucide-react";
-import Layout from "./layout";
+import Layout from "../components/layout";
 import { useNavigate } from "react-router-dom";
 import { useMsal } from "@azure/msal-react";
 import { toolsConfig } from "./toolConfig";
-import ToolCard from "./toolCard";
+import ToolCard from "../components/toolCard";
 
 function LoginSplash({ onLogin }) {
   return (
