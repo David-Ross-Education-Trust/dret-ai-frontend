@@ -3,7 +3,7 @@ import { Star, Megaphone } from "lucide-react";
 import Layout from "../components/layout";
 import { useNavigate } from "react-router-dom";
 import { useMsal } from "@azure/msal-react";
-import { toolsConfig } from "./toolConfig";
+import { toolsConfig } from "../components/toolConfig";
 import ToolCard from "../components/toolCard";
 
 function CalendarWidget() {
