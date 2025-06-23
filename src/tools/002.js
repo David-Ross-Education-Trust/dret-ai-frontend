@@ -105,13 +105,13 @@ Please format your response in markdown.
           </div>
         </div>
         <div className="flex flex-1 min-h-0 w-full gap-8 px-8 py-8 bg-gray-100">
-          <div className="bg-white rounded-xl shadow-md w-[340px] flex flex-col h-full" style={{ minWidth: 280, maxWidth: 360 }}>
+          <div className="bg-white rounded-xl shadow-md w-[420px] flex flex-col h-full" style={{ minWidth: 320, maxWidth: 420 }}>
             <div
               ref={inputScrollRef}
               className="flex-1 min-h-0 overflow-y-auto px-6 pt-6 pb-4 custom-scrollbar"
               style={{ minHeight: 120 }}
             >
-              <div className="mb-5">
+              <div className="mb-3">
                 <label className="block text-xs font-medium text-gray-700 mb-1">First Name</label>
                 <input
                   type="text"
@@ -121,7 +121,7 @@ Please format your response in markdown.
                   className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm"
                 />
               </div>
-              <div className="mb-5">
+              <div className="mb-3">
                 <label className="block text-xs font-medium text-gray-700 mb-1">Year Group</label>
                 <input
                   type="text"
@@ -131,27 +131,27 @@ Please format your response in markdown.
                   className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm"
                 />
               </div>
-              <div className="mb-5">
+              <div className="mb-3">
                 <label className="block text-xs font-medium text-gray-700 mb-1">Strengths</label>
                 <textarea
                   value={fields.strengths}
                   onChange={e => handleChange("strengths", e.target.value)}
                   placeholder="Describe the student's strengths"
-                  className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm min-h-[60px]"
-                  rows={2}
+                  className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm min-h-[100px]"
+                  rows={6}
                 />
               </div>
-              <div className="mb-5">
+              <div className="mb-3">
                 <label className="block text-xs font-medium text-gray-700 mb-1">Areas to Improve</label>
                 <textarea
                   value={fields.areasToImprove}
                   onChange={e => handleChange("areasToImprove", e.target.value)}
                   placeholder="Areas the student can work on"
-                  className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm min-h-[60px]"
-                  rows={2}
+                  className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm min-h-[100px]"
+                  rows={6}
                 />
               </div>
-              <div className="mb-5">
+              <div className="mb-3">
                 <label className="block text-xs font-medium text-gray-700 mb-1">
                   Specific Feedback/Comments
                 </label>
@@ -159,8 +159,8 @@ Please format your response in markdown.
                   value={fields.comments}
                   onChange={e => handleChange("comments", e.target.value)}
                   placeholder="Personalised feedback and comments"
-                  className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm min-h-[60px]"
-                  rows={2}
+                  className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm min-h-[100px]"
+                  rows={6}
                 />
               </div>
             </div>
@@ -175,7 +175,7 @@ Please format your response in markdown.
               </button>
             </div>
           </div>
-          <div className="flex-1 min-w-0 flex flex-col" style={{ maxWidth: 580 }}>
+          <div className="flex-1 min-w-0 flex flex-col">
             <div className="bg-white rounded-xl shadow-md h-full flex flex-col relative">
               <div
                 ref={scrollAreaRef}
