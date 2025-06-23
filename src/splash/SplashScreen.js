@@ -1,33 +1,38 @@
-// src/splash/SplashScreen.js
-
 import React from "react";
-import dretaiLogo from "../assets/dretai-logo.png"; // Adjust if your logo is elsewhere
+import { useNavigate } from "react-router-dom";
+import dretaiLogo from "../assets/dretai-logo.png"; // adjust path if needed
 
-export default function SplashScreen({ onSignIn }) {
+export default function SplashScreen() {
+  const navigate = useNavigate();
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 font-avenir">
-      <div className="bg-white p-10 rounded-2xl shadow-xl flex flex-col items-center max-w-md w-full mx-auto">
-        <img
-          src={dretaiLogo}
-          alt="DRET.AI Logo"
-          className="w-36 h-36 object-contain mb-4"
-          style={{ filter: "drop-shadow(0 2px 12px #205c4020)" }}
-        />
-        <h1 className="text-4xl font-bold mb-3 text-[var(--trust-green)] font-avenir tracking-tight">
-          Welcome to DRET.AI
-        </h1>
-        <p className="text-gray-600 font-avenir text-center mb-8">
-          Your personal AI assistant for teaching, learning, and leadership.
-        </p>
+    <div
+      className="min-h-screen flex flex-col items-center justify-center"
+      style={{ background: "var(--trust-green, #205c40)" }}
+    >
+      <img
+        src={dretaiLogo}
+        alt="DRET.AI Logo"
+        className="mb-8"
+        style={{
+          width: "110px",
+          height: "auto",
+          filter: "drop-shadow(0 2px 10px #13351d35)",
+        }}
+      />
+      <div className="flex flex-col gap-5 w-full max-w-xs">
         <button
-          onClick={onSignIn}
-          className="bg-[var(--trust-green)] text-white px-8 py-2 rounded-full font-semibold text-lg hover:bg-trust-green-dark transition font-avenir shadow-md"
+          className="bg-white text-[var(--trust-green)] font-avenir font-semibold rounded-full py-3 px-6 shadow-md text-lg transition hover:bg-gray-100"
+          onClick={() => navigate("/analytics")}
         >
-          Sign in with DRET
+          Continue to DRET Analytics
         </button>
-        <div className="mt-8 text-xs text-gray-400 font-avenir">
-          © {new Date().getFullYear()} DRET.AI. All rights reserved.
-        </div>
+        <button
+          className="bg-white text-[var(--trust-green)] font-avenir font-semibold rounded-full py-3 px-6 shadow-md text-lg transition hover:bg-gray-100"
+          onClick={() => navigate("/ai")}
+        >
+          Continue to DRET AI
+        </button>
       </div>
     </div>
   );
