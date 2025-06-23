@@ -1,5 +1,5 @@
-import LessonPlanningTool from "./tools/001";
-import ReportWritingTool from "./tools/002";
+import LessonPlanningTool from "../tools/001";
+import ReportWritingTool from "../tools/002";
 
 export const toolsConfig = [
 
