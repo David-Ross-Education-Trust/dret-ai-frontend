@@ -159,7 +159,7 @@ export default function Homepage({ showOnlyFavourites }) {
                 tool.comingSoon ? (
                   <div
                     key={tool.id || idx}
-                    className="relative rounded-xl bg-gray-200 text-gray-500 shadow-md flex flex-col items-center justify-center p-4 h-[150px] opacity-70 select-none cursor-default border-2 border-dashed border-gray-300"
+                    className="relative rounded-xl bg-gray-200 text-gray-500 shadow-md flex flex-col items-center justify-center p-4 h-[140px] opacity-70 select-none cursor-default border-2 border-dashed border-gray-300"
                   >
                     <span className="text-base font-semibold">New tools coming soon</span>
                   </div>
