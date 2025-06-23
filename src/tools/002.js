@@ -88,7 +88,7 @@ Please format your response in markdown.
     <Layout>
       <div className="font-avenir bg-gray-50 min-h-screen h-screen flex flex-col">
         <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-6 h-24 flex items-center sticky top-0">
-          <div style={{ display: "flex", alignItems: "center", transform: "translateY(4px)" }}>
+          <div style={{ display: "flex", alignItems: "center", transform: "translateY(2px)" }}>
             <span
               className="inline-block"
               style={{
@@ -111,7 +111,7 @@ Please format your response in markdown.
               className="flex-1 min-h-0 overflow-y-auto px-6 pt-6 pb-4 custom-scrollbar"
               style={{ minHeight: 120 }}
             >
-              <div>
+              <div className="mb-5">
                 <label className="block text-xs font-medium text-gray-700 mb-1">First Name</label>
                 <input
                   type="text"
@@ -121,7 +121,7 @@ Please format your response in markdown.
                   className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm"
                 />
               </div>
-              <div>
+              <div className="mb-5">
                 <label className="block text-xs font-medium text-gray-700 mb-1">Year Group</label>
                 <input
                   type="text"
@@ -131,7 +131,7 @@ Please format your response in markdown.
                   className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm"
                 />
               </div>
-              <div>
+              <div className="mb-5">
                 <label className="block text-xs font-medium text-gray-700 mb-1">Strengths</label>
                 <textarea
                   value={fields.strengths}
@@ -141,7 +141,7 @@ Please format your response in markdown.
                   rows={2}
                 />
               </div>
-              <div>
+              <div className="mb-5">
                 <label className="block text-xs font-medium text-gray-700 mb-1">Areas to Improve</label>
                 <textarea
                   value={fields.areasToImprove}
@@ -151,7 +151,7 @@ Please format your response in markdown.
                   rows={2}
                 />
               </div>
-              <div className="mb-4">
+              <div className="mb-5">
                 <label className="block text-xs font-medium text-gray-700 mb-1">
                   Specific Feedback/Comments
                 </label>
@@ -175,7 +175,7 @@ Please format your response in markdown.
               </button>
             </div>
           </div>
-          <div className="flex-1 min-w-0 flex flex-col">
+          <div className="flex-1 min-w-0 flex flex-col" style={{ maxWidth: 580 }}>
             <div className="bg-white rounded-xl shadow-md h-full flex flex-col relative">
               <div
                 ref={scrollAreaRef}
