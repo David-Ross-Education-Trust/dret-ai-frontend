@@ -1,5 +1,5 @@
 import React from "react";
-import Layout from "../../../layout";
+import Layout from "../../components/layout";
 import { PowerBIEmbed } from "powerbi-client-react";
 import { models } from "powerbi-client";
 
