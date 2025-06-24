@@ -15,7 +15,7 @@ export default function SplashScreen() {
         alt="DRET.AI Logo"
         className="mb-8"
         style={{
-          width: "110px",
+          width: "200px",
           height: "auto",
           filter: "drop-shadow(0 2px 10px #13351d35)",
         }}
