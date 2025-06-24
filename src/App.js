@@ -8,6 +8,7 @@ import MyHub from "./portals/dret-ai/pages/myhub";
 
 import AnalyticsHomePage from "./portals/dret-analytics/pages/HomePage";
 import ReportViewer from "./portals/dret-analytics/pages/ReportViewer";
+import { toolsConfig } from "./portals/dret-ai/components/toolConfig";
 
 function App() {
   return (
@@ -21,6 +22,13 @@ function App() {
 
         <Route path="/analytics" element={<AnalyticsHomePage />} />
         <Route path="/analytics/report/:reportId" element={<ReportViewer />} />
+        {toolsConfig.map((tool) => (
+          <Route
+            key={tool.id}
+            path={`/tool.href`}
+            element={<tool.component />}
+          />
+        ))}
       </Routes>
     </Router>
   );
