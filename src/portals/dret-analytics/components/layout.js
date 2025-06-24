@@ -10,7 +10,7 @@ const analyticsNavItems = [
 
 const AnalyticsLayout = ({ children }) => (
   <div className="flex font-sans">
-    <aside className="w-60 bg-blue-900 text-white h-screen fixed left-0 top-0 flex flex-col justify-between">
+    <aside className="w-60 bg-trustgreen text-white h-screen fixed left-0 top-0 flex flex-col justify-between">
       <div className="w-full h-24 flex items-center">
         <img
           src={dretAnalyticsLogo}
@@ -24,7 +24,7 @@ const AnalyticsLayout = ({ children }) => (
           <a
             key={idx}
             href={item.to}
-            className="flex items-center gap-2 px-4 py-2 rounded hover:bg-blue-800 transition"
+            className="flex items-center gap-2 px-4 py-2 rounded hover:bg-trustgreen transition"
           >
             {item.label}
           </a>
