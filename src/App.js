@@ -25,7 +25,7 @@ function App() {
         {toolsConfig.map((tool) => (
           <Route
             key={tool.id}
-            path={`/tool.href`}
+            path={tool.href}
             element={<tool.component />}
           />
         ))}
