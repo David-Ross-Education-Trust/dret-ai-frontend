@@ -99,60 +99,62 @@ export default function Homepage({ showOnlyFavourites }) {
         </div>
       ) : (
         <div className="font-sans bg-gray-50 min-h-screen h-screen flex flex-col">
+          {/* HEADER BAR */}
           <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-4 h-24 flex items-center">
-            <div className="w-full">
-              <div className="flex items-center gap-x-6 w-full">
-                <div className="flex flex-wrap gap-2">
-                  {categories.map((tag, idx) => (
-                    <span
-                      key={tag}
-                      onClick={() => setSelectedCategory(tag)}
-                      className={`px-4 py-1.5 border rounded-full text-xs cursor-pointer transition-all text-center
-                        ${selectedCategory === tag
-                          ? "bg-gray-400 text-white"
-                          : "bg-gray-200 hover:bg-gray-300"
-                        }`}
-                      style={{
-                        whiteSpace: "nowrap",
-                        marginLeft: idx === 0 ? 0 : "0.25rem",
-                        marginRight: idx === categories.length - 1 ? 0 : "0.25rem",
-                      }}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <div className="relative w-full md:w-72 ml-4">
-                  <input
-                    type="text"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder="Search tools"
-                    onFocus={() => setSearchFocused(true)}
-                    onBlur={() => setSearchFocused(false)}
-                    className={`w-full border ${
-                      searchFocused ? "" : "border-gray-300"
-                    } rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
+            <div className="flex items-center w-full gap-x-6">
+              {/* Filters left */}
+              <div className="flex gap-2 flex-wrap">
+                {categories.map((tag, idx) => (
+                  <span
+                    key={tag}
+                    onClick={() => setSelectedCategory(tag)}
+                    className={`px-4 py-1.5 border rounded-full text-xs cursor-pointer transition-all text-center
+                      ${selectedCategory === tag
+                        ? "bg-gray-400 text-white"
+                        : "bg-gray-200 hover:bg-gray-300"
+                      }`}
                     style={{
-                      borderColor: searchFocused ? TRUST_GREEN : undefined,
-                      boxShadow: searchFocused
-                        ? `0 0 0 2px ${TRUST_GREEN}40`
-                        : undefined,
+                      whiteSpace: "nowrap",
+                      marginLeft: idx === 0 ? 0 : "0.25rem",
+                      marginRight: idx === categories.length - 1 ? 0 : "0.25rem",
                     }}
-                  />
-                  {searchTerm && (
-                    <button
-                      onClick={() => setSearchTerm("")}
-                      className="absolute right-9 top-2.5 text-gray-400 hover:text-gray-600"
-                    >
-                      <X size={16} />
-                    </button>
-                  )}
-                  <Search className="absolute right-3 top-2.5 h-4 w-4 text-gray-400" />
-                </div>
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              {/* Search right */}
+              <div className="ml-auto relative w-[240px]">
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  placeholder="Search tools"
+                  onFocus={() => setSearchFocused(true)}
+                  onBlur={() => setSearchFocused(false)}
+                  className={`w-full border ${
+                    searchFocused ? "" : "border-gray-300"
+                  } rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
+                  style={{
+                    borderColor: searchFocused ? TRUST_GREEN : undefined,
+                    boxShadow: searchFocused
+                      ? `0 0 0 2px ${TRUST_GREEN}40`
+                      : undefined,
+                  }}
+                />
+                {searchTerm && (
+                  <button
+                    onClick={() => setSearchTerm("")}
+                    className="absolute right-9 top-2.5 text-gray-400 hover:text-gray-600"
+                  >
+                    <X size={16} />
+                  </button>
+                )}
+                <Search className="absolute right-3 top-2.5 h-4 w-4 text-gray-400" />
               </div>
             </div>
           </div>
+          {/* TOOL GRID */}
           <div className="scroll-area flex-1 overflow-y-auto bg-gray-100">
             <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 pb-16">
               {filteredTools.map((tool, idx) =>
