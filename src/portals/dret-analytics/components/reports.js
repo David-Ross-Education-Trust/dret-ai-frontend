@@ -1,41 +1,25 @@
-export const categories = [
-  {
-    name: "Assessment",
-    reports: [
-      { id: "pupil-premium", name: "Pupil Premium" },
-      { id: "progress-8", name: "Progress 8" },
-      // Add more reports as needed
-    ]
-  },
-  {
-    name: "Planning",
-    reports: [
-      { id: "term-overview", name: "Term Overview" },
-      // etc
-    ]
-  },
-  {
-    name: "Inclusion",
-    reports: [
-      { id: "sen-register", name: "SEN Register" },
-      // etc
-    ]
-  },
-  {
-    name: "Leadership",
-    reports: [
-      { id: "attendance-summary", name: "Attendance Summary" },
-      // etc
-    ]
-  },
-  {
-    name: "Admin",
-    reports: [
-      { id: "class-list", name: "Class List" },
-      // etc
-    ]
-  }
-];
+import React from "react";
+import { useParams } from "react-router-dom";
+import ReportViewer from "../components/reportViewer";
+import { reportConfigs } from "./reportConfigs";
+import AnalyticsLayout from "../components/layout"; // or whatever your layout is called
 
-// (Optional: remove default export if not needed)
-// export default categories;
+export default function ReportPage() {
+  const { category, reportId } = useParams();
+  const configKey = `${category}-${reportId}`;
+  const config = reportConfigs[configKey];
+
+  if (!config) return (
+    <AnalyticsLayout>
+      <div className="p-8 text-red-700 font-semibold">
+        Report not found.
+      </div>
+    </AnalyticsLayout>
+  );
+
+  return (
+    <AnalyticsLayout>
+      <ReportViewer {...config} />
+    </AnalyticsLayout>
+  );
+}
