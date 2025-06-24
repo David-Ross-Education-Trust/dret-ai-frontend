@@ -102,7 +102,7 @@ export default function Homepage({ showOnlyFavourites }) {
           <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-4 h-24 flex items-center">
             <div className="w-full">
               <div className="flex items-center gap-x-6 w-full">
-                <div className="flex flex-1 justify-between">
+                <div className="flex flex-wrap gap-2">
                   {categories.map((tag, idx) => (
                     <span
                       key={tag}
