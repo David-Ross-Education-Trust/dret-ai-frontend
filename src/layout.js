@@ -7,8 +7,8 @@ import dretaiLogo from "./assets/dretai-logo.png";
 
 const navItems = [
   { label: "Home", icon: "fas fa-home", to: "/ai" },
-  { label: "My Hub", icon: "fas fa-th-large", to: "/ai/hub" },
-  { label: "Chat", icon: "fas fa-comments", to: "/ai/chat" },
+  { label: "My Hub", icon: "fas fa-th-large", to: "/ai/myhub" },
+  { label: "Chat", icon: "fas fa-comments", to: "/ai/favourites" },
 ];
 
 const Layout = ({ children }) => {
