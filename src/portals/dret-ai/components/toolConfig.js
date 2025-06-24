@@ -1,5 +1,6 @@
 import LessonPlanningTool from "../tools/001";
 import ReportWritingTool from "../tools/002";
+import ExclusionReportTool from "../tools/003";
 
 export const toolsConfig = [
 
@@ -25,7 +26,17 @@ export const toolsConfig = [
     comingSoon: false,
   },
 
-  { id: "003", comingSoon: true },
+  {
+    id: "exclusion-report",
+    name: "Exclusion Report",
+    description: "Generate detailed exclusion reports.",
+    category: "Admin",
+    tag: "New",
+    href: "/ai/tool/exclusion-report",
+    component: ExclusionReportTool,
+    comingSoon: false,
+  }
+  ,
   { id: "004", comingSoon: true },
   { id: "005", comingSoon: true },
   { id: "006", comingSoon: true },
