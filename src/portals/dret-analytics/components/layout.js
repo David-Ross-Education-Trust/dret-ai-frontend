@@ -1,6 +1,6 @@
 import React from "react";
 // You can use your own logo or colors here
-import dretAnalyticsLogo from "../assets/dret-logo.png"; // If you have a different logo
+import dretAnalyticsLogo from "../assets/dretai-logo.png"; // If you have a different logo
 
 const analyticsNavItems = [
   { label: "Analytics Home", to: "/analytics" },
