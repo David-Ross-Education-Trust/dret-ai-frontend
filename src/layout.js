@@ -6,9 +6,9 @@ import { FiChevronDown } from "react-icons/fi";
 import dretaiLogo from "./assets/dretai-logo.png";
 
 const navItems = [
-  { label: "Home", icon: "fas fa-home", to: "/" },
-  { label: "My Hub", icon: "fas fa-th-large", to: "/hub" },
-  { label: "Chat", icon: "fas fa-comments", to: "/chat" },
+  { label: "Home", icon: "fas fa-home", to: "/ai" },
+  { label: "My Hub", icon: "fas fa-th-large", to: "/ai/hub" },
+  { label: "Chat", icon: "fas fa-comments", to: "/ai/chat" },
 ];
 
 const Layout = ({ children }) => {
