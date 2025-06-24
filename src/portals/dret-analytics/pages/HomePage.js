@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Layout from "../components/layout";
+import AnalyticsLayout from "../components/layout";
 import { Search, X } from "lucide-react";
 // import { categories } from "../components/reports"; // Not needed if you're using your own below
 import { useNavigate } from "react-router-dom";
@@ -38,7 +38,7 @@ export default function AnalyticsHomePage() {
   );
 
   return (
-    <Layout>
+    <AnalyticsLayout>
       {/* Top Bar */}
       <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-4 h-24 flex items-center">
         <div className="flex items-center gap-x-6 w-full max-w-5xl mx-auto">
@@ -113,6 +113,6 @@ export default function AnalyticsHomePage() {
           ))}
         </div>
       </div>
-    </Layout>
+    </AnalyticsLayout>
   );
 }
