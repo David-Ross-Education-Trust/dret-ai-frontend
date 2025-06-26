@@ -18,7 +18,7 @@ export default function ParagraphTool() {
       return;
     }
 
-    const message = `Please use the following paragraph:\n\n${paragraph}\n\nPlease format your response in markdown.`;
+    const message = `Please provide feeback on the following paragraph:\n\n${paragraph}\n\n. Please format your response in markdown.`;
 
     setLoading(true);
     setResponse("");
@@ -93,7 +93,7 @@ export default function ParagraphTool() {
                 onChange={e => setParagraph(e.target.value)}
                 placeholder="Paste your paragraph here..."
                 className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm min-h-[120px]"
-                rows={6}
+                rows={15}
               />
             </div>
             <div className="border-t border-gray-100 px-6 py-3 bg-white rounded-b-xl sticky bottom-0 z-10 flex justify-end">
