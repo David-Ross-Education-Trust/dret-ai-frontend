@@ -58,7 +58,7 @@ export const toolsConfig = [
     tag: "New",
     href: "/ai/tool/case-paragraph-student",
     component: CASEParagraphFeedbackStudent,
-    comingSoon: false,
+    comingSoon: true,
   },
 
   { id: "006", comingSoon: true },
