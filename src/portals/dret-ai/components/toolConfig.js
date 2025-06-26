@@ -52,13 +52,13 @@ export const toolsConfig = [
   
   {
     id: "case-paragraph-student",
-    name: "CASE Paragraph Feedback - Student",
-    description: "Provide feedback on student CASE paragraphs.",
+    name: "Testing",
+    description: "Testing",
     category: "Assessment",
     tag: "New",
     href: "/ai/tool/case-paragraph-student",
     component: CASEParagraphFeedbackStudent,
-    comingSoon: true,
+    comingSoon: false,
   },
 
   { id: "006", comingSoon: true },
