@@ -1,6 +1,7 @@
 import LessonPlanningTool from "../tools/001";
 import ReportWritingTool from "../tools/002";
 import ExclusionReportTool from "../tools/003";
+import CASEParagraphFeedback from "../tools/004";
 
 export const toolsConfig = [
 
@@ -37,7 +38,17 @@ export const toolsConfig = [
     comingSoon: false,
   }
   ,
-  { id: "004", comingSoon: true },
+
+    {
+    id: "case-paragraph",
+    name: "CASE Paragraph Feedback",
+    description: "Provide feedback on student CASE paragraphs.",
+    category: "Assessment",
+    tag: "New",
+    href: "/ai/tool/case-paragraph",
+    component: CASEParagraphFeedback,
+    comingSoon: false,
+  },
   { id: "005", comingSoon: true },
   { id: "006", comingSoon: true },
   { id: "007", comingSoon: true },
