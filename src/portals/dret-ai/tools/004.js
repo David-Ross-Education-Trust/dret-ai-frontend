@@ -74,7 +74,7 @@ export default function ParagraphTool() {
               }}
             />
             <h1 className="text-xl font-bold" style={{ color: "#205c40" }}>
-              Paragraph Tool
+              CASE Paragraph Feedback
             </h1>
           </div>
         </div>
