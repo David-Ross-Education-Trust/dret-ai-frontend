@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 // Restore previous subject colors, keep new for English/Geography/MFL
 const subjectMeta = {
   English: {
-    bgHeader: "bg-indigo-100",
+    bgHeader: "bg-violet-100",
     icon: <span className="text-indigo-700 text-2xl mr-2">📘</span>,
   },
   Maths: {
@@ -15,7 +15,7 @@ const subjectMeta = {
     icon: <span className="text-purple-500 text-2xl mr-2">➗</span>,
   },
   Science: {
-    bgHeader: "bg-sky-100",
+    bgHeader: "bg-cyan-100",
     icon: <span className="text-purple-500 text-2xl mr-2">🔬</span>,
   },
   History: {
@@ -27,7 +27,7 @@ const subjectMeta = {
     icon: <span className="text-emerald-700 text-2xl mr-2">🗺️</span>,
   },
   MFL: {
-    bgHeader: "bg-rose-100",
+    bgHeader: "bg-fuschia-100",
     icon: <span className="text-fuchsia-700 text-2xl mr-2">🌍</span>,
   }
 };
