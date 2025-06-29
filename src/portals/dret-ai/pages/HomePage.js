@@ -22,7 +22,7 @@ function LoginSplash({ onLogin }) {
   );
 }
 
-const generalCategories = [
+const categories = [
   "All",
   "New",
   "Favourites",
@@ -31,35 +31,8 @@ const generalCategories = [
   "Inclusion",
   "Leadership",
   "Admin",
-  "CPD",
+  "CPD"
 ];
-
-const subjectCategories = [
-  "English",
-  "Maths",
-  "Science",
-  "History",
-  "Geography",
-  "MFL",
-];
-
-const filterColors = {
-  Assessment: "bg-green-50 text-green-700 border-green-200",
-  Planning: "bg-green-50 text-green-700 border-green-200",
-  Admin: "bg-green-50 text-green-700 border-green-200",
-  Leadership: "bg-green-50 text-green-700 border-green-200",
-  Inclusion: "bg-green-50 text-green-700 border-green-200",
-  English: "bg-blue-50 text-blue-700 border-blue-200",
-  Maths: "bg-yellow-50 text-yellow-800 border-yellow-200",
-  Science: "bg-green-100 text-green-800 border-green-300",
-  History: "bg-orange-50 text-orange-700 border-orange-200",
-  Geography: "bg-cyan-50 text-cyan-700 border-cyan-200",
-  MFL: "bg-pink-50 text-pink-700 border-pink-200",
-  CPD: "bg-purple-50 text-purple-700 border-purple-200",
-  Favourites: "bg-blue-50 text-blue-700 border-blue-200",
-  New: "bg-blue-50 text-blue-700 border-blue-200",
-  All: "bg-blue-50 text-blue-700 border-blue-200"
-};
 
 export default function Homepage({ showOnlyFavourites }) {
   const navigate = useNavigate();
@@ -106,7 +79,6 @@ export default function Homepage({ showOnlyFavourites }) {
       else if (selectedCategory === "All") matchesCategory = true;
       else if (selectedCategory === "Favourites") matchesCategory = favourites.includes(tool.name);
       else if (selectedCategory === "New") matchesCategory = tool.tag === "New";
-      else if (Array.isArray(tool.category)) matchesCategory = tool.category.includes(selectedCategory);
       else matchesCategory = tool.category === selectedCategory;
       return matchesSearch && matchesCategory;
     })
@@ -127,83 +99,56 @@ export default function Homepage({ showOnlyFavourites }) {
           <LoginSplash onLogin={() => instance.loginRedirect()} />
         </div>
       ) : (
-        <div className="font-avenir bg-gray-50 min-h-screen h-screen flex flex-col">
+        <div className="font-sans bg-gray-50 min-h-screen h-screen flex flex-col">
           <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-4 h-24 flex items-center">
-            <div className="flex items-center w-full flex-wrap md:flex-nowrap gap-y-1">
+            <div className="flex items-center w-full gap-x-6">
               <div className="flex gap-2 flex-wrap">
-                {generalCategories.map((tag, idx) => (
+                {categories.map((tag, idx) => (
                   <span
                     key={tag}
                     onClick={() => setSelectedCategory(tag)}
-                    className={`px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center
+                    className={`px-4 py-1.5 border rounded-full text-xs cursor-pointer transition-all text-center
                       ${selectedCategory === tag
-                        ? `${filterColors[tag]} font-semibold border-[var(--trust-green)]`
-                        : "hover:brightness-95 " + (filterColors[tag] || "bg-gray-200 text-gray-600 border-gray-300")
+                        ? "bg-gray-400 text-white"
+                        : "bg-gray-200 hover:bg-gray-300"
                       }`}
                     style={{
                       whiteSpace: "nowrap",
                       marginLeft: idx === 0 ? 0 : "0.25rem",
-                      marginRight: idx === generalCategories.length - 1 ? 0 : "0.25rem",
-                      borderWidth: "1px",
+                      marginRight: idx === categories.length - 1 ? 0 : "0.25rem",
                     }}
                   >
                     {tag}
                   </span>
                 ))}
               </div>
-              <div className="hidden md:block mx-2" style={{ width: 1, height: 28, background: "#e5e7eb" }} />
-              <div className="flex flex-col">
-                <div className="flex gap-2 flex-wrap" style={{ marginTop: 7 }}>
-                  {subjectCategories.map((tag, idx) => (
-                    <span
-                      key={tag}
-                      onClick={() => setSelectedCategory(tag)}
-                      className={`px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center
-                        ${selectedCategory === tag
-                          ? `${filterColors[tag]} font-semibold border-[var(--trust-green)]`
-                          : "hover:brightness-95 " + (filterColors[tag] || "bg-gray-200 text-gray-600 border-gray-300")
-                        }`}
-                      style={{
-                        whiteSpace: "nowrap",
-                        marginLeft: idx === 0 ? 0 : "0.25rem",
-                        marginRight: idx === subjectCategories.length - 1 ? 0 : "0.25rem",
-                        borderWidth: "1px",
-                      }}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <div className="ml-auto flex items-center h-full">
-                <div className="relative w-[240px] flex items-center" style={{ height: "40px" }}>
-                  <input
-                    type="text"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder="Search tools"
-                    onFocus={() => setSearchFocused(true)}
-                    onBlur={() => setSearchFocused(false)}
-                    className={`w-full border ${
-                      searchFocused ? "" : "border-gray-300"
-                    } rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
-                    style={{
-                      borderColor: searchFocused ? TRUST_GREEN : undefined,
-                      boxShadow: searchFocused
-                        ? `0 0 0 2px ${TRUST_GREEN}40`
-                        : undefined,
-                    }}
-                  />
-                  {searchTerm && (
-                    <button
-                      onClick={() => setSearchTerm("")}
-                      className="absolute right-9 top-2.5 text-gray-400 hover:text-gray-600"
-                    >
-                      <X size={16} />
-                    </button>
-                  )}
-                  <Search className="absolute right-3 top-2.5 h-4 w-4 text-gray-400" />
-                </div>
+              <div className="ml-auto relative w-[240px]">
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  placeholder="Search tools"
+                  onFocus={() => setSearchFocused(true)}
+                  onBlur={() => setSearchFocused(false)}
+                  className={`w-full border ${
+                    searchFocused ? "" : "border-gray-300"
+                  } rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
+                  style={{
+                    borderColor: searchFocused ? TRUST_GREEN : undefined,
+                    boxShadow: searchFocused
+                      ? `0 0 0 2px ${TRUST_GREEN}40`
+                      : undefined,
+                  }}
+                />
+                {searchTerm && (
+                  <button
+                    onClick={() => setSearchTerm("")}
+                    className="absolute right-9 top-2.5 text-gray-400 hover:text-gray-600"
+                  >
+                    <X size={16} />
+                  </button>
+                )}
+                <Search className="absolute right-3 top-2.5 h-4 w-4 text-gray-400" />
               </div>
             </div>
           </div>
