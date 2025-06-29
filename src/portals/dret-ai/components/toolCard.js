@@ -2,18 +2,23 @@ import React from "react";
 import { Star, Flame, Sparkles } from "lucide-react";
 
 const categoryColors = {
-  Assessment: "bg-green-50 text-green-700",
-  Planning: "bg-green-50 text-green-700",
-  Admin: "bg-green-50 text-green-700",
-  Leadership: "bg-green-50 text-green-700",
-  Inclusion: "bg-green-50 text-green-700",
-  CPD: "bg-green-50 text-green-700",
-  English: "bg-blue-50 text-blue-700",
-  Maths: "bg-yellow-50 text-yellow-800",
-  Science: "bg-green-100 text-green-800",
-  History: "bg-orange-50 text-orange-700",
-  Geography: "bg-cyan-50 text-cyan-700",
-  MFL: "bg-pink-50 text-pink-700",
+  Assessment: "bg-blue-50 text-blue-700",
+  Planning: "bg-blue-50 text-blue-700",
+  Admin: "bg-blue-50 text-blue-700",
+  Leadership: "bg-blue-50 text-blue-700",
+  Inclusion: "bg-blue-50 text-blue-700",
+  CPD: "bg-blue-50 text-blue-700",
+  English: "bg-indigo-50 text-indigo-700",
+  Maths: "bg-rose-50 text-rose-700",
+  Science: "bg-teal-50 text-teal-700",
+  History: "bg-amber-50 text-amber-700",
+  Geography: "bg-emerald-50 text-emerald-700",
+  MFL: "bg-fuchsia-50 text-fuchsia-700",
+};
+
+const tagStyles = {
+  Hot: "bg-red-50 text-red-600",
+  New: "bg-green-50 text-green-700", // Now green, not blue
 };
 
 export default function ToolCard({
@@ -89,13 +94,13 @@ export default function ToolCard({
               </span>
             )}
         {tool.tag === "Hot" && (
-          <span className="bg-red-50 text-red-600 px-2 py-0.5 rounded-full font-medium flex items-center gap-1">
+          <span className={`${tagStyles.Hot} px-2 py-0.5 rounded-full font-medium flex items-center gap-1`}>
             <Flame className="w-3 h-3" />
             Hot
           </span>
         )}
         {tool.tag === "New" && (
-          <span className="bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full font-medium flex items-center gap-1">
+          <span className={`${tagStyles.New} px-2 py-0.5 rounded-full font-medium flex items-center gap-1`}>
             <Sparkles className="w-3 h-3" />
             New
           </span>

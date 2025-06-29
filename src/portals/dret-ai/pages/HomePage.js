@@ -51,12 +51,13 @@ const filterColors = {
   Leadership: "bg-blue-50 text-blue-700 border-blue-200",
   Inclusion: "bg-blue-50 text-blue-700 border-blue-200",
   CPD: "bg-blue-50 text-blue-700 border-blue-200",
-  English: "bg-blue-50 text-blue-700 border-blue-200",
-  Maths: "bg-yellow-50 text-yellow-800 border-yellow-200",
-  Science: "bg-green-100 text-green-800 border-green-300",
-  History: "bg-orange-50 text-orange-700 border-orange-200",
-  Geography: "bg-cyan-50 text-cyan-700 border-cyan-200",
-  MFL: "bg-pink-50 text-pink-700 border-pink-200",
+  
+  English: "bg-indigo-50 text-indigo-700 border-indigo-200",
+  Maths: "bg-rose-50 text-rose-700 border-rose-200",
+  Science: "bg-teal-50 text-teal-700 border-teal-200",
+  History: "bg-amber-50 text-amber-700 border-amber-200",
+  Geography: "bg-emerald-50 text-emerald-700 border-emerald-200",
+  MFL: "bg-fuchsia-50 text-fuchsia-700 border-fuchsia-200",
 };
 
 const filterActiveColors = {
@@ -68,12 +69,13 @@ const filterActiveColors = {
   Leadership: "bg-blue-700 text-white border-blue-700",
   Inclusion: "bg-blue-700 text-white border-blue-700",
   CPD: "bg-blue-700 text-white border-blue-700",
-  English: "bg-blue-700 text-white border-blue-700",
-  Maths: "bg-yellow-600 text-white border-yellow-600",
-  Science: "bg-green-800 text-white border-green-800",
-  History: "bg-orange-500 text-white border-orange-500",
-  Geography: "bg-cyan-600 text-white border-cyan-600",
-  MFL: "bg-pink-600 text-white border-pink-600",
+
+  English: "bg-indigo-700 text-white border-indigo-700",
+  Maths: "bg-rose-700 text-white border-rose-700",
+  Science: "bg-teal-700 text-white border-teal-700",
+  History: "bg-amber-700 text-white border-amber-700",
+  Geography: "bg-emerald-700 text-white border-emerald-700",
+  MFL: "bg-fuchsia-700 text-white border-fuchsia-700",
 };
 
 const filterGrey = "bg-gray-200 text-gray-400 border-gray-200";
