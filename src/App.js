@@ -5,6 +5,7 @@ import AiHomePage from "./portals/dret-ai/pages/HomePage";
 import FavouritesPage from "./portals/dret-ai/pages/favourites";
 import MyHub from "./portals/dret-ai/pages/myhub";
 import StudentHub from "./portals/dret-ai/pages/studenthub";
+import ToolsPage from "./portals/dret-ai/pages/tools";
 import AnalyticsHomePage from "./portals/dret-analytics/pages/HomePage";
 import { toolsConfig } from "./portals/dret-ai/components/toolConfig";
 import { reportConfig } from "./portals/dret-analytics/components/reportConfig";
@@ -18,6 +19,7 @@ function App() {
         <Route path="/ai/favourites" element={<FavouritesPage />} />
         <Route path="/ai/myhub" element={<MyHub />} />
         <Route path="/ai/student-hub" element={<StudentHub />} />
+        <Route path="/ai/tools" element={<ToolsPage />} />
         {toolsConfig.map(
           (tool) =>
             !tool.comingSoon && (
