@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
+import { useMsal } from "@azure/msal-react";
 import { PowerBIEmbed } from "powerbi-client-react";
 import { models } from "powerbi-client";
 import AnalyticsLayout from "../../components/layout";
 
 export default function Report001() {
+  const { accounts } = useMsal();
   const [embedInfo, setEmbedInfo] = useState(null);
   const [error, setError] = useState(null);
+
+  const userEmail = accounts[0]?.username; // 👈 Extract user email (UPN)
 
   useEffect(() => {
     async function fetchEmbedToken() {
@@ -15,8 +19,8 @@ export default function Report001() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             reportKey: "report001",
-            username: "john.doe@yourorg.com",
-            roles: ["SeniorLeaders"]
+            username: userEmail, // 👈 Real user email here
+            roles: ["AllUsers"]
           })
         });
         const data = await res.json();
@@ -27,8 +31,10 @@ export default function Report001() {
       }
     }
 
-    fetchEmbedToken();
-  }, []);
+    if (userEmail) {
+      fetchEmbedToken();
+    }
+  }, [userEmail]);
 
   return (
     <AnalyticsLayout>
