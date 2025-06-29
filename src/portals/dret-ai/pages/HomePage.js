@@ -31,6 +31,7 @@ const categories = [
   "Inclusion",
   "Leadership",
   "Admin",
+  "CPD"
 ];
 
 export default function Homepage({ showOnlyFavourites }) {
@@ -99,10 +100,8 @@ export default function Homepage({ showOnlyFavourites }) {
         </div>
       ) : (
         <div className="font-sans bg-gray-50 min-h-screen h-screen flex flex-col">
-          {/* HEADER BAR */}
           <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-4 h-24 flex items-center">
             <div className="flex items-center w-full gap-x-6">
-              {/* Filters left */}
               <div className="flex gap-2 flex-wrap">
                 {categories.map((tag, idx) => (
                   <span
@@ -123,7 +122,6 @@ export default function Homepage({ showOnlyFavourites }) {
                   </span>
                 ))}
               </div>
-              {/* Search right */}
               <div className="ml-auto relative w-[240px]">
                 <input
                   type="text"
@@ -154,7 +152,6 @@ export default function Homepage({ showOnlyFavourites }) {
               </div>
             </div>
           </div>
-          {/* TOOL GRID */}
           <div className="scroll-area flex-1 overflow-y-auto bg-gray-100">
             <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 pb-16">
               {filteredTools.map((tool, idx) =>
