@@ -78,7 +78,7 @@ export default function ToolsPage() {
                 return (
                   <div
                     key={subject}
-                    className="rounded-2xl shadow-xl border border-gray-100 bg-white flex flex-col overflow-hidden transition-transform hover:scale-[1.01]"
+                    className="rounded-2xl shadow-md border border-gray-100 bg-white flex flex-col overflow-hidden transition-shadow hover:shadow-lg"
                     style={{ minHeight: 320 }}
                   >
                     <div className={`flex items-center px-6 py-3 ${meta.bgHeader || "bg-gray-100"}`}>
@@ -100,7 +100,7 @@ export default function ToolsPage() {
                                 className="flex items-center justify-between group px-2 py-2 rounded transition cursor-pointer hover:bg-gray-50"
                                 onClick={() => tool.href && navigate(tool.href)}
                               >
-                                <span className="font-medium text-gray-800 text-base group-hover:underline truncate">
+                                <span className="font-medium text-gray-800 text-base group-hover:text-[var(--trust-green)] transition-colors truncate">
                                   {tool.name}
                                 </span>
                                 <button
