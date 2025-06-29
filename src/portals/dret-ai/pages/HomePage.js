@@ -128,9 +128,9 @@ export default function Homepage({ showOnlyFavourites }) {
         </div>
       ) : (
         <div className="font-avenir bg-gray-50 min-h-screen h-screen flex flex-col">
-          <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-4 h-24 flex items-center">
-            <div className="flex flex-wrap items-center w-full">
-              <div className="flex flex-wrap gap-2">
+          <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-4 flex flex-col w-full">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between min-h-[5.5rem] w-full pt-5 pb-2">
+              <div className="flex flex-wrap gap-2 items-center">
                 {generalCategories.map((tag) => {
                   const colorSet = filterColors[tag] || { bg: "bg-gray-200 text-gray-600 border-gray-300", activeBg: "bg-gray-400 text-white border-gray-400" };
                   return (
@@ -152,7 +152,6 @@ export default function Homepage({ showOnlyFavourites }) {
                     </span>
                   );
                 })}
-                <span className="hidden sm:inline-block w-px h-6 bg-gray-200 mx-2" />
                 {subjectCategories.map((tag) => {
                   const colorSet = filterColors[tag] || { bg: "bg-gray-200 text-gray-600 border-gray-300", activeBg: "bg-gray-400 text-white border-gray-400" };
                   return (
@@ -175,7 +174,7 @@ export default function Homepage({ showOnlyFavourites }) {
                   );
                 })}
               </div>
-              <div className="ml-auto flex items-center w-full sm:w-auto mt-2 sm:mt-0">
+              <div className="flex mt-4 sm:mt-0 items-center justify-end w-full sm:w-auto">
                 <div className="relative w-full sm:w-[240px] flex items-center" style={{ height: "40px" }}>
                   <input
                     type="text"
