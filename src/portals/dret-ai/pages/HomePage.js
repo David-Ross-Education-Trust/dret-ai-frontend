@@ -6,7 +6,6 @@ import { useMsal } from "@azure/msal-react";
 import { toolsConfig } from "../components/toolConfig";
 import ToolCard from "../components/toolCard";
 
-// LOGIN SPLASH
 function LoginSplash({ onLogin }) {
   return (
     <div className="flex flex-col items-center justify-center h-[calc(100vh)] w-full bg-gray-100">
@@ -149,23 +148,18 @@ export default function Homepage({ showOnlyFavourites }) {
           {/* HEADER */}
           <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-4 w-full">
             <div className="flex flex-row flex-nowrap items-center justify-between py-3">
-              {/* FILTER BUTTONS (all wrap in 1 column, search is always right) */}
-              <div className="flex flex-wrap gap-2 max-w-[calc(100vw-350px)]">
-                {[...generalCategories, ...subjectCategories].map((tag) => {
-                  const base =
-                    filterColors[tag] || "bg-gray-200 text-gray-600 border-gray-300";
-                  const active =
-                    filterActiveColors[tag] ||
-                    "bg-gray-400 text-white border-gray-400";
-                  return (
+              {/* FILTER BUTTONS with divider */}
+              <div className="flex flex-wrap gap-2 max-w-[calc(100vw-350px)] items-center">
+                {/* General Categories */}
+                {generalCategories.map((tag, idx) => (
+                  <React.Fragment key={tag}>
                     <span
-                      key={tag}
                       onClick={() => setSelectedCategory(tag)}
                       className={`px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center select-none
                         ${
                           selectedCategory === tag
-                            ? `${active} shadow-sm`
-                            : `${base} hover:brightness-95`
+                            ? (filterActiveColors[tag] || "bg-gray-400 text-white border-gray-400") + " shadow-sm"
+                            : (filterColors[tag] || "bg-gray-200 text-gray-600 border-gray-300") + " hover:brightness-95"
                         }
                       `}
                       style={{
@@ -176,8 +170,37 @@ export default function Homepage({ showOnlyFavourites }) {
                     >
                       {tag}
                     </span>
-                  );
-                })}
+                    {/* Divider after CPD */}
+                    {tag === "CPD" && (
+                      <span
+                        aria-hidden
+                        className="mx-2 h-6 border-l border-gray-300 opacity-60"
+                        style={{ display: "inline-block", verticalAlign: "middle" }}
+                      />
+                    )}
+                  </React.Fragment>
+                ))}
+                {/* Subject Categories */}
+                {subjectCategories.map((tag) => (
+                  <span
+                    key={tag}
+                    onClick={() => setSelectedCategory(tag)}
+                    className={`px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center select-none
+                      ${
+                        selectedCategory === tag
+                          ? (filterActiveColors[tag] || "bg-gray-400 text-white border-gray-400") + " shadow-sm"
+                          : (filterColors[tag] || "bg-gray-200 text-gray-600 border-gray-300") + " hover:brightness-95"
+                      }
+                    `}
+                    style={{
+                      whiteSpace: "nowrap",
+                      borderWidth: "1px",
+                      transition: "all 0.18s cubic-bezier(.4,0,.2,1)",
+                    }}
+                  >
+                    {tag}
+                  </span>
+                ))}
               </div>
               {/* SEARCH BAR */}
               <div className="relative flex-shrink-0 w-[240px] ml-4">
