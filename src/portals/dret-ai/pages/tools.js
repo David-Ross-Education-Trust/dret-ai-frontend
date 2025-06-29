@@ -69,7 +69,7 @@ export default function ToolsPage() {
   return (
     <Layout>
       <div className="font-avenir bg-gray-100 h-screen flex flex-col">
-        <div className="flex-1 overflow-y-auto px-6 py-10">
+        <div className="flex-1 overflow-y-auto px-6 py-10 custom-scrollbar">
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {subjects.map(subject => {
@@ -140,6 +140,27 @@ export default function ToolsPage() {
             </div>
           </div>
         </div>
+        <style>
+          {`
+            .custom-scrollbar {
+              scrollbar-width: thin;
+              scrollbar-color: #cbd5e1 transparent;
+            }
+            .custom-scrollbar::-webkit-scrollbar {
+              width: 6px;
+            }
+            .custom-scrollbar::-webkit-scrollbar-track {
+              background: transparent;
+            }
+            .custom-scrollbar::-webkit-scrollbar-thumb {
+              background-color: #cbd5e1;
+              border-radius: 3px;
+            }
+            .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+              background-color: #94a3b8;
+            }
+          `}
+        </style>
       </div>
     </Layout>
   );
