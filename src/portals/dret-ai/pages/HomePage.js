@@ -8,7 +8,7 @@ import ToolCard from "../components/toolCard";
 
 function LoginSplash({ onLogin }) {
   return (
-    <div className="flex flex-col items-center justify-center h-[calc(100vh)] w-full bg-gray-100">
+    <div className="flex flex-col items-center justify-center h-[calc(100vh)] w-full bg-gray-100 font-avenir">
       <div className="bg-white p-10 rounded-2xl shadow-xl flex flex-col items-center max-w-md mx-auto">
         <h1 className="text-3xl font-bold mb-8 text-[var(--trust-green)] font-avenir">Welcome to DRET.AI</h1>
         <button
@@ -140,22 +140,22 @@ export default function Homepage({ showOnlyFavourites }) {
   return (
     <Layout>
       {!isSignedIn ? (
-        <div className="h-screen flex items-center justify-center">
+        <div className="h-screen flex items-center justify-center font-avenir">
           <LoginSplash onLogin={() => instance.loginRedirect()} />
         </div>
       ) : (
-        <div className="font-sans bg-gray-50 min-h-screen h-screen flex flex-col">
+        <div className="bg-gray-50 min-h-screen h-screen flex flex-col font-avenir">
           {/* HEADER */}
-          <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-4 w-full">
-            <div className="flex flex-row flex-nowrap items-center justify-between py-3">
+          <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-4 w-full font-avenir">
+            <div className="flex flex-row flex-nowrap items-center justify-between py-3 font-avenir">
               {/* FILTER BUTTONS with divider */}
-              <div className="flex flex-wrap gap-2 max-w-[calc(100vw-350px)] items-center">
+              <div className="flex flex-wrap gap-2 max-w-[calc(100vw-350px)] items-center font-avenir">
                 {/* General Categories */}
                 {generalCategories.map((tag, idx) => (
                   <React.Fragment key={tag}>
                     <span
                       onClick={() => setSelectedCategory(tag)}
-                      className={`px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center select-none
+                      className={`px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center select-none font-avenir
                         ${
                           selectedCategory === tag
                             ? (filterActiveColors[tag] || "bg-gray-400 text-white border-gray-400") + " shadow-sm"
@@ -166,6 +166,7 @@ export default function Homepage({ showOnlyFavourites }) {
                         whiteSpace: "nowrap",
                         borderWidth: "1px",
                         transition: "all 0.18s cubic-bezier(.4,0,.2,1)",
+                        fontFamily: "AvenirLTStdLight, Avenir, sans-serif"
                       }}
                     >
                       {tag}
@@ -185,7 +186,7 @@ export default function Homepage({ showOnlyFavourites }) {
                   <span
                     key={tag}
                     onClick={() => setSelectedCategory(tag)}
-                    className={`px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center select-none
+                    className={`px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center select-none font-avenir
                       ${
                         selectedCategory === tag
                           ? (filterActiveColors[tag] || "bg-gray-400 text-white border-gray-400") + " shadow-sm"
@@ -196,6 +197,7 @@ export default function Homepage({ showOnlyFavourites }) {
                       whiteSpace: "nowrap",
                       borderWidth: "1px",
                       transition: "all 0.18s cubic-bezier(.4,0,.2,1)",
+                      fontFamily: "AvenirLTStdLight, Avenir, sans-serif"
                     }}
                   >
                     {tag}
@@ -203,7 +205,7 @@ export default function Homepage({ showOnlyFavourites }) {
                 ))}
               </div>
               {/* SEARCH BAR */}
-              <div className="relative flex-shrink-0 w-[240px] ml-4">
+              <div className="relative flex-shrink-0 w-[240px] ml-4 font-avenir">
                 <input
                   type="text"
                   value={searchTerm}
@@ -213,12 +215,13 @@ export default function Homepage({ showOnlyFavourites }) {
                   onBlur={() => setSearchFocused(false)}
                   className={`w-full border ${
                     searchFocused ? "" : "border-gray-300"
-                  } rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
+                  } rounded-md px-4 py-2 pr-10 text-sm outline-none transition font-avenir`}
                   style={{
                     borderColor: searchFocused ? TRUST_GREEN : undefined,
                     boxShadow: searchFocused
                       ? `0 0 0 2px ${TRUST_GREEN}40`
                       : undefined,
+                    fontFamily: "AvenirLTStdLight, Avenir, sans-serif"
                   }}
                 />
                 {searchTerm && (
@@ -234,13 +237,13 @@ export default function Homepage({ showOnlyFavourites }) {
             </div>
           </div>
           {/* MAIN TOOLS GRID */}
-          <div className="scroll-area flex-1 overflow-y-auto bg-gray-100">
+          <div className="scroll-area flex-1 overflow-y-auto bg-gray-100 font-avenir">
             <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 pb-16">
               {filteredTools.map((tool, idx) =>
                 tool.comingSoon ? (
                   <div
                     key={tool.id || idx}
-                    className="relative rounded-xl bg-gray-200 text-gray-500 shadow-md flex flex-col items-center justify-center p-4 h-[150px] opacity-70 select-none cursor-default border-2 border-dashed border-gray-300"
+                    className="relative rounded-xl bg-gray-200 text-gray-500 shadow-md flex flex-col items-center justify-center p-4 h-[150px] opacity-70 select-none cursor-default border-2 border-dashed border-gray-300 font-avenir"
                   >
                     <span className="text-base font-semibold">New tools coming soon</span>
                   </div>
