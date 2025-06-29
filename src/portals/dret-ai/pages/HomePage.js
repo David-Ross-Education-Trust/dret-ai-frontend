@@ -22,7 +22,7 @@ function LoginSplash({ onLogin }) {
   );
 }
 
-const categories = [
+const generalCategories = [
   "All",
   "New",
   "Favourites",
@@ -32,6 +32,9 @@ const categories = [
   "Leadership",
   "Admin",
   "CPD",
+];
+
+const subjectCategories = [
   "English",
   "Maths",
   "Science",
@@ -39,6 +42,24 @@ const categories = [
   "Geography",
   "MFL",
 ];
+
+const filterColors = {
+  Assessment: "bg-green-50 text-green-700 border-green-200",
+  Planning: "bg-green-50 text-green-700 border-green-200",
+  Admin: "bg-green-50 text-green-700 border-green-200",
+  Leadership: "bg-green-50 text-green-700 border-green-200",
+  Inclusion: "bg-green-50 text-green-700 border-green-200",
+  English: "bg-blue-50 text-blue-700 border-blue-200",
+  Maths: "bg-yellow-50 text-yellow-800 border-yellow-200",
+  Science: "bg-green-100 text-green-800 border-green-300",
+  History: "bg-orange-50 text-orange-700 border-orange-200",
+  Geography: "bg-cyan-50 text-cyan-700 border-cyan-200",
+  MFL: "bg-pink-50 text-pink-700 border-pink-200",
+  CPD: "bg-purple-50 text-purple-700 border-purple-200",
+  Favourites: "bg-gray-100 text-yellow-500 border-yellow-100",
+  New: "bg-blue-50 text-blue-700 border-blue-200",
+  All: "bg-gray-200 text-gray-600 border-gray-300"
+};
 
 export default function Homepage({ showOnlyFavourites }) {
   const navigate = useNavigate();
@@ -108,21 +129,44 @@ export default function Homepage({ showOnlyFavourites }) {
       ) : (
         <div className="font-sans bg-gray-50 min-h-screen h-screen flex flex-col">
           <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-4 h-24 flex items-center">
-            <div className="flex items-center w-full gap-x-6">
+            <div className="flex items-center w-full gap-x-4 flex-wrap md:flex-nowrap">
               <div className="flex gap-2 flex-wrap">
-                {categories.map((tag, idx) => (
+                {generalCategories.map((tag, idx) => (
                   <span
                     key={tag}
                     onClick={() => setSelectedCategory(tag)}
-                    className={`px-4 py-1.5 border rounded-full text-xs cursor-pointer transition-all text-center
+                    className={`px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center
                       ${selectedCategory === tag
-                        ? "bg-gray-400 text-white"
-                        : "bg-gray-200 hover:bg-gray-300"
-                      }`}
+                        ? "ring-2 ring-[var(--trust-green)] scale-105"
+                        : "hover:brightness-95"
+                      } ${filterColors[tag] || "bg-gray-200 text-gray-600 border-gray-300"}`}
                     style={{
                       whiteSpace: "nowrap",
                       marginLeft: idx === 0 ? 0 : "0.25rem",
-                      marginRight: idx === categories.length - 1 ? 0 : "0.25rem",
+                      marginRight: idx === generalCategories.length - 1 ? 0 : "0.25rem",
+                      borderWidth: "1px",
+                    }}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <div className="hidden md:block mx-2" style={{ width: 1, height: 28, background: "#e5e7eb" }} />
+              <div className="flex gap-2 flex-wrap">
+                {subjectCategories.map((tag, idx) => (
+                  <span
+                    key={tag}
+                    onClick={() => setSelectedCategory(tag)}
+                    className={`px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center
+                      ${selectedCategory === tag
+                        ? "ring-2 ring-[var(--trust-green)] scale-105"
+                        : "hover:brightness-95"
+                      } ${filterColors[tag] || "bg-gray-200 text-gray-600 border-gray-300"}`}
+                    style={{
+                      whiteSpace: "nowrap",
+                      marginLeft: idx === 0 ? 0 : "0.25rem",
+                      marginRight: idx === subjectCategories.length - 1 ? 0 : "0.25rem",
+                      borderWidth: "1px",
                     }}
                   >
                     {tag}
