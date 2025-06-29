@@ -138,7 +138,7 @@ export default function Homepage({ showOnlyFavourites }) {
                     <span
                       key={tag}
                       onClick={() => setSelectedCategory(tag)}
-                      className={`px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center
+                      className={`px-4 py-2 border rounded-full text-sm font-medium cursor-pointer transition-all text-center
                         ${selectedCategory === tag
                           ? `${colorSet.activeBg}`
                           : `${colorSet.bg} hover:brightness-95`
@@ -158,7 +158,7 @@ export default function Homepage({ showOnlyFavourites }) {
               </div>
               <div className="hidden md:block mx-2" style={{ width: 1, height: 28, background: "#e5e7eb" }} />
               <div className="flex flex-col">
-                <div className="flex gap-2 flex-wrap" style={{ marginTop: 7 }}>
+                <div className="flex gap-2 flex-wrap" style={{ marginTop: 5 }}>
                   {subjectCategories.map((tag, idx) => {
                     const colorSet = filterColors[tag] || { bg: "bg-gray-200 text-gray-600 border-gray-300", activeBg: "bg-gray-400 text-white border-gray-400" };
                     return (
