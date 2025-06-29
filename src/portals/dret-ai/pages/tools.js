@@ -70,7 +70,6 @@ export default function ToolsPage() {
     <Layout>
       <div className="font-sans bg-gray-50 min-h-screen px-2 py-10">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-2xl font-bold mb-10 text-trust-green">AI Tools by Subject</h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {subjects.map(subject => {
               const tools = grouped[subject];
@@ -79,7 +78,7 @@ export default function ToolsPage() {
                 <div
                   key={subject}
                   className="rounded-2xl shadow-xl border border-gray-100 bg-white flex flex-col overflow-hidden transition-transform hover:scale-[1.01]"
-                  style={{ minHeight: 270 }}
+                  style={{ minHeight: 410 }}
                 >
                   <div className={`flex items-center px-6 py-3 ${meta.bgHeader || "bg-gray-100"}`}>
                     {meta.icon}
