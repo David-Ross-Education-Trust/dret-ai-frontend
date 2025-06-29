@@ -8,7 +8,7 @@ import ToolCard from "../components/toolCard";
 
 function LoginSplash({ onLogin }) {
   return (
-    <div className="flex flex-col items-center justify-center h-[calc(100vh)] w-full bg-gray-100 font-avenir">
+    <div className="flex flex-col items-center justify-center h-[calc(100vh)] w-full bg-gray-100">
       <div className="bg-white p-10 rounded-2xl shadow-xl flex flex-col items-center max-w-md mx-auto">
         <h1 className="text-3xl font-bold mb-8 text-[var(--trust-green)] font-avenir">Welcome to DRET.AI</h1>
         <button
@@ -33,7 +33,9 @@ const generalCategories = [
   "Admin",
   "CPD",
 ];
+
 const subjectCategories = [
+  "All",
   "English",
   "Maths",
   "Science",
@@ -54,28 +56,10 @@ const filterColors = {
   History: "bg-orange-50 text-orange-700 border-orange-200",
   Geography: "bg-cyan-50 text-cyan-700 border-cyan-200",
   MFL: "bg-pink-50 text-pink-700 border-pink-200",
-  CPD: "bg-purple-50 text-purple-700 border-purple-200",
-  Favourites: "bg-yellow-50 text-yellow-700 border-yellow-200",
+  CPD: "bg-green-50 text-green-700 border-purple-200",
+  Favourites: "bg-blue-50 text-blue-700 border-blue-200",
   New: "bg-blue-50 text-blue-700 border-blue-200",
   All: "bg-blue-50 text-blue-700 border-blue-200"
-};
-
-const filterActiveColors = {
-  Assessment: "bg-green-700 text-white border-green-700",
-  Planning: "bg-green-700 text-white border-green-700",
-  Admin: "bg-green-700 text-white border-green-700",
-  Leadership: "bg-green-700 text-white border-green-700",
-  Inclusion: "bg-green-700 text-white border-green-700",
-  English: "bg-blue-700 text-white border-blue-700",
-  Maths: "bg-yellow-600 text-white border-yellow-600",
-  Science: "bg-green-800 text-white border-green-800",
-  History: "bg-orange-500 text-white border-orange-500",
-  Geography: "bg-cyan-600 text-white border-cyan-600",
-  MFL: "bg-pink-600 text-white border-pink-600",
-  CPD: "bg-purple-700 text-white border-purple-700",
-  Favourites: "bg-yellow-400 text-white border-yellow-400",
-  New: "bg-blue-700 text-white border-blue-700",
-  All: "bg-blue-700 text-white border-blue-700"
 };
 
 export default function Homepage({ showOnlyFavourites }) {
@@ -87,7 +71,8 @@ export default function Homepage({ showOnlyFavourites }) {
     return saved ? JSON.parse(saved) : [];
   });
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedGeneral, setSelectedGeneral] = useState("All");
+  const [selectedSubject, setSelectedSubject] = useState("All");
   const [clickedStar, setClickedStar] = useState(null);
   const [searchFocused, setSearchFocused] = useState(false);
   const TRUST_GREEN = "#205c40";
@@ -113,19 +98,29 @@ export default function Homepage({ showOnlyFavourites }) {
   const filteredTools = toolsConfig
     .filter((tool) => {
       if (tool.comingSoon) {
-        return searchTerm.trim() === "" && (selectedCategory === "All");
+        return searchTerm.trim() === "" && (selectedGeneral === "All" && selectedSubject === "All");
       }
       const matchesSearch =
         (tool.name && tool.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
         (tool.description && tool.description.toLowerCase().includes(searchTerm.toLowerCase()));
-      let matchesCategory = false;
-      if (showOnlyFavourites) matchesCategory = favourites.includes(tool.name);
-      else if (selectedCategory === "All") matchesCategory = true;
-      else if (selectedCategory === "Favourites") matchesCategory = favourites.includes(tool.name);
-      else if (selectedCategory === "New") matchesCategory = tool.tag === "New";
-      else if (Array.isArray(tool.category)) matchesCategory = tool.category.includes(selectedCategory);
-      else matchesCategory = tool.category === selectedCategory;
-      return matchesSearch && matchesCategory;
+      let matchesGeneral = false;
+      let matchesSubject = false;
+
+      // Handle General Category Filter
+      if (showOnlyFavourites) matchesGeneral = favourites.includes(tool.name);
+      else if (selectedGeneral === "All") matchesGeneral = true;
+      else if (selectedGeneral === "Favourites") matchesGeneral = favourites.includes(tool.name);
+      else if (selectedGeneral === "New") matchesGeneral = tool.tag === "New";
+      else if (Array.isArray(tool.category)) matchesGeneral = tool.category.includes(selectedGeneral);
+      else matchesGeneral = tool.category === selectedGeneral;
+
+      // Handle Subject Category Filter
+      if (selectedSubject === "All") matchesSubject = true;
+      else if (Array.isArray(tool.category)) matchesSubject = tool.category.includes(selectedSubject);
+      else matchesSubject = tool.category === selectedSubject;
+
+      // BOTH must match for tool to appear
+      return matchesSearch && matchesGeneral && matchesSubject;
     })
     .sort((a, b) => {
       if (a.comingSoon && !b.comingSoon) return 1;
@@ -140,72 +135,59 @@ export default function Homepage({ showOnlyFavourites }) {
   return (
     <Layout>
       {!isSignedIn ? (
-        <div className="h-screen flex items-center justify-center font-avenir">
+        <div className="h-screen flex items-center justify-center">
           <LoginSplash onLogin={() => instance.loginRedirect()} />
         </div>
       ) : (
-        <div className="bg-gray-50 min-h-screen h-screen flex flex-col font-avenir">
-          {/* HEADER */}
-          <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-4 w-full font-avenir">
-            <div className="flex flex-row flex-nowrap items-center justify-between py-3 font-avenir">
-              {/* FILTER BUTTONS with divider */}
-              <div className="flex flex-wrap gap-2 max-w-[calc(100vw-350px)] items-center font-avenir">
-                {/* General Categories */}
-                {generalCategories.map((tag, idx) => (
-                  <React.Fragment key={tag}>
+        <div className="font-avenir bg-gray-50 min-h-screen h-screen flex flex-col">
+          <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-4 h-24 flex items-center">
+            <div className="flex w-full items-center">
+              <div className="flex flex-col flex-1">
+                <div className="flex flex-wrap gap-2">
+                  {generalCategories.map((tag) => (
                     <span
-                      onClick={() => setSelectedCategory(tag)}
-                      className={`px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center select-none font-avenir
-                        ${
-                          selectedCategory === tag
-                            ? (filterActiveColors[tag] || "bg-gray-400 text-white border-gray-400") + " shadow-sm"
-                            : (filterColors[tag] || "bg-gray-200 text-gray-600 border-gray-300") + " hover:brightness-95"
-                        }
-                      `}
+                      key={tag}
+                      onClick={() => setSelectedGeneral(tag)}
+                      className={`px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center
+                        ${selectedGeneral === tag
+                          ? "bg-gray-400 text-white"
+                          : "bg-gray-200 hover:bg-gray-300"
+                        }`}
                       style={{
                         whiteSpace: "nowrap",
                         borderWidth: "1px",
-                        transition: "all 0.18s cubic-bezier(.4,0,.2,1)",
-                        fontFamily: "AvenirLTStdLight, Avenir, sans-serif"
+                        marginBottom: "2px"
                       }}
                     >
                       {tag}
                     </span>
-                    {/* Divider after CPD */}
-                    {tag === "CPD" && (
-                      <span
-                        aria-hidden
-                        className="mx-2 h-6 border-l border-gray-300 opacity-60"
-                        style={{ display: "inline-block", verticalAlign: "middle" }}
-                      />
-                    )}
-                  </React.Fragment>
-                ))}
-                {/* Subject Categories */}
-                {subjectCategories.map((tag) => (
-                  <span
-                    key={tag}
-                    onClick={() => setSelectedCategory(tag)}
-                    className={`px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center select-none font-avenir
-                      ${
-                        selectedCategory === tag
-                          ? (filterActiveColors[tag] || "bg-gray-400 text-white border-gray-400") + " shadow-sm"
-                          : (filterColors[tag] || "bg-gray-200 text-gray-600 border-gray-300") + " hover:brightness-95"
-                      }
-                    `}
-                    style={{
-                      whiteSpace: "nowrap",
-                      borderWidth: "1px",
-                      transition: "all 0.18s cubic-bezier(.4,0,.2,1)",
-                      fontFamily: "AvenirLTStdLight, Avenir, sans-serif"
-                    }}
-                  >
-                    {tag}
-                  </span>
-                ))}
+                  ))}
+                </div>
+                <div style={{ height: 6 }} />
+                <div className="flex flex-wrap gap-2">
+                  {/* Divider after CPD */}
+                  <span style={{ width: 28, display: 'inline-block' }} />
+                  {subjectCategories.slice(1).map((tag) => (
+                    <span
+                      key={tag}
+                      onClick={() => setSelectedSubject(tag)}
+                      className={`px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center
+                        ${selectedSubject === tag
+                          ? "bg-gray-400 text-white"
+                          : "bg-gray-200 hover:bg-gray-300"
+                        }`}
+                      style={{
+                        whiteSpace: "nowrap",
+                        borderWidth: "1px",
+                        marginBottom: "2px"
+                      }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
-              {/* SEARCH BAR */}
-              <div className="relative flex-shrink-0 w-[240px] ml-4 font-avenir">
+              <div className="ml-auto relative w-[240px] flex-shrink-0 flex items-center h-full">
                 <input
                   type="text"
                   value={searchTerm}
@@ -215,13 +197,12 @@ export default function Homepage({ showOnlyFavourites }) {
                   onBlur={() => setSearchFocused(false)}
                   className={`w-full border ${
                     searchFocused ? "" : "border-gray-300"
-                  } rounded-md px-4 py-2 pr-10 text-sm outline-none transition font-avenir`}
+                  } rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
                   style={{
                     borderColor: searchFocused ? TRUST_GREEN : undefined,
                     boxShadow: searchFocused
                       ? `0 0 0 2px ${TRUST_GREEN}40`
                       : undefined,
-                    fontFamily: "AvenirLTStdLight, Avenir, sans-serif"
                   }}
                 />
                 {searchTerm && (
@@ -236,14 +217,13 @@ export default function Homepage({ showOnlyFavourites }) {
               </div>
             </div>
           </div>
-          {/* MAIN TOOLS GRID */}
-          <div className="scroll-area flex-1 overflow-y-auto bg-gray-100 font-avenir">
+          <div className="scroll-area flex-1 overflow-y-auto bg-gray-100">
             <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 pb-16">
               {filteredTools.map((tool, idx) =>
                 tool.comingSoon ? (
                   <div
                     key={tool.id || idx}
-                    className="relative rounded-xl bg-gray-200 text-gray-500 shadow-md flex flex-col items-center justify-center p-4 h-[150px] opacity-70 select-none cursor-default border-2 border-dashed border-gray-300 font-avenir"
+                    className="relative rounded-xl bg-gray-200 text-gray-500 shadow-md flex flex-col items-center justify-center p-4 h-[150px] opacity-70 select-none cursor-default border-2 border-dashed border-gray-300"
                   >
                     <span className="text-base font-semibold">New tools coming soon</span>
                   </div>
