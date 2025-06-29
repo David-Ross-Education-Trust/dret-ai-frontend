@@ -55,10 +55,10 @@ const filterColors = {
   History: "bg-orange-50 text-orange-700 border-orange-200",
   Geography: "bg-cyan-50 text-cyan-700 border-cyan-200",
   MFL: "bg-pink-50 text-pink-700 border-pink-200",
-  CPD: "bg-purple-50 text-purple-700 border-purple-200",
-  Favourites: "bg-gray-100 text-yellow-500 border-yellow-100",
+  CPD: "bg-green-50 text-green-700 border-purple-200",
+  Favourites: "bg-blue-50 text-blue-700 border-blue-200",
   New: "bg-blue-50 text-blue-700 border-blue-200",
-  All: "bg-gray-200 text-gray-600 border-gray-300"
+  All: "bg-blue-50 text-blue-700 border-blue-200"
 };
 
 export default function Homepage({ showOnlyFavourites }) {
