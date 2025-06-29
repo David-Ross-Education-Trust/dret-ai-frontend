@@ -78,6 +78,8 @@ const filterActiveColors = {
   All: "bg-blue-700 text-white border-blue-700"
 };
 
+const filterGrey = "bg-gray-200 text-gray-400 border-gray-200";
+
 export default function Homepage({ showOnlyFavourites }) {
   const navigate = useNavigate();
   const { accounts, instance } = useMsal();
@@ -161,20 +163,58 @@ export default function Homepage({ showOnlyFavourites }) {
               {/* FILTER BUTTONS with divider */}
               <div className="flex flex-wrap gap-2 max-w-[calc(100vw-350px)] items-center font-avenir">
                 {/* General Categories */}
-                {generalCategories.map((tag, idx) => (
-                  <React.Fragment key={tag}>
+                {generalCategories.map((tag, idx) => {
+                  let classNames = `px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center select-none font-avenir`;
+                  if (selectedGeneral === tag) {
+                    classNames += " " + (filterActiveColors[tag] || "bg-gray-400 text-white border-gray-400") + " shadow-sm";
+                  } else if (selectedGeneral !== "All" && tag !== selectedGeneral) {
+                    classNames += " " + filterGrey;
+                  } else {
+                    classNames += " " + (filterColors[tag] || "bg-gray-200 text-gray-600 border-gray-300") + " hover:brightness-95";
+                  }
+                  return (
+                    <React.Fragment key={tag}>
+                      <span
+                        onClick={() => {
+                          setSelectedGeneral(tag);
+                          if (tag === "All") setSelectedSubject(""); // Reset subject if All is selected
+                        }}
+                        className={classNames}
+                        style={{
+                          whiteSpace: "nowrap",
+                          borderWidth: "1px",
+                          transition: "all 0.18s cubic-bezier(.4,0,.2,1)",
+                          fontFamily: "AvenirLTStdLight, Avenir, sans-serif"
+                        }}
+                      >
+                        {tag}
+                      </span>
+                      {/* Divider after CPD */}
+                      {tag === "CPD" && (
+                        <span
+                          aria-hidden
+                          className="mx-2 h-6 border-l border-gray-300 opacity-60"
+                          style={{ display: "inline-block", verticalAlign: "middle" }}
+                        />
+                      )}
+                    </React.Fragment>
+                  );
+                })}
+                {/* Subject Categories */}
+                {subjectCategories.map((tag) => {
+                  let classNames = `px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center select-none font-avenir`;
+                  if (selectedSubject === tag) {
+                    classNames += " " + (filterActiveColors[tag] || "bg-gray-400 text-white border-gray-400") + " shadow-sm";
+                  } else if (selectedSubject && tag !== selectedSubject) {
+                    classNames += " " + filterGrey;
+                  } else {
+                    classNames += " " + (filterColors[tag] || "bg-gray-200 text-gray-600 border-gray-300") + " hover:brightness-95";
+                  }
+                  return (
                     <span
-                      onClick={() => {
-                        setSelectedGeneral(tag);
-                        if (tag === "All") setSelectedSubject(""); // Reset subject if All is selected
-                      }}
-                      className={`px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center select-none font-avenir
-                        ${
-                          selectedGeneral === tag
-                            ? (filterActiveColors[tag] || "bg-gray-400 text-white border-gray-400") + " shadow-sm"
-                            : (filterColors[tag] || "bg-gray-200 text-gray-600 border-gray-300") + " hover:brightness-95"
-                        }
-                      `}
+                      key={tag}
+                      onClick={() => setSelectedSubject(tag === selectedSubject ? "" : tag)}
+                      className={classNames}
                       style={{
                         whiteSpace: "nowrap",
                         borderWidth: "1px",
@@ -184,38 +224,8 @@ export default function Homepage({ showOnlyFavourites }) {
                     >
                       {tag}
                     </span>
-                    {/* Divider after CPD */}
-                    {tag === "CPD" && (
-                      <span
-                        aria-hidden
-                        className="mx-2 h-6 border-l border-gray-300 opacity-60"
-                        style={{ display: "inline-block", verticalAlign: "middle" }}
-                      />
-                    )}
-                  </React.Fragment>
-                ))}
-                {/* Subject Categories */}
-                {subjectCategories.map((tag) => (
-                  <span
-                    key={tag}
-                    onClick={() => setSelectedSubject(tag === selectedSubject ? "" : tag)}
-                    className={`px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center select-none font-avenir
-                      ${
-                        selectedSubject === tag
-                          ? (filterActiveColors[tag] || "bg-gray-400 text-white border-gray-400") + " shadow-sm"
-                          : (filterColors[tag] || "bg-gray-200 text-gray-600 border-gray-300") + " hover:brightness-95"
-                      }
-                    `}
-                    style={{
-                      whiteSpace: "nowrap",
-                      borderWidth: "1px",
-                      transition: "all 0.18s cubic-bezier(.4,0,.2,1)",
-                      fontFamily: "AvenirLTStdLight, Avenir, sans-serif"
-                    }}
-                  >
-                    {tag}
-                  </span>
-                ))}
+                  );
+                })}
               </div>
               {/* SEARCH BAR */}
               <div className="relative flex-shrink-0 w-[240px] ml-4 font-avenir">
