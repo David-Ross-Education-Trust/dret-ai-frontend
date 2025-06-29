@@ -61,7 +61,7 @@ export default function StudentHub() {
           <div className="flex flex-col md:flex-row gap-x-10 gap-y-4 items-start mb-8 md:pl-4">
             <div className="pl-2 w-full md:w-auto flex-shrink-0">
               <div
-                className="bg-white rounded-xl shadow-lg h-48 w-full flex flex-col justify-between px-8 py-6"
+                className="h-48 w-full flex flex-col justify-between"
                 style={{
                   minWidth: "180px",
                   minHeight: "9rem",
