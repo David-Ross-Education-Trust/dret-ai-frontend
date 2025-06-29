@@ -68,7 +68,7 @@ export default function ToolsPage() {
 
   return (
     <Layout>
-      <div className="font-avenir bg-gray-50 min-h-screen px-2 py-10">
+      <div className="font-avenir bg-gray-100 min-h-screen px-6 py-10">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {subjects.map(subject => {
