@@ -49,7 +49,7 @@ export const toolsConfig = [
     id: "case-paragraph-student",
     name: "Testing",
     description: "Testing",
-    category: ["Assessment"],
+    category: ["Assessment", "Maths"],
     tag: "New",
     href: "/ai/tool/case-paragraph-student",
     component: CASEParagraphFeedbackStudent,
