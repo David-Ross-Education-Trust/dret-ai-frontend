@@ -4,31 +4,30 @@ import { toolsConfig } from "../components/toolConfig";
 import { Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-// Use filter color system for header backgrounds and icons
 const subjectMeta = {
   English: {
-    bgHeader: "bg-indigo-50",
-    icon: <span className="text-indigo-700 text-2xl mr-2">📘</span>,
+    bgHeader: "bg-violet-100",
+    icon: <span className="text-violet-700 text-2xl mr-2">📘</span>,
   },
   Maths: {
-    bgHeader: "bg-rose-50",
-    icon: <span className="text-rose-700 text-2xl mr-2">➗</span>,
+    bgHeader: "bg-orange-100",
+    icon: <span className="text-orange-700 text-2xl mr-2">➗</span>,
   },
   Science: {
-    bgHeader: "bg-teal-50",
-    icon: <span className="text-teal-700 text-2xl mr-2">🔬</span>,
+    bgHeader: "bg-cyan-100",
+    icon: <span className="text-cyan-700 text-2xl mr-2">🔬</span>,
   },
   History: {
-    bgHeader: "bg-amber-50",
-    icon: <span className="text-amber-700 text-2xl mr-2">🏺</span>,
+    bgHeader: "bg-rose-100",
+    icon: <span className="text-rose-700 text-2xl mr-2">🏺</span>,
   },
   Geography: {
-    bgHeader: "bg-emerald-50",
-    icon: <span className="text-emerald-700 text-2xl mr-2">🗺️</span>,
+    bgHeader: "bg-lime-100",
+    icon: <span className="text-lime-700 text-2xl mr-2">🗺️</span>,
   },
   MFL: {
-    bgHeader: "bg-fuchsia-50",
-    icon: <span className="text-fuchsia-700 text-2xl mr-2">🌍</span>,
+    bgHeader: "bg-sky-100",
+    icon: <span className="text-sky-700 text-2xl mr-2">🌍</span>,
   }
 };
 
