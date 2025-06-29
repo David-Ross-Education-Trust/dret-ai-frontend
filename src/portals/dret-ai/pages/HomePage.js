@@ -56,7 +56,7 @@ const filterColors = {
   Geography: "bg-cyan-50 text-cyan-700 border-cyan-200",
   MFL: "bg-pink-50 text-pink-700 border-pink-200",
   CPD: "bg-purple-50 text-purple-700 border-purple-200",
-  Favourites: "bg-yellow-50 text-yellow-700 border-yellow-200",
+  Favourites: "bg-blue-50 text-blue-700 border-blue-200",
   New: "bg-blue-50 text-blue-700 border-blue-200",
   All: "bg-blue-50 text-blue-700 border-blue-200"
 };
@@ -127,42 +127,42 @@ export default function Homepage({ showOnlyFavourites }) {
           <LoginSplash onLogin={() => instance.loginRedirect()} />
         </div>
       ) : (
-        <div className="font-sans bg-gray-50 min-h-screen h-screen flex flex-col">
+        <div className="font-avenir bg-gray-50 min-h-screen h-screen flex flex-col">
           <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-4 h-24 flex items-center">
-            <div className="flex items-center w-full gap-x-4">
-              <div className="flex-1 flex flex-col justify-center">
-                <div className="flex gap-2 flex-wrap">
-                  {generalCategories.map((tag, idx) => (
-                    <span
-                      key={tag}
-                      onClick={() => setSelectedCategory(tag)}
-                      className={`px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center
-                        ${selectedCategory === tag
-                          ? "ring-2 ring-[var(--trust-green)] scale-105"
-                          : "hover:brightness-95"
-                        } ${filterColors[tag] || "bg-gray-200 text-gray-600 border-gray-300"}`}
-                      style={{
-                        whiteSpace: "nowrap",
-                        marginLeft: idx === 0 ? 0 : "0.25rem",
-                        marginRight: idx === generalCategories.length - 1 ? 0 : "0.25rem",
-                        borderWidth: "1px",
-                      }}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <div className="mt-[6px]" />
-                <div className="flex gap-2 flex-wrap">
+            <div className="flex items-center w-full flex-wrap md:flex-nowrap gap-y-1">
+              <div className="flex gap-2 flex-wrap">
+                {generalCategories.map((tag, idx) => (
+                  <span
+                    key={tag}
+                    onClick={() => setSelectedCategory(tag)}
+                    className={`px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center
+                      ${selectedCategory === tag
+                        ? `${filterColors[tag]} font-semibold border-[var(--trust-green)]`
+                        : "hover:brightness-95 " + (filterColors[tag] || "bg-gray-200 text-gray-600 border-gray-300")
+                      }`}
+                    style={{
+                      whiteSpace: "nowrap",
+                      marginLeft: idx === 0 ? 0 : "0.25rem",
+                      marginRight: idx === generalCategories.length - 1 ? 0 : "0.25rem",
+                      borderWidth: "1px",
+                    }}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <div className="hidden md:block mx-2" style={{ width: 1, height: 28, background: "#e5e7eb" }} />
+              <div className="flex flex-col">
+                <div className="flex gap-2 flex-wrap" style={{ marginTop: 7 }}>
                   {subjectCategories.map((tag, idx) => (
                     <span
                       key={tag}
                       onClick={() => setSelectedCategory(tag)}
                       className={`px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center
                         ${selectedCategory === tag
-                          ? "ring-2 ring-[var(--trust-green)] scale-105"
-                          : "hover:brightness-95"
-                        } ${filterColors[tag] || "bg-gray-200 text-gray-600 border-gray-300"}`}
+                          ? `${filterColors[tag]} font-semibold border-[var(--trust-green)]`
+                          : "hover:brightness-95 " + (filterColors[tag] || "bg-gray-200 text-gray-600 border-gray-300")
+                        }`}
                       style={{
                         whiteSpace: "nowrap",
                         marginLeft: idx === 0 ? 0 : "0.25rem",
@@ -175,8 +175,8 @@ export default function Homepage({ showOnlyFavourites }) {
                   ))}
                 </div>
               </div>
-              <div className="ml-6 flex-shrink-0 flex items-center" style={{ height: "100%" }}>
-                <div className="relative w-[240px] flex items-center h-full">
+              <div className="ml-auto flex items-center h-full">
+                <div className="relative w-[240px] flex items-center" style={{ height: "40px" }}>
                   <input
                     type="text"
                     value={searchTerm}
