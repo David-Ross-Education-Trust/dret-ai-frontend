@@ -4,30 +4,31 @@ import { toolsConfig } from "../components/toolConfig";
 import { Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
+// Use filter color system for header backgrounds and icons
 const subjectMeta = {
   English: {
-    bgHeader: "bg-blue-100",
-    icon: <span className="text-blue-400 text-2xl mr-2">📘</span>,
+    bgHeader: "bg-indigo-50",
+    icon: <span className="text-indigo-700 text-2xl mr-2">📘</span>,
   },
   Maths: {
-    bgHeader: "bg-yellow-100",
-    icon: <span className="text-yellow-400 text-2xl mr-2">➗</span>,
+    bgHeader: "bg-rose-50",
+    icon: <span className="text-rose-700 text-2xl mr-2">➗</span>,
   },
   Science: {
-    bgHeader: "bg-green-100",
-    icon: <span className="text-green-400 text-2xl mr-2">🔬</span>,
+    bgHeader: "bg-teal-50",
+    icon: <span className="text-teal-700 text-2xl mr-2">🔬</span>,
   },
   History: {
-    bgHeader: "bg-orange-100",
-    icon: <span className="text-orange-400 text-2xl mr-2">🏺</span>,
+    bgHeader: "bg-amber-50",
+    icon: <span className="text-amber-700 text-2xl mr-2">🏺</span>,
   },
   Geography: {
-    bgHeader: "bg-cyan-100",
-    icon: <span className="text-cyan-400 text-2xl mr-2">🗺️</span>,
+    bgHeader: "bg-emerald-50",
+    icon: <span className="text-emerald-700 text-2xl mr-2">🗺️</span>,
   },
   MFL: {
-    bgHeader: "bg-pink-100",
-    icon: <span className="text-pink-400 text-2xl mr-2">🌍</span>,
+    bgHeader: "bg-fuchsia-50",
+    icon: <span className="text-fuchsia-700 text-2xl mr-2">🌍</span>,
   }
 };
 
@@ -81,9 +82,13 @@ export default function ToolsPage() {
                     className="rounded-2xl shadow-md border border-gray-100 bg-white flex flex-col overflow-hidden transition-shadow hover:shadow-lg"
                     style={{ minHeight: 320 }}
                   >
-                    <div className={`flex items-center px-6 py-3 ${meta.bgHeader || "bg-gray-100"}`}>
+                    <div className={`flex items-center px-6 py-3 ${meta.bgHeader}`}>
                       {meta.icon}
-                      <span className="text-lg font-bold text-gray-700">{subject}</span>
+                      <span className={`text-lg font-bold ${
+                        meta.icon?.props?.className?.split(" ").find(c => c.startsWith("text-")) || ""
+                      }`}>
+                        {subject}
+                      </span>
                     </div>
                     <div className="border-b border-gray-200" />
                     <div className="flex-1 px-4 py-4">
