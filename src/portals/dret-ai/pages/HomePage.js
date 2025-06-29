@@ -32,7 +32,12 @@ const categories = [
   "Leadership",
   "Admin",
   "CPD",
-  "History"
+  "English",
+  "Maths",
+  "Science",
+  "History",
+  "Geography",
+  "MFL",
 ];
 
 export default function Homepage({ showOnlyFavourites }) {
@@ -80,9 +85,8 @@ export default function Homepage({ showOnlyFavourites }) {
       else if (selectedCategory === "All") matchesCategory = true;
       else if (selectedCategory === "Favourites") matchesCategory = favourites.includes(tool.name);
       else if (selectedCategory === "New") matchesCategory = tool.tag === "New";
-      else matchesCategory = Array.isArray(tool.category)
-        ? tool.category.includes(selectedCategory)
-        : tool.category === selectedCategory;
+      else if (Array.isArray(tool.category)) matchesCategory = tool.category.includes(selectedCategory);
+      else matchesCategory = tool.category === selectedCategory;
       return matchesSearch && matchesCategory;
     })
     .sort((a, b) => {

@@ -3,16 +3,17 @@ import { Star, Flame, Sparkles } from "lucide-react";
 
 const categoryColors = {
   Assessment: "bg-green-50 text-green-700",
-  Planning: "bg-blue-50 text-blue-700",
-  Admin: "bg-emerald-50 text-emerald-700",
-  Inclusion: "bg-pink-50 text-pink-700",
-  Leadership: "bg-purple-50 text-purple-700",
+  Planning: "bg-green-50 text-green-700",
+  Admin: "bg-green-50 text-green-700",
+  Leadership: "bg-green-50 text-green-700",
+  Inclusion: "bg-green-50 text-green-700",
+  CPD: "bg-green-50 text-green-700",
+  English: "bg-blue-50 text-blue-700",
+  Maths: "bg-yellow-50 text-yellow-800",
+  Science: "bg-green-100 text-green-800",
   History: "bg-orange-50 text-orange-700",
-  Maths: "bg-yellow-50 text-yellow-700",
-  Science: "bg-lime-50 text-lime-700",
   Geography: "bg-cyan-50 text-cyan-700",
   MFL: "bg-pink-50 text-pink-700",
-  CPD: "bg-indigo-50 text-indigo-700"
 };
 
 export default function ToolCard({
@@ -70,17 +71,19 @@ export default function ToolCard({
       </div>
       <div className="absolute bottom-3 left-3 flex flex-wrap gap-2 text-xs items-center">
         {Array.isArray(tool.category)
-          ? tool.category.map((cat, idx) => (
-              <span
-                key={cat + idx}
-                className={`px-2 py-0.5 rounded-full font-medium ${categoryColors[cat] || "bg-gray-100 text-gray-700"}`}
-              >
-                {cat}
-              </span>
-            ))
+          ? tool.category.map(cat =>
+              cat && (
+                <span
+                  key={cat}
+                  className={`px-3 py-1 rounded-full font-medium ${categoryColors[cat] || "bg-gray-100 text-gray-600"}`}
+                >
+                  {cat}
+                </span>
+              )
+            )
           : tool.category && (
               <span
-                className={`px-2 py-0.5 rounded-full font-medium ${categoryColors[tool.category] || "bg-gray-100 text-gray-700"}`}
+                className={`px-3 py-1 rounded-full font-medium ${categoryColors[tool.category] || "bg-gray-100 text-gray-600"}`}
               >
                 {tool.category}
               </span>
