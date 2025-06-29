@@ -14,7 +14,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        avenir: ['"Avenir LT Std Light"', 'AvenirLTStdLight', 'Avenir', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        avenir: ['AvenirLTStdLight', 'Avenir', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         xl: '1rem',
