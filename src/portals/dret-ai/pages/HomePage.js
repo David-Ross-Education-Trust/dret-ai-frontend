@@ -128,7 +128,7 @@ export default function Homepage({ showOnlyFavourites }) {
         </div>
       ) : (
         <div className="font-sans bg-gray-50 min-h-screen h-screen flex flex-col">
-          <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-4 h-32 flex items-center">
+          <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-4 h-24 flex items-center">
             <div className="flex items-center w-full gap-x-4">
               <div className="flex-1 flex flex-col justify-center">
                 <div className="flex gap-2 flex-wrap">
@@ -136,7 +136,7 @@ export default function Homepage({ showOnlyFavourites }) {
                     <span
                       key={tag}
                       onClick={() => setSelectedCategory(tag)}
-                      className={`px-5 py-2 border rounded-full text-sm font-avenir font-medium cursor-pointer transition-all text-center
+                      className={`px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center
                         ${selectedCategory === tag
                           ? "ring-2 ring-[var(--trust-green)] scale-105"
                           : "hover:brightness-95"
@@ -152,13 +152,13 @@ export default function Homepage({ showOnlyFavourites }) {
                     </span>
                   ))}
                 </div>
-                <div style={{ height: 14 }} />
+                <div className="mt-[6px]" />
                 <div className="flex gap-2 flex-wrap">
                   {subjectCategories.map((tag, idx) => (
                     <span
                       key={tag}
                       onClick={() => setSelectedCategory(tag)}
-                      className={`px-5 py-2 border rounded-full text-sm font-avenir font-medium cursor-pointer transition-all text-center
+                      className={`px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center
                         ${selectedCategory === tag
                           ? "ring-2 ring-[var(--trust-green)] scale-105"
                           : "hover:brightness-95"
