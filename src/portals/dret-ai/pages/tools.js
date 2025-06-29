@@ -4,30 +4,31 @@ import { toolsConfig } from "../components/toolConfig";
 import { Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
+// Restore previous subject colors, keep new for English/Geography/MFL
 const subjectMeta = {
   English: {
-    bgHeader: "bg-violet-100",
-    icon: <span className="text-violet-700 text-2xl mr-2">📘</span>,
+    bgHeader: "bg-indigo-50",
+    icon: <span className="text-indigo-700 text-2xl mr-2">📘</span>,
   },
   Maths: {
-    bgHeader: "bg-orange-100",
-    icon: <span className="text-orange-700 text-2xl mr-2">➗</span>,
+    bgHeader: "bg-yellow-100",
+    icon: <span className="text-purple-500 text-2xl mr-2">➗</span>,
   },
   Science: {
-    bgHeader: "bg-cyan-100",
-    icon: <span className="text-cyan-700 text-2xl mr-2">🔬</span>,
+    bgHeader: "bg-green-100",
+    icon: <span className="text-purple-500 text-2xl mr-2">🔬</span>,
   },
   History: {
-    bgHeader: "bg-rose-100",
-    icon: <span className="text-rose-700 text-2xl mr-2">🏺</span>,
+    bgHeader: "bg-orange-100",
+    icon: <span className="text-orange-400 text-2xl mr-2">🏺</span>,
   },
   Geography: {
-    bgHeader: "bg-lime-100",
-    icon: <span className="text-lime-700 text-2xl mr-2">🗺️</span>,
+    bgHeader: "bg-emerald-50",
+    icon: <span className="text-emerald-700 text-2xl mr-2">🗺️</span>,
   },
   MFL: {
-    bgHeader: "bg-sky-100",
-    icon: <span className="text-sky-700 text-2xl mr-2">🌍</span>,
+    bgHeader: "bg-fuchsia-50",
+    icon: <span className="text-fuchsia-700 text-2xl mr-2">🌍</span>,
   }
 };
 
