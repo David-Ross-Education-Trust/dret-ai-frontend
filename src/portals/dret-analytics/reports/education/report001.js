@@ -9,17 +9,17 @@ export default function Report001() {
   const [embedInfo, setEmbedInfo] = useState(null);
   const [error, setError] = useState(null);
 
-  const userEmail = accounts[0]?.username; // 👈 Extract user email (UPN)
+  const userEmail = accounts[0]?.username;
 
   useEffect(() => {
     async function fetchEmbedToken() {
       try {
-        const res = await fetch("/api/powerbi/embed-token", {
+        const res = await fetch("https://dret-ai-backend-f9drcacng0f2gmc4.uksouth-01.azurewebsites.net/api/powerbi/embed-token", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             reportKey: "report001",
-            username: userEmail, // 👈 Real user email here
+            username: userEmail,
             roles: ["AllUsers"]
           })
         });
