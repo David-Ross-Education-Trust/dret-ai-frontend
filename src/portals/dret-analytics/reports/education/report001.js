@@ -12,10 +12,9 @@ export default function Report001() {
       try {
         const res = await fetch("/api/powerbi/embed-token", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
+            reportKey: "report001",
             username: "john.doe@yourorg.com",
             roles: ["SeniorLeaders"]
           })
