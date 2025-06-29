@@ -43,7 +43,6 @@ const subjectCategories = [
   "MFL",
 ];
 
-// For each tag, map both background (default) and active background/text colors
 const filterColors = {
   Assessment:    { bg: "bg-green-50 text-green-700 border-green-200", activeBg: "bg-green-600 text-white border-green-600" },
   Planning:      { bg: "bg-green-50 text-green-700 border-green-200", activeBg: "bg-green-600 text-white border-green-600" },
@@ -130,23 +129,43 @@ export default function Homepage({ showOnlyFavourites }) {
       ) : (
         <div className="font-avenir bg-gray-50 min-h-screen h-screen flex flex-col">
           <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-4 h-24 flex items-center">
-            <div className="flex items-center w-full flex-wrap md:flex-nowrap gap-y-1">
-              <div className="flex gap-2 flex-wrap">
-                {generalCategories.map((tag, idx) => {
+            <div className="flex flex-wrap items-center w-full">
+              <div className="flex flex-wrap gap-2">
+                {generalCategories.map((tag) => {
                   const colorSet = filterColors[tag] || { bg: "bg-gray-200 text-gray-600 border-gray-300", activeBg: "bg-gray-400 text-white border-gray-400" };
                   return (
                     <span
                       key={tag}
                       onClick={() => setSelectedCategory(tag)}
-                      className={`px-4 py-1.5 border rounded-full text-sm font-medium cursor-pointer transition-all text-center
+                      className={`px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center
                         ${selectedCategory === tag
                           ? `${colorSet.activeBg}`
                           : `${colorSet.bg} hover:brightness-95`
                         }`}
                       style={{
                         whiteSpace: "nowrap",
-                        marginLeft: idx === 0 ? 0 : "0.25rem",
-                        marginRight: idx === generalCategories.length - 1 ? 0 : "0.25rem",
+                        borderWidth: "1px",
+                        transition: "all 0.16s"
+                      }}
+                    >
+                      {tag}
+                    </span>
+                  );
+                })}
+                <span className="hidden sm:inline-block w-px h-6 bg-gray-200 mx-2" />
+                {subjectCategories.map((tag) => {
+                  const colorSet = filterColors[tag] || { bg: "bg-gray-200 text-gray-600 border-gray-300", activeBg: "bg-gray-400 text-white border-gray-400" };
+                  return (
+                    <span
+                      key={tag}
+                      onClick={() => setSelectedCategory(tag)}
+                      className={`px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center
+                        ${selectedCategory === tag
+                          ? `${colorSet.activeBg}`
+                          : `${colorSet.bg} hover:brightness-95`
+                        }`}
+                      style={{
+                        whiteSpace: "nowrap",
                         borderWidth: "1px",
                         transition: "all 0.16s"
                       }}
@@ -156,36 +175,8 @@ export default function Homepage({ showOnlyFavourites }) {
                   );
                 })}
               </div>
-              <div className="hidden md:block mx-2" style={{ width: 1, height: 28, background: "#e5e7eb" }} />
-              <div className="flex flex-col">
-                <div className="flex gap-2 flex-wrap" style={{ marginTop: 5 }}>
-                  {subjectCategories.map((tag, idx) => {
-                    const colorSet = filterColors[tag] || { bg: "bg-gray-200 text-gray-600 border-gray-300", activeBg: "bg-gray-400 text-white border-gray-400" };
-                    return (
-                      <span
-                        key={tag}
-                        onClick={() => setSelectedCategory(tag)}
-                        className={`px-4 py-1.5 border rounded-full text-sm font-medium cursor-pointer transition-all text-center
-                          ${selectedCategory === tag
-                            ? `${colorSet.activeBg}`
-                            : `${colorSet.bg} hover:brightness-95`
-                          }`}
-                        style={{
-                          whiteSpace: "nowrap",
-                          marginLeft: idx === 0 ? 0 : "0.25rem",
-                          marginRight: idx === subjectCategories.length - 1 ? 0 : "0.25rem",
-                          borderWidth: "1px",
-                          transition: "all 0.16s"
-                        }}
-                      >
-                        {tag}
-                      </span>
-                    );
-                  })}
-                </div>
-              </div>
-              <div className="ml-auto flex items-center h-full">
-                <div className="relative w-[240px] flex items-center" style={{ height: "40px" }}>
+              <div className="ml-auto flex items-center w-full sm:w-auto mt-2 sm:mt-0">
+                <div className="relative w-full sm:w-[240px] flex items-center" style={{ height: "40px" }}>
                   <input
                     type="text"
                     value={searchTerm}
