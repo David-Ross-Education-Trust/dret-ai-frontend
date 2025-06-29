@@ -19,7 +19,11 @@ function groupToolsBySubject(tools) {
   const grouped = {};
   subjects.forEach(subject => {
     grouped[subject] = tools.filter(
-      tool => !tool.comingSoon && tool.category === subject
+      tool => !tool.comingSoon && (
+        Array.isArray(tool.category)
+          ? tool.category.includes(subject)
+          : tool.category === subject
+      )
     );
   });
   return grouped;
