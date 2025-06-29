@@ -1,6 +1,20 @@
 import React from "react";
 import { Star, Flame, Sparkles } from "lucide-react";
 
+const categoryColors = {
+  Assessment: "bg-green-50 text-green-700",
+  Planning: "bg-blue-50 text-blue-700",
+  Admin: "bg-emerald-50 text-emerald-700",
+  Inclusion: "bg-pink-50 text-pink-700",
+  Leadership: "bg-purple-50 text-purple-700",
+  History: "bg-orange-50 text-orange-700",
+  Maths: "bg-yellow-50 text-yellow-700",
+  Science: "bg-lime-50 text-lime-700",
+  Geography: "bg-cyan-50 text-cyan-700",
+  MFL: "bg-pink-50 text-pink-700",
+  CPD: "bg-indigo-50 text-indigo-700"
+};
+
 export default function ToolCard({
   tool,
   isFavourite,
@@ -55,11 +69,22 @@ export default function ToolCard({
         <p className="text-[13px] text-gray-500 font-normal leading-snug mt-2">{tool.description}</p>
       </div>
       <div className="absolute bottom-3 left-3 flex flex-wrap gap-2 text-xs items-center">
-        {tool.category && (
-          <span className="bg-green-50 text-green-700 px-2 py-0.5 rounded-full font-medium">
-            {tool.category}
-          </span>
-        )}
+        {Array.isArray(tool.category)
+          ? tool.category.map((cat, idx) => (
+              <span
+                key={cat + idx}
+                className={`px-2 py-0.5 rounded-full font-medium ${categoryColors[cat] || "bg-gray-100 text-gray-700"}`}
+              >
+                {cat}
+              </span>
+            ))
+          : tool.category && (
+              <span
+                className={`px-2 py-0.5 rounded-full font-medium ${categoryColors[tool.category] || "bg-gray-100 text-gray-700"}`}
+              >
+                {tool.category}
+              </span>
+            )}
         {tool.tag === "Hot" && (
           <span className="bg-red-50 text-red-600 px-2 py-0.5 rounded-full font-medium flex items-center gap-1">
             <Flame className="w-3 h-3" />
