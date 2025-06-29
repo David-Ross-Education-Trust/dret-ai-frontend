@@ -14,7 +14,7 @@ export default function Report001() {
   const [tokenError, setTokenError] = useState(null);
 
   // Your actual IDs
-  const reportId = "971ab95e-fd10-4d76-b172-8a30c91ab3bc";
+  const reportId = "632a88cf-74f0-427a-a98f-2e6cfc03da8e";
   const groupId = "829bdcb0-220e-46d0-9a2f-821c725a8490";
 
   useEffect(() => {
