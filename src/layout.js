@@ -8,6 +8,7 @@ import dretaiLogo from "./assets/dretai-logo.png";
 const navItems = [
   { label: "Home", icon: "fas fa-home", to: "/ai" },
   { label: "My Hub", icon: "fas fa-th-large", to: "/ai/myhub" },
+  { label: "Student Hub", icon: "fas fa-user-graduate", to: "/ai/student-hub" },
 ];
 
 const Layout = ({ children }) => {
