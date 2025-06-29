@@ -68,74 +68,76 @@ export default function ToolsPage() {
 
   return (
     <Layout>
-      <div className="font-avenir bg-gray-100 min-h-screen px-6 py-10">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {subjects.map(subject => {
-              const tools = grouped[subject];
-              const meta = subjectMeta[subject] || {};
-              return (
-                <div
-                  key={subject}
-                  className="rounded-2xl shadow-xl border border-gray-100 bg-white flex flex-col overflow-hidden transition-transform hover:scale-[1.01]"
-                  style={{ minHeight: 410 }}
-                >
-                  <div className={`flex items-center px-6 py-3 ${meta.bgHeader || "bg-gray-100"}`}>
-                    {meta.icon}
-                    <span className="text-lg font-bold text-gray-700">{subject}</span>
-                  </div>
-                  <div className="border-b border-gray-200" />
-                  <div className="flex-1 px-4 py-4">
-                    {tools.length === 0 ? (
-                      <div className="flex flex-col items-center text-gray-400 py-7">
-                        <span className="text-xl">{meta.icon}</span>
-                        <span className="text-sm mt-1">No {subject} tools yet. Watch this space!</span>
-                      </div>
-                    ) : (
-                      <ul className="space-y-4">
-                        {tools.map(tool => (
-                          <li key={tool.id}>
-                            <div
-                              className="flex items-start rounded-lg shadow-sm bg-white border border-gray-100 hover:shadow-md px-4 py-3 transition cursor-pointer group"
-                              onClick={() => tool.href && navigate(tool.href)}
-                            >
-                              <div className="flex-1 min-w-0">
-                                <div className="flex items-center">
-                                  <span className="font-semibold text-gray-800 text-base group-hover:underline">{tool.name}</span>
-                                  {tool.tag === "New" && (
-                                    <span className="ml-2 bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full text-xs font-medium">New</span>
-                                  )}
-                                  {tool.tag === "Hot" && (
-                                    <span className="ml-2 bg-red-50 text-red-600 px-2 py-0.5 rounded-full text-xs font-medium">Hot</span>
-                                  )}
-                                </div>
-                                <div className="text-xs text-gray-500 mt-1 pr-3">{tool.description}</div>
-                              </div>
-                              <button
-                                onClick={e => {
-                                  e.stopPropagation();
-                                  toggleFavourite(tool.name);
-                                }}
-                                className="ml-4 mt-1 p-1"
-                                tabIndex={0}
-                                type="button"
-                                aria-label={favourites.includes(tool.name) ? "Unfavourite" : "Favourite"}
+      <div className="font-avenir bg-gray-100 h-screen flex flex-col">
+        <div className="flex-1 overflow-y-auto px-6 py-10">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {subjects.map(subject => {
+                const tools = grouped[subject];
+                const meta = subjectMeta[subject] || {};
+                return (
+                  <div
+                    key={subject}
+                    className="rounded-2xl shadow-xl border border-gray-100 bg-white flex flex-col overflow-hidden transition-transform hover:scale-[1.01]"
+                    style={{ minHeight: 410 }}
+                  >
+                    <div className={`flex items-center px-6 py-3 ${meta.bgHeader || "bg-gray-100"}`}>
+                      {meta.icon}
+                      <span className="text-lg font-bold text-gray-700">{subject}</span>
+                    </div>
+                    <div className="border-b border-gray-200" />
+                    <div className="flex-1 px-4 py-4">
+                      {tools.length === 0 ? (
+                        <div className="flex flex-col items-center text-gray-400 py-7">
+                          <span className="text-xl">{meta.icon}</span>
+                          <span className="text-sm mt-1">No {subject} tools yet. Watch this space!</span>
+                        </div>
+                      ) : (
+                        <ul className="space-y-4">
+                          {tools.map(tool => (
+                            <li key={tool.id}>
+                              <div
+                                className="flex items-start rounded-lg shadow-sm bg-white border border-gray-100 hover:shadow-md px-4 py-3 transition cursor-pointer group"
+                                onClick={() => tool.href && navigate(tool.href)}
                               >
-                                <Star
-                                  className={`w-5 h-5 ${favourites.includes(tool.name) ? "text-yellow-400" : "text-gray-300"}`}
-                                  fill={favourites.includes(tool.name) ? "#fde047" : "none"}
-                                  strokeWidth={1.5}
-                                />
-                              </button>
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center">
+                                    <span className="font-semibold text-gray-800 text-base group-hover:underline">{tool.name}</span>
+                                    {tool.tag === "New" && (
+                                      <span className="ml-2 bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full text-xs font-medium">New</span>
+                                    )}
+                                    {tool.tag === "Hot" && (
+                                      <span className="ml-2 bg-red-50 text-red-600 px-2 py-0.5 rounded-full text-xs font-medium">Hot</span>
+                                    )}
+                                  </div>
+                                  <div className="text-xs text-gray-500 mt-1 pr-3">{tool.description}</div>
+                                </div>
+                                <button
+                                  onClick={e => {
+                                    e.stopPropagation();
+                                    toggleFavourite(tool.name);
+                                  }}
+                                  className="ml-4 mt-1 p-1"
+                                  tabIndex={0}
+                                  type="button"
+                                  aria-label={favourites.includes(tool.name) ? "Unfavourite" : "Favourite"}
+                                >
+                                  <Star
+                                    className={`w-5 h-5 ${favourites.includes(tool.name) ? "text-yellow-400" : "text-gray-300"}`}
+                                    fill={favourites.includes(tool.name) ? "#fde047" : "none"}
+                                    strokeWidth={1.5}
+                                  />
+                                </button>
+                              </div>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
