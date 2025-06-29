@@ -19,7 +19,7 @@ function CalendarWidget() {
   for (let d = 1; d <= daysInMonth; d++) days.push(d);
 
   return (
-    <div className="bg-white rounded-xl p-2 shadow w-64 h-48 mb-4">
+    <div className="bg-white rounded-xl p-2 shadow w-64 h-48 mb-4 font-avenir">
       <div className="text-base font-bold mb-1 text-center">
         {now.toLocaleString("default", { month: "long" })} {year}
       </div>
@@ -101,7 +101,7 @@ export default function MyHub() {
 
   return (
     <Layout>
-      <div className="font-sans bg-gray-100 min-h-screen h-screen flex flex-col">
+      <div className="font-avenir bg-gray-100 min-h-screen h-screen flex flex-col">
         <div className="w-full flex items-center bg-yellow-100 border-b border-yellow-300 px-3 py-1 mb-3 rounded-t-xl shadow-sm">
           <Megaphone className="text-yellow-600 mr-2 h-4 w-4" />
           <span className="text-xs text-yellow-800 font-medium truncate">
@@ -134,8 +134,8 @@ export default function MyHub() {
                     </button>
                   )}
                   <textarea
-                    className="w-full h-full bg-transparent border-none resize-none focus:ring-0 text-yellow-900 p-2 text-sm"
-                    style={{ fontFamily: "inherit", minHeight: "90%" }}
+                    className="w-full h-full bg-transparent border-none resize-none focus:ring-0 text-yellow-900 p-2 text-sm font-avenir"
+                    style={{ fontFamily: "AvenirLTStdLight, Avenir, sans-serif", minHeight: "90%" }}
                     value={notes[activeNote]?.text || ""}
                     onChange={e => updateNote(notes[activeNote].id, e.target.value)}
                     placeholder="Jot down something for later…"
@@ -161,6 +161,7 @@ export default function MyHub() {
                         borderBottomLeftRadius: "12px",
                         borderRight: "4px solid #ffe066",
                         fontSize: "0.9rem",
+                        fontFamily: "AvenirLTStdLight, Avenir, sans-serif"
                       }}
                       title={`Note ${idx + 1}`}
                     >
@@ -176,6 +177,7 @@ export default function MyHub() {
                       borderBottomLeftRadius: "12px",
                       borderRight: "4px solid #ffe066",
                       fontSize: "1rem",
+                      fontFamily: "AvenirLTStdLight, Avenir, sans-serif"
                     }}
                     title="Add new note"
                   >

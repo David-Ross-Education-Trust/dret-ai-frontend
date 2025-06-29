@@ -49,7 +49,7 @@ export default function StudentHub() {
 
   return (
     <Layout>
-      <div className="font-sans bg-gray-100 min-h-screen h-screen flex flex-col">
+      <div className="font-avenir bg-gray-100 min-h-screen h-screen flex flex-col">
         <div className="w-full flex items-center bg-yellow-100 border-b border-yellow-300 px-3 py-1 mb-3 rounded-t-xl shadow-sm">
           <Megaphone className="text-yellow-600 mr-2 h-4 w-4" />
           <span className="text-xs text-yellow-800 font-medium truncate">
