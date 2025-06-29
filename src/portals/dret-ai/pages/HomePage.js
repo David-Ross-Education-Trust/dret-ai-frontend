@@ -23,7 +23,6 @@ function LoginSplash({ onLogin }) {
 }
 
 const generalCategories = [
-  "All",
   "New",
   "Favourites",
   "Assessment",
@@ -42,40 +41,39 @@ const subjectCategories = [
   "MFL",
 ];
 
+// Swap "New" to green (was blue), all categories to blue (was green)
 const filterColors = {
-  Assessment: "bg-green-50 text-green-700 border-green-200",
-  Planning: "bg-green-50 text-green-700 border-green-200",
-  Admin: "bg-green-50 text-green-700 border-green-200",
-  Leadership: "bg-green-50 text-green-700 border-green-200",
-  Inclusion: "bg-green-50 text-green-700 border-green-200",
+  New: "bg-green-50 text-green-700 border-green-200",
+  Favourites: "bg-yellow-50 text-yellow-700 border-yellow-200",
+  Assessment: "bg-blue-50 text-blue-700 border-blue-200",
+  Planning: "bg-blue-50 text-blue-700 border-blue-200",
+  Admin: "bg-blue-50 text-blue-700 border-blue-200",
+  Leadership: "bg-blue-50 text-blue-700 border-blue-200",
+  Inclusion: "bg-blue-50 text-blue-700 border-blue-200",
+  CPD: "bg-blue-50 text-blue-700 border-blue-200",
   English: "bg-blue-50 text-blue-700 border-blue-200",
   Maths: "bg-yellow-50 text-yellow-800 border-yellow-200",
   Science: "bg-green-100 text-green-800 border-green-300",
   History: "bg-orange-50 text-orange-700 border-orange-200",
   Geography: "bg-cyan-50 text-cyan-700 border-cyan-200",
   MFL: "bg-pink-50 text-pink-700 border-pink-200",
-  CPD: "bg-purple-50 text-purple-700 border-purple-200",
-  Favourites: "bg-yellow-50 text-yellow-700 border-yellow-200",
-  New: "bg-blue-50 text-blue-700 border-blue-200",
-  All: "bg-blue-50 text-blue-700 border-blue-200"
 };
 
 const filterActiveColors = {
-  Assessment: "bg-green-700 text-white border-green-700",
-  Planning: "bg-green-700 text-white border-green-700",
-  Admin: "bg-green-700 text-white border-green-700",
-  Leadership: "bg-green-700 text-white border-green-700",
-  Inclusion: "bg-green-700 text-white border-green-700",
+  New: "bg-green-700 text-white border-green-700",
+  Favourites: "bg-yellow-400 text-white border-yellow-400",
+  Assessment: "bg-blue-700 text-white border-blue-700",
+  Planning: "bg-blue-700 text-white border-blue-700",
+  Admin: "bg-blue-700 text-white border-blue-700",
+  Leadership: "bg-blue-700 text-white border-blue-700",
+  Inclusion: "bg-blue-700 text-white border-blue-700",
+  CPD: "bg-blue-700 text-white border-blue-700",
   English: "bg-blue-700 text-white border-blue-700",
   Maths: "bg-yellow-600 text-white border-yellow-600",
   Science: "bg-green-800 text-white border-green-800",
   History: "bg-orange-500 text-white border-orange-500",
   Geography: "bg-cyan-600 text-white border-cyan-600",
   MFL: "bg-pink-600 text-white border-pink-600",
-  CPD: "bg-purple-700 text-white border-purple-700",
-  Favourites: "bg-yellow-400 text-white border-yellow-400",
-  New: "bg-blue-700 text-white border-blue-700",
-  All: "bg-blue-700 text-white border-blue-700"
 };
 
 const filterGrey = "bg-gray-200 text-gray-400 border-gray-200";
@@ -89,7 +87,7 @@ export default function Homepage({ showOnlyFavourites }) {
     return saved ? JSON.parse(saved) : [];
   });
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedGeneral, setSelectedGeneral] = useState("All");
+  const [selectedGeneral, setSelectedGeneral] = useState("");
   const [selectedSubject, setSelectedSubject] = useState("");
   const [clickedStar, setClickedStar] = useState(null);
   const [searchFocused, setSearchFocused] = useState(false);
@@ -116,22 +114,20 @@ export default function Homepage({ showOnlyFavourites }) {
   const filteredTools = toolsConfig
     .filter((tool) => {
       if (tool.comingSoon) {
-        return searchTerm.trim() === "" && (selectedGeneral === "All" && !selectedSubject);
+        return searchTerm.trim() === "" && (!selectedGeneral && !selectedSubject);
       }
       const matchesSearch =
         (tool.name && tool.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
         (tool.description && tool.description.toLowerCase().includes(searchTerm.toLowerCase()));
 
-      // General filter
       let matchesGeneral = false;
       if (showOnlyFavourites) matchesGeneral = favourites.includes(tool.name);
-      else if (selectedGeneral === "All") matchesGeneral = true;
+      else if (!selectedGeneral) matchesGeneral = true;
       else if (selectedGeneral === "Favourites") matchesGeneral = favourites.includes(tool.name);
       else if (selectedGeneral === "New") matchesGeneral = tool.tag === "New";
       else if (Array.isArray(tool.category)) matchesGeneral = tool.category.includes(selectedGeneral);
       else matchesGeneral = tool.category === selectedGeneral;
 
-      // Subject filter (optional)
       let matchesSubject = false;
       if (!selectedSubject) matchesSubject = true;
       else if (Array.isArray(tool.category)) matchesSubject = tool.category.includes(selectedSubject);
@@ -167,7 +163,7 @@ export default function Homepage({ showOnlyFavourites }) {
                   let classNames = `px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center select-none font-avenir`;
                   if (selectedGeneral === tag) {
                     classNames += " " + (filterActiveColors[tag] || "bg-gray-400 text-white border-gray-400") + " shadow-sm";
-                  } else if (selectedGeneral !== "All" && tag !== selectedGeneral) {
+                  } else if (selectedGeneral && tag !== selectedGeneral) {
                     classNames += " " + filterGrey;
                   } else {
                     classNames += " " + (filterColors[tag] || "bg-gray-200 text-gray-600 border-gray-300") + " hover:brightness-95";
@@ -175,10 +171,7 @@ export default function Homepage({ showOnlyFavourites }) {
                   return (
                     <React.Fragment key={tag}>
                       <span
-                        onClick={() => {
-                          setSelectedGeneral(tag);
-                          if (tag === "All") setSelectedSubject(""); // Reset subject if All is selected
-                        }}
+                        onClick={() => setSelectedGeneral(selectedGeneral === tag ? "" : tag)}
                         className={classNames}
                         style={{
                           whiteSpace: "nowrap",
@@ -213,7 +206,7 @@ export default function Homepage({ showOnlyFavourites }) {
                   return (
                     <span
                       key={tag}
-                      onClick={() => setSelectedSubject(tag === selectedSubject ? "" : tag)}
+                      onClick={() => setSelectedSubject(selectedSubject === tag ? "" : tag)}
                       className={classNames}
                       style={{
                         whiteSpace: "nowrap",
