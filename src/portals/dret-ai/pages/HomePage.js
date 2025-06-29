@@ -138,7 +138,7 @@ export default function Homepage({ showOnlyFavourites }) {
                     <span
                       key={tag}
                       onClick={() => setSelectedCategory(tag)}
-                      className={`px-4 py-2 border rounded-full text-sm font-medium cursor-pointer transition-all text-center
+                      className={`px-4 py-1.5 border rounded-full text-sm font-medium cursor-pointer transition-all text-center
                         ${selectedCategory === tag
                           ? `${colorSet.activeBg}`
                           : `${colorSet.bg} hover:brightness-95`
@@ -165,7 +165,7 @@ export default function Homepage({ showOnlyFavourites }) {
                       <span
                         key={tag}
                         onClick={() => setSelectedCategory(tag)}
-                        className={`px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center
+                        className={`px-4 py-1.5 border rounded-full text-sm font-medium cursor-pointer transition-all text-center
                           ${selectedCategory === tag
                             ? `${colorSet.activeBg}`
                             : `${colorSet.bg} hover:brightness-95`
