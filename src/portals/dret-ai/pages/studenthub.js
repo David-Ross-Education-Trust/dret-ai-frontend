@@ -80,7 +80,6 @@ function TasksWidget({ tasks }) {
 export default function StudentHub() {
   const { accounts } = useMsal();
   const account = accounts[0];
-  const isSignedIn = !!account;
   const userName = account ? account.name.split(" ")[0] : "there";
 
   return (
