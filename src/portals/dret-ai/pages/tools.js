@@ -4,7 +4,6 @@ import { toolsConfig } from "../components/toolConfig";
 import { Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-// Restore previous subject colors, keep new for English/Geography/MFL
 const subjectMeta = {
   English: {
     bgHeader: "bg-violet-100",
@@ -15,7 +14,7 @@ const subjectMeta = {
     icon: <span className="text-gray-700 text-2xl mr-2">➗</span>,
   },
   Science: {
-    bgHeader: "bg-lime-100",
+    bgHeader: "bg-cyan-100",
     icon: <span className="text-gray-700 text-2xl mr-2">🔬</span>,
   },
   History: {
@@ -23,7 +22,7 @@ const subjectMeta = {
     icon: <span className="text-gray-700 text-2xl mr-2">🏺</span>,
   },
   Geography: {
-    bgHeader: "bg-cyan-100",
+    bgHeader: "bg-lime-100",
     icon: <span className="text-gray-700 text-2xl mr-2">🗺️</span>,
   },
   MFL: {
