@@ -2,25 +2,9 @@ import React, { useState } from "react";
 import { Search, X } from "lucide-react";
 import Layout from "../../../layout";
 import { useNavigate } from "react-router-dom";
-import { useMsal } from "@azure/msal-react";
 import { toolsConfig } from "../components/toolConfig";
 import ToolCard from "../components/toolCard";
-
-function LoginSplash({ onLogin }) {
-  return (
-    <div className="flex flex-col items-center justify-center h-[calc(100vh)] w-full bg-gray-100 font-avenir">
-      <div className="bg-white p-10 rounded-2xl shadow-xl flex flex-col items-center max-w-md mx-auto">
-        <h1 className="text-3xl font-bold mb-8 text-[var(--trust-green)] font-avenir">Welcome to DRET.AI</h1>
-        <button
-          onClick={onLogin}
-          className="bg-[var(--trust-green)] text-white px-8 py-2 rounded-full font-semibold text-lg hover:bg-green-900 transition font-avenir"
-        >
-          Sign in
-        </button>
-      </div>
-    </div>
-  );
-}
+import RequireAuth from "../components/RequireAuth";
 
 const generalCategories = [
   "New",
@@ -82,16 +66,14 @@ const coreGeneralCategories = generalCategories.filter(
   (cat) => !specialFilters.includes(cat)
 );
 
-export default function Homepage({ showOnlyFavourites }) {
+export default function ToolsPage({ showOnlyFavourites }) {
   const navigate = useNavigate();
-  const { accounts, instance } = useMsal();
-  const isSignedIn = accounts.length > 0;
   const [favourites, setFavourites] = useState(() => {
     const saved = localStorage.getItem("favourites");
     return saved ? JSON.parse(saved) : [];
   });
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedSpecials, setSelectedSpecials] = useState([]); // array
+  const [selectedSpecials, setSelectedSpecials] = useState([]);
   const [selectedGeneral, setSelectedGeneral] = useState("");
   const [selectedSubject, setSelectedSubject] = useState("");
   const [clickedStar, setClickedStar] = useState(null);
@@ -111,12 +93,11 @@ export default function Homepage({ showOnlyFavourites }) {
   };
 
   const handleCardClick = (tool) => {
-    if (isSignedIn && tool.href) {
+    if (tool.href) {
       navigate(tool.href);
     }
   };
 
-  // Filtering logic
   const filteredTools = toolsConfig
     .filter((tool) => {
       if (tool.comingSoon) {
@@ -126,19 +107,16 @@ export default function Homepage({ showOnlyFavourites }) {
         (tool.name && tool.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
         (tool.description && tool.description.toLowerCase().includes(searchTerm.toLowerCase()));
 
-      // General filter (core) - only one active at once
       let matchesGeneral = false;
       if (!selectedGeneral) matchesGeneral = true;
       else if (Array.isArray(tool.category)) matchesGeneral = tool.category.includes(selectedGeneral);
       else matchesGeneral = tool.category === selectedGeneral;
 
-      // Subject filter - only one active at once
       let matchesSubject = false;
       if (!selectedSubject) matchesSubject = true;
       else if (Array.isArray(tool.category)) matchesSubject = tool.category.includes(selectedSubject);
       else matchesSubject = tool.category === selectedSubject;
 
-      // Special filters - can have both or none
       let matchesSpecial = true;
       if (selectedSpecials.includes("New")) {
         matchesSpecial = matchesSpecial && tool.tag === "New";
@@ -159,7 +137,6 @@ export default function Homepage({ showOnlyFavourites }) {
       return parseInt(b.id || "0") - parseInt(a.id || "0");
     });
 
-  // Handler for specials (multi-select)
   const toggleSpecial = (tag) => {
     setSelectedSpecials((prev) =>
       prev.includes(tag)
@@ -169,17 +146,12 @@ export default function Homepage({ showOnlyFavourites }) {
   };
 
   return (
-    <Layout>
-      {!isSignedIn ? (
-        <div className="h-screen flex items-center justify-center font-avenir">
-          <LoginSplash onLogin={() => instance.loginRedirect()} />
-        </div>
-      ) : (
+    <RequireAuth>
+      <Layout>
         <div className="bg-gray-50 min-h-screen h-screen flex flex-col font-avenir">
           <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-4 w-full font-avenir">
             <div className="flex flex-row flex-nowrap items-center justify-between py-3 font-avenir">
               <div className="flex flex-wrap gap-2 max-w-[calc(100vw-350px)] items-center font-avenir">
-                {/* SPECIAL FILTERS (New, Favourites) */}
                 {specialFilters.map((tag) => {
                   let classNames = `px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center select-none font-avenir`;
                   if (selectedSpecials.includes(tag)) {
@@ -203,13 +175,11 @@ export default function Homepage({ showOnlyFavourites }) {
                     </span>
                   );
                 })}
-                {/* Divider after specials */}
                 <span
                   aria-hidden
                   className="mx-2 h-6 border-l border-gray-300 opacity-60"
                   style={{ display: "inline-block", verticalAlign: "middle" }}
                 />
-                {/* GENERAL FILTERS (Assessment, Planning, etc.) */}
                 {coreGeneralCategories.map((tag, idx) => {
                   let classNames = `px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center select-none font-avenir`;
                   if (selectedGeneral === tag) {
@@ -235,13 +205,11 @@ export default function Homepage({ showOnlyFavourites }) {
                     </span>
                   );
                 })}
-                {/* Divider after CPD */}
                 <span
                   aria-hidden
                   className="mx-2 h-6 border-l border-gray-300 opacity-60"
                   style={{ display: "inline-block", verticalAlign: "middle" }}
                 />
-                {/* SUBJECT FILTERS */}
                 {subjectCategories.map((tag) => {
                   let classNames = `px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center select-none font-avenir`;
                   if (selectedSubject === tag) {
@@ -317,14 +285,14 @@ export default function Homepage({ showOnlyFavourites }) {
                     onFavourite={toggleFavourite}
                     onClick={handleCardClick}
                     clickedStar={clickedStar}
-                    disabled={!isSignedIn}
+                    disabled={false}
                   />
                 )
               )}
             </div>
           </div>
         </div>
-      )}
-    </Layout>
+      </Layout>
+    </RequireAuth>
   );
 }
