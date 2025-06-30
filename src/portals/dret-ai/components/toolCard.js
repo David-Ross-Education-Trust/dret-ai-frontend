@@ -71,18 +71,16 @@ export default function ToolCard({
         />
       </button>
       <div className="flex flex-col gap-0 mb-10 mt-1">
-        <h3 className="text-base font-bold pr-8 leading-tight">{tool.name}</h3>
+        <h3 className="text-lg font-bold pr-8 leading-tight">{tool.name}</h3>
         <p className="text-[13px] text-gray-500 font-normal leading-snug mt-2">{tool.description}</p>
       </div>
       <div className="absolute bottom-3 left-3 flex flex-wrap gap-2 text-xs items-center">
-        {/* New tag first */}
         {tool.tag === "New" && (
           <span className={`${tagStyles.New} px-2 py-0.5 rounded-full font-medium flex items-center gap-1`}>
             <Sparkles className="w-3 h-3" />
             New
           </span>
         )}
-        {/* Categories next */}
         {Array.isArray(tool.category)
           ? tool.category.map(cat =>
               cat && (
@@ -101,7 +99,6 @@ export default function ToolCard({
                 {tool.category}
               </span>
             )}
-        {/* Hot tag last */}
         {tool.tag === "Hot" && (
           <span className={`${tagStyles.Hot} px-2 py-0.5 rounded-full font-medium flex items-center gap-1`}>
             <Flame className="w-3 h-3" />
