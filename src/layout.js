@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useMsal } from "@azure/msal-react";
 import { FaUserCircle } from "react-icons/fa";
 import { FiChevronDown } from "react-icons/fi";
@@ -17,6 +17,7 @@ const Layout = ({ children }) => {
   const account = accounts[0];
   const isSignedIn = !!account;
   const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
 
   const handleLogin = () => {
     instance.loginRedirect();
@@ -42,24 +43,32 @@ const Layout = ({ children }) => {
         </Link>
         {isSignedIn && (
           <div className="p-6 flex flex-col gap-4 overflow-y-auto mt-4 font-avenir">
-            {navItems.map((item, index) => (
-              <Link
-                key={index}
-                to={item.to}
-                className="flex items-center gap-2 px-4 py-2 rounded hover:bg-[#184b34] transition font-avenir nav-dock-zoom"
-                style={{ transition: "transform 0.17s cubic-bezier(.4,0,.2,1), background 0.18s" }}
-              >
-                <i className={item.icon}></i> {item.label}
-              </Link>
-            ))}
+            {navItems.map((item, index) => {
+              const isSelected = location.pathname === item.to;
+              return (
+                <Link
+                  key={index}
+                  to={item.to}
+                  className={`flex items-center gap-2 px-4 py-2 rounded font-avenir nav-dock-zoom 
+                    ${isSelected ? "bg-[#184b34] font-bold shadow" : ""}
+                  `}
+                  style={{
+                    transition: "transform 0.18s cubic-bezier(.4,0,.2,1), background 0.18s",
+                    color: isSelected ? "#fff" : "#fff",
+                  }}
+                >
+                  <i className={item.icon}></i> {item.label}
+                </Link>
+              );
+            })}
           </div>
         )}
         {isSignedIn && (
           <div className="relative p-4 border-t border-[#184b34] font-avenir">
             <div
               onClick={isSignedIn ? () => setMenuOpen(!menuOpen) : handleLogin}
-              className="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-[#184b34] transition font-avenir nav-dock-zoom"
-              style={{ transition: "transform 0.17s cubic-bezier(.4,0,.2,1), background 0.18s" }}
+              className="flex items-center gap-2 cursor-pointer p-2 rounded font-avenir nav-dock-zoom"
+              style={{ transition: "transform 0.18s cubic-bezier(.4,0,.2,1), background 0.18s" }}
             >
               <FaUserCircle className="text-2xl" />
               {isSignedIn ? (
@@ -100,6 +109,7 @@ const Layout = ({ children }) => {
           }
           .nav-dock-zoom:hover {
             transform: scale(1.11);
+            /* No background change on hover! */
             z-index: 10;
           }
         `}
