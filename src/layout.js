@@ -27,8 +27,11 @@ const Layout = ({ children }) => {
   };
 
   return (
-    <div className="flex font-sans">
-      <aside className="w-60 bg-[var(--trust-green)] text-white h-screen fixed left-0 top-0 flex flex-col justify-between">
+    <div
+      className="flex font-avenir"
+      style={{ fontFamily: "AvenirLTStdLight, Avenir, sans-serif" }}
+    >
+      <aside className="w-60 bg-[var(--trust-green)] text-white h-screen fixed left-0 top-0 flex flex-col justify-between font-avenir">
         <Link to="/" className="w-full h-24 flex items-center">
           <img
             src={dretaiLogo}
@@ -38,12 +41,12 @@ const Layout = ({ children }) => {
           />
         </Link>
         {isSignedIn && (
-          <div className="p-6 flex flex-col gap-4 overflow-y-auto mt-4">
+          <div className="p-6 flex flex-col gap-4 overflow-y-auto mt-4 font-avenir">
             {navItems.map((item, index) => (
               <Link
                 key={index}
                 to={item.to}
-                className="flex items-center gap-2 px-4 py-2 rounded hover:bg-[#184b34] transition"
+                className="flex items-center gap-2 px-4 py-2 rounded hover:bg-[#184b34] transition font-avenir"
               >
                 <i className={item.icon}></i> {item.label}
               </Link>
@@ -51,10 +54,10 @@ const Layout = ({ children }) => {
           </div>
         )}
         {isSignedIn && (
-          <div className="relative p-4 border-t border-[#184b34]">
+          <div className="relative p-4 border-t border-[#184b34] font-avenir">
             <div
               onClick={isSignedIn ? () => setMenuOpen(!menuOpen) : handleLogin}
-              className="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-[#184b34] transition"
+              className="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-[#184b34] transition font-avenir"
             >
               <FaUserCircle className="text-2xl" />
               {isSignedIn ? (
@@ -67,7 +70,7 @@ const Layout = ({ children }) => {
               )}
             </div>
             {isSignedIn && menuOpen && (
-              <div className="absolute bottom-16 left-4 bg-white text-black rounded shadow-md w-48 z-50">
+              <div className="absolute bottom-16 left-4 bg-white text-black rounded shadow-md w-48 z-50 font-avenir">
                 <div
                   className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                   onClick={() => alert("Preferences coming soon!")}
@@ -85,7 +88,7 @@ const Layout = ({ children }) => {
           </div>
         )}
       </aside>
-      <main className="ml-60 w-full min-h-screen overflow-y-auto bg-gray-50">
+      <main className="ml-60 w-full min-h-screen overflow-y-auto bg-gray-50 font-avenir">
         {children}
       </main>
     </div>
