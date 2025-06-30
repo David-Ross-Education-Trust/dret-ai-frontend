@@ -15,7 +15,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<SplashScreen />} />
-        <Route path="/ai" element={<AiHomePage />} />
+        <Route path="/ai/home" element={<AiHomePage />} />
         <Route path="/ai/favourites" element={<FavouritesPage />} />
         <Route path="/ai/myhub" element={<MyHub />} />
         <Route path="/ai/student-hub" element={<StudentHub />} />
