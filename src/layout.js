@@ -46,36 +46,37 @@ const Layout = ({ children }) => {
             {navItems.map((item, index) => {
               const isSelected = location.pathname === item.to;
               return (
-                <div key={index} className="relative group">
+                <Link
+                  key={index}
+                  to={item.to}
+                  className={`flex items-center px-4 py-2 rounded font-avenir transition-transform duration-150 relative group ${
+                    isSelected ? "" : "hover:scale-110"
+                  }`}
+                  style={{
+                    color: "#fff",
+                    fontWeight: 400,
+                    transition: "transform 0.18s cubic-bezier(.4,0,.2,1)"
+                  }}
+                >
                   {isSelected && (
                     <span
-                      className="absolute left-0 top-1/2 -translate-y-1/2"
+                      className="mr-3"
                       style={{
-                        width: 0,
-                        height: 0,
-                        borderTop: "5px solid transparent",
-                        borderBottom: "5px solid transparent",
-                        borderRight: "7px solid #fff",
-                        marginLeft: "-22px"
+                        display: "inline-block",
+                        color: "#fff",
+                        fontSize: "1.25rem",
+                        lineHeight: 1,
+                        marginRight: "0.85rem",
+                        marginLeft: "-1.5rem"
                       }}
-                    />
+                    >
+                      ►
+                    </span>
                   )}
-                  <Link
-                    to={item.to}
-                    className={`flex items-center gap-2 px-4 py-2 rounded font-avenir nav-dock-zoom relative transition-transform duration-150 ${
-                      isSelected ? "" : "hover:scale-110"
-                    }`}
-                    style={{
-                      color: "#fff",
-                      fontWeight: 400,
-                      transition: "transform 0.18s cubic-bezier(.4,0,.2,1)",
-                      marginLeft: "0.5rem"
-                    }}
-                  >
-                    <i className={item.icon}></i>
-                    {item.label}
-                  </Link>
-                </div>
+                  {!isSelected && <span style={{ width: "1.7rem", display: "inline-block" }} />}
+                  <i className={item.icon}></i>
+                  <span className="ml-2">{item.label}</span>
+                </Link>
               );
             })}
           </div>
