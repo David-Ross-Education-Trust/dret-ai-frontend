@@ -9,7 +9,7 @@ import ToolsPage from "./portals/dret-ai/pages/tools";
 import AnalyticsHomePage from "./portals/dret-analytics/pages/HomePage";
 import { toolsConfig } from "./portals/dret-ai/components/toolConfig";
 import { reportConfig } from "./portals/dret-analytics/components/reportConfig";
-import RequireAuth from "./components/RequireAuth";
+import RequireAuth from "./RequireAuth";
 
 function App() {
   return (
