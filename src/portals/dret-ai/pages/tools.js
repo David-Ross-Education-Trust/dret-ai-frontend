@@ -8,27 +8,27 @@ import { useNavigate } from "react-router-dom";
 const subjectMeta = {
   English: {
     bgHeader: "bg-violet-100",
-    icon: <span className="text-indigo-700 text-2xl mr-2">📘</span>,
+    icon: <span className="text-gray-700 text-2xl mr-2">📘</span>,
   },
   Maths: {
     bgHeader: "bg-yellow-100",
-    icon: <span className="text-purple-500 text-2xl mr-2">➗</span>,
+    icon: <span className="text-gray-700 text-2xl mr-2">➗</span>,
   },
   Science: {
     bgHeader: "bg-cyan-100",
-    icon: <span className="text-purple-500 text-2xl mr-2">🔬</span>,
+    icon: <span className="text-gray-700 text-2xl mr-2">🔬</span>,
   },
   History: {
     bgHeader: "bg-orange-100",
-    icon: <span className="text-orange-400 text-2xl mr-2">🏺</span>,
+    icon: <span className="text-gray-700 text-2xl mr-2">🏺</span>,
   },
   Geography: {
     bgHeader: "bg-lime-100",
-    icon: <span className="text-emerald-700 text-2xl mr-2">🗺️</span>,
+    icon: <span className="text-gray-700 text-2xl mr-2">🗺️</span>,
   },
   MFL: {
-    bgHeader: "bg-fuschia-100",
-    icon: <span className="text-fuchsia-700 text-2xl mr-2">🌍</span>,
+    bgHeader: "bg-pink-100",
+    icon: <span className="text-gray-700 text-2xl mr-2">🌍</span>,
   }
 };
 
