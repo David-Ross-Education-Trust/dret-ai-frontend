@@ -9,38 +9,48 @@ import ToolsPage from "./portals/dret-ai/pages/tools";
 import AnalyticsHomePage from "./portals/dret-analytics/pages/HomePage";
 import { toolsConfig } from "./portals/dret-ai/components/toolConfig";
 import { reportConfig } from "./portals/dret-analytics/components/reportConfig";
+import RequireAuth from "./components/RequireAuth";
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<SplashScreen />} />
-        <Route path="/ai/home" element={<AiHomePage />} />
-        <Route path="/ai/favourites" element={<FavouritesPage />} />
-        <Route path="/ai/myhub" element={<MyHub />} />
-        <Route path="/ai/student-hub" element={<StudentHub />} />
-        <Route path="/ai/tools" element={<ToolsPage />} />
-        {toolsConfig.map(
-          (tool) =>
-            !tool.comingSoon && (
-              <Route
-                key={tool.id}
-                path={tool.href}
-                element={<tool.component />}
-              />
-            )
-        )}
-        <Route path="/analytics" element={<AnalyticsHomePage />} />
-        {reportConfig.map(
-          (report) =>
-            !report.comingSoon && (
-              <Route
-                key={report.id}
-                path={report.href}
-                element={<report.component />}
-              />
-            )
-        )}
+        <Route
+          path="/*"
+          element={
+            <RequireAuth>
+              <Routes>
+                <Route path="/ai/home" element={<AiHomePage />} />
+                <Route path="/ai/favourites" element={<FavouritesPage />} />
+                <Route path="/ai/myhub" element={<MyHub />} />
+                <Route path="/ai/student-hub" element={<StudentHub />} />
+                <Route path="/ai/tools" element={<ToolsPage />} />
+                {toolsConfig.map(
+                  (tool) =>
+                    !tool.comingSoon && (
+                      <Route
+                        key={tool.id}
+                        path={tool.href}
+                        element={<tool.component />}
+                      />
+                    )
+                )}
+                <Route path="/analytics" element={<AnalyticsHomePage />} />
+                {reportConfig.map(
+                  (report) =>
+                    !report.comingSoon && (
+                      <Route
+                        key={report.id}
+                        path={report.href}
+                        element={<report.component />}
+                      />
+                    )
+                )}
+              </Routes>
+            </RequireAuth>
+          }
+        />
       </Routes>
     </Router>
   );

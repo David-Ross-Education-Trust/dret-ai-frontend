@@ -4,7 +4,6 @@ import Layout from "../../../layout";
 import { useNavigate } from "react-router-dom";
 import { toolsConfig } from "../components/toolConfig";
 import ToolCard from "../components/toolCard";
-import RequireAuth from "../components/RequireAuth";
 
 const generalCategories = [
   "New",
@@ -146,153 +145,151 @@ export default function ToolsPage({ showOnlyFavourites }) {
   };
 
   return (
-    <RequireAuth>
-      <Layout>
-        <div className="bg-gray-50 min-h-screen h-screen flex flex-col font-avenir">
-          <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-4 w-full font-avenir">
-            <div className="flex flex-row flex-nowrap items-center justify-between py-3 font-avenir">
-              <div className="flex flex-wrap gap-2 max-w-[calc(100vw-350px)] items-center font-avenir">
-                {specialFilters.map((tag) => {
-                  let classNames = `px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center select-none font-avenir`;
-                  if (selectedSpecials.includes(tag)) {
-                    classNames += " " + (filterActiveColors[tag] || "") + " shadow-sm";
-                  } else {
-                    classNames += " " + (filterColors[tag] || "") + " hover:brightness-95";
-                  }
-                  return (
-                    <span
-                      key={tag}
-                      onClick={() => toggleSpecial(tag)}
-                      className={classNames}
-                      style={{
-                        whiteSpace: "nowrap",
-                        borderWidth: "1px",
-                        transition: "all 0.18s cubic-bezier(.4,0,.2,1)",
-                        fontFamily: "AvenirLTStdLight, Avenir, sans-serif"
-                      }}
-                    >
-                      {tag}
-                    </span>
-                  );
-                })}
-                <span
-                  aria-hidden
-                  className="mx-2 h-6 border-l border-gray-300 opacity-60"
-                  style={{ display: "inline-block", verticalAlign: "middle" }}
-                />
-                {coreGeneralCategories.map((tag, idx) => {
-                  let classNames = `px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center select-none font-avenir`;
-                  if (selectedGeneral === tag) {
-                    classNames += " " + (filterActiveColors[tag] || "") + " shadow-sm";
-                  } else if (selectedGeneral && tag !== selectedGeneral) {
-                    classNames += " " + filterGrey;
-                  } else {
-                    classNames += " " + (filterColors[tag] || "") + " hover:brightness-95";
-                  }
-                  return (
-                    <span
-                      key={tag}
-                      onClick={() => setSelectedGeneral(selectedGeneral === tag ? "" : tag)}
-                      className={classNames}
-                      style={{
-                        whiteSpace: "nowrap",
-                        borderWidth: "1px",
-                        transition: "all 0.18s cubic-bezier(.4,0,.2,1)",
-                        fontFamily: "AvenirLTStdLight, Avenir, sans-serif"
-                      }}
-                    >
-                      {tag}
-                    </span>
-                  );
-                })}
-                <span
-                  aria-hidden
-                  className="mx-2 h-6 border-l border-gray-300 opacity-60"
-                  style={{ display: "inline-block", verticalAlign: "middle" }}
-                />
-                {subjectCategories.map((tag) => {
-                  let classNames = `px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center select-none font-avenir`;
-                  if (selectedSubject === tag) {
-                    classNames += " " + (filterActiveColors[tag] || "") + " shadow-sm";
-                  } else if (selectedSubject && tag !== selectedSubject) {
-                    classNames += " " + filterGrey;
-                  } else {
-                    classNames += " " + (filterColors[tag] || "") + " hover:brightness-95";
-                  }
-                  return (
-                    <span
-                      key={tag}
-                      onClick={() => setSelectedSubject(selectedSubject === tag ? "" : tag)}
-                      className={classNames}
-                      style={{
-                        whiteSpace: "nowrap",
-                        borderWidth: "1px",
-                        transition: "all 0.18s cubic-bezier(.4,0,.2,1)",
-                        fontFamily: "AvenirLTStdLight, Avenir, sans-serif"
-                      }}
-                    >
-                      {tag}
-                    </span>
-                  );
-                })}
-              </div>
-              <div className="relative flex-shrink-0 w-[240px] ml-4 font-avenir">
-                <input
-                  type="text"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="Search tools"
-                  onFocus={() => setSearchFocused(true)}
-                  onBlur={() => setSearchFocused(false)}
-                  className={`w-full border ${
-                    searchFocused ? "" : "border-gray-300"
-                  } rounded-md px-4 py-2 pr-10 text-sm outline-none transition font-avenir`}
-                  style={{
-                    borderColor: searchFocused ? TRUST_GREEN : undefined,
-                    boxShadow: searchFocused
-                      ? `0 0 0 2px ${TRUST_GREEN}40`
-                      : undefined,
-                    fontFamily: "AvenirLTStdLight, Avenir, sans-serif"
-                  }}
-                />
-                {searchTerm && (
-                  <button
-                    onClick={() => setSearchTerm("")}
-                    className="absolute right-9 top-2.5 text-gray-400 hover:text-gray-600"
+    <Layout>
+      <div className="bg-gray-50 min-h-screen h-screen flex flex-col font-avenir">
+        <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-4 w-full font-avenir">
+          <div className="flex flex-row flex-nowrap items-center justify-between py-3 font-avenir">
+            <div className="flex flex-wrap gap-2 max-w-[calc(100vw-350px)] items-center font-avenir">
+              {specialFilters.map((tag) => {
+                let classNames = `px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center select-none font-avenir`;
+                if (selectedSpecials.includes(tag)) {
+                  classNames += " " + (filterActiveColors[tag] || "") + " shadow-sm";
+                } else {
+                  classNames += " " + (filterColors[tag] || "") + " hover:brightness-95";
+                }
+                return (
+                  <span
+                    key={tag}
+                    onClick={() => toggleSpecial(tag)}
+                    className={classNames}
+                    style={{
+                      whiteSpace: "nowrap",
+                      borderWidth: "1px",
+                      transition: "all 0.18s cubic-bezier(.4,0,.2,1)",
+                      fontFamily: "AvenirLTStdLight, Avenir, sans-serif"
+                    }}
                   >
-                    <X size={16} />
-                  </button>
-                )}
-                <Search className="absolute right-3 top-2.5 h-4 w-4 text-gray-400" />
-              </div>
+                    {tag}
+                  </span>
+                );
+              })}
+              <span
+                aria-hidden
+                className="mx-2 h-6 border-l border-gray-300 opacity-60"
+                style={{ display: "inline-block", verticalAlign: "middle" }}
+              />
+              {coreGeneralCategories.map((tag, idx) => {
+                let classNames = `px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center select-none font-avenir`;
+                if (selectedGeneral === tag) {
+                  classNames += " " + (filterActiveColors[tag] || "") + " shadow-sm";
+                } else if (selectedGeneral && tag !== selectedGeneral) {
+                  classNames += " " + filterGrey;
+                } else {
+                  classNames += " " + (filterColors[tag] || "") + " hover:brightness-95";
+                }
+                return (
+                  <span
+                    key={tag}
+                    onClick={() => setSelectedGeneral(selectedGeneral === tag ? "" : tag)}
+                    className={classNames}
+                    style={{
+                      whiteSpace: "nowrap",
+                      borderWidth: "1px",
+                      transition: "all 0.18s cubic-bezier(.4,0,.2,1)",
+                      fontFamily: "AvenirLTStdLight, Avenir, sans-serif"
+                    }}
+                  >
+                    {tag}
+                  </span>
+                );
+              })}
+              <span
+                aria-hidden
+                className="mx-2 h-6 border-l border-gray-300 opacity-60"
+                style={{ display: "inline-block", verticalAlign: "middle" }}
+              />
+              {subjectCategories.map((tag) => {
+                let classNames = `px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center select-none font-avenir`;
+                if (selectedSubject === tag) {
+                  classNames += " " + (filterActiveColors[tag] || "") + " shadow-sm";
+                } else if (selectedSubject && tag !== selectedSubject) {
+                  classNames += " " + filterGrey;
+                } else {
+                  classNames += " " + (filterColors[tag] || "") + " hover:brightness-95";
+                }
+                return (
+                  <span
+                    key={tag}
+                    onClick={() => setSelectedSubject(selectedSubject === tag ? "" : tag)}
+                    className={classNames}
+                    style={{
+                      whiteSpace: "nowrap",
+                      borderWidth: "1px",
+                      transition: "all 0.18s cubic-bezier(.4,0,.2,1)",
+                      fontFamily: "AvenirLTStdLight, Avenir, sans-serif"
+                    }}
+                  >
+                    {tag}
+                  </span>
+                );
+              })}
             </div>
-          </div>
-          <div className="scroll-area flex-1 overflow-y-auto bg-gray-100 font-avenir">
-            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 pb-16">
-              {filteredTools.map((tool, idx) =>
-                tool.comingSoon ? (
-                  <div
-                    key={tool.id || idx}
-                    className="relative rounded-xl bg-gray-200 text-gray-500 shadow-md flex flex-col items-center justify-center p-4 h-[150px] opacity-70 select-none cursor-default border-2 border-dashed border-gray-300 font-avenir"
-                  >
-                    <span className="text-base font-semibold">New tools coming soon</span>
-                  </div>
-                ) : (
-                  <ToolCard
-                    key={tool.id || idx}
-                    tool={tool}
-                    isFavourite={favourites.includes(tool.name)}
-                    onFavourite={toggleFavourite}
-                    onClick={handleCardClick}
-                    clickedStar={clickedStar}
-                    disabled={false}
-                  />
-                )
+            <div className="relative flex-shrink-0 w-[240px] ml-4 font-avenir">
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Search tools"
+                onFocus={() => setSearchFocused(true)}
+                onBlur={() => setSearchFocused(false)}
+                className={`w-full border ${
+                  searchFocused ? "" : "border-gray-300"
+                } rounded-md px-4 py-2 pr-10 text-sm outline-none transition font-avenir`}
+                style={{
+                  borderColor: searchFocused ? TRUST_GREEN : undefined,
+                  boxShadow: searchFocused
+                    ? `0 0 0 2px ${TRUST_GREEN}40`
+                    : undefined,
+                  fontFamily: "AvenirLTStdLight, Avenir, sans-serif"
+                }}
+              />
+              {searchTerm && (
+                <button
+                  onClick={() => setSearchTerm("")}
+                  className="absolute right-9 top-2.5 text-gray-400 hover:text-gray-600"
+                >
+                  <X size={16} />
+                </button>
               )}
+              <Search className="absolute right-3 top-2.5 h-4 w-4 text-gray-400" />
             </div>
           </div>
         </div>
-      </Layout>
-    </RequireAuth>
+        <div className="scroll-area flex-1 overflow-y-auto bg-gray-100 font-avenir">
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 pb-16">
+            {filteredTools.map((tool, idx) =>
+              tool.comingSoon ? (
+                <div
+                  key={tool.id || idx}
+                  className="relative rounded-xl bg-gray-200 text-gray-500 shadow-md flex flex-col items-center justify-center p-4 h-[150px] opacity-70 select-none cursor-default border-2 border-dashed border-gray-300 font-avenir"
+                >
+                  <span className="text-base font-semibold">New tools coming soon</span>
+                </div>
+              ) : (
+                <ToolCard
+                  key={tool.id || idx}
+                  tool={tool}
+                  isFavourite={favourites.includes(tool.name)}
+                  onFavourite={toggleFavourite}
+                  onClick={handleCardClick}
+                  clickedStar={clickedStar}
+                  disabled={false}
+                />
+              )
+            )}
+          </div>
+        </div>
+      </div>
+    </Layout>
   );
 }
