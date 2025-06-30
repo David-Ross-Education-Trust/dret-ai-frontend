@@ -15,7 +15,7 @@ const subjectMeta = {
     icon: <span className="text-gray-700 text-2xl mr-2">➗</span>,
   },
   Science: {
-    bgHeader: "bg-cyan-100",
+    bgHeader: "bg-lime-100",
     icon: <span className="text-gray-700 text-2xl mr-2">🔬</span>,
   },
   History: {
@@ -23,7 +23,7 @@ const subjectMeta = {
     icon: <span className="text-gray-700 text-2xl mr-2">🏺</span>,
   },
   Geography: {
-    bgHeader: "bg-lime-100",
+    bgHeader: "bg-cyan-100",
     icon: <span className="text-gray-700 text-2xl mr-2">🗺️</span>,
   },
   MFL: {
