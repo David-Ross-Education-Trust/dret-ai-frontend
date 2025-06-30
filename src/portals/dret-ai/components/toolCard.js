@@ -9,7 +9,7 @@ const categoryColors = {
   Inclusion: "bg-blue-50 text-blue-800",
   CPD: "bg-blue-50 text-blue-800",
   English: "bg-violet-50 text-violet-800",
-  Maths: "bg-yellow-50 text-yellow-900",
+  Maths: "bg-amber-50 text-amber-800",
   Science: "bg-cyan-50 text-cyan-800",
   History: "bg-orange-50 text-orange-800",
   Geography: "bg-lime-50 text-lime-800",
@@ -18,7 +18,7 @@ const categoryColors = {
 
 const tagStyles = {
   Hot: "bg-red-50 text-red-600",
-  New: "bg-green-50 text-green-700",
+  New: "bg-green-50 text-green-800",
 };
 
 export default function ToolCard({
@@ -75,6 +75,14 @@ export default function ToolCard({
         <p className="text-[13px] text-gray-500 font-normal leading-snug mt-2">{tool.description}</p>
       </div>
       <div className="absolute bottom-3 left-3 flex flex-wrap gap-2 text-xs items-center">
+        {/* New tag first */}
+        {tool.tag === "New" && (
+          <span className={`${tagStyles.New} px-2 py-0.5 rounded-full font-medium flex items-center gap-1`}>
+            <Sparkles className="w-3 h-3" />
+            New
+          </span>
+        )}
+        {/* Categories next */}
         {Array.isArray(tool.category)
           ? tool.category.map(cat =>
               cat && (
@@ -93,16 +101,11 @@ export default function ToolCard({
                 {tool.category}
               </span>
             )}
+        {/* Hot tag last */}
         {tool.tag === "Hot" && (
           <span className={`${tagStyles.Hot} px-2 py-0.5 rounded-full font-medium flex items-center gap-1`}>
             <Flame className="w-3 h-3" />
             Hot
-          </span>
-        )}
-        {tool.tag === "New" && (
-          <span className={`${tagStyles.New} px-2 py-0.5 rounded-full font-medium flex items-center gap-1`}>
-            <Sparkles className="w-3 h-3" />
-            New
           </span>
         )}
       </div>
