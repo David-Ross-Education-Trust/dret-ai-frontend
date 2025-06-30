@@ -35,7 +35,7 @@ export default function LessonPlanningTool() {
       return;
     }
 
-    const message = `
+    const message = 
 Subject: ${fields.subject}
 Audience: ${fields.audience}
 Topic: ${fields.topic}
@@ -43,7 +43,7 @@ Brief Description: ${fields.description}
 Length (minutes): ${fields.length}
 
 Please format your response in markdown.
-    `.trim();
+    .trim();
 
     setLoading(true);
     setResponse("");
@@ -71,7 +71,7 @@ Please format your response in markdown.
 
   const exportToDocx = () => {
     const html = marked.parse(response);
-    const fullHtml = `<html><body>${html}</body></html>`;
+    const fullHtml = <html><body>${html}</body></html>;
     const docxBlob = htmlDocx.asBlob(fullHtml);
     const url = URL.createObjectURL(docxBlob);
     const link = document.createElement("a");
@@ -217,7 +217,7 @@ Please format your response in markdown.
           </div>
         </div>
         <style>
-          {`
+          {
             .custom-scrollbar {
               scrollbar-width: thin;
               scrollbar-color: #cbd5e1 transparent;
@@ -235,7 +235,7 @@ Please format your response in markdown.
             .custom-scrollbar::-webkit-scrollbar-thumb:hover {
               background-color: #94a3b8;
             }
-          `}
+          }
         </style>
       </div>
     </Layout>
