@@ -58,23 +58,32 @@ const Layout = ({ children }) => {
                     transition: "transform 0.18s cubic-bezier(.4,0,.2,1)"
                   }}
                 >
-                  {isSelected && (
-                    <span
-                      className="mr-3"
-                      style={{
-                        display: "inline-block",
-                        color: "#fff",
-                        fontSize: "1.25rem",
-                        lineHeight: 1,
-                        marginRight: "0.85rem",
-                        marginLeft: "-1.5rem"
-                      }}
-                    >
-                      ►
-                    </span>
-                  )}
-                  {!isSelected && <span style={{ width: "1.7rem", display: "inline-block" }} />}
-                  <i className={item.icon}></i>
+                  <span
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      position: "relative"
+                    }}
+                  >
+                    {isSelected && (
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 8 14"
+                        fill="white"
+                        style={{
+                          display: "inline-block",
+                          position: "absolute",
+                          left: "-18px", // Closer to icon/text
+                          top: "50%",
+                          transform: "translateY(-50%)"
+                        }}
+                      >
+                        <polygon points="0,7 8,3 8,11" />
+                      </svg>
+                    )}
+                    <i className={item.icon}></i>
+                  </span>
                   <span className="ml-2">{item.label}</span>
                 </Link>
               );
