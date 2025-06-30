@@ -71,7 +71,12 @@ export default function ToolCard({
         />
       </button>
       <div className="flex flex-col gap-0 mb-10 mt-1">
-        <h3 className="text-lg font-bold pr-8 leading-tight">{tool.name}</h3>
+        <h3
+          className="text-base font-bold pr-8 leading-tight"
+          style={{ fontFamily: "system-ui, sans-serif" }}
+        >
+          {tool.name}
+        </h3>
         <p className="text-[13px] text-gray-500 font-normal leading-snug mt-2">{tool.description}</p>
       </div>
       <div className="absolute bottom-3 left-3 flex flex-wrap gap-2 text-xs items-center">
