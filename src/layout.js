@@ -49,9 +49,10 @@ const Layout = ({ children }) => {
                 <Link
                   key={index}
                   to={item.to}
-                  className={`flex items-center px-4 py-2 rounded font-avenir transition-transform duration-150 relative group ${
-                    isSelected ? "" : "hover:scale-110"
-                  }`}
+                  className={`
+                    flex items-center px-4 py-2 rounded font-avenir transition-transform duration-150 relative group
+                    hover:scale-110
+                  `}
                   style={{
                     color: "#fff",
                     fontWeight: 400,
@@ -67,19 +68,18 @@ const Layout = ({ children }) => {
                   >
                     {isSelected && (
                       <svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 8 14"
-                        fill="white"
+                        width="10"
+                        height="10"
+                        viewBox="0 0 10 10"
                         style={{
                           display: "inline-block",
                           position: "absolute",
-                          left: "-18px", // Closer to icon/text
+                          left: "-16px",
                           top: "50%",
                           transform: "translateY(-50%)"
                         }}
                       >
-                        <polygon points="0,7 8,3 8,11" />
+                        <circle cx="5" cy="5" r="4" fill="white" />
                       </svg>
                     )}
                     <i className={item.icon}></i>
