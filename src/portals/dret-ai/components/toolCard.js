@@ -77,7 +77,12 @@ export default function ToolCard({
         >
           {tool.name}
         </h3>
-        <p className="text-[13px] text-gray-500 font-normal leading-snug mt-2">{tool.description}</p>
+        <p
+          className="text-[13px] text-gray-500 font-normal leading-snug mt-2"
+          style={{ fontFamily: "system-ui, sans-serif" }}
+        >
+          {tool.description}
+        </p>
       </div>
       <div className="absolute bottom-3 left-3 flex flex-wrap gap-2 text-xs items-center">
         {tool.tag === "New" && (
