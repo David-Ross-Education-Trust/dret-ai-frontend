@@ -77,6 +77,11 @@ const filterActiveColors = {
 
 const filterGrey = "bg-gray-200 text-gray-400 border-gray-200";
 
+const specialFilters = ["New", "Favourites"];
+const coreGeneralCategories = generalCategories.filter(
+  (cat) => !specialFilters.includes(cat)
+);
+
 export default function Homepage({ showOnlyFavourites }) {
   const navigate = useNavigate();
   const { accounts, instance } = useMsal();
@@ -86,6 +91,7 @@ export default function Homepage({ showOnlyFavourites }) {
     return saved ? JSON.parse(saved) : [];
   });
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedSpecials, setSelectedSpecials] = useState([]); // array
   const [selectedGeneral, setSelectedGeneral] = useState("");
   const [selectedSubject, setSelectedSubject] = useState("");
   const [clickedStar, setClickedStar] = useState(null);
@@ -110,29 +116,38 @@ export default function Homepage({ showOnlyFavourites }) {
     }
   };
 
+  // Filtering logic
   const filteredTools = toolsConfig
     .filter((tool) => {
       if (tool.comingSoon) {
-        return searchTerm.trim() === "" && (!selectedGeneral && !selectedSubject);
+        return searchTerm.trim() === "" && (!selectedGeneral && !selectedSubject && selectedSpecials.length === 0);
       }
       const matchesSearch =
         (tool.name && tool.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
         (tool.description && tool.description.toLowerCase().includes(searchTerm.toLowerCase()));
 
+      // General filter (core) - only one active at once
       let matchesGeneral = false;
-      if (showOnlyFavourites) matchesGeneral = favourites.includes(tool.name);
-      else if (!selectedGeneral) matchesGeneral = true;
-      else if (selectedGeneral === "Favourites") matchesGeneral = favourites.includes(tool.name);
-      else if (selectedGeneral === "New") matchesGeneral = tool.tag === "New";
+      if (!selectedGeneral) matchesGeneral = true;
       else if (Array.isArray(tool.category)) matchesGeneral = tool.category.includes(selectedGeneral);
       else matchesGeneral = tool.category === selectedGeneral;
 
+      // Subject filter - only one active at once
       let matchesSubject = false;
       if (!selectedSubject) matchesSubject = true;
       else if (Array.isArray(tool.category)) matchesSubject = tool.category.includes(selectedSubject);
       else matchesSubject = tool.category === selectedSubject;
 
-      return matchesSearch && matchesGeneral && matchesSubject;
+      // Special filters - can have both or none
+      let matchesSpecial = true;
+      if (selectedSpecials.includes("New")) {
+        matchesSpecial = matchesSpecial && tool.tag === "New";
+      }
+      if (selectedSpecials.includes("Favourites")) {
+        matchesSpecial = matchesSpecial && favourites.includes(tool.name);
+      }
+
+      return matchesSearch && matchesGeneral && matchesSubject && matchesSpecial;
     })
     .sort((a, b) => {
       if (a.comingSoon && !b.comingSoon) return 1;
@@ -143,6 +158,15 @@ export default function Homepage({ showOnlyFavourites }) {
       if (!aFav && bFav) return 1;
       return parseInt(b.id || "0") - parseInt(a.id || "0");
     });
+
+  // Handler for specials (multi-select)
+  const toggleSpecial = (tag) => {
+    setSelectedSpecials((prev) =>
+      prev.includes(tag)
+        ? prev.filter((t) => t !== tag)
+        : [...prev, tag]
+    );
+  };
 
   return (
     <Layout>
@@ -155,47 +179,77 @@ export default function Homepage({ showOnlyFavourites }) {
           <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-4 w-full font-avenir">
             <div className="flex flex-row flex-nowrap items-center justify-between py-3 font-avenir">
               <div className="flex flex-wrap gap-2 max-w-[calc(100vw-350px)] items-center font-avenir">
-                {generalCategories.map((tag, idx) => {
+                {/* SPECIAL FILTERS (New, Favourites) */}
+                {specialFilters.map((tag) => {
+                  let classNames = `px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center select-none font-avenir`;
+                  if (selectedSpecials.includes(tag)) {
+                    classNames += " " + (filterActiveColors[tag] || "") + " shadow-sm";
+                  } else {
+                    classNames += " " + (filterColors[tag] || "") + " hover:brightness-95";
+                  }
+                  return (
+                    <span
+                      key={tag}
+                      onClick={() => toggleSpecial(tag)}
+                      className={classNames}
+                      style={{
+                        whiteSpace: "nowrap",
+                        borderWidth: "1px",
+                        transition: "all 0.18s cubic-bezier(.4,0,.2,1)",
+                        fontFamily: "AvenirLTStdLight, Avenir, sans-serif"
+                      }}
+                    >
+                      {tag}
+                    </span>
+                  );
+                })}
+                {/* Divider after specials */}
+                <span
+                  aria-hidden
+                  className="mx-2 h-6 border-l border-gray-300 opacity-60"
+                  style={{ display: "inline-block", verticalAlign: "middle" }}
+                />
+                {/* GENERAL FILTERS (Assessment, Planning, etc.) */}
+                {coreGeneralCategories.map((tag, idx) => {
                   let classNames = `px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center select-none font-avenir`;
                   if (selectedGeneral === tag) {
-                    classNames += " " + (filterActiveColors[tag] || "bg-gray-400 text-white border-gray-400") + " shadow-sm";
+                    classNames += " " + (filterActiveColors[tag] || "") + " shadow-sm";
                   } else if (selectedGeneral && tag !== selectedGeneral) {
                     classNames += " " + filterGrey;
                   } else {
-                    classNames += " " + (filterColors[tag] || "bg-gray-200 text-gray-700 border-gray-300") + " hover:brightness-95";
+                    classNames += " " + (filterColors[tag] || "") + " hover:brightness-95";
                   }
                   return (
-                    <React.Fragment key={tag}>
-                      <span
-                        onClick={() => setSelectedGeneral(selectedGeneral === tag ? "" : tag)}
-                        className={classNames}
-                        style={{
-                          whiteSpace: "nowrap",
-                          borderWidth: "1px",
-                          transition: "all 0.18s cubic-bezier(.4,0,.2,1)",
-                          fontFamily: "AvenirLTStdLight, Avenir, sans-serif"
-                        }}
-                      >
-                        {tag}
-                      </span>
-                      {tag === "CPD" && (
-                        <span
-                          aria-hidden
-                          className="mx-2 h-6 border-l border-gray-300 opacity-60"
-                          style={{ display: "inline-block", verticalAlign: "middle" }}
-                        />
-                      )}
-                    </React.Fragment>
+                    <span
+                      key={tag}
+                      onClick={() => setSelectedGeneral(selectedGeneral === tag ? "" : tag)}
+                      className={classNames}
+                      style={{
+                        whiteSpace: "nowrap",
+                        borderWidth: "1px",
+                        transition: "all 0.18s cubic-bezier(.4,0,.2,1)",
+                        fontFamily: "AvenirLTStdLight, Avenir, sans-serif"
+                      }}
+                    >
+                      {tag}
+                    </span>
                   );
                 })}
+                {/* Divider after CPD */}
+                <span
+                  aria-hidden
+                  className="mx-2 h-6 border-l border-gray-300 opacity-60"
+                  style={{ display: "inline-block", verticalAlign: "middle" }}
+                />
+                {/* SUBJECT FILTERS */}
                 {subjectCategories.map((tag) => {
                   let classNames = `px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center select-none font-avenir`;
                   if (selectedSubject === tag) {
-                    classNames += " " + (filterActiveColors[tag] || "bg-gray-400 text-white border-gray-400") + " shadow-sm";
+                    classNames += " " + (filterActiveColors[tag] || "") + " shadow-sm";
                   } else if (selectedSubject && tag !== selectedSubject) {
                     classNames += " " + filterGrey;
                   } else {
-                    classNames += " " + (filterColors[tag] || "bg-gray-200 text-gray-700 border-gray-300") + " hover:brightness-95";
+                    classNames += " " + (filterColors[tag] || "") + " hover:brightness-95";
                   }
                   return (
                     <span
