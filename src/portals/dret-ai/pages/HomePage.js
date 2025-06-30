@@ -10,7 +10,7 @@ const subjectMeta = {
     icon: <span className="text-gray-700 text-2xl mr-2">📘</span>,
   },
   Maths: {
-    bgHeader: "bg-yellow-100",
+    bgHeader: "bg-amber-100",
     icon: <span className="text-gray-700 text-2xl mr-2">➗</span>,
   },
   Science: {

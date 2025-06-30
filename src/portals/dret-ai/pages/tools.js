@@ -43,7 +43,7 @@ const subjectCategories = [
 
 const filterColors = {
   New: "bg-green-50 text-green-800 border-green-200",
-  Favourites: "bg-amber-50 text-amber-800 border-amber-200",
+  Favourites: "bg-yellow-50 text-yellow-800 border-yellow-200",
   Assessment: "bg-blue-50 text-blue-800 border-blue-200",
   Planning: "bg-blue-50 text-blue-800 border-blue-200",
   Admin: "bg-blue-50 text-blue-800 border-blue-200",
@@ -51,7 +51,7 @@ const filterColors = {
   Inclusion: "bg-blue-50 text-blue-800 border-blue-200",
   CPD: "bg-blue-50 text-blue-800 border-blue-200",
   English: "bg-violet-50 text-violet-800 border-violet-200",
-  Maths: "bg-yellow-50 text-yellow-800 border-yellow-200",
+  Maths: "bg-amber-50 text-amber-800 border-amber-200",
   Science: "bg-cyan-50 text-cyan-800 border-cyan-200",
   History: "bg-orange-50 text-orange-800 border-orange-200",
   Geography: "bg-lime-50 text-lime-800 border-lime-200",
@@ -60,7 +60,7 @@ const filterColors = {
 
 const filterActiveColors = {
   New: "bg-green-100 text-green-800 border-green-200",
-  Favourites: "bg-amber-100 text-amber-800 border-amber-200",
+  Favourites: "bg-yellow-100 text-yellow-800 border-yellow-200",
   Assessment: "bg-blue-100 text-blue-800 border-blue-200",
   Planning: "bg-blue-100 text-blue-800 border-blue-200",
   Admin: "bg-blue-100 text-blue-800 border-blue-200",
@@ -68,7 +68,7 @@ const filterActiveColors = {
   Inclusion: "bg-blue-100 text-blue-800 border-blue-200",
   CPD: "bg-blue-100 text-blue-800 border-blue-200",
   English: "bg-violet-100 text-violet-800 border-violet-200",
-  Maths: "bg-yellow-100 text-yellow-800 border-yellow-200",
+  Maths: "bg-amber-100 text-amber-800 border-amber-200",
   Science: "bg-cyan-100 text-cyan-800 border-cyan-200",
   History: "bg-orange-100 text-orange-800 border-orange-200",
   Geography: "bg-lime-100 text-lime-800 border-lime-200",
