@@ -59,8 +59,8 @@ const filterColors = {
 };
 
 const filterActiveColors = {
-  New: "bg-green-200 text-green-800 border-green-200",
-  Favourites: "bg-yellow-200 text-yellow-800 border-yellow-200",
+  New: "bg-green-150 text-green-800 border-green-200",
+  Favourites: "bg-yellow-150 text-yellow-800 border-yellow-200",
   Assessment: "bg-blue-100 text-blue-800 border-blue-200",
   Planning: "bg-blue-100 text-blue-800 border-blue-200",
   Admin: "bg-blue-100 text-blue-800 border-blue-200",

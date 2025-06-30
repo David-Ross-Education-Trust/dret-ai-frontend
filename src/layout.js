@@ -50,10 +50,10 @@ const Layout = ({ children }) => {
                   key={index}
                   to={item.to}
                   className={`flex items-center gap-2 px-4 py-2 rounded font-avenir nav-dock-zoom 
-                    ${isSelected ? "bg-[#184b34] font-bold shadow" : ""}
+                    ${isSelected ? "bg-[rgba(255,255,255,0.07)] font-semibold border-l-4 border-[rgba(255,255,255,0.20)]" : ""}
                   `}
                   style={{
-                    transition: "transform 0.18s cubic-bezier(.4,0,.2,1), background 0.18s",
+                    transition: "transform 0.18s cubic-bezier(.4,0,.2,1), background 0.18s, border 0.18s",
                     color: isSelected ? "#fff" : "#fff",
                   }}
                 >
