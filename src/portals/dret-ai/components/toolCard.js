@@ -8,12 +8,12 @@ const categoryColors = {
   Leadership: "bg-blue-50 text-blue-800",
   Inclusion: "bg-blue-50 text-blue-800",
   CPD: "bg-blue-50 text-blue-800",
-  English: "bg-violet-100 text-violet-800",
-  Maths: "bg-yellow-100 text-yellow-900",
-  Science: "bg-cyan-100 text-cyan-800",
-  History: "bg-orange-100 text-orange-800",
-  Geography: "bg-lime-100 text-lime-800",
-  MFL: "bg-pink-100 text-pink-800",
+  English: "bg-violet-50 text-violet-800",
+  Maths: "bg-yellow-50 text-yellow-900",
+  Science: "bg-cyan-50 text-cyan-800",
+  History: "bg-orange-50 text-orange-800",
+  Geography: "bg-lime-50 text-lime-800",
+  MFL: "bg-pink-50 text-pink-800",
 };
 
 const tagStyles = {
