@@ -49,26 +49,29 @@ const Layout = ({ children }) => {
                 <Link
                   key={index}
                   to={item.to}
-                  className={`flex items-center gap-2 px-4 py-2 rounded font-avenir nav-dock-zoom relative`}
+                  className="flex items-center gap-2 px-4 py-2 rounded font-avenir nav-dock-zoom relative"
                   style={{
                     color: "#fff",
-                    transition: "transform 0.18s cubic-bezier(.4,0,.2,1), border 0.18s"
+                    fontWeight: 400,
+                    transition: "transform 0.18s cubic-bezier(.4,0,.2,1)"
                   }}
                 >
+                  <i className={item.icon}></i>
                   {isSelected && (
                     <span
-                      className="absolute left-0 top-1/2 -translate-y-1/2"
+                      className="inline-block"
                       style={{
+                        marginLeft: "0.18rem",
+                        marginRight: "0.55rem",
                         width: 0,
                         height: 0,
-                        borderTop: "8px solid transparent",
-                        borderBottom: "8px solid transparent",
-                        borderRight: "10px solid #fff",
-                        marginLeft: "-22px"
+                        borderTop: "5px solid transparent",
+                        borderBottom: "5px solid transparent",
+                        borderLeft: "7px solid #fff"
                       }}
                     />
                   )}
-                  <i className={item.icon}></i> {item.label}
+                  {item.label}
                 </Link>
               );
             })}
@@ -78,8 +81,7 @@ const Layout = ({ children }) => {
           <div className="relative p-4 border-t border-[#184b34] font-avenir">
             <div
               onClick={isSignedIn ? () => setMenuOpen(!menuOpen) : handleLogin}
-              className="flex items-center gap-2 cursor-pointer p-2 rounded font-avenir nav-dock-zoom"
-              style={{ transition: "transform 0.18s cubic-bezier(.4,0,.2,1), background 0.18s" }}
+              className="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-[#184b34] transition font-avenir"
             >
               <FaUserCircle className="text-2xl" />
               {isSignedIn ? (
@@ -113,16 +115,6 @@ const Layout = ({ children }) => {
       <main className="ml-60 w-full min-h-screen overflow-y-auto bg-gray-50 font-avenir">
         {children}
       </main>
-      <style>
-        {`
-          .nav-dock-zoom {
-            transition: transform 0.18s cubic-bezier(.4,0,.2,1);
-          }
-          .nav-dock-zoom:hover {
-            transform: scale(1.11);
-          }
-        `}
-      </style>
     </div>
   );
 };
