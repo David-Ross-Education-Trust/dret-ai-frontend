@@ -19,7 +19,7 @@ export default function SplashScreen() {
         </button>
         <button
           className="bg-white text-[var(--trust-green)] font-avenir font-semibold rounded-full py-3 px-6 shadow-md text-lg transition hover:bg-gray-100"
-          onClick={() => navigate("/ai")}
+          onClick={() => navigate("/ai/home")}
         >
           Continue to DRET AI
         </button>

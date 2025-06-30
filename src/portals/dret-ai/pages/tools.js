@@ -43,7 +43,7 @@ const subjectCategories = [
 
 const filterColors = {
   New: "bg-green-50 text-green-800 border-green-200",
-  Favourites: "bg-gold-50 text-gold-800 border-gold-200",
+  Favourites: "bg-amber-50 text-amber-800 border-amber-200",
   Assessment: "bg-blue-50 text-blue-800 border-blue-200",
   Planning: "bg-blue-50 text-blue-800 border-blue-200",
   Admin: "bg-blue-50 text-blue-800 border-blue-200",
@@ -60,7 +60,7 @@ const filterColors = {
 
 const filterActiveColors = {
   New: "bg-green-100 text-green-800 border-green-200",
-  Favourites: "bg-gold-100 text-gold-800 border-gold-200",
+  Favourites: "bg-amber-100 text-amber-800 border-amber-200",
   Assessment: "bg-blue-100 text-blue-800 border-blue-200",
   Planning: "bg-blue-100 text-blue-800 border-blue-200",
   Admin: "bg-blue-100 text-blue-800 border-blue-200",
