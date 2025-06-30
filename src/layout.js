@@ -49,14 +49,25 @@ const Layout = ({ children }) => {
                 <Link
                   key={index}
                   to={item.to}
-                  className={`flex items-center gap-2 px-4 py-2 rounded font-avenir nav-dock-zoom
-                    ${isSelected ? "border-l-4 border-yellow-400" : "border-l-4 border-transparent"}
-                  `}
+                  className={`flex items-center gap-2 px-4 py-2 rounded font-avenir nav-dock-zoom relative`}
                   style={{
-                    transition: "transform 0.18s cubic-bezier(.4,0,.2,1), border 0.18s",
                     color: "#fff",
+                    transition: "transform 0.18s cubic-bezier(.4,0,.2,1), border 0.18s"
                   }}
                 >
+                  {isSelected && (
+                    <span
+                      className="absolute left-0 top-1/2 -translate-y-1/2"
+                      style={{
+                        width: 0,
+                        height: 0,
+                        borderTop: "8px solid transparent",
+                        borderBottom: "8px solid transparent",
+                        borderRight: "10px solid #fff",
+                        marginLeft: "-22px"
+                      }}
+                    />
+                  )}
                   <i className={item.icon}></i> {item.label}
                 </Link>
               );
@@ -105,7 +116,7 @@ const Layout = ({ children }) => {
       <style>
         {`
           .nav-dock-zoom {
-            transition: transform 0.18s cubic-bezier(.4,0,.2,1), border 0.18s;
+            transition: transform 0.18s cubic-bezier(.4,0,.2,1);
           }
           .nav-dock-zoom:hover {
             transform: scale(1.11);
