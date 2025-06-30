@@ -46,33 +46,36 @@ const Layout = ({ children }) => {
             {navItems.map((item, index) => {
               const isSelected = location.pathname === item.to;
               return (
-                <Link
-                  key={index}
-                  to={item.to}
-                  className="flex items-center gap-2 px-4 py-2 rounded font-avenir nav-dock-zoom relative"
-                  style={{
-                    color: "#fff",
-                    fontWeight: 400,
-                    transition: "transform 0.18s cubic-bezier(.4,0,.2,1)"
-                  }}
-                >
-                  <i className={item.icon}></i>
+                <div key={index} className="relative group">
                   {isSelected && (
                     <span
-                      className="inline-block"
+                      className="absolute left-0 top-1/2 -translate-y-1/2"
                       style={{
-                        marginLeft: "0.18rem",
-                        marginRight: "0.55rem",
                         width: 0,
                         height: 0,
                         borderTop: "5px solid transparent",
                         borderBottom: "5px solid transparent",
-                        borderLeft: "7px solid #fff"
+                        borderRight: "7px solid #fff",
+                        marginLeft: "-22px"
                       }}
                     />
                   )}
-                  {item.label}
-                </Link>
+                  <Link
+                    to={item.to}
+                    className={`flex items-center gap-2 px-4 py-2 rounded font-avenir nav-dock-zoom relative transition-transform duration-150 ${
+                      isSelected ? "" : "hover:scale-110"
+                    }`}
+                    style={{
+                      color: "#fff",
+                      fontWeight: 400,
+                      transition: "transform 0.18s cubic-bezier(.4,0,.2,1)",
+                      marginLeft: "0.5rem"
+                    }}
+                  >
+                    <i className={item.icon}></i>
+                    {item.label}
+                  </Link>
+                </div>
               );
             })}
           </div>
