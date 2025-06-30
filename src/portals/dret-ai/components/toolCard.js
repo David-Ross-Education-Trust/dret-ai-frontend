@@ -2,23 +2,23 @@ import React from "react";
 import { Star, Flame, Sparkles } from "lucide-react";
 
 const categoryColors = {
-  Assessment: "bg-blue-50 text-blue-700",
-  Planning: "bg-blue-50 text-blue-700",
-  Admin: "bg-blue-50 text-blue-700",
-  Leadership: "bg-blue-50 text-blue-700",
-  Inclusion: "bg-blue-50 text-blue-700",
-  CPD: "bg-blue-50 text-blue-700",
-  English: "bg-indigo-50 text-indigo-700",
-  Maths: "bg-rose-50 text-rose-700",
-  Science: "bg-teal-50 text-teal-700",
-  History: "bg-amber-50 text-amber-700",
-  Geography: "bg-emerald-50 text-emerald-700",
-  MFL: "bg-fuchsia-50 text-fuchsia-700",
+  Assessment: "bg-blue-50 text-blue-800",
+  Planning: "bg-blue-50 text-blue-800",
+  Admin: "bg-blue-50 text-blue-800",
+  Leadership: "bg-blue-50 text-blue-800",
+  Inclusion: "bg-blue-50 text-blue-800",
+  CPD: "bg-blue-50 text-blue-800",
+  English: "bg-violet-100 text-violet-800",
+  Maths: "bg-yellow-100 text-yellow-900",
+  Science: "bg-cyan-100 text-cyan-800",
+  History: "bg-orange-100 text-orange-800",
+  Geography: "bg-lime-100 text-lime-800",
+  MFL: "bg-pink-100 text-pink-800",
 };
 
 const tagStyles = {
   Hot: "bg-red-50 text-red-600",
-  New: "bg-green-50 text-green-700", // Now green, not blue
+  New: "bg-green-50 text-green-700",
 };
 
 export default function ToolCard({

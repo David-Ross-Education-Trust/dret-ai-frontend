@@ -41,23 +41,21 @@ const subjectCategories = [
   "MFL",
 ];
 
-// Swap "New" to green (was blue), all categories to blue (was green)
 const filterColors = {
-  New: "bg-green-50 text-green-700 border-green-200",
-  Favourites: "bg-yellow-50 text-yellow-700 border-yellow-200",
-  Assessment: "bg-blue-50 text-blue-700 border-blue-200",
-  Planning: "bg-blue-50 text-blue-700 border-blue-200",
-  Admin: "bg-blue-50 text-blue-700 border-blue-200",
-  Leadership: "bg-blue-50 text-blue-700 border-blue-200",
-  Inclusion: "bg-blue-50 text-blue-700 border-blue-200",
-  CPD: "bg-blue-50 text-blue-700 border-blue-200",
-  
-  English: "bg-indigo-50 text-indigo-700 border-indigo-200",
-  Maths: "bg-rose-50 text-rose-700 border-rose-200",
-  Science: "bg-teal-50 text-teal-700 border-teal-200",
-  History: "bg-amber-50 text-amber-700 border-amber-200",
-  Geography: "bg-emerald-50 text-emerald-700 border-emerald-200",
-  MFL: "bg-fuchsia-50 text-fuchsia-700 border-fuchsia-200",
+  New: "bg-green-50 text-green-800 border-green-200",
+  Favourites: "bg-yellow-50 text-yellow-800 border-yellow-200",
+  Assessment: "bg-blue-50 text-blue-800 border-blue-200",
+  Planning: "bg-blue-50 text-blue-800 border-blue-200",
+  Admin: "bg-blue-50 text-blue-800 border-blue-200",
+  Leadership: "bg-blue-50 text-blue-800 border-blue-200",
+  Inclusion: "bg-blue-50 text-blue-800 border-blue-200",
+  CPD: "bg-blue-50 text-blue-800 border-blue-200",
+  English: "bg-violet-100 text-violet-800 border-violet-200",
+  Maths: "bg-yellow-100 text-yellow-900 border-yellow-200",
+  Science: "bg-cyan-100 text-cyan-800 border-cyan-200",
+  History: "bg-orange-100 text-orange-800 border-orange-200",
+  Geography: "bg-lime-100 text-lime-800 border-lime-200",
+  MFL: "bg-pink-100 text-pink-800 border-pink-200",
 };
 
 const filterActiveColors = {
@@ -69,13 +67,12 @@ const filterActiveColors = {
   Leadership: "bg-blue-700 text-white border-blue-700",
   Inclusion: "bg-blue-700 text-white border-blue-700",
   CPD: "bg-blue-700 text-white border-blue-700",
-
-  English: "bg-indigo-700 text-white border-indigo-700",
-  Maths: "bg-rose-700 text-white border-rose-700",
-  Science: "bg-teal-700 text-white border-teal-700",
-  History: "bg-amber-700 text-white border-amber-700",
-  Geography: "bg-emerald-700 text-white border-emerald-700",
-  MFL: "bg-fuchsia-700 text-white border-fuchsia-700",
+  English: "bg-violet-100 text-violet-800 border-violet-200",
+  Maths: "bg-yellow-100 text-yellow-900 border-yellow-200",
+  Science: "bg-cyan-100 text-cyan-800 border-cyan-200",
+  History: "bg-orange-100 text-orange-800 border-orange-200",
+  Geography: "bg-lime-100 text-lime-800 border-lime-200",
+  MFL: "bg-pink-100 text-pink-800 border-pink-200",
 };
 
 const filterGrey = "bg-gray-200 text-gray-400 border-gray-200";
@@ -155,12 +152,9 @@ export default function Homepage({ showOnlyFavourites }) {
         </div>
       ) : (
         <div className="bg-gray-50 min-h-screen h-screen flex flex-col font-avenir">
-          {/* HEADER */}
           <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-4 w-full font-avenir">
             <div className="flex flex-row flex-nowrap items-center justify-between py-3 font-avenir">
-              {/* FILTER BUTTONS with divider */}
               <div className="flex flex-wrap gap-2 max-w-[calc(100vw-350px)] items-center font-avenir">
-                {/* General Categories */}
                 {generalCategories.map((tag, idx) => {
                   let classNames = `px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center select-none font-avenir`;
                   if (selectedGeneral === tag) {
@@ -168,7 +162,7 @@ export default function Homepage({ showOnlyFavourites }) {
                   } else if (selectedGeneral && tag !== selectedGeneral) {
                     classNames += " " + filterGrey;
                   } else {
-                    classNames += " " + (filterColors[tag] || "bg-gray-200 text-gray-600 border-gray-300") + " hover:brightness-95";
+                    classNames += " " + (filterColors[tag] || "bg-gray-200 text-gray-700 border-gray-300") + " hover:brightness-95";
                   }
                   return (
                     <React.Fragment key={tag}>
@@ -184,7 +178,6 @@ export default function Homepage({ showOnlyFavourites }) {
                       >
                         {tag}
                       </span>
-                      {/* Divider after CPD */}
                       {tag === "CPD" && (
                         <span
                           aria-hidden
@@ -195,7 +188,6 @@ export default function Homepage({ showOnlyFavourites }) {
                     </React.Fragment>
                   );
                 })}
-                {/* Subject Categories */}
                 {subjectCategories.map((tag) => {
                   let classNames = `px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center select-none font-avenir`;
                   if (selectedSubject === tag) {
@@ -203,7 +195,7 @@ export default function Homepage({ showOnlyFavourites }) {
                   } else if (selectedSubject && tag !== selectedSubject) {
                     classNames += " " + filterGrey;
                   } else {
-                    classNames += " " + (filterColors[tag] || "bg-gray-200 text-gray-600 border-gray-300") + " hover:brightness-95";
+                    classNames += " " + (filterColors[tag] || "bg-gray-200 text-gray-700 border-gray-300") + " hover:brightness-95";
                   }
                   return (
                     <span
@@ -222,7 +214,6 @@ export default function Homepage({ showOnlyFavourites }) {
                   );
                 })}
               </div>
-              {/* SEARCH BAR */}
               <div className="relative flex-shrink-0 w-[240px] ml-4 font-avenir">
                 <input
                   type="text"
@@ -254,7 +245,6 @@ export default function Homepage({ showOnlyFavourites }) {
               </div>
             </div>
           </div>
-          {/* MAIN TOOLS GRID */}
           <div className="scroll-area flex-1 overflow-y-auto bg-gray-100 font-avenir">
             <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 pb-16">
               {filteredTools.map((tool, idx) =>
