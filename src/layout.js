@@ -46,7 +46,8 @@ const Layout = ({ children }) => {
               <Link
                 key={index}
                 to={item.to}
-                className="flex items-center gap-2 px-4 py-2 rounded hover:bg-[#184b34] transition font-avenir"
+                className="flex items-center gap-2 px-4 py-2 rounded hover:bg-[#184b34] transition font-avenir nav-dock-zoom"
+                style={{ transition: "transform 0.17s cubic-bezier(.4,0,.2,1), background 0.18s" }}
               >
                 <i className={item.icon}></i> {item.label}
               </Link>
@@ -57,7 +58,8 @@ const Layout = ({ children }) => {
           <div className="relative p-4 border-t border-[#184b34] font-avenir">
             <div
               onClick={isSignedIn ? () => setMenuOpen(!menuOpen) : handleLogin}
-              className="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-[#184b34] transition font-avenir"
+              className="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-[#184b34] transition font-avenir nav-dock-zoom"
+              style={{ transition: "transform 0.17s cubic-bezier(.4,0,.2,1), background 0.18s" }}
             >
               <FaUserCircle className="text-2xl" />
               {isSignedIn ? (
@@ -91,6 +93,17 @@ const Layout = ({ children }) => {
       <main className="ml-60 w-full min-h-screen overflow-y-auto bg-gray-50 font-avenir">
         {children}
       </main>
+      <style>
+        {`
+          .nav-dock-zoom {
+            transition: transform 0.18s cubic-bezier(.4,0,.2,1), background 0.18s;
+          }
+          .nav-dock-zoom:hover {
+            transform: scale(1.11);
+            z-index: 10;
+          }
+        `}
+      </style>
     </div>
   );
 };
