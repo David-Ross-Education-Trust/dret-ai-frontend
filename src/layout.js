@@ -49,12 +49,12 @@ const Layout = ({ children }) => {
                 <Link
                   key={index}
                   to={item.to}
-                  className={`flex items-center gap-2 px-4 py-2 rounded font-avenir nav-dock-zoom 
-                    ${isSelected ? "bg-[rgba(255,255,255,0.07)] font-semibold border-l-4 border-[rgba(255,255,255,0.20)]" : ""}
+                  className={`flex items-center gap-2 px-4 py-2 rounded font-avenir nav-dock-zoom
+                    ${isSelected ? "border-l-4 border-yellow-400" : "border-l-4 border-transparent"}
                   `}
                   style={{
-                    transition: "transform 0.18s cubic-bezier(.4,0,.2,1), background 0.18s, border 0.18s",
-                    color: isSelected ? "#fff" : "#fff",
+                    transition: "transform 0.18s cubic-bezier(.4,0,.2,1), border 0.18s",
+                    color: "#fff",
                   }}
                 >
                   <i className={item.icon}></i> {item.label}
@@ -105,12 +105,10 @@ const Layout = ({ children }) => {
       <style>
         {`
           .nav-dock-zoom {
-            transition: transform 0.18s cubic-bezier(.4,0,.2,1), background 0.18s;
+            transition: transform 0.18s cubic-bezier(.4,0,.2,1), border 0.18s;
           }
           .nav-dock-zoom:hover {
             transform: scale(1.11);
-            /* No background change on hover! */
-            z-index: 10;
           }
         `}
       </style>
