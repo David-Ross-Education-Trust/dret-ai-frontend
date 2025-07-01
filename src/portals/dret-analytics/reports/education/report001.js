@@ -44,32 +44,23 @@ export default function Report001() {
 
   return (
     <AnalyticsLayout sidebarHidden={!sidebarVisible}>
-      <div
-        className={`transition-all duration-300 ${
-          sidebarVisible ? "ml-0" : "w-full"
-        }`}
-      >
-        {/* SIDEBAR TOGGLE BUTTON (top-left corner of report area) */}
-        <div className="flex justify-between items-center mb-4">
-          <button
-            onClick={() => setSidebarVisible((v) => !v)}
-            className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition"
-            aria-label={sidebarVisible ? "Minimise sidebar" : "Show sidebar"}
-            title={sidebarVisible ? "Minimise sidebar" : "Show sidebar"}
-          >
-            {sidebarVisible ? <ChevronLeft size={20} /> : <Menu size={20} />}
-          </button>
-          <h1 className="text-2xl font-bold flex-1 text-center -ml-8">
-            Attendance Overview
-          </h1>
-          {/* Spacer for alignment */}
-          <span className="w-10" />
-        </div>
-        {error && <div className="text-red-600 mb-4">{error}</div>}
-        {!embedInfo && !error && (
-          <div className="text-gray-500">Loading Power BI report...</div>
-        )}
-        {embedInfo && (
+      {/* Toggle button, always visible in report view */}
+      <div className="flex items-center mb-2">
+        <button
+          onClick={() => setSidebarVisible((v) => !v)}
+          className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition"
+          aria-label={sidebarVisible ? "Minimise sidebar" : "Show sidebar"}
+          title={sidebarVisible ? "Minimise sidebar" : "Show sidebar"}
+        >
+          {sidebarVisible ? <ChevronLeft size={20} /> : <Menu size={20} />}
+        </button>
+        <h1 className="text-2xl font-bold flex-1 text-center -ml-8">Attendance Overview</h1>
+        <span className="w-10" />
+      </div>
+      {error && <div className="text-red-600 mb-4">{error}</div>}
+      {!embedInfo && !error && <div className="text-gray-500">Loading Power BI report...</div>}
+      {embedInfo && (
+        <div className="flex flex-col w-full h-[calc(100vh-70px)] transition-all duration-300">
           <PowerBIEmbed
             embedConfig={{
               type: "report",
@@ -84,11 +75,10 @@ export default function Report001() {
                 },
               },
             }}
-            // Here's the key part: height is always 100vh, width is 100% of parent
-            cssClassName="w-full min-h-[calc(100vh-64px)] rounded-xl shadow"
+            cssClassName="w-full h-full rounded-xl shadow"
           />
-        )}
-      </div>
+        </div>
+      )}
     </AnalyticsLayout>
   );
 }
