@@ -1,9 +1,9 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useMsal } from "@azure/msal-react";
 import { PowerBIEmbed } from "powerbi-client-react";
 import { models } from "powerbi-client";
-import AnalyticsLayout from "../../components/layout";
-import { Maximize2, Minimize2, Menu, X } from "lucide-react";
+import AnalyticsLayout from "../../components/AnalyticsLayout";
+import { Menu, ChevronLeft } from "lucide-react";
 
 const pbiScopes = ["openid", "profile"];
 
@@ -11,9 +11,7 @@ export default function Report001() {
   const { instance, accounts } = useMsal();
   const [embedInfo, setEmbedInfo] = useState(null);
   const [error, setError] = useState(null);
-  const [isFullscreen, setIsFullscreen] = useState(false);
-  const [sidebarVisible, setSidebarVisible] = useState(false); // <--- NEW
-  const embedContainerRef = useRef(null);
+  const [sidebarVisible, setSidebarVisible] = useState(true); // Visible by default
 
   useEffect(() => {
     async function fetchEmbedToken() {
@@ -23,7 +21,6 @@ export default function Report001() {
           account: accounts[0],
           scopes: pbiScopes,
         });
-
         const res = await fetch(
           "https://dret-ai-backend-f9drcacng0f2gmc4.uksouth-01.azurewebsites.net/api/powerbi/embed-token",
           {
@@ -45,53 +42,29 @@ export default function Report001() {
     fetchEmbedToken();
   }, [accounts, instance]);
 
-  // Fullscreen logic
-  const handleFullscreen = () => {
-    const elem = embedContainerRef.current;
-    if (!document.fullscreenElement) {
-      elem.requestFullscreen();
-      setIsFullscreen(true);
-    } else {
-      document.exitFullscreen();
-      setIsFullscreen(false);
-    }
-  };
-
-  useEffect(() => {
-    const onFullscreenChange = () => setIsFullscreen(!!document.fullscreenElement);
-    document.addEventListener("fullscreenchange", onFullscreenChange);
-    return () =>
-      document.removeEventListener("fullscreenchange", onFullscreenChange);
-  }, []);
-
   return (
     <AnalyticsLayout sidebarHidden={!sidebarVisible}>
-      <div className="p-6" ref={embedContainerRef}>
-        {/* SIDEBAR TOGGLE BUTTON (always visible, top-left corner) */}
-        {!sidebarVisible && (
-          <button
-            onClick={() => setSidebarVisible(true)}
-            className="fixed top-4 left-4 z-50 bg-white rounded-full p-2 shadow hover:bg-gray-100 transition"
-            aria-label="Show sidebar"
-            title="Show sidebar"
-          >
-            <Menu size={22} />
-          </button>
-        )}
-
-        {/* FULLSCREEN TOGGLE BUTTON (top-right corner of report panel) */}
+      <div
+        className={`transition-all duration-300 ${
+          sidebarVisible ? "ml-0" : "w-full"
+        }`}
+      >
+        {/* SIDEBAR TOGGLE BUTTON (top-left corner of report area) */}
         <div className="flex justify-between items-center mb-4">
-          <h1 className="text-2xl font-bold">Attendance Overview</h1>
           <button
-            onClick={handleFullscreen}
-            className="ml-4 p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition"
-            aria-label="Toggle fullscreen"
-            title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
+            onClick={() => setSidebarVisible((v) => !v)}
+            className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition"
+            aria-label={sidebarVisible ? "Minimise sidebar" : "Show sidebar"}
+            title={sidebarVisible ? "Minimise sidebar" : "Show sidebar"}
           >
-            {isFullscreen ? <Minimize2 size={20} /> : <Maximize2 size={20} />}
+            {sidebarVisible ? <ChevronLeft size={20} /> : <Menu size={20} />}
           </button>
+          <h1 className="text-2xl font-bold flex-1 text-center -ml-8">
+            Attendance Overview
+          </h1>
+          {/* Spacer for alignment */}
+          <span className="w-10" />
         </div>
-
         {error && <div className="text-red-600 mb-4">{error}</div>}
         {!embedInfo && !error && (
           <div className="text-gray-500">Loading Power BI report...</div>
@@ -111,21 +84,11 @@ export default function Report001() {
                 },
               },
             }}
-            cssClassName="w-full h-[80vh] rounded-xl shadow"
+            // Here's the key part: height is always 100vh, width is 100% of parent
+            cssClassName="w-full min-h-[calc(100vh-64px)] rounded-xl shadow"
           />
         )}
       </div>
-      {/* CLOSE SIDEBAR BUTTON: (shows when sidebar is open, fixed at top left of sidebar) */}
-      {sidebarVisible && (
-        <button
-          onClick={() => setSidebarVisible(false)}
-          className="fixed top-4 left-64 z-50 bg-white rounded-full p-2 shadow hover:bg-gray-100 transition"
-          aria-label="Hide sidebar"
-          title="Hide sidebar"
-        >
-          <X size={22} />
-        </button>
-      )}
     </AnalyticsLayout>
   );
 }
