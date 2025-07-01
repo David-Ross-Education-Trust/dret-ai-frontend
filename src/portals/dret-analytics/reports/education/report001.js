@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useMsal } from "@azure/msal-react";
 import { PowerBIEmbed } from "powerbi-client-react";
 import { models } from "powerbi-client";
-import AnalyticsLayout from "../../components/AnalyticsLayout";
+import AnalyticsLayout from "../../components/layout";
 import { Menu, ChevronLeft } from "lucide-react";
 
 const pbiScopes = ["openid", "profile"];
