@@ -3,9 +3,8 @@ import { useMsal } from "@azure/msal-react";
 import { PowerBIEmbed } from "powerbi-client-react";
 import { models } from "powerbi-client";
 import AnalyticsLayout from "../../components/layout";
-import { Maximize2, Minimize2 } from "lucide-react";
+import { Maximize2, Minimize2, Menu, X } from "lucide-react";
 
-// Use OpenID Connect scopes to get the ID token!
 const pbiScopes = ["openid", "profile"];
 
 export default function Report001() {
@@ -13,6 +12,7 @@ export default function Report001() {
   const [embedInfo, setEmbedInfo] = useState(null);
   const [error, setError] = useState(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [sidebarVisible, setSidebarVisible] = useState(false); // <--- NEW
   const embedContainerRef = useRef(null);
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export default function Report001() {
     fetchEmbedToken();
   }, [accounts, instance]);
 
-  // Fullscreen API logic
+  // Fullscreen logic
   const handleFullscreen = () => {
     const elem = embedContainerRef.current;
     if (!document.fullscreenElement) {
@@ -65,8 +65,21 @@ export default function Report001() {
   }, []);
 
   return (
-    <AnalyticsLayout sidebarHidden>
+    <AnalyticsLayout sidebarHidden={!sidebarVisible}>
       <div className="p-6" ref={embedContainerRef}>
+        {/* SIDEBAR TOGGLE BUTTON (always visible, top-left corner) */}
+        {!sidebarVisible && (
+          <button
+            onClick={() => setSidebarVisible(true)}
+            className="fixed top-4 left-4 z-50 bg-white rounded-full p-2 shadow hover:bg-gray-100 transition"
+            aria-label="Show sidebar"
+            title="Show sidebar"
+          >
+            <Menu size={22} />
+          </button>
+        )}
+
+        {/* FULLSCREEN TOGGLE BUTTON (top-right corner of report panel) */}
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-2xl font-bold">Attendance Overview</h1>
           <button
@@ -78,6 +91,7 @@ export default function Report001() {
             {isFullscreen ? <Minimize2 size={20} /> : <Maximize2 size={20} />}
           </button>
         </div>
+
         {error && <div className="text-red-600 mb-4">{error}</div>}
         {!embedInfo && !error && (
           <div className="text-gray-500">Loading Power BI report...</div>
@@ -101,6 +115,17 @@ export default function Report001() {
           />
         )}
       </div>
+      {/* CLOSE SIDEBAR BUTTON: (shows when sidebar is open, fixed at top left of sidebar) */}
+      {sidebarVisible && (
+        <button
+          onClick={() => setSidebarVisible(false)}
+          className="fixed top-4 left-64 z-50 bg-white rounded-full p-2 shadow hover:bg-gray-100 transition"
+          aria-label="Hide sidebar"
+          title="Hide sidebar"
+        >
+          <X size={22} />
+        </button>
+      )}
     </AnalyticsLayout>
   );
 }
