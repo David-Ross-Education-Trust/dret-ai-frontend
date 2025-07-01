@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useMsal } from "@azure/msal-react";
 import { FaUserCircle } from "react-icons/fa";
 import { FiChevronDown } from "react-icons/fi";
-import { Menu, ChevronLeft } from "lucide-react";
+import { Menu } from "lucide-react";
 import dretAnalyticsLogo from "../../../assets/dretai-logo.png";
 
 const navItems = [
