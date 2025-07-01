@@ -4,23 +4,33 @@ import { PowerBIEmbed } from "powerbi-client-react";
 import { models } from "powerbi-client";
 import AnalyticsLayout from "../../components/layout";
 
+const pbiScopes = ["User.Read"]; // Any MS Graph scope, just to get the user's ID token
+
 export default function Report001() {
-  const { accounts } = useMsal();
+  const { instance, accounts } = useMsal();
   const [embedInfo, setEmbedInfo] = useState(null);
   const [error, setError] = useState(null);
 
-  const userEmail = accounts[0]?.username;
-
   useEffect(() => {
     async function fetchEmbedToken() {
+      if (!accounts[0]) return;
       try {
+        // 1. Acquire MSAL access token for this user
+        const response = await instance.acquireTokenSilent({
+          account: accounts[0],
+          scopes: pbiScopes,
+        });
+
+        // 2. Use this token in Authorization header
         const res = await fetch("https://dret-ai-backend-f9drcacng0f2gmc4.uksouth-01.azurewebsites.net/api/powerbi/embed-token", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Authorization": `Bearer ${response.accessToken}`,
+            "Content-Type": "application/json"
+          },
           body: JSON.stringify({
-            reportKey: "report001",
-            username: userEmail,
-            roles: ["AllUsers"]
+            reportKey: "report001"
+            // username/roles not needed anymore!
           })
         });
         const data = await res.json();
@@ -31,10 +41,8 @@ export default function Report001() {
       }
     }
 
-    if (userEmail) {
-      fetchEmbedToken();
-    }
-  }, [userEmail]);
+    fetchEmbedToken();
+  }, [accounts, instance]);
 
   return (
     <AnalyticsLayout>
