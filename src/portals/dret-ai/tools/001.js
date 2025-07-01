@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import Layout from "../../../layout";
+import Layout from "../layout";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { marked } from "marked";
@@ -7,10 +7,9 @@ import htmlDocx from "html-docx-js/dist/html-docx";
 
 export default function LessonPlanningTool() {
   const [fields, setFields] = useState({
-    subject: "",
-    audience: "",
+    year: "",
     topic: "",
-    description: "",
+    unit: "",
     length: "",
   });
   const [response, setResponse] = useState("");
@@ -24,22 +23,15 @@ export default function LessonPlanningTool() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (
-      !fields.subject.trim() ||
-      !fields.audience.trim() ||
-      !fields.topic.trim() ||
-      !fields.description.trim() ||
-      !fields.length.trim()
-    ) {
+    if (!fields.year.trim() || !fields.topic.trim() || !fields.unit.trim() || !fields.length.trim()) {
       setResponse("Please fill in all fields.");
       return;
     }
 
     const message = `
-Subject: ${fields.subject}
-Audience: ${fields.audience}
+Year Group: ${fields.year}
 Topic: ${fields.topic}
-Brief Description: ${fields.description}
+Unit: ${fields.unit}
 Length (minutes): ${fields.length}
 
 Please format your response in markdown.
@@ -111,22 +103,12 @@ Please format your response in markdown.
               style={{ minHeight: 120 }}
             >
               <div className="mb-3">
-                <label className="block text-xs font-medium text-gray-700 mb-1">Subject</label>
+                <label className="block text-xs font-medium text-gray-700 mb-1">Year Group</label>
                 <input
                   type="text"
-                  value={fields.subject}
-                  onChange={e => handleChange("subject", e.target.value)}
-                  placeholder="Maths"
-                  className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm"
-                />
-              </div>
-              <div className="mb-3">
-                <label className="block text-xs font-medium text-gray-700 mb-1">Audience</label>
-                <input
-                  type="text"
-                  value={fields.audience}
-                  onChange={e => handleChange("audience", e.target.value)}
-                  placeholder="Year 7"
+                  value={fields.year}
+                  onChange={e => handleChange("year", e.target.value)}
+                  placeholder="Year 8"
                   className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm"
                 />
               </div>
@@ -136,24 +118,22 @@ Please format your response in markdown.
                   type="text"
                   value={fields.topic}
                   onChange={e => handleChange("topic", e.target.value)}
-                  placeholder="Fractions"
+                  placeholder="The Cold War"
                   className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm"
                 />
               </div>
               <div className="mb-3">
-                <label className="block text-xs font-medium text-gray-700 mb-1">Brief Description</label>
-                <textarea
-                  value={fields.description}
-                  onChange={e => handleChange("description", e.target.value)}
-                  placeholder="What are some of the key points this lesson should cover?"
-                  className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm min-h-[100px]"
-                  rows={4}
+                <label className="block text-xs font-medium text-gray-700 mb-1">Unit</label>
+                <input
+                  type="text"
+                  value={fields.unit}
+                  onChange={e => handleChange("unit", e.target.value)}
+                  placeholder="Unit 2"
+                  className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm"
                 />
               </div>
               <div className="mb-3">
-                <label className="block text-xs font-medium text-gray-700 mb-1">
-                  Length (minutes)
-                </label>
+                <label className="block text-xs font-medium text-gray-700 mb-1">Length (minutes)</label>
                 <input
                   type="text"
                   value={fields.length}
@@ -179,9 +159,7 @@ Please format your response in markdown.
               <div
                 ref={scrollAreaRef}
                 className="flex-1 overflow-y-auto px-6 pt-6 pb-4 custom-scrollbar prose prose-sm max-w-none"
-                style={{
-                  minHeight: 120,
-                }}
+                style={{ minHeight: 120 }}
               >
                 {loading ? (
                   <div className="flex flex-col items-center justify-center h-full w-full py-10">
@@ -193,13 +171,9 @@ Please format your response in markdown.
                     <div className="text-gray-500 italic text-sm mt-3">Generating lesson plan...</div>
                   </div>
                 ) : response ? (
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                    {response}
-                  </ReactMarkdown>
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{response}</ReactMarkdown>
                 ) : (
-                  <div className="text-gray-400 italic text-sm">
-                    Your lesson plan will appear here.
-                  </div>
+                  <div className="text-gray-400 italic text-sm">Your lesson plan will appear here.</div>
                 )}
               </div>
               {response && !loading && (
@@ -216,27 +190,6 @@ Please format your response in markdown.
             </div>
           </div>
         </div>
-        <style>
-          {`
-            .custom-scrollbar {
-              scrollbar-width: thin;
-              scrollbar-color: #cbd5e1 transparent;
-            }
-            .custom-scrollbar::-webkit-scrollbar {
-              width: 6px;
-            }
-            .custom-scrollbar::-webkit-scrollbar-track {
-              background: transparent;
-            }
-            .custom-scrollbar::-webkit-scrollbar-thumb {
-              background-color: #cbd5e1;
-              border-radius: 3px;
-            }
-            .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-              background-color: #94a3b8;
-            }
-          `}
-        </style>
       </div>
     </Layout>
   );

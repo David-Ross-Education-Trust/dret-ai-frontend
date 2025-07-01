@@ -17,7 +17,7 @@ export const toolsConfig = [
   },
   {
     id: "lesson-planner",
-    name: "Lesson Planner",
+    name: "Maths Lesson Planner",
     description: "Plan and manage lessons with ease.",
     category: ["Planning"],
     tag: "New",
