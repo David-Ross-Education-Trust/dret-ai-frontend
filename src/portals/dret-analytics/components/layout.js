@@ -6,7 +6,6 @@ import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import { useLocation, Link } from "react-router-dom";
 import dretAnalyticsLogo from "../../../assets/dret-analytics-logo.png";
 
-// You can keep navItems with 'icon' properties or remove the 'icon' fields, but they're unused now:
 const navItems = [
   { label: "Favourites", to: "/analytics" },
   { label: "Education Dashboards", to: "/analytics/education" },
@@ -47,9 +46,25 @@ const AnalyticsLayout = ({
         }`}
         style={{ minWidth: sidebarOpen ? sidebarWidth : sidebarMiniWidth }}
       >
+        {/* Top: Logo and nav in a scrollable flex-1 column */}
         <div className="flex flex-col flex-1">
-          {allowSidebarMinimise && (
-            <div className="relative flex items-center justify-center h-24">
+          <div className="relative flex items-center justify-center h-24">
+            {sidebarOpen && (
+              <img
+                src={dretAnalyticsLogo}
+                alt="Analytics Logo"
+                className="object-contain"
+                style={{
+                  maxHeight: "90px",
+                  width: "100%",
+                  marginTop: "6px",
+                  marginBottom: "6px",
+                  transition: "width 0.2s, max-height 0.2s",
+                  display: "block",
+                }}
+              />
+            )}
+            {allowSidebarMinimise && (
               <button
                 onClick={() => setSidebarOpen((v) => !v)}
                 aria-label={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
@@ -64,9 +79,9 @@ const AnalyticsLayout = ({
                   <HiChevronRight size={22} />
                 )}
               </button>
-            </div>
-          )}
-          {/* Nav */}
+            )}
+          </div>
+          {/* Nav: always at the top, under logo */}
           <nav className="mt-6 flex flex-col gap-1">
             {navItems.map((item, idx) => {
               const isSelected =
@@ -96,7 +111,7 @@ const AnalyticsLayout = ({
                       viewBox="0 0 10 10"
                       style={{
                         display: "inline-block",
-                        marginRight: "6px",
+                        marginRight: "6px", // puts bullet right before label
                       }}
                     >
                       <circle cx="5" cy="5" r="4" fill="white" />
@@ -156,7 +171,9 @@ const AnalyticsLayout = ({
           paddingTop: 0,
         }}
       >
+        {/* Header: only render if actually passed in */}
         {showHeader && headerContent}
+        {/* Children: if function, pass sidebarOpen for layout-aware rendering */}
         {typeof children === "function"
           ? children({ sidebarOpen })
           : children}
