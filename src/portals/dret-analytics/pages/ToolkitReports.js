@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Search, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import AnalyticsLayout from "../components/layout";
-import { ToolkitConfig } from "../components/ToolkitConfig";
+import { toolkitConfig } from "../components/toolkitConfig";
 import ToolkitReportCard from "../components/ToolkitReportCard";
 
 export default function ToolkitReports() {
@@ -10,12 +10,10 @@ export default function ToolkitReports() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
 
-  // Only show Toolkit reports, and not comingSoon, and filter by searchTerm
-  const toolkitReports = ToolkitConfig.filter(
+  // Show all toolkit reports (optionally filter out comingSoon)
+  const toolkitReports = toolkitConfig.filter(
     (r) =>
       !r.comingSoon &&
-      r.category &&
-      r.category.toLowerCase() === "toolkit" &&
       (
         searchTerm.trim() === "" ||
         (r.name && r.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
@@ -34,7 +32,7 @@ export default function ToolkitReports() {
             "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
         }}
       >
-        {/* --- Top Bar (AI style heading + search bar) --- */}
+        {/* --- Top Bar (Heading + Search) --- */}
         <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-8 h-24 flex items-center justify-between">
           <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
             Education Toolkit
@@ -62,6 +60,7 @@ export default function ToolkitReports() {
               <button
                 onClick={() => setSearchTerm("")}
                 className="absolute right-9 top-2.5 text-gray-400 hover:text-gray-600"
+                tabIndex={-1}
               >
                 <X size={16} />
               </button>
@@ -70,7 +69,8 @@ export default function ToolkitReports() {
           </div>
         </div>
         {/* --- End Top Bar --- */}
-        {/* Report Grid */}
+
+        {/* --- Report Grid --- */}
         <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
             {toolkitReports.length === 0 ? (
