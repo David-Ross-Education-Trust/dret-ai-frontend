@@ -23,8 +23,8 @@ import ingoldsbyLogo from "../../../assets/ingoldsby.png";
 import kingedLogo from "../../../assets/kinged.png";
 import kingsheathLogo from "../../../assets/kingsheath.png";
 import lodgeparkLogo from "../../../assets/lodgepark.png";
-import macolarnoldLogo from "../../../assets/macolarnold.png";
-import macolarnoldprepLogo from "../../../assets/malcolmaroldprep.png";
+import malcolmarnoldLogo from "../../../assets/macolmarnold.png";
+import malcolmarnoldprepLogo from "../../../assets/malcolmarnoldprep.png";
 import newnhamLogo from "../../../assets/newnham.png";
 import quayLogo from "../../../assets/quay.png";
 import rockinghamLogo from "../../../assets/rockingham.png";
@@ -58,8 +58,8 @@ import HogsToolkit from "../reports/toolkit/HogsToolkit";
 import HumberstonToolkit from "../reports/toolkit/HumberstonToolkit";
 import IngoldsbyToolkit from "../reports/toolkit/IngoldsbyToolkit";
 import KingEdwardToolkit from "../reports/toolkit/KingEdwardToolkit";
-import KingsHeathToolkit from "../reports/toolkit/KingsHeathToolkit";
-import LodgeParkToolkit from "../reports/toolkit/LodgeParkToolkit";
+import KingsHeathToolkit from "../reports/toolkit/KingsheathToolkit";
+import LodgeParkToolkit from "../reports/toolkit/LodgeparkToolkit";
 import MalcolmArnoldToolkit from "../reports/toolkit/MalcolmArnoldToolkit";
 import MalcolmArnoldPrepToolkit from "../reports/toolkit/MalcolmArnoldPrepToolkit";
 import NewnhamToolkit from "../reports/toolkit/NewnhamToolkit";
@@ -326,7 +326,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/macolarnold",
     component: MalcolmArnoldToolkit,
-    logoUrl: macolarnoldLogo,
+    logoUrl: malcolmarnoldLogo,
     comingSoon: false,
   },
   {
@@ -337,7 +337,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/macolarnoldprep",
     component: MalcolmArnoldPrepToolkit,
-    logoUrl: macolarnoldprepLogo,
+    logoUrl: malcolmarnoldprepLogo,
     comingSoon: false,
   },
   {
