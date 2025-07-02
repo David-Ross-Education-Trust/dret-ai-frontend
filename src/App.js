@@ -9,9 +9,13 @@ import ToolsPage from "./portals/dret-ai/pages/tools";
 import AnalyticsHomePage from "./portals/dret-analytics/pages/HomePage";
 import EducationReports from "./portals/dret-analytics/pages/EducationReports";
 import ToolkitReports from "./portals/dret-analytics/pages/ToolkitReports";
+import FinanceReports from "./portals/dret-analytics/pages/FinanceReports";
+import HRReports from "./portals/dret-analytics/pages/HRReports";
+import ITDataReports from "./portals/dret-analytics/pages/ITDataReports";
+import OperationsReports from "./portals/dret-analytics/pages/OperationsReports";
 import { toolsConfig } from "./portals/dret-ai/components/toolConfig";
 import { reportConfig } from "./portals/dret-analytics/components/reportConfig";
-import { toolkitConfig } from "./portals/dret-analytics/components/ToolkitConfig"; // <--- Add this!
+import { toolkitConfig } from "./portals/dret-analytics/components/ToolkitConfig";
 import RequireAuth from "./RequireAuth";
 
 function App() {
@@ -24,6 +28,7 @@ function App() {
           element={
             <RequireAuth>
               <Routes>
+                {/* AI routes */}
                 <Route path="/ai/home" element={<AiHomePage />} />
                 <Route path="/ai/favourites" element={<FavouritesPage />} />
                 <Route path="/ai/myhub" element={<MyHub />} />
@@ -39,10 +44,17 @@ function App() {
                       />
                     )
                 )}
+
+                {/* Analytics section root pages */}
                 <Route path="/analytics" element={<AnalyticsHomePage />} />
                 <Route path="/analytics/education" element={<EducationReports />} />
                 <Route path="/analytics/toolkit" element={<ToolkitReports />} />
-                {/* ---- Toolkit report pages ---- */}
+                <Route path="/analytics/finance" element={<FinanceReports />} />
+                <Route path="/analytics/hr" element={<HRReports />} />
+                <Route path="/analytics/it-data" element={<ITDataReports />} />
+                <Route path="/analytics/operations" element={<OperationsReports />} />
+
+                {/* Individual toolkit report pages */}
                 {toolkitConfig.map(
                   (toolkit) =>
                     !toolkit.comingSoon && (
@@ -53,7 +65,8 @@ function App() {
                       />
                     )
                 )}
-                {/* ---- Analytics report pages ---- */}
+
+                {/* Individual analytics report pages */}
                 {reportConfig.map(
                   (report) =>
                     !report.comingSoon && (
