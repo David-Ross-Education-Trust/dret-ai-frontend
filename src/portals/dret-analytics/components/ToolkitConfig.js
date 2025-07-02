@@ -75,7 +75,7 @@ import BobbyMooreToolkit from "../reports/toolkit/BobbyMooreToolkit";
 import BarnesWallisToolkit from "../reports/toolkit/BarnesWallisToolkit";
 
 // 3. Export the config array, each with logoUrl mapped to new imports
-export const reportConfig = [
+export const ToolkitConfig = [
   { id: "abbey", name: "Demo Toolkit", description: "Demo Toolkit.", category: "Toolkit", tag: "", href: "/analytics/report/demo", component: DemoToolkit, logoUrl: dretLogo, comingSoon: false },
   { id: "abbey", name: "Abbey CE Academy", description: "Abbey CE Academy Toolkit.", category: "Toolkit", tag: "", href: "/analytics/report/abbey", component: AbbeyToolkit, logoUrl: AbbeyLogo, comingSoon: false },
   { id: "ainthorpe", name: "Ainthorpe Primary School", description: "Ainthorpe Primary School Toolkit.", category: "Toolkit", tag: "", href: "/analytics/report/ainthorpe", component: AinthorpeToolkit, logoUrl: AinthorpeLogo, comingSoon: false },
