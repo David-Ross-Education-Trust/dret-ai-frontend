@@ -5,7 +5,7 @@ export default function ToolkitReportCard({ report, onClick }) {
     <div
       onClick={() => onClick && onClick(report)}
       className={`
-        bg-white rounded-xl shadow-md hover:shadow-lg
+        bg-[var(--trust-green-light,#e5f6ee)] rounded-xl shadow-md hover:shadow-lg
         transition-all cursor-pointer flex flex-col items-center justify-center
         aspect-square w-full min-w-[140px] min-h-[140px] max-w-[220px] max-h-[220px] 
         border border-gray-100 relative
@@ -21,8 +21,11 @@ export default function ToolkitReportCard({ report, onClick }) {
       )}
       {/* School/report name */}
       <div
-        className="text-base font-bold text-center px-2"
-        style={{ fontFamily: "system-ui, sans-serif" }}
+        className="text-sm text-center px-2 font-normal"
+        style={{
+          fontFamily: "system-ui, sans-serif",
+          fontWeight: 400, // Ensure not bold
+        }}
       >
         {report.name}
       </div>
