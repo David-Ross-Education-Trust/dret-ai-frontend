@@ -4,23 +4,25 @@ import { FaUserCircle } from "react-icons/fa";
 import { FiChevronDown } from "react-icons/fi";
 import { HiChevronDoubleLeft, HiChevronDoubleRight } from "react-icons/hi";
 import { useLocation, Link } from "react-router-dom";
-import dretAnalyticsLogo from "../../../assets/dretai-logo.png";
+import dretAnalyticsLogo from "../../../assets/dretai-logo.png"; // <-- update if your path is different
 
+// Sidebar items
 const navItems = [
-  { label: "Favourites", to: "/analytics" },
+  { label: "Favourites", to: "/analytics/favourites" },
   { label: "Education", to: "/analytics/education" },
   { label: "Operations", to: "/analytics/operations" },
   { label: "Finance", to: "/analytics/finance" },
   { label: "HR", to: "/analytics/hr" },
   { label: "IT & Data", to: "/analytics/it-data" },
-  { label: "Toolbox", to: "/analytics/toolbox" }, // <--- Here it is
 ];
+// Toolbox link as a separate object so it always appears at the bottom
+const toolboxItem = { label: "Toolbox", to: "/analytics/toolbox" };
 
 const AnalyticsLayout = ({
   children,
   allowSidebarMinimise = false,
   hideHeaderWithSidebar = false,
-  headerContent = null,
+  headerContent = null, // Pass a custom header as a prop if needed
 }) => {
   const { accounts, instance } = useMsal();
   const account = accounts[0];
@@ -29,10 +31,13 @@ const AnalyticsLayout = ({
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const location = useLocation();
+
+  // Show the header unless (hideHeaderWithSidebar && sidebar is minimised)
+  const showHeader = !(hideHeaderWithSidebar && !sidebarOpen);
+
+  // Sidebar width (in px) to keep alignment consistent with the button
   const sidebarWidth = 240;
   const sidebarMiniWidth = 56;
-
-  const showHeader = !(hideHeaderWithSidebar && !sidebarOpen);
 
   const handleLogin = () => instance.loginRedirect();
   const handleLogout = () => instance.logoutRedirect();
@@ -46,20 +51,24 @@ const AnalyticsLayout = ({
         }`}
         style={{ minWidth: sidebarOpen ? sidebarWidth : sidebarMiniWidth }}
       >
-        <div>
-          <div className="flex items-center justify-center h-20">
-            <img
-              src={dretAnalyticsLogo}
-              alt="Analytics Logo"
-              className="object-contain"
-              style={{
-                maxHeight: 64,
-                width: sidebarOpen ? "100%" : 40,
-                transition: "width 0.2s",
-              }}
-            />
-          </div>
-          <nav className="mt-6 flex flex-col gap-1">
+        <div className="flex-1 flex flex-col">
+          {/* Only show logo if sidebar is open */}
+          {sidebarOpen && (
+            <div className="flex items-center justify-center h-20">
+              <img
+                src={dretAnalyticsLogo}
+                alt="Analytics Logo"
+                className="object-contain"
+                style={{
+                  maxHeight: 64,
+                  width: "100%",
+                  transition: "width 0.2s",
+                }}
+              />
+            </div>
+          )}
+          {/* Main nav */}
+          <nav className={`${sidebarOpen ? "mt-6" : "mt-0"} flex flex-col gap-1 flex-1`}>
             {navItems.map((item, idx) => {
               const isSelected =
                 location.pathname === item.to ||
@@ -77,6 +86,7 @@ const AnalyticsLayout = ({
                     color: "#fff",
                     fontWeight: isSelected ? 600 : 400,
                     transition: "transform 0.18s cubic-bezier(.4,0,.2,1)",
+                    visibility: sidebarOpen ? "visible" : "hidden",
                   }}
                 >
                   <span
@@ -105,11 +115,56 @@ const AnalyticsLayout = ({
                     )}
                   </span>
                   <span className="ml-2">
-                    {sidebarOpen ? item.label : item.label[0]}
+                    {sidebarOpen ? item.label : ""}
                   </span>
                 </Link>
               );
             })}
+            {/* Spacer so Toolbox sits at the bottom */}
+            <div className="flex-1"></div>
+            {/* Toolbox item at the bottom */}
+            <Link
+              to={toolboxItem.to}
+              className={`
+                flex items-center px-6 py-3 rounded font-avenir transition-transform duration-150 relative group
+                hover:scale-110
+                ${location.pathname === toolboxItem.to ? "font-semibold" : ""}
+              `}
+              style={{
+                color: "#fff",
+                fontWeight: location.pathname === toolboxItem.to ? 600 : 400,
+                transition: "transform 0.18s cubic-bezier(.4,0,.2,1)",
+                visibility: sidebarOpen ? "visible" : "hidden",
+                marginBottom: "6px"
+              }}
+            >
+              <span style={{
+                display: "inline-flex",
+                alignItems: "center",
+                position: "relative",
+                minWidth: 10,
+              }}>
+                {location.pathname === toolboxItem.to && (
+                  <svg
+                    width="10"
+                    height="10"
+                    viewBox="0 0 10 10"
+                    style={{
+                      display: "inline-block",
+                      position: "absolute",
+                      left: "-18px",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                    }}
+                  >
+                    <circle cx="5" cy="5" r="4" fill="white" />
+                  </svg>
+                )}
+              </span>
+              <span className="ml-2">
+                {sidebarOpen ? toolboxItem.label : ""}
+              </span>
+            </Link>
           </nav>
         </div>
         {isSignedIn && (
@@ -171,11 +226,14 @@ const AnalyticsLayout = ({
         } flex-1 min-h-screen bg-gray-50`}
         style={{
           maxWidth: "100vw",
-          paddingTop: 0,
         }}
       >
-        {/* Header: only render if actually passed in */}
-        {showHeader && headerContent}
+        {/* Header, if enabled */}
+        {showHeader && (
+          headerContent ? headerContent : (
+            <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-8 h-20 flex items-center sticky top-0 border-b border-gray-200"></div>
+          )
+        )}
         {/* Children: if function, pass sidebarOpen for layout-aware rendering */}
         {typeof children === "function"
           ? children({ sidebarOpen })

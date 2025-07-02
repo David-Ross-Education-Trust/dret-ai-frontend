@@ -1,5 +1,4 @@
 // portals/dret-analytics/reports/education/report001.js
-
 import React, { useEffect, useState } from "react";
 import { useMsal } from "@azure/msal-react";
 import { PowerBIEmbed } from "powerbi-client-react";
@@ -45,100 +44,88 @@ export default function Report001() {
   }, [accounts, instance]);
 
   return (
-    <AnalyticsLayout allowSidebarMinimise hideHeaderWithSidebar>
-      {({ sidebarOpen }) => {
-        // When sidebar is closed, we want to use ALL space (no header, no extra margin/padding)
-        const fullscreen = !sidebarOpen;
-
-        return (
-          <div
-            className="flex flex-col min-h-screen bg-gray-50"
-            style={{ minHeight: "100vh", height: "100vh" }}
-          >
-            {/* Header: Only shown if sidebarOpen */}
-            {sidebarOpen && (
-              <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-8 h-20 flex items-center sticky top-0 border-b border-gray-200">
-                <div style={{ display: "flex", alignItems: "center", transform: "translateY(4px)" }}>
-                  <span
-                    className="inline-block"
-                    style={{
-                      width: 6,
-                      height: 34,
-                      borderRadius: 6,
-                      background: "#205c40",
-                      marginRight: "1.1rem",
-                    }}
-                  />
-                  <h1 className="text-xl font-bold" style={{ color: "#205c40" }}>
-                    Attendance Overview
-                  </h1>
-                </div>
-              </div>
-            )}
-
-            {/* Main Report Container */}
-            <div
-              className={
-                `flex-1 flex flex-col items-center justify-center w-full min-h-0 ` +
-                (fullscreen
-                  ? "pt-0 pb-0 px-0 md:px-0 bg-gray-50"
-                  : "pb-8 px-4 md:px-12 bg-gray-50")
-              }
+    <AnalyticsLayout
+      allowSidebarMinimise
+      hideHeaderWithSidebar
+      headerContent={
+        <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-8 h-20 flex items-center sticky top-0 border-b border-gray-200">
+          <div style={{ display: "flex", alignItems: "center", transform: "translateY(4px)" }}>
+            <span
+              className="inline-block"
               style={{
-                // Remove all padding at the top when fullscreen (sidebar hidden)
+                width: 6,
+                height: 34,
+                borderRadius: 6,
+                background: "#205c40",
+                marginRight: "1.1rem",
+              }}
+            />
+            <h1 className="text-xl font-bold" style={{ color: "#205c40" }}>
+              Attendance Overview
+            </h1>
+          </div>
+        </div>
+      }
+    >
+      {({ sidebarOpen }) => (
+        <div className="flex flex-col min-h-screen bg-gray-50">
+          {/* No duplicate header bar! */}
+          <div
+            className="
+              flex-1 flex flex-col items-center justify-center
+              w-full min-h-0 pt-4 pb-8 px-4 md:px-12
+            "
+            style={{
+              background: "#f3f4f6",
+            }}
+          >
+            <div
+              className="
+                bg-white rounded-xl shadow-md flex-1 w-full
+                max-w-[1600px] min-h-[70vh] flex flex-col
+                border border-gray-200
+              "
+              style={{
                 transition: "all 0.3s cubic-bezier(.4,0,.2,1)",
+                padding: "2.5rem 2rem",
+                marginTop: "0.5rem",
+                marginBottom: "0.5rem",
+                minHeight: "72vh",
               }}
             >
-              <div
-                className={
-                  `bg-white rounded-xl shadow-md flex-1 w-full max-w-[1600px] min-h-[70vh] flex flex-col border border-gray-200 ` +
-                  (fullscreen ? "" : "")
-                }
-                style={{
-                  transition: "all 0.3s cubic-bezier(.4,0,.2,1)",
-                  padding: fullscreen ? "0" : "2.5rem 2rem",
-                  marginTop: fullscreen ? "0" : "0.5rem",
-                  marginBottom: fullscreen ? "0" : "0.5rem",
-                  minHeight: "72vh",
-                  height: fullscreen ? "calc(100vh - 0px)" : undefined,
-                }}
-              >
-                {error && (
-                  <div className="text-red-600 mb-4">{error}</div>
-                )}
-                {!embedInfo && !error && (
-                  <div className="text-gray-500">Loading Power BI report...</div>
-                )}
-                {embedInfo && (
-                  <PowerBIEmbed
-                    embedConfig={{
-                      type: "report",
-                      id: embedInfo.reportId,
-                      embedUrl: embedInfo.embedUrl,
-                      accessToken: embedInfo.embedToken,
-                      tokenType: models.TokenType.Embed,
-                      settings: {
-                        panes: {
-                          filters: { visible: false },
-                          pageNavigation: { visible: true },
-                        },
+              {error && (
+                <div className="text-red-600 mb-4">{error}</div>
+              )}
+              {!embedInfo && !error && (
+                <div className="text-gray-500">Loading Power BI report...</div>
+              )}
+              {embedInfo && (
+                <PowerBIEmbed
+                  embedConfig={{
+                    type: "report",
+                    id: embedInfo.reportId,
+                    embedUrl: embedInfo.embedUrl,
+                    accessToken: embedInfo.embedToken,
+                    tokenType: models.TokenType.Embed,
+                    settings: {
+                      panes: {
+                        filters: { visible: false },
+                        pageNavigation: { visible: true },
                       },
-                    }}
-                    cssClassName="w-full h-full rounded-xl"
-                    style={{
-                      flex: 1,
-                      width: "100%",
-                      height: "100%",
-                      minHeight: "60vh",
-                      borderRadius: "inherit",
-                    }}
-                  />
-                )}
-              </div>
+                    },
+                  }}
+                  cssClassName="w-full h-[72vh] rounded-xl"
+                  style={{
+                    flex: 1,
+                    width: "100%",
+                    minHeight: "70vh",
+                  }}
+                />
+              )}
             </div>
           </div>
-        );
-      }}
+        </div>
+      )}
     </AnalyticsLayout>
   );
 }
