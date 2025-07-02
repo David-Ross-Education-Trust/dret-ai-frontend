@@ -7,7 +7,7 @@ export default function ToolkitReportCard({ report, onClick }) {
       className={`
         bg-trust-green rounded-xl shadow-md hover:shadow-lg
         transition-all cursor-pointer flex flex-col items-center justify-center
-        aspect-square w-full min-w-[140px] min-h-[140px] max-w-[220px] max-h-[220px] 
+        aspect-square w-full min-w-[140px] min-h-[140px] max-w-[220px] max-h-[220px]
         border border-gray-100 relative
       `}
     >
@@ -15,7 +15,7 @@ export default function ToolkitReportCard({ report, onClick }) {
         <img
           src={report.logoUrl}
           alt={`${report.name} logo`}
-          className="w-24 h-24 object-contain mb-3" // Increased size!
+          className="w-28 h-28 object-contain mb-3" // Even bigger!
         />
       )}
       <div
