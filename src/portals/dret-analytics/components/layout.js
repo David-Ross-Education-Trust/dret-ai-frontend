@@ -41,91 +41,83 @@ const AnalyticsLayout = ({
     <div className="flex font-avenir h-screen bg-gray-50">
       {/* Sidebar */}
       <aside
-        className={`bg-[var(--trust-green)] text-white h-full transition-all duration-300 flex flex-col fixed top-0 left-0 z-40 shadow-lg ${
+        className={`bg-[var(--trust-green)] text-white h-screen transition-all duration-300 flex flex-col fixed top-0 left-0 z-40 shadow-lg ${
           sidebarOpen ? "w-60" : "w-14"
         }`}
         style={{ minWidth: sidebarOpen ? sidebarWidth : sidebarMiniWidth }}
       >
-        {/* Top: Logo and nav in a scrollable flex-1 column */}
-        <div className="flex flex-col flex-1">
-          <div className="relative flex items-center justify-center h-24">
-            {sidebarOpen && (
-              <img
-                src={dretAnalyticsLogo}
-                alt="Analytics Logo"
-                className="object-contain"
+        {/* Logo area - MATCHES AI LAYOUT EXACTLY */}
+        {sidebarOpen && (
+          <div className="w-full h-24 flex items-center">
+            <img
+              src={dretAnalyticsLogo}
+              alt="Analytics Logo"
+              className="w-full h-full object-contain"
+              style={{ display: "block", maxHeight: "90px" }}
+            />
+          </div>
+        )}
+        {allowSidebarMinimise && (
+          <div className="relative flex items-center justify-center h-0">
+            <button
+              onClick={() => setSidebarOpen((v) => !v)}
+              aria-label={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
+              className="absolute right-[-18px] top-1/2 -translate-y-1/2 bg-white text-[var(--trust-green)] border border-gray-200 rounded-full shadow hover:bg-gray-200 transition-all w-9 h-9 flex items-center justify-center"
+              style={{
+                boxShadow: "0 2px 8px 0 rgba(32,92,64,0.09)",
+              }}
+            >
+              {sidebarOpen ? (
+                <HiChevronLeft size={22} />
+              ) : (
+                <HiChevronRight size={22} />
+              )}
+            </button>
+          </div>
+        )}
+        {/* Nav: always at the top, under logo */}
+        <nav className="mt-6 flex flex-col gap-1">
+          {navItems.map((item, idx) => {
+            const isSelected =
+              location.pathname === item.to ||
+              (item.label === "Favourites" && location.pathname.startsWith("/analytics/favourites"));
+
+            return (
+              <Link
+                key={idx}
+                to={item.to}
+                className={`
+                  flex items-center px-4 py-3 rounded font-avenir transition-transform duration-150 relative group
+                  hover:scale-[1.04]
+                `}
                 style={{
-                  maxHeight: "90px",
-                  width: "100%",
-                  marginTop: "6px",
-                  marginBottom: "6px",
-                  transition: "width 0.2s, max-height 0.2s",
-                  display: "block",
-                }}
-              />
-            )}
-            {allowSidebarMinimise && (
-              <button
-                onClick={() => setSidebarOpen((v) => !v)}
-                aria-label={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
-                className="absolute right-[-18px] top-1/2 -translate-y-1/2 bg-white text-[var(--trust-green)] border border-gray-200 rounded-full shadow hover:bg-gray-200 transition-all w-9 h-9 flex items-center justify-center"
-                style={{
-                  boxShadow: "0 2px 8px 0 rgba(32,92,64,0.09)",
+                  color: "#fff",
+                  fontWeight: 400,
+                  fontFamily: "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
+                  transition: "transform 0.18s cubic-bezier(.4,0,.2,1)",
                 }}
               >
-                {sidebarOpen ? (
-                  <HiChevronLeft size={22} />
-                ) : (
-                  <HiChevronRight size={22} />
+                {isSelected && (
+                  <svg
+                    width="10"
+                    height="10"
+                    viewBox="0 0 10 10"
+                    style={{
+                      display: "inline-block",
+                      marginRight: "6px",
+                    }}
+                  >
+                    <circle cx="5" cy="5" r="4" fill="white" />
+                  </svg>
                 )}
-              </button>
-            )}
-          </div>
-          {/* Nav: always at the top, under logo */}
-          <nav className="mt-6 flex flex-col gap-1">
-            {navItems.map((item, idx) => {
-              const isSelected =
-                location.pathname === item.to ||
-                (item.label === "Favourites" && location.pathname.startsWith("/analytics/favourites"));
-
-              return (
-                <Link
-                  key={idx}
-                  to={item.to}
-                  className={`
-                    flex items-center px-4 py-3 rounded font-avenir transition-transform duration-150 relative group
-                    hover:scale-[1.04]
-                  `}
-                  style={{
-                    color: "#fff",
-                    fontWeight: 400,
-                    fontFamily: "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
-                    transition: "transform 0.18s cubic-bezier(.4,0,.2,1)",
-                  }}
-                >
-                  {/* Bullet point: right next to the label, only if selected */}
-                  {isSelected && (
-                    <svg
-                      width="10"
-                      height="10"
-                      viewBox="0 0 10 10"
-                      style={{
-                        display: "inline-block",
-                        marginRight: "6px", // puts bullet right before label
-                      }}
-                    >
-                      <circle cx="5" cy="5" r="4" fill="white" />
-                    </svg>
-                  )}
-                  <span>{sidebarOpen ? item.label : ""}</span>
-                </Link>
-              );
-            })}
-          </nav>
-        </div>
+                <span>{sidebarOpen ? item.label : ""}</span>
+              </Link>
+            );
+          })}
+        </nav>
         {/* User/Profile section, always pinned to bottom */}
         {isSignedIn && (
-          <div className="relative p-4 border-t border-[#184b34] font-avenir">
+          <div className="relative p-4 border-t border-[#184b34] font-avenir mt-auto">
             <div
               onClick={isSignedIn ? () => setMenuOpen(!menuOpen) : handleLogin}
               className="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-[#184b34] transition font-avenir"
@@ -171,9 +163,7 @@ const AnalyticsLayout = ({
           paddingTop: 0,
         }}
       >
-        {/* Header: only render if actually passed in */}
         {showHeader && headerContent}
-        {/* Children: if function, pass sidebarOpen for layout-aware rendering */}
         {typeof children === "function"
           ? children({ sidebarOpen })
           : children}
