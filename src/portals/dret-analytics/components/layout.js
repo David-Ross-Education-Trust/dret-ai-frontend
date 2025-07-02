@@ -53,7 +53,7 @@ const AnalyticsLayout = ({
               src={dretAnalyticsLogo}
               alt="Analytics Logo"
               className="w-full h-full object-contain"
-              style={{ display: "block", maxHeight: "90px" }}
+              style={{ display: "block", maxHeight: "80px" }}
             />
           </div>
         )}
