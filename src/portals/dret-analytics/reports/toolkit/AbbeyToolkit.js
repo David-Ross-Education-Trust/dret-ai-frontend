@@ -106,7 +106,7 @@ export default function AbbeyToolkit() {
                       className="group-hover:shadow-xl"
                     />
                     <span
-                      className="block text-base text-gray-800 truncate max-w-[112px] text-center"
+                      className="block text-base text-gray-800 max-w-[112px] text-center whitespace-normal break-words"
                       style={{
                         fontFamily: "AvenirLTStdLight, Avenir, sans-serif",
                         fontSize: "1rem",
@@ -114,22 +114,11 @@ export default function AbbeyToolkit() {
                         marginBottom: 4,
                         lineHeight: "1.25",
                         letterSpacing: "0.01em",
+                        // Removed truncate, added wrap styles
                       }}
                       title={file.name}
                     >
                       {file.name}
-                    </span>
-                    <span
-                      className="block text-xs text-gray-400"
-                      style={{
-                        fontFamily: "AvenirLTStdLight, Avenir, sans-serif",
-                        fontSize: "0.83rem",
-                        fontWeight: 400,
-                        letterSpacing: "0.01em",
-                        textAlign: "center",
-                      }}
-                    >
-                      Open in Excel
                     </span>
                   </a>
                 ))
