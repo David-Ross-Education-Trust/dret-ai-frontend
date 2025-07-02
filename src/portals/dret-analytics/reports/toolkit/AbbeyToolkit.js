@@ -3,7 +3,6 @@ import { Search, X } from "lucide-react";
 import AnalyticsLayout from "../../components/layout";
 import excelIcon from "../../../../assets/excel-icon.png";
 
-// Update all file links to use ms-excel:ofe|u| prefix for opening in Excel app
 const dummyFiles = [
   { name: "Attendance Tracker", url: "ms-excel:ofe|u|https://davidrosseducationtrust-my.sharepoint.com/:x:/r/personal/dsands_dret_co_uk/Documents/!%20D%20Sands/_Toolkit%20Work/Secondary/_Test%20Toolkit%20Secondary/DRET%20Academy%20Attendance%20Tracker.xlsx?d=wb1689788bf8845449857c94b11225d64&csf=1&web=1&e=reaBnc", },
   { name: "Behaviour Tracker", url: "ms-excel:ofe|u|https://davidrosseducationtrust-my.sharepoint.com/:x:/r/personal/dsands_dret_co_uk/Documents/!%20D%20Sands/_Toolkit%20Work/Secondary/_Test%20Toolkit%20Secondary/DRET%20Academy%20Behaviour%20Tracker.xlsx?d=wc349673e6d7a44e09cbdcd89ae1723a6&csf=1&web=1&e=IdgMTI", },
@@ -23,7 +22,6 @@ export default function AbbeyToolkit() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
 
-  // Filter files by search term
   const shownFiles = dummyFiles.filter(
     f =>
       searchTerm.trim() === "" ||
@@ -41,7 +39,7 @@ export default function AbbeyToolkit() {
         {/* Top Bar */}
         <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-8 h-24 flex items-center justify-between">
           <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
-            Abbey CE Academy Toolkit
+            Abbey CE Academy
           </h1>
           <div className="relative flex-shrink-0 w-[240px] ml-4">
             <input
