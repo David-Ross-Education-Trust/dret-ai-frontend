@@ -6,15 +6,15 @@ import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import { useLocation, Link } from "react-router-dom";
 import dretAnalyticsLogo from "../../../assets/dretai-logo.png";
 
-// Sidebar items
+// Add your preferred icon class for each label
 const navItems = [
-  { label: "Favourites", to: "/analytics" },
-  { label: "Education Dashboards", to: "/analytics/education" },
-  { label: "Education Toolkit", to: "/analytics/toolkit" },
-  { label: "Operations", to: "/analytics/operations" },
-  { label: "Finance", to: "/analytics/finance" },
-  { label: "HR", to: "/analytics/hr" },
-  { label: "IT & Data", to: "/analytics/it-data" },
+  { label: "Favourites", to: "/analytics", icon: "fas fa-star" },
+  { label: "Education Dashboards", to: "/analytics/education", icon: "fas fa-chalkboard" },
+  { label: "Education Toolkit", to: "/analytics/toolkit", icon: "fas fa-toolbox" },
+  { label: "Operations", to: "/analytics/operations", icon: "fas fa-cogs" },
+  { label: "Finance", to: "/analytics/finance", icon: "fas fa-pound-sign" },
+  { label: "HR", to: "/analytics/hr", icon: "fas fa-users" },
+  { label: "IT & Data", to: "/analytics/it-data", icon: "fas fa-database" },
 ];
 
 const AnalyticsLayout = ({
@@ -57,7 +57,7 @@ const AnalyticsLayout = ({
                 className="object-contain"
                 style={{
                   maxHeight: "90px",
-                  width: "85%",
+                  width: "100%",
                   marginTop: "6px",
                   marginBottom: "6px",
                   transition: "width 0.2s, max-height 0.2s",
@@ -105,28 +105,33 @@ const AnalyticsLayout = ({
                   }}
                 >
                   {/* Bullet point: right next to the label, only if selected */}
-                  <span
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      position: "relative",
-                      marginRight: 6, // puts bullet just left of label
-                    }}
-                  >
-                    {isSelected && (
-                      <svg
-                        width="10"
-                        height="10"
-                        viewBox="0 0 10 10"
-                        style={{
-                          display: "inline-block",
-                          marginRight: "0px", // flush to text
-                        }}
-                      >
-                        <circle cx="5" cy="5" r="4" fill="white" />
-                      </svg>
-                    )}
-                  </span>
+                  {isSelected && (
+                    <svg
+                      width="10"
+                      height="10"
+                      viewBox="0 0 10 10"
+                      style={{
+                        display: "inline-block",
+                        marginRight: "6px", // puts bullet right before icon/label
+                      }}
+                    >
+                      <circle cx="5" cy="5" r="4" fill="white" />
+                    </svg>
+                  )}
+                  {/* Icon - FontAwesome */}
+                  {sidebarOpen && item.icon && (
+                    <i
+                      className={item.icon}
+                      style={{
+                        fontSize: "1.1rem",
+                        marginRight: "10px",
+                        marginLeft: isSelected ? "0" : "16px", // push in line when no bullet
+                        verticalAlign: "middle",
+                        minWidth: 18,
+                        textAlign: "center",
+                      }}
+                    />
+                  )}
                   <span>{sidebarOpen ? item.label : ""}</span>
                 </Link>
               );
