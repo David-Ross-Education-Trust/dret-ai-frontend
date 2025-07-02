@@ -6,7 +6,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { FiChevronDown } from "react-icons/fi";
 import { HiChevronDoubleLeft, HiChevronDoubleRight } from "react-icons/hi";
 import { useLocation, Link } from "react-router-dom";
-import dretAnalyticsLogo from "../../assets/dretai-logo.png";
+import dretAnalyticsLogo from "../../../assets/dretai-logo.png";
 
 // Sidebar items
 const navItems = [
