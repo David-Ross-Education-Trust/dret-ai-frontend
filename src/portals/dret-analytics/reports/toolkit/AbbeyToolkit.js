@@ -15,7 +15,7 @@ const excelFiles = [
     label: "Pupil Progress",
     url: "https://yourtenant.sharepoint.com/sites/abbey/Shared%20Documents/PupilProgress.xlsx",
   },
-  // ...add more as needed
+  // ...add more as needed!
 ];
 
 const getExcelDesktopLink = (url) => `ms-excel:ofv|u|${url}`;
