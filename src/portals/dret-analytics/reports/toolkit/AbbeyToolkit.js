@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Search, X } from "lucide-react";
-import AnalyticsLayout from "../components/layout";
-// Swap this import for your own Excel icon (SVG/PNG)
-import ExcelIcon from "../assets/excel-icon.png";
+import AnalyticsLayout from "../../components/layout";
+import ExcelIcon from "../../../../assets/excel-icon.png";
 
 // Replace this array with your actual files for Abbey CE Academy
 const abbeyFiles = [
