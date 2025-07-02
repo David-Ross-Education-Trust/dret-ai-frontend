@@ -14,7 +14,7 @@ const navItems = [
   { label: "Finance", to: "/analytics/finance" },
   { label: "HR", to: "/analytics/hr" },
   { label: "IT & Data", to: "/analytics/it-data" },
-  { label: "Toolkit", to: "/analytics/toolkit" }, // Toolbox always last
+  { label: "Toolkit", to: "/analytics/toolkit" },
 ];
 
 const AnalyticsLayout = ({
@@ -42,97 +42,100 @@ const AnalyticsLayout = ({
     <div className="flex font-avenir h-screen bg-gray-50">
       {/* Sidebar */}
       <aside
-        className={`bg-[var(--trust-green)] text-white h-full transition-all duration-300 flex flex-col justify-between fixed top-0 left-0 z-40 shadow-lg ${
+        className={`bg-[var(--trust-green)] text-white h-full transition-all duration-300 flex flex-col fixed top-0 left-0 z-40 shadow-lg ${
           sidebarOpen ? "w-60" : "w-14"
         }`}
         style={{ minWidth: sidebarOpen ? sidebarWidth : sidebarMiniWidth }}
       >
-        {/* Logo bar with button */}
-        <div className="flex items-center justify-center h-20 transition-all duration-200 relative">
-          {sidebarOpen && (
-            <img
-              src={dretAnalyticsLogo}
-              alt="Analytics Logo"
-              className="object-contain"
-              style={{
-                maxHeight: 64,
-                width: "100%",
-                transition: "width 0.2s",
-              }}
-            />
-          )}
-          {allowSidebarMinimise && (
-            <button
-              onClick={() => setSidebarOpen((v) => !v)}
-              aria-label={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
-              className="absolute top-1/2 right-[-18px] -translate-y-1/2 bg-white text-[var(--trust-green)] border border-gray-200 rounded-full shadow hover:bg-gray-200 transition-all w-9 h-9 flex items-center justify-center"
-              style={{
-                boxShadow: "0 2px 8px 0 rgba(32,92,64,0.09)",
-              }}
-            >
-              {sidebarOpen ? (
-                <HiChevronLeft size={22} />
-              ) : (
-                <HiChevronRight size={22} />
-              )}
-            </button>
-          )}
-        </div>
-        {/* Nav directly below logo */}
-        <nav className="mt-6 flex flex-col gap-1">
-          {navItems.map((item, idx) => {
-            const isSelected =
-              location.pathname === item.to ||
-              (item.label === "Favourites" && location.pathname.startsWith("/analytics/favourites"));
-            return (
-              <Link
-                key={idx}
-                to={item.to}
-                className={`
-                  flex items-center px-6 py-3 rounded font-avenir transition-transform duration-150 relative group
-                  hover:scale-110
-                  ${isSelected ? "scale-110 font-semibold" : ""}
-                `}
+        {/* Top: Logo and nav in a scrollable flex-1 column */}
+        <div className="flex flex-col flex-1">
+          <div className="relative flex items-center justify-center h-20">
+            {sidebarOpen && (
+              <img
+                src={dretAnalyticsLogo}
+                alt="Analytics Logo"
+                className="object-contain"
                 style={{
-                  color: "#fff",
-                  fontWeight: isSelected ? 600 : 400,
-                  transition: "transform 0.18s cubic-bezier(.4,0,.2,1)",
+                  maxHeight: 64,
+                  width: "100%",
+                  transition: "width 0.2s",
+                }}
+              />
+            )}
+            {/* Minimize button INSIDE the sidebar, in line with logo */}
+            {allowSidebarMinimise && (
+              <button
+                onClick={() => setSidebarOpen((v) => !v)}
+                aria-label={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
+                className="absolute right-[-18px] top-1/2 -translate-y-1/2 bg-white text-[var(--trust-green)] border border-gray-200 rounded-full shadow hover:bg-gray-200 transition-all w-9 h-9 flex items-center justify-center"
+                style={{
+                  boxShadow: "0 2px 8px 0 rgba(32,92,64,0.09)",
                 }}
               >
-                <span
+                {sidebarOpen ? (
+                  <HiChevronLeft size={22} />
+                ) : (
+                  <HiChevronRight size={22} />
+                )}
+              </button>
+            )}
+          </div>
+          {/* Nav: always at the top, under logo */}
+          <nav className="mt-6 flex flex-col gap-1">
+            {navItems.map((item, idx) => {
+              const isSelected =
+                location.pathname === item.to ||
+                (item.label === "Favourites" && location.pathname.startsWith("/analytics/favourites"));
+              return (
+                <Link
+                  key={idx}
+                  to={item.to}
+                  className={`
+                    flex items-center px-6 py-3 rounded font-avenir transition-transform duration-150 relative group
+                    hover:scale-110
+                    ${isSelected ? "scale-110 font-semibold" : ""}
+                  `}
                   style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    position: "relative",
-                    minWidth: 10,
+                    color: "#fff",
+                    fontWeight: isSelected ? 600 : 400,
+                    transition: "transform 0.18s cubic-bezier(.4,0,.2,1)",
                   }}
                 >
-                  {isSelected && (
-                    <svg
-                      width="10"
-                      height="10"
-                      viewBox="0 0 10 10"
-                      style={{
-                        display: "inline-block",
-                        position: "absolute",
-                        left: "-18px",
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                      }}
-                    >
-                      <circle cx="5" cy="5" r="4" fill="white" />
-                    </svg>
-                  )}
-                </span>
-                {/* No label at all when sidebar is minimised */}
-                <span className="ml-2">
-                  {sidebarOpen ? item.label : ""}
-                </span>
-              </Link>
-            );
-          })}
-        </nav>
-        {/* User/Profile section */}
+                  <span
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      position: "relative",
+                      minWidth: 10,
+                    }}
+                  >
+                    {isSelected && (
+                      <svg
+                        width="10"
+                        height="10"
+                        viewBox="0 0 10 10"
+                        style={{
+                          display: "inline-block",
+                          position: "absolute",
+                          left: "-18px",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                        }}
+                      >
+                        <circle cx="5" cy="5" r="4" fill="white" />
+                      </svg>
+                    )}
+                  </span>
+                  {/* No label at all when sidebar is minimised */}
+                  <span className="ml-2">
+                    {sidebarOpen ? item.label : ""}
+                  </span>
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
+        {/* User/Profile section, always pinned to bottom */}
         {isSignedIn && (
           <div className="relative p-4 border-t border-[#184b34]">
             <div
