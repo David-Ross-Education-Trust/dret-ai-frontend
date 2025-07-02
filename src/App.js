@@ -8,7 +8,7 @@ import StudentHub from "./portals/dret-ai/pages/studenthub";
 import ToolsPage from "./portals/dret-ai/pages/tools";
 import AnalyticsHomePage from "./portals/dret-analytics/pages/HomePage";
 import EducationReports from "./portals/dret-analytics/pages/EducationReports";
-import ToolkitReports from "./portals/dret-analytics/pages/Toolkit";
+import ToolkitReports from "./portals/dret-analytics/pages/ToolkitReports";
 import { toolsConfig } from "./portals/dret-ai/components/toolConfig";
 import { reportConfig } from "./portals/dret-analytics/components/reportConfig";
 import RequireAuth from "./RequireAuth";
