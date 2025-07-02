@@ -6,7 +6,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { FiChevronDown } from "react-icons/fi";
 import { HiChevronDoubleLeft, HiChevronDoubleRight } from "react-icons/hi";
 import { useLocation, Link } from "react-router-dom";
-import dretAnalyticsLogo from "../../../assets/dretai-logo.png";
+import dretAnalyticsLogo from "../../assets/dretai-logo.png"; // <-- adjust if your path is different
 
 // Sidebar items
 const navItems = [
@@ -22,6 +22,7 @@ const AnalyticsLayout = ({
   children,
   allowSidebarMinimise = false,
   hideHeaderWithSidebar = false,
+  headerContent = null, // Pass a custom header as a prop if needed
 }) => {
   const { accounts, instance } = useMsal();
   const account = accounts[0];
@@ -31,11 +32,15 @@ const AnalyticsLayout = ({
 
   const location = useLocation();
 
+  // Show the header unless (hideHeaderWithSidebar && sidebar is minimised)
+  const showHeader = !(hideHeaderWithSidebar && !sidebarOpen);
+
+  // Sidebar width (in px) to keep alignment consistent with the button
+  const sidebarWidth = 240;
+  const sidebarMiniWidth = 56;
+
   const handleLogin = () => instance.loginRedirect();
   const handleLogout = () => instance.logoutRedirect();
-
-  // Whether to show the header bar
-  const showHeader = !(hideHeaderWithSidebar && !sidebarOpen);
 
   return (
     <div className="flex font-avenir h-screen bg-gray-50">
@@ -44,7 +49,7 @@ const AnalyticsLayout = ({
         className={`bg-[var(--trust-green)] text-white h-full transition-all duration-300 flex flex-col justify-between fixed top-0 left-0 z-40 shadow-lg ${
           sidebarOpen ? "w-60" : "w-14"
         }`}
-        style={{ minWidth: sidebarOpen ? 240 : 56 }}
+        style={{ minWidth: sidebarOpen ? sidebarWidth : sidebarMiniWidth }}
       >
         <div>
           <div className="flex items-center justify-center h-20">
@@ -84,6 +89,7 @@ const AnalyticsLayout = ({
                       display: "inline-flex",
                       alignItems: "center",
                       position: "relative",
+                      minWidth: 10,
                     }}
                   >
                     {isSelected && (
@@ -103,7 +109,9 @@ const AnalyticsLayout = ({
                       </svg>
                     )}
                   </span>
-                  <span className="ml-2">{sidebarOpen ? item.label : item.label[0]}</span>
+                  <span className="ml-2">
+                    {sidebarOpen ? item.label : item.label[0]}
+                  </span>
                 </Link>
               );
             })}
@@ -146,14 +154,14 @@ const AnalyticsLayout = ({
           </div>
         )}
       </aside>
-      {/* Minimise/maximise button - only show on report pages */}
+      {/* Minimise/maximise button - only show if enabled */}
       {allowSidebarMinimise && (
         <button
           onClick={() => setSidebarOpen((v) => !v)}
           aria-label={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
           className="fixed left-0 top-6 z-50 bg-white text-[var(--trust-green)] border border-gray-200 rounded-full shadow hover:bg-gray-200 transition-all w-9 h-9 flex items-center justify-center"
           style={{
-            left: sidebarOpen ? 240 : 8,
+            left: sidebarOpen ? sidebarWidth : 8,
             transition: "left 0.2s",
             boxShadow: "0 2px 8px 0 rgba(32,92,64,0.09)",
           }}
@@ -170,7 +178,15 @@ const AnalyticsLayout = ({
           maxWidth: "100vw",
         }}
       >
-        {/* Optionally expose sidebarOpen state to children via context or prop */}
+        {/* Header, if enabled */}
+        {showHeader && (
+          headerContent ? headerContent : (
+            <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-8 h-20 flex items-center sticky top-0 border-b border-gray-200">
+              {/* Optionally allow children to override this header */}
+            </div>
+          )
+        )}
+        {/* Children: if function, pass sidebarOpen for layout-aware rendering */}
         {typeof children === "function"
           ? children({ sidebarOpen })
           : children}

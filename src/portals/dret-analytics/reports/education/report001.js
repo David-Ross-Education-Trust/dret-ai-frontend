@@ -11,8 +11,6 @@ export default function Report001() {
   const { instance, accounts } = useMsal();
   const [embedInfo, setEmbedInfo] = useState(null);
   const [error, setError] = useState(null);
-  // We'll use the render prop pattern to get sidebarOpen from the layout
-  // (see the "children" function pattern in the layout above)
 
   useEffect(() => {
     async function fetchEmbedToken() {
@@ -49,7 +47,7 @@ export default function Report001() {
     <AnalyticsLayout allowSidebarMinimise hideHeaderWithSidebar>
       {({ sidebarOpen }) => (
         <div className="flex flex-col min-h-screen bg-gray-50">
-          {/* Header - hidden if sidebarOpen is false */}
+          {/* Header bar - hidden when sidebarOpen is false */}
           {sidebarOpen && (
             <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-8 h-20 flex items-center sticky top-0 border-b border-gray-200">
               <div style={{ display: "flex", alignItems: "center", transform: "translateY(4px)" }}>
@@ -69,7 +67,7 @@ export default function Report001() {
               </div>
             </div>
           )}
-          {/* Report container */}
+          {/* Report area */}
           <div
             className="
               flex-1 flex flex-col items-center justify-center
