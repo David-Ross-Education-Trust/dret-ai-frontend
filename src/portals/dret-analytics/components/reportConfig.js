@@ -1,6 +1,43 @@
 // src/portals/dret-analytics/components/reportConfig.js
 
-// Import your real page components here (replace these with real ones as you build)
+// 1. Import the logo images
+import abbeyLogo from "../../../assets/abbey.png";
+import ainthorpeLogo from "../../../assets/ainthorpe.png";
+import boothwoodLogo from "../../../assets/bw-academy.png";
+import briarhillLogo from "../../../assets/briarhill.png";
+import bringhurstLogo from "../../../assets/bringhurst.png";
+import cedarrdLogo from "../../../assets/cedarrd.png";
+import charlesreadLogo from "../../../assets/charlesread.png";
+import charnwoodLogo from "../../../assets/charnwood.png";
+import eastfieldLogo from "../../../assets/eastfield.png";
+import edheneageLogo from "../../../assets/edheneage.png";
+import endikeLogo from "../../../assets/endike.png";
+import eresbyLogo from "../../../assets/eresby.png";
+import fairfieldLogo from "../../../assets/fairfield.png";
+import falconersLogo from "../../../assets/falconers.png";
+import greenfieldsLogo from "../../../assets/Greenfields_Logo_lock_up_WHITE.png";
+import havelockLogo from "../../../assets/havelock.png";
+import hogsLogo from "../../../assets/hogs.png";
+import humberstonLogo from "../../../assets/humberston.png";
+import ingoldsbyLogo from "../../../assets/ingoldsby.png";
+import kingedLogo from "../../../assets/kinged.png";
+import kingsheathLogo from "../../../assets/kingsheath.png";
+import lodgeparkLogo from "../../../assets/lodgepark.png";
+import macolarnoldLogo from "../../../assets/macolarnold.png";
+import macolarnoldprepLogo from "../../../assets/malcolmaroldprep.png";
+import newnhamLogo from "../../../assets/newnham.png";
+import quayLogo from "../../../assets/quay.png";
+import rockinghamLogo from "../../../assets/rockingham.png";
+import sgsLogo from "../../../assets/sgs.png";
+import thearboursLogo from "../../../assets/thearbours.png";
+import thomashinderwellLogo from "../../../assets/thomashinderwell.png";
+import thomasmiddlecottLogo from "../../../assets/thomasmiddlecott.png";
+import weltonLogo from "../../../assets/welton.png";
+import woldLogo from "../../../assets/wold.png";
+import bobbymooreLogo from "../../../assets/bobbymoore.png";
+import barneswallisLogo from "../../../assets/bw-academy.png";
+
+// 2. Import your Toolkit page components (as before)
 import AbbeyToolkit from "../reports/toolkit/AbbeyToolkit";
 import AinthorpeToolkit from "../reports/toolkit/AinthorpeToolkit";
 import BoothWoodToolkit from "../reports/toolkit/BoothWoodToolkit";
@@ -21,8 +58,8 @@ import HogsToolkit from "../reports/toolkit/HogsToolkit";
 import HumberstonToolkit from "../reports/toolkit/HumberstonToolkit";
 import IngoldsbyToolkit from "../reports/toolkit/IngoldsbyToolkit";
 import KingEdwardToolkit from "../reports/toolkit/KingEdwardToolkit";
-import KingsHeathToolkit from "../reports/toolkit/KingsheathToolkit";
-import LodgeParkToolkit from "../reports/toolkit/LodgeparkToolkit";
+import KingsHeathToolkit from "../reports/toolkit/KingsHeathToolkit";
+import LodgeParkToolkit from "../reports/toolkit/LodgeParkToolkit";
 import MalcolmArnoldToolkit from "../reports/toolkit/MalcolmArnoldToolkit";
 import MalcolmArnoldPrepToolkit from "../reports/toolkit/MalcolmArnoldPrepToolkit";
 import NewnhamToolkit from "../reports/toolkit/NewnhamToolkit";
@@ -37,24 +74,8 @@ import WoldToolkit from "../reports/toolkit/WoldToolkit";
 import BobbyMooreToolkit from "../reports/toolkit/BobbyMooreToolkit";
 import BarnesWallisToolkit from "../reports/toolkit/BarnesWallisToolkit";
 
-// You can define this once for missing pages, as a placeholder component
-// import BlankToolkitPage from "../reports/toolkit/BlankToolkitPage";
-
+// 3. Full config array (all have `logoUrl`)
 export const reportConfig = [
-  // EXAMPLE: If you want to show one education report
-  // {
-  //   id: "pupil-profile",
-  //   name: "Pupil Profile",
-  //   description: "Indepth Pupil Profile.",
-  //   category: "Education",
-  //   tag: "New",
-  //   href: "/analytics/report/pupil-profile",
-  //   component: PupilProfileReport,
-  //   logo: "pupil-profile.png",
-  //   comingSoon: false,
-  // },
-
-  // TOOLKIT SCHOOLS (all 34, with matching logos)
   {
     id: "abbey",
     name: "Abbey CE Academy",
@@ -63,7 +84,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/abbey",
     component: AbbeyToolkit,
-    logo: "abbey.png",
+    logoUrl: abbeyLogo,
     comingSoon: false,
   },
   {
@@ -74,7 +95,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/ainthorpe",
     component: AinthorpeToolkit,
-    logo: "ainthorpe.png",
+    logoUrl: ainthorpeLogo,
     comingSoon: false,
   },
   {
@@ -85,7 +106,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/boothwood",
     component: BoothWoodToolkit,
-    logo: "bw-academy.png",
+    logoUrl: boothwoodLogo,
     comingSoon: false,
   },
   {
@@ -96,7 +117,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/briarhill",
     component: BriarHillToolkit,
-    logo: "briarhill.png",
+    logoUrl: briarhillLogo,
     comingSoon: false,
   },
   {
@@ -107,7 +128,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/bringhurst",
     component: BringhurstToolkit,
-    logo: "bringhurst.png",
+    logoUrl: bringhurstLogo,
     comingSoon: false,
   },
   {
@@ -118,7 +139,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/cedarrd",
     component: CedarRdToolkit,
-    logo: "cedarrd.png",
+    logoUrl: cedarrdLogo,
     comingSoon: false,
   },
   {
@@ -129,7 +150,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/charlesread",
     component: CharlesReadToolkit,
-    logo: "charlesread.png",
+    logoUrl: charlesreadLogo,
     comingSoon: false,
   },
   {
@@ -140,7 +161,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/charnwood",
     component: CharnwoodToolkit,
-    logo: "charnwood.png",
+    logoUrl: charnwoodLogo,
     comingSoon: false,
   },
   {
@@ -151,7 +172,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/eastfield",
     component: EastfieldToolkit,
-    logo: "eastfield.png",
+    logoUrl: eastfieldLogo,
     comingSoon: false,
   },
   {
@@ -162,7 +183,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/edheneage",
     component: EdHeneageToolkit,
-    logo: "edheneage.png",
+    logoUrl: edheneageLogo,
     comingSoon: false,
   },
   {
@@ -173,7 +194,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/endike",
     component: EndikeToolkit,
-    logo: "endike.png",
+    logoUrl: endikeLogo,
     comingSoon: false,
   },
   {
@@ -184,7 +205,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/eresby",
     component: EresbyToolkit,
-    logo: "eresby.png",
+    logoUrl: eresbyLogo,
     comingSoon: false,
   },
   {
@@ -195,7 +216,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/fairfield",
     component: FairfieldToolkit,
-    logo: "fairfield.png",
+    logoUrl: fairfieldLogo,
     comingSoon: false,
   },
   {
@@ -206,7 +227,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/falconers",
     component: FalconersToolkit,
-    logo: "falconers.png",
+    logoUrl: falconersLogo,
     comingSoon: false,
   },
   {
@@ -217,7 +238,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/greenfields",
     component: GreenfieldsToolkit,
-    logo: "Greenfields_Logo_lock_up_WHITE.png",
+    logoUrl: greenfieldsLogo,
     comingSoon: false,
   },
   {
@@ -228,7 +249,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/havelock",
     component: HavelockToolkit,
-    logo: "havelock.png",
+    logoUrl: havelockLogo,
     comingSoon: false,
   },
   {
@@ -239,7 +260,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/hogs",
     component: HogsToolkit,
-    logo: "hogs.png",
+    logoUrl: hogsLogo,
     comingSoon: false,
   },
   {
@@ -250,7 +271,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/humberston",
     component: HumberstonToolkit,
-    logo: "humberston.png",
+    logoUrl: humberstonLogo,
     comingSoon: false,
   },
   {
@@ -261,7 +282,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/ingoldsby",
     component: IngoldsbyToolkit,
-    logo: "ingoldsby.png",
+    logoUrl: ingoldsbyLogo,
     comingSoon: false,
   },
   {
@@ -272,7 +293,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/kinged",
     component: KingEdwardToolkit,
-    logo: "kinged.png",
+    logoUrl: kingedLogo,
     comingSoon: false,
   },
   {
@@ -283,7 +304,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/kingsheath",
     component: KingsHeathToolkit,
-    logo: "kingsheath.png",
+    logoUrl: kingsheathLogo,
     comingSoon: false,
   },
   {
@@ -294,7 +315,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/lodgepark",
     component: LodgeParkToolkit,
-    logo: "lodgepark.png",
+    logoUrl: lodgeparkLogo,
     comingSoon: false,
   },
   {
@@ -305,7 +326,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/macolarnold",
     component: MalcolmArnoldToolkit,
-    logo: "macolarnold.png",
+    logoUrl: macolarnoldLogo,
     comingSoon: false,
   },
   {
@@ -316,7 +337,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/macolarnoldprep",
     component: MalcolmArnoldPrepToolkit,
-    logo: "malcolmaroldprep.png",
+    logoUrl: macolarnoldprepLogo,
     comingSoon: false,
   },
   {
@@ -327,7 +348,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/newnham",
     component: NewnhamToolkit,
-    logo: "newnham.png",
+    logoUrl: newnhamLogo,
     comingSoon: false,
   },
   {
@@ -338,7 +359,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/quay",
     component: QuayToolkit,
-    logo: "quay.png",
+    logoUrl: quayLogo,
     comingSoon: false,
   },
   {
@@ -349,7 +370,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/rockingham",
     component: RockinghamToolkit,
-    logo: "rockingham.png",
+    logoUrl: rockinghamLogo,
     comingSoon: false,
   },
   {
@@ -360,7 +381,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/sgs",
     component: SgsToolkit,
-    logo: "sgs.png",
+    logoUrl: sgsLogo,
     comingSoon: false,
   },
   {
@@ -371,7 +392,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/thearbours",
     component: TheArboursToolkit,
-    logo: "thearbours.png",
+    logoUrl: thearboursLogo,
     comingSoon: false,
   },
   {
@@ -382,7 +403,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/thomashinderwell",
     component: ThomasHinderwellToolkit,
-    logo: "thomashinderwell.png",
+    logoUrl: thomashinderwellLogo,
     comingSoon: false,
   },
   {
@@ -393,7 +414,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/thomasmiddlecott",
     component: ThomasMiddlecottToolkit,
-    logo: "thomasmiddlecott.png",
+    logoUrl: thomasmiddlecottLogo,
     comingSoon: false,
   },
   {
@@ -404,7 +425,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/welton",
     component: WeltonToolkit,
-    logo: "welton.png",
+    logoUrl: weltonLogo,
     comingSoon: false,
   },
   {
@@ -415,7 +436,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/wold",
     component: WoldToolkit,
-    logo: "wold.png",
+    logoUrl: woldLogo,
     comingSoon: false,
   },
   {
@@ -426,7 +447,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/bobbymoore",
     component: BobbyMooreToolkit,
-    logo: "bobbymoore.png",
+    logoUrl: bobbymooreLogo,
     comingSoon: false,
   },
   {
@@ -437,7 +458,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/report/barneswallis",
     component: BarnesWallisToolkit,
-    logo: "bw-academy.png",
+    logoUrl: barneswallisLogo,
     comingSoon: false,
   },
 ];
