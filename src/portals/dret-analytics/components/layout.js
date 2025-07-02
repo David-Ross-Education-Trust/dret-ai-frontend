@@ -1,13 +1,11 @@
-// portals/dret-analytics/components/layout.js
 import React, { useState } from "react";
 import { useMsal } from "@azure/msal-react";
 import { FaUserCircle } from "react-icons/fa";
 import { FiChevronDown } from "react-icons/fi";
-import { Menu } from "lucide-react";
+import { HiMenuAlt2, HiChevronDoubleRight, HiChevronDoubleLeft } from "react-icons/hi";
 import dretAnalyticsLogo from "../../../assets/dretai-logo.png";
 
-// Sidebar nav items
-const analyticsNavItems = [
+const navItems = [
   { label: "Education", to: "/analytics/education" },
   { label: "Operations", to: "/analytics/operations" },
   { label: "Finance", to: "/analytics/finance" },
@@ -26,58 +24,61 @@ const AnalyticsLayout = ({ children }) => {
   const handleLogout = () => instance.logoutRedirect();
 
   return (
-    <div className="flex font-sans">
+    <div className="flex font-avenir h-screen bg-gray-50">
       {/* Sidebar */}
       <aside
-        className={`
-          ${sidebarOpen ? "w-60" : "w-0"}
-          bg-[var(--trust-green)] text-white h-screen fixed left-0 top-0 flex flex-col justify-between
-          transition-all duration-200 z-40
-          ${sidebarOpen ? "border-r border-[#205c40]/10 shadow-lg" : ""}
-        `}
-        style={{ overflow: "hidden" }}
+        className={`bg-[var(--trust-green)] text-white h-full transition-all duration-300 flex flex-col justify-between fixed top-0 left-0 z-40 shadow-lg ${
+          sidebarOpen ? "w-60" : "w-14"
+        }`}
+        style={{ minWidth: sidebarOpen ? 240 : 56 }}
       >
-        {/* Sidebar Header/Logo */}
-        <div className="w-full h-24 flex items-center px-4">
-          {sidebarOpen && (
+        <div>
+          <div className="flex items-center justify-center h-20">
             <img
               src={dretAnalyticsLogo}
               alt="Analytics Logo"
-              className="w-full h-full object-contain"
-              style={{ display: "block", maxHeight: "90px" }}
+              className="object-contain"
+              style={{
+                maxHeight: 64,
+                width: sidebarOpen ? "100%" : 40,
+                transition: "width 0.2s",
+              }}
             />
-          )}
-        </div>
-
-        {/* Nav Items */}
-        {sidebarOpen && isSignedIn && (
-          <div className="p-6 flex flex-col gap-4 overflow-y-auto mt-4">
-            {analyticsNavItems.map((item, idx) => (
+          </div>
+          <nav className="mt-6 flex flex-col gap-2">
+            {navItems.map((item, idx) => (
               <a
                 key={idx}
                 href={item.to}
-                className="flex items-center gap-2 px-4 py-2 rounded hover:bg-white/10 transition"
+                className={`block px-6 py-3 text-base rounded transition-all duration-100 ${
+                  sidebarOpen ? "text-white" : "text-white text-center"
+                } hover:bg-[#205c40]/80`}
+                style={{ whiteSpace: "nowrap" }}
               >
-                {item.label}
+                {sidebarOpen ? item.label : item.label[0]}
               </a>
             ))}
-          </div>
-        )}
-
-        {/* User/Profile */}
-        {sidebarOpen && isSignedIn && (
+          </nav>
+        </div>
+        {isSignedIn && (
           <div className="relative p-4 border-t border-[#184b34]">
             <div
               onClick={isSignedIn ? () => setMenuOpen(!menuOpen) : handleLogin}
               className="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-[#184b34] transition"
             >
               <FaUserCircle className="text-2xl" />
-              <div className="flex items-center gap-1">
-                <span className="font-medium text-sm">{account.name}</span>
-                <FiChevronDown className="text-xs" />
-              </div>
+              {sidebarOpen && (
+                isSignedIn ? (
+                  <div className="flex items-center gap-1">
+                    <span className="font-medium text-sm">{account.name}</span>
+                    <FiChevronDown className="text-xs" />
+                  </div>
+                ) : (
+                  <span className="font-medium text-sm">Sign in</span>
+                )
+              )}
             </div>
-            {menuOpen && (
+            {isSignedIn && menuOpen && (
               <div className="absolute bottom-16 left-4 bg-white text-black rounded shadow-md w-48 z-50">
                 <div
                   className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
@@ -95,29 +96,27 @@ const AnalyticsLayout = ({ children }) => {
             )}
           </div>
         )}
-
-        {/* Toggle button: always visible & easy to click */}
-        <button
-          aria-label={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
-          onClick={() => setSidebarOpen((s) => !s)}
-          className={`
-            absolute top-4 ${sidebarOpen ? "right-[-20px]" : "left-4"}
-            bg-[var(--trust-green)] border-2 border-white/30 rounded-full w-10 h-10 flex items-center justify-center shadow-xl z-50
-            hover:bg-[var(--trust-green-dark)] transition
-          `}
-          style={{ cursor: "pointer" }}
-        >
-          <Menu className="w-6 h-6" />
-        </button>
       </aside>
-
-      {/* Main content area */}
+      {/* Minimise/maximise button */}
+      <button
+        onClick={() => setSidebarOpen((v) => !v)}
+        aria-label={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
+        className="fixed left-0 top-4 z-50 bg-white text-[var(--trust-green)] border border-gray-200 rounded-full shadow hover:bg-gray-200 transition-all w-8 h-8 flex items-center justify-center"
+        style={{
+          left: sidebarOpen ? 240 : 8,
+          transition: "left 0.2s",
+        }}
+      >
+        {sidebarOpen ? <HiChevronDoubleLeft size={20} /> : <HiChevronDoubleRight size={20} />}
+      </button>
+      {/* Main content */}
       <main
-        className={`
-          transition-all duration-300 bg-gray-50 min-h-screen flex flex-col
-          ${sidebarOpen ? "ml-60" : "ml-0"}
-        `}
-        style={{ minHeight: "100vh" }}
+        className={`transition-all duration-300 ${
+          sidebarOpen ? "ml-60" : "ml-14"
+        } flex-1 min-h-screen bg-gray-50`}
+        style={{
+          maxWidth: "100vw",
+        }}
       >
         {children}
       </main>
