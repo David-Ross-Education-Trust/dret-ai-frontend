@@ -4,7 +4,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { FiChevronDown } from "react-icons/fi";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import { useLocation, Link } from "react-router-dom";
-import dretAnalyticsLogo from "../../../assets/dretai-logo.png";
+import dretAnalyticsLogo from "../../../assets/dret-analytics-logo.png";
 
 // Sidebar items
 const navItems = [
@@ -49,20 +49,22 @@ const AnalyticsLayout = ({
       >
         {/* Top: Logo and nav in a scrollable flex-1 column */}
         <div className="flex flex-col flex-1">
-          <div className="relative flex items-center justify-center h-20">
+          <div className="relative flex items-center justify-center h-24">
             {sidebarOpen && (
               <img
                 src={dretAnalyticsLogo}
                 alt="Analytics Logo"
                 className="object-contain"
                 style={{
-                  maxHeight: 64,
-                  width: "100%",
-                  transition: "width 0.2s",
+                  maxHeight: "90px",    // Match AI logo height
+                  width: "85%",
+                  marginTop: "6px",    // Center vertically
+                  marginBottom: "6px",
+                  transition: "width 0.2s, max-height 0.2s",
+                  display: "block",
                 }}
               />
             )}
-            {/* Minimize button INSIDE the sidebar, in line with logo */}
             {allowSidebarMinimise && (
               <button
                 onClick={() => setSidebarOpen((v) => !v)}
@@ -86,18 +88,24 @@ const AnalyticsLayout = ({
               const isSelected =
                 location.pathname === item.to ||
                 (item.label === "Favourites" && location.pathname.startsWith("/analytics/favourites"));
+
               return (
                 <Link
                   key={idx}
                   to={item.to}
                   className={`
-                    flex items-center px-6 py-3 rounded font-avenir transition-transform duration-150 relative group
+                    flex items-center px-4 py-2 rounded font-avenir transition-transform duration-150 relative group
                     hover:scale-110
                     ${isSelected ? "scale-110 font-semibold" : ""}
                   `}
                   style={{
                     color: "#fff",
                     fontWeight: isSelected ? 600 : 400,
+                    fontFamily: isSelected
+                      ? "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif"
+                      : "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
+                    letterSpacing: isSelected ? "0.04em" : undefined,
+                    background: isSelected ? "rgba(255,255,255,0.04)" : undefined,
                     transition: "transform 0.18s cubic-bezier(.4,0,.2,1)",
                   }}
                 >
@@ -106,7 +114,8 @@ const AnalyticsLayout = ({
                       display: "inline-flex",
                       alignItems: "center",
                       position: "relative",
-                      minWidth: 10,
+                      minWidth: 12,
+                      marginRight: 4,
                     }}
                   >
                     {isSelected && (
@@ -117,7 +126,7 @@ const AnalyticsLayout = ({
                         style={{
                           display: "inline-block",
                           position: "absolute",
-                          left: "-18px",
+                          left: "-14px", // match AI placement: closer to icon/label
                           top: "50%",
                           transform: "translateY(-50%)",
                         }}
@@ -126,10 +135,7 @@ const AnalyticsLayout = ({
                       </svg>
                     )}
                   </span>
-                  {/* No label at all when sidebar is minimised */}
-                  <span className="ml-2">
-                    {sidebarOpen ? item.label : ""}
-                  </span>
+                  <span className="ml-2">{sidebarOpen ? item.label : ""}</span>
                 </Link>
               );
             })}
@@ -137,10 +143,10 @@ const AnalyticsLayout = ({
         </div>
         {/* User/Profile section, always pinned to bottom */}
         {isSignedIn && (
-          <div className="relative p-4 border-t border-[#184b34]">
+          <div className="relative p-4 border-t border-[#184b34] font-avenir">
             <div
               onClick={isSignedIn ? () => setMenuOpen(!menuOpen) : handleLogin}
-              className="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-[#184b34] transition"
+              className="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-[#184b34] transition font-avenir"
             >
               <FaUserCircle className="text-2xl" />
               {sidebarOpen && (
@@ -155,7 +161,7 @@ const AnalyticsLayout = ({
               )}
             </div>
             {isSignedIn && menuOpen && (
-              <div className="absolute bottom-16 left-4 bg-white text-black rounded shadow-md w-48 z-50">
+              <div className="absolute bottom-16 left-4 bg-white text-black rounded shadow-md w-48 z-50 font-avenir">
                 <div
                   className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                   onClick={() => alert("Preferences coming soon!")}
