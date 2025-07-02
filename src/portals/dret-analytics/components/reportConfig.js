@@ -15,7 +15,7 @@ import endikeLogo from "../../../assets/endike.png";
 import eresbyLogo from "../../../assets/eresby.png";
 import fairfieldLogo from "../../../assets/fairfield.png";
 import falconersLogo from "../../../assets/falconers.png";
-import greenfieldsLogo from "../../../assets/Greenfields_Logo_lock_up_WHITE.png";
+import greenfieldsLogo from "../../../assets/greenfields.png";
 import havelockLogo from "../../../assets/havelock.png";
 import hogsLogo from "../../../assets/hogs.png";
 import humberstonLogo from "../../../assets/humberston.png";
