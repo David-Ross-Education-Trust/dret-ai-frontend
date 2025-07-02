@@ -35,7 +35,7 @@ export default function ToolkitReports() {
         }}
       >
         {/* --- Top Bar (AI style heading + search bar) --- */}
-        <div className="shrink-0 z-20 bg-gray-100/80 backdrop-blur-md shadow-sm px-8 h-24 flex items-center border-b border-gray-200 justify-between">
+        <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-8 h-24 flex items-center justify-between">
           <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
             Education Toolkit
           </h1>

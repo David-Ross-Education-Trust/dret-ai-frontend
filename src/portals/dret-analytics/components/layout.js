@@ -4,7 +4,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { FiChevronDown } from "react-icons/fi";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import { useLocation, Link } from "react-router-dom";
-import dretAnalyticsLogo from "../../../assets/dretai-logo.png";
+import dretAnalyticsLogo from "../../../assets/dret-analytics-logo.png";
 
 // You can keep navItems with 'icon' properties or remove the 'icon' fields, but they're unused now:
 const navItems = [
