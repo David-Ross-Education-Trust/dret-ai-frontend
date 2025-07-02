@@ -23,8 +23,8 @@ import IngoldsbyToolkit from "../reports/toolkit/IngoldsbyToolkit";
 import KingEdwardToolkit from "../reports/toolkit/KingEdwardToolkit";
 import KingsHeathToolkit from "../reports/toolkit/KingsheathToolkit";
 import LodgeParkToolkit from "../reports/toolkit/LodgeparkToolkit";
-import MacolArnoldToolkit from "../reports/toolkit/MacolArnoldToolkit";
-import MacolArnoldPrepToolkit from "../reports/toolkit/MacolArnoldPrepToolkit";
+import MalcolmArnoldToolkit from "../reports/toolkit/MalcolmArnoldToolkit";
+import MalcolmArnoldPrepToolkit from "../reports/toolkit/MalcolmArnoldPrepToolkit";
 import NewnhamToolkit from "../reports/toolkit/NewnhamToolkit";
 import QuayToolkit from "../reports/toolkit/QuayToolkit";
 import RockinghamToolkit from "../reports/toolkit/RockinghamToolkit";
@@ -304,7 +304,7 @@ export const reportConfig = [
     category: "Toolkit",
     tag: "",
     href: "/analytics/report/macolarnold",
-    component: MacolArnoldToolkit,
+    component: MalcolmArnoldToolkit,
     logo: "macolarnold.png",
     comingSoon: false,
   },
@@ -315,7 +315,7 @@ export const reportConfig = [
     category: "Toolkit",
     tag: "",
     href: "/analytics/report/macolarnoldprep",
-    component: MacolArnoldPrepToolkit,
+    component: MalcolmArnoldPrepToolkit,
     logo: "malcolmaroldprep.png",
     comingSoon: false,
   },
