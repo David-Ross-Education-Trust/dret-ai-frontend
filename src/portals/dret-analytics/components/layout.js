@@ -9,12 +9,12 @@ import dretAnalyticsLogo from "../../../assets/dretai-logo.png";
 // Sidebar items
 const navItems = [
   { label: "Favourites", to: "/analytics" },
-  { label: "Education", to: "/analytics/education" },
+  { label: "Education Dashboards", to: "/analytics/education" },
+  { label: "Education Toolkit", to: "/analytics/toolkit" },
   { label: "Operations", to: "/analytics/operations" },
   { label: "Finance", to: "/analytics/finance" },
   { label: "HR", to: "/analytics/hr" },
   { label: "IT & Data", to: "/analytics/it-data" },
-  { label: "Toolkit", to: "/analytics/toolkit" },
 ];
 
 const AnalyticsLayout = ({
