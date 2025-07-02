@@ -1,12 +1,12 @@
+// ...other imports...
 import React, { useState } from "react";
 import { useMsal } from "@azure/msal-react";
 import { FaUserCircle } from "react-icons/fa";
 import { FiChevronDown } from "react-icons/fi";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import { useLocation, Link } from "react-router-dom";
-import dretAnalyticsLogo from "../../../assets/dretai-logo.png";
+// Logo import removed
 
-// Add your preferred icon class for each label
 const navItems = [
   { label: "Favourites", to: "/analytics", icon: "fas fa-star" },
   { label: "Education Dashboards", to: "/analytics/education", icon: "fas fa-chalkboard" },
@@ -47,25 +47,10 @@ const AnalyticsLayout = ({
         }`}
         style={{ minWidth: sidebarOpen ? sidebarWidth : sidebarMiniWidth }}
       >
-        {/* Top: Logo and nav in a scrollable flex-1 column */}
         <div className="flex flex-col flex-1">
-          <div className="relative flex items-center justify-center h-24">
-            {sidebarOpen && (
-              <img
-                src={dretAnalyticsLogo}
-                alt="Analytics Logo"
-                className="object-contain"
-                style={{
-                  maxHeight: "90px",
-                  width: "100%",
-                  marginTop: "6px",
-                  marginBottom: "6px",
-                  transition: "width 0.2s, max-height 0.2s",
-                  display: "block",
-                }}
-              />
-            )}
-            {allowSidebarMinimise && (
+          {/* Logo section removed */}
+          {allowSidebarMinimise && (
+            <div className="relative flex items-center justify-center h-24">
               <button
                 onClick={() => setSidebarOpen((v) => !v)}
                 aria-label={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
@@ -80,9 +65,9 @@ const AnalyticsLayout = ({
                   <HiChevronRight size={22} />
                 )}
               </button>
-            )}
-          </div>
-          {/* Nav: always at the top, under logo */}
+            </div>
+          )}
+          {/* Nav */}
           <nav className="mt-6 flex flex-col gap-1">
             {navItems.map((item, idx) => {
               const isSelected =
@@ -95,7 +80,7 @@ const AnalyticsLayout = ({
                   to={item.to}
                   className={`
                     flex items-center px-4 py-3 rounded font-avenir transition-transform duration-150 relative group
-                    hover:scale-110
+                    hover:scale-[1.04]
                   `}
                   style={{
                     color: "#fff",
@@ -112,7 +97,7 @@ const AnalyticsLayout = ({
                       viewBox="0 0 10 10"
                       style={{
                         display: "inline-block",
-                        marginRight: "6px", // puts bullet right before icon/label
+                        marginRight: "6px",
                       }}
                     >
                       <circle cx="5" cy="5" r="4" fill="white" />
@@ -125,7 +110,7 @@ const AnalyticsLayout = ({
                       style={{
                         fontSize: "1.1rem",
                         marginRight: "10px",
-                        marginLeft: isSelected ? "0" : "16px", // push in line when no bullet
+                        marginLeft: isSelected ? "0" : "16px",
                         verticalAlign: "middle",
                         minWidth: 18,
                         textAlign: "center",
@@ -188,7 +173,6 @@ const AnalyticsLayout = ({
       >
         {/* Header: only render if actually passed in */}
         {showHeader && headerContent}
-        {/* Children: if function, pass sidebarOpen for layout-aware rendering */}
         {typeof children === "function"
           ? children({ sidebarOpen })
           : children}
