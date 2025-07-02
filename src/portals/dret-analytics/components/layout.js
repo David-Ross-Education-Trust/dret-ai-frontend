@@ -14,7 +14,7 @@ const navItems = [
   { label: "Finance", to: "/analytics/finance" },
   { label: "HR", to: "/analytics/hr" },
   { label: "IT & Data", to: "/analytics/it-data" },
-  { label: "Toolbox", to: "/analytics/toolbox" }, // Toolbox always last
+  { label: "Toolkit", to: "/analytics/toolkit" }, // Toolbox always last
 ];
 
 const AnalyticsLayout = ({
@@ -47,23 +47,20 @@ const AnalyticsLayout = ({
         }`}
         style={{ minWidth: sidebarOpen ? sidebarWidth : sidebarMiniWidth }}
       >
-        {/* Logo and Arrow Button (combined in relative div) */}
-        <div className="relative">
-          <div className="flex items-center justify-center h-20 transition-all duration-200">
-            {sidebarOpen && (
-              <img
-                src={dretAnalyticsLogo}
-                alt="Analytics Logo"
-                className="object-contain"
-                style={{
-                  maxHeight: 64,
-                  width: "100%",
-                  transition: "width 0.2s",
-                }}
-              />
-            )}
-          </div>
-          {/* Toggle Button: inside sidebar, right edge, in line with logo */}
+        {/* Logo bar with button */}
+        <div className="flex items-center justify-center h-20 transition-all duration-200 relative">
+          {sidebarOpen && (
+            <img
+              src={dretAnalyticsLogo}
+              alt="Analytics Logo"
+              className="object-contain"
+              style={{
+                maxHeight: 64,
+                width: "100%",
+                transition: "width 0.2s",
+              }}
+            />
+          )}
           {allowSidebarMinimise && (
             <button
               onClick={() => setSidebarOpen((v) => !v)}
@@ -81,7 +78,7 @@ const AnalyticsLayout = ({
             </button>
           )}
         </div>
-        {/* Nav items */}
+        {/* Nav directly below logo */}
         <nav className="mt-6 flex flex-col gap-1">
           {navItems.map((item, idx) => {
             const isSelected =
