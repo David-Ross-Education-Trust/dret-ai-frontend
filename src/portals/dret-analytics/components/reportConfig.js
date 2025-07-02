@@ -21,7 +21,7 @@ import HogsToolkit from "../reports/toolkit/HogsToolkit";
 import HumberstonToolkit from "../reports/toolkit/HumberstonToolkit";
 import IngoldsbyToolkit from "../reports/toolkit/IngoldsbyToolkit";
 import KingEdwardToolkit from "../reports/toolkit/KingEdwardToolkit";
-import KingsHeathToolkit from "../reports/toolkit/KingsHeathToolkit";
+import KingsHeathToolkit from "../reports/toolkit/KingsheathToolkit";
 import LodgeParkToolkit from "../reports/toolkit/LodgeParkToolkit";
 import MacolArnoldToolkit from "../reports/toolkit/MacolArnoldToolkit";
 import MacolArnoldPrepToolkit from "../reports/toolkit/MacolArnoldPrepToolkit";
