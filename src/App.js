@@ -11,6 +11,7 @@ import EducationReports from "./portals/dret-analytics/pages/EducationReports";
 import ToolkitReports from "./portals/dret-analytics/pages/ToolkitReports";
 import { toolsConfig } from "./portals/dret-ai/components/toolConfig";
 import { reportConfig } from "./portals/dret-analytics/components/reportConfig";
+import { toolkitConfig } from "./portals/dret-analytics/components/ToolkitConfig"; // <--- Add this!
 import RequireAuth from "./RequireAuth";
 
 function App() {
@@ -41,6 +42,18 @@ function App() {
                 <Route path="/analytics" element={<AnalyticsHomePage />} />
                 <Route path="/analytics/education" element={<EducationReports />} />
                 <Route path="/analytics/toolkit" element={<ToolkitReports />} />
+                {/* ---- Toolkit report pages ---- */}
+                {toolkitConfig.map(
+                  (toolkit) =>
+                    !toolkit.comingSoon && (
+                      <Route
+                        key={toolkit.id}
+                        path={toolkit.href}
+                        element={<toolkit.component />}
+                      />
+                    )
+                )}
+                {/* ---- Analytics report pages ---- */}
                 {reportConfig.map(
                   (report) =>
                     !report.comingSoon && (
