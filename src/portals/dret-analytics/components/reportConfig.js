@@ -1,4 +1,5 @@
 // 1. Import logo images (new "_thumb.jpg" naming, adjust paths if needed)
+import dretLogo from "../../../assets/icon.png";
 import AbbeyLogo from "../../../assets/Abbey_CE_thumb.jpg";
 import AinthorpeLogo from "../../../assets/Ainthorpe_Primary_School_thumb.jpg";
 import BoothWoodLogo from "../../../assets/BoothWood_thumb.jpg";
@@ -10,7 +11,7 @@ import CharnwoodLogo from "../../../assets/Charnwood_College_thumb.jpg";
 import EastfieldLogo from "../../../assets/Eastfield_Academy_thumb.jpg";
 import EdHeneageLogo from "../../../assets/Edward_Heneage_Primary_thumb.jpg";
 import EndikeLogo from "../../../assets/Endike_Primary_thumb.jpg";
-import EresbyLogo from "../../../assets/ESS_thumb.png"; // Confirm this one if not right!
+import EresbyLogo from "../../../assets/ESS_thumb.png";
 import FairfieldLogo from "../../../assets/Fairfield_Academy_thumb.jpg";
 import FalconersLogo from "../../../assets/Falconers_HIll_Academy_thumb.jpg";
 import GreenfieldsLogo from "../../../assets/Greenfields_Primary_thumb.jpg";
@@ -29,13 +30,14 @@ import RockinghamLogo from "../../../assets/Rockingham_Primary_School_thumb.jpg"
 import SgsLogo from "../../../assets/Skegness_Grammar_School_thumb.jpg";
 import TheArboursLogo from "../../../assets/The_Arbours_Primary_Academy_thumb.jpg";
 import ThomasHinderwellLogo from "../../../assets/Thomas_Hinderwell_Primary_thumb.jpg";
-import ThomasMiddlecottLogo from "../../../assets/TMA_thumb.png"; // Confirm this one!
+import ThomasMiddlecottLogo from "../../../assets/TMA_thumb.png";
 import WeltonLogo from "../../../assets/Welton_CE_Academy_thumb.jpg";
 import WoldLogo from "../../../assets/Wold_Academy_thumb.jpg";
 import BobbyMooreLogo from "../../../assets/BMA_thumb.png";
 import BarnesWallisLogo from "../../../assets/Barnes_Wallis_thumb.jpg";
 
 // 2. Import your Toolkit page components (unchanged)
+import DemoToolkit from "../reports/toolkit/DemoToolkit";
 import AbbeyToolkit from "../reports/toolkit/AbbeyToolkit";
 import AinthorpeToolkit from "../reports/toolkit/AinthorpeToolkit";
 import BoothWoodToolkit from "../reports/toolkit/BoothWoodToolkit";
@@ -74,6 +76,7 @@ import BarnesWallisToolkit from "../reports/toolkit/BarnesWallisToolkit";
 
 // 3. Export the config array, each with logoUrl mapped to new imports
 export const reportConfig = [
+  { id: "abbey", name: "Demo Toolkit", description: "Demo Toolkit.", category: "Toolkit", tag: "", href: "/analytics/report/demo", component: DemoToolkit, logoUrl: dretLogo, comingSoon: false },
   { id: "abbey", name: "Abbey CE Academy", description: "Abbey CE Academy Toolkit.", category: "Toolkit", tag: "", href: "/analytics/report/abbey", component: AbbeyToolkit, logoUrl: AbbeyLogo, comingSoon: false },
   { id: "ainthorpe", name: "Ainthorpe Primary School", description: "Ainthorpe Primary School Toolkit.", category: "Toolkit", tag: "", href: "/analytics/report/ainthorpe", component: AinthorpeToolkit, logoUrl: AinthorpeLogo, comingSoon: false },
   { id: "boothwood", name: "Booth Wood Academy", description: "Booth Wood Academy Toolkit.", category: "Toolkit", tag: "", href: "/analytics/report/boothwood", component: BoothWoodToolkit, logoUrl: BoothWoodLogo, comingSoon: false },
