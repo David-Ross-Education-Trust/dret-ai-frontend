@@ -7,6 +7,7 @@ import MyHub from "./portals/dret-ai/pages/myhub";
 import StudentHub from "./portals/dret-ai/pages/studenthub";
 import ToolsPage from "./portals/dret-ai/pages/tools";
 import AnalyticsHomePage from "./portals/dret-analytics/pages/HomePage";
+import EducationReports from "./portals/dret-analytics/pages/EducationReports";
 import { toolsConfig } from "./portals/dret-ai/components/toolConfig";
 import { reportConfig } from "./portals/dret-analytics/components/reportConfig";
 import RequireAuth from "./RequireAuth";

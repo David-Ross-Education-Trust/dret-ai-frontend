@@ -1,8 +1,19 @@
+import EducationReports from "../pages/EducationReports";
 import AttendanceOverviewReport from "../reports/education/report001";
 import ProgressTrackerReport from "../reports/education/report002";
-// ...add more imports for each report as you scale
+// ...other imports
 
 export const reportConfig = [
+  {
+    id: "education-analytics",
+    name: "Education Analytics",
+    description: "All education-related analytics and reports.",
+    category: "Education",
+    tag: "",
+    href: "/analytics/education",
+    component: EducationReports,
+    comingSoon: false,
+  },
   {
     id: "attendance-overview",
     name: "Attendance Overview",
@@ -23,7 +34,6 @@ export const reportConfig = [
     component: ProgressTrackerReport,
     comingSoon: false,
   },
-  // Example coming soon card
   { id: "003", comingSoon: true },
   // ...add more as you go
 ];
