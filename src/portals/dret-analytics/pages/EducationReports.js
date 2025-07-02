@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import AnalyticsLayout from "../components/layout";
 import { reportConfig } from "../components/reportConfig";
-import ReportCard from "../components/ReportCard"; // Ensure case matches your filename!
+import ReportCard from "../components/reportCard"; // Ensure case matches your filename!
 
 export default function EducationReports() {
   const navigate = useNavigate();
