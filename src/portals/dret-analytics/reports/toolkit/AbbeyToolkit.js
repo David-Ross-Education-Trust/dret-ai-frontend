@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Search, X } from "lucide-react";
-import AnalyticsLayout from "../components/layout";
+import AnalyticsLayout from "../../components/layout";
 
 export default function AbbeyToolkit() {
   const [searchTerm, setSearchTerm] = useState("");
