@@ -17,11 +17,17 @@ export default function ToolkitReports() {
 
   return (
     <AnalyticsLayout>
-      <div className="font-sans bg-gray-50 min-h-screen h-screen flex flex-col">
+      <div
+        className="bg-gray-50 min-h-screen h-screen flex flex-col"
+        style={{
+          fontFamily:
+            "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
+        }}
+      >
         {/* Heading */}
         <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-8 h-24 flex items-center border-b border-gray-200">
           <h1 className="text-2xl font-bold" style={{ color: "#205c40" }}>
-            Toolkit
+            Education Toolkit
           </h1>
         </div>
         {/* Report Grid */}
