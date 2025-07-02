@@ -4,7 +4,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { FiChevronDown } from "react-icons/fi";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import { useLocation, Link } from "react-router-dom";
-import dretAnalyticsLogo from "../../../assets/dret-analytics-logo.png";
+import dretAnalyticsLogo from "../../../assets/dretai-logo.png";
 
 // Sidebar items
 const navItems = [
@@ -56,9 +56,9 @@ const AnalyticsLayout = ({
                 alt="Analytics Logo"
                 className="object-contain"
                 style={{
-                  maxHeight: "90px",    // Match AI logo height
+                  maxHeight: "90px",
                   width: "85%",
-                  marginTop: "6px",    // Center vertically
+                  marginTop: "6px",
                   marginBottom: "6px",
                   transition: "width 0.2s, max-height 0.2s",
                   display: "block",
@@ -94,28 +94,23 @@ const AnalyticsLayout = ({
                   key={idx}
                   to={item.to}
                   className={`
-                    flex items-center px-4 py-2 rounded font-avenir transition-transform duration-150 relative group
+                    flex items-center px-4 py-3 rounded font-avenir transition-transform duration-150 relative group
                     hover:scale-110
-                    ${isSelected ? "scale-110 font-semibold" : ""}
                   `}
                   style={{
                     color: "#fff",
-                    fontWeight: isSelected ? 600 : 400,
-                    fontFamily: isSelected
-                      ? "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif"
-                      : "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
-                    letterSpacing: isSelected ? "0.04em" : undefined,
-                    background: isSelected ? "rgba(255,255,255,0.04)" : undefined,
+                    fontWeight: 400,
+                    fontFamily: "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
                     transition: "transform 0.18s cubic-bezier(.4,0,.2,1)",
                   }}
                 >
+                  {/* Bullet point: right next to the label, only if selected */}
                   <span
                     style={{
                       display: "inline-flex",
                       alignItems: "center",
                       position: "relative",
-                      minWidth: 12,
-                      marginRight: 4,
+                      marginRight: 6, // puts bullet just left of label
                     }}
                   >
                     {isSelected && (
@@ -125,17 +120,14 @@ const AnalyticsLayout = ({
                         viewBox="0 0 10 10"
                         style={{
                           display: "inline-block",
-                          position: "absolute",
-                          left: "-14px", // match AI placement: closer to icon/label
-                          top: "50%",
-                          transform: "translateY(-50%)",
+                          marginRight: "0px", // flush to text
                         }}
                       >
                         <circle cx="5" cy="5" r="4" fill="white" />
                       </svg>
                     )}
                   </span>
-                  <span className="ml-2">{sidebarOpen ? item.label : ""}</span>
+                  <span>{sidebarOpen ? item.label : ""}</span>
                 </Link>
               );
             })}
