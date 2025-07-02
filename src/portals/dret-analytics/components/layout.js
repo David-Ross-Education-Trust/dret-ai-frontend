@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { useMsal } from "@azure/msal-react";
 import { FaUserCircle } from "react-icons/fa";
 import { FiChevronDown } from "react-icons/fi";
-import { HiChevronDoubleRight, HiChevronDoubleLeft } from "react-icons/hi";
 import dretAnalyticsLogo from "../../../assets/dretai-logo.png";
 
 const navItems = [
+  { label: "Favourites", to: "/analytics/favourites" }, // Favourites link at top
   { label: "Education", to: "/analytics/education" },
   { label: "Operations", to: "/analytics/operations" },
   { label: "Finance", to: "/analytics/finance" },
@@ -18,7 +18,6 @@ const AnalyticsLayout = ({ children }) => {
   const account = accounts[0];
   const isSignedIn = !!account;
   const [menuOpen, setMenuOpen] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const handleLogin = () => instance.loginRedirect();
   const handleLogout = () => instance.logoutRedirect();
@@ -27,10 +26,8 @@ const AnalyticsLayout = ({ children }) => {
     <div className="flex font-avenir h-screen bg-gray-50">
       {/* Sidebar */}
       <aside
-        className={`bg-[var(--trust-green)] text-white h-full transition-all duration-300 flex flex-col justify-between fixed top-0 left-0 z-40 shadow-lg ${
-          sidebarOpen ? "w-60" : "w-14"
-        }`}
-        style={{ minWidth: sidebarOpen ? 240 : 56 }}
+        className="bg-[var(--trust-green)] text-white h-full transition-all duration-300 flex flex-col justify-between fixed top-0 left-0 z-40 shadow-lg w-60"
+        style={{ minWidth: 240 }}
       >
         <div>
           <div className="flex items-center justify-center h-20">
@@ -40,7 +37,7 @@ const AnalyticsLayout = ({ children }) => {
               className="object-contain"
               style={{
                 maxHeight: 64,
-                width: sidebarOpen ? "100%" : 40,
+                width: "100%",
                 transition: "width 0.2s",
               }}
             />
@@ -50,12 +47,10 @@ const AnalyticsLayout = ({ children }) => {
               <a
                 key={idx}
                 href={item.to}
-                className={`block px-6 py-3 text-base rounded transition-all duration-100 ${
-                  sidebarOpen ? "text-white" : "text-white text-center"
-                } hover:bg-[#205c40]/80`}
+                className="block px-6 py-3 text-base rounded transition-all duration-100 text-white hover:bg-[#205c40]/80"
                 style={{ whiteSpace: "nowrap" }}
               >
-                {sidebarOpen ? item.label : item.label[0]}
+                {item.label}
               </a>
             ))}
           </nav>
@@ -67,16 +62,10 @@ const AnalyticsLayout = ({ children }) => {
               className="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-[#184b34] transition"
             >
               <FaUserCircle className="text-2xl" />
-              {sidebarOpen && (
-                isSignedIn ? (
-                  <div className="flex items-center gap-1">
-                    <span className="font-medium text-sm">{account.name}</span>
-                    <FiChevronDown className="text-xs" />
-                  </div>
-                ) : (
-                  <span className="font-medium text-sm">Sign in</span>
-                )
-              )}
+              <div className="flex items-center gap-1">
+                <span className="font-medium text-sm">{account.name}</span>
+                <FiChevronDown className="text-xs" />
+              </div>
             </div>
             {isSignedIn && menuOpen && (
               <div className="absolute bottom-16 left-4 bg-white text-black rounded shadow-md w-48 z-50">
@@ -97,23 +86,9 @@ const AnalyticsLayout = ({ children }) => {
           </div>
         )}
       </aside>
-      {/* Minimise/maximise button */}
-      <button
-        onClick={() => setSidebarOpen((v) => !v)}
-        aria-label={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
-        className="fixed left-0 top-4 z-50 bg-white text-[var(--trust-green)] border border-gray-200 rounded-full shadow hover:bg-gray-200 transition-all w-8 h-8 flex items-center justify-center"
-        style={{
-          left: sidebarOpen ? 240 : 8,
-          transition: "left 0.2s",
-        }}
-      >
-        {sidebarOpen ? <HiChevronDoubleLeft size={20} /> : <HiChevronDoubleRight size={20} />}
-      </button>
       {/* Main content */}
       <main
-        className={`transition-all duration-300 ${
-          sidebarOpen ? "ml-60" : "ml-14"
-        } flex-1 min-h-screen bg-gray-50`}
+        className="transition-all duration-300 ml-60 flex-1 min-h-screen bg-gray-50"
         style={{
           maxWidth: "100vw",
         }}
