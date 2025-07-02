@@ -1,37 +1,26 @@
-import EducationReports from "../pages/EducationReports";
-import AttendanceOverviewReport from "../reports/education/report001";
-import ProgressTrackerReport from "../reports/education/report002";
+import PupilProfileReport from "../reports/education/report001";
+import ToolkitExample from "../reports/education/report002";
 // ...other imports
 
 export const reportConfig = [
   {
-    id: "education-analytics",
-    name: "Education Analytics",
-    description: "All education-related analytics and reports.",
-    category: "Education",
-    tag: "",
-    href: "/analytics/education",
-    component: EducationReports,
-    comingSoon: false,
-  },
-  {
-    id: "attendance-overview",
-    name: "Attendance Overview",
-    description: "Track attendance across the trust.",
+    id: "pupil-profile",
+    name: "Pupil Profile",
+    description: "In-depth Pupil Profile.",
     category: "Education",
     tag: "New",
-    href: "/analytics/report/attendance-overview",
-    component: AttendanceOverviewReport,
+    href: "/analytics/report/pupil-profile",
+    component: PupilProfileReport,
     comingSoon: false,
   },
   {
-    id: "progress-tracker",
-    name: "Progress Tracker",
-    description: "Monitor student progress by cohort.",
+    id: "toolkit-example",
+    name: "Toolkit",
+    description: "Toolkit Example.",
     category: "Toolkit",
     tag: "New",
-    href: "/analytics/report/progress-tracker",
-    component: ProgressTrackerReport,
+    href: "/analytics/report/toolkit-example",
+    component: ToolkitExample,
     comingSoon: false,
   },
   { id: "003", comingSoon: true },
