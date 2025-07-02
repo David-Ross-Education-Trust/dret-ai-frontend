@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import ReportViewer from "../components/reportViewer";
+import ReportViewer from "../components/ReportViewer";
 import { reportConfigs } from "./reportConfigs";
 import AnalyticsLayout from "../components/layout"; // or whatever your layout is called
 
