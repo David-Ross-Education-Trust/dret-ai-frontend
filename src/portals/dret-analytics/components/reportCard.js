@@ -7,7 +7,6 @@ const categoryColors = {
   HR: "bg-yellow-50 text-yellow-800",
   Finance: "bg-red-50 text-red-800",
   "IT & Data": "bg-purple-50 text-purple-800",
-  // ...add more as needed
 };
 
 const tagStyles = {
@@ -26,9 +25,12 @@ export default function ReportCard({
   return (
     <div
       onClick={!disabled ? () => onClick(report) : undefined}
-      className={`relative rounded-xl bg-white shadow-md hover:shadow-lg transition-shadow cursor-pointer p-4 pt-3 h-[150px] flex flex-col justify-start ${
-        disabled ? "opacity-50 pointer-events-none" : ""
-      }`}
+      className={`relative rounded-xl bg-white shadow-md hover:shadow-lg transition-shadow cursor-pointer p-4 pt-3 h-[140px] flex flex-col justify-start
+        ${disabled ? "opacity-50 pointer-events-none" : ""}
+      `}
+      style={{
+        minWidth: 0, // allow to shrink in grid
+      }}
     >
       {/* Favourite/star button */}
       {typeof onFavourite === "function" && (
@@ -52,32 +54,14 @@ export default function ReportCard({
               fill: !isFavourite ? "none" : "#fde047",
               transition: "fill 0.2s",
             }}
-            onMouseEnter={e => {
-              if (!isFavourite) {
-                e.currentTarget.style.fill = "#fde047";
-                e.currentTarget.style.opacity = "1";
-              }
-            }}
-            onMouseLeave={e => {
-              if (!isFavourite) {
-                e.currentTarget.style.fill = "none";
-                e.currentTarget.style.opacity = "0.8";
-              }
-            }}
           />
         </button>
       )}
       <div className="flex flex-col gap-0 mb-10 mt-1">
-        <h3
-          className="text-base font-bold pr-8 leading-tight"
-          style={{ fontFamily: "system-ui, sans-serif" }}
-        >
+        <h3 className="text-base font-bold pr-8 leading-tight" style={{ fontFamily: "system-ui, sans-serif" }}>
           {report.name}
         </h3>
-        <p
-          className="text-[13px] text-gray-500 font-normal leading-snug mt-2"
-          style={{ fontFamily: "system-ui, sans-serif" }}
-        >
+        <p className="text-[13px] text-gray-500 font-normal leading-snug mt-2" style={{ fontFamily: "system-ui, sans-serif" }}>
           {report.description}
         </p>
       </div>
