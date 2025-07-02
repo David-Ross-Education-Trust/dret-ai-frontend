@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useMsal } from "@azure/msal-react";
 import { FaUserCircle } from "react-icons/fa";
 import { FiChevronDown } from "react-icons/fi";
-import { HiMenuAlt2, HiChevronDoubleRight, HiChevronDoubleLeft } from "react-icons/hi";
+import { HiChevronDoubleRight, HiChevronDoubleLeft } from "react-icons/hi";
 import dretAnalyticsLogo from "../../../assets/dretai-logo.png";
 
 const navItems = [
