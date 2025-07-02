@@ -46,35 +46,45 @@ const AnalyticsLayout = ({
         }`}
         style={{ minWidth: sidebarOpen ? sidebarWidth : sidebarMiniWidth }}
       >
-        {/* Logo area - MATCHES AI LAYOUT EXACTLY */}
-        {sidebarOpen && (
-          <div className="w-full h-24 flex items-center">
+        {/* Logo area and chevron toggle */}
+        {sidebarOpen ? (
+          <div className="w-full h-24 flex items-center relative">
             <img
               src={dretAnalyticsLogo}
               alt="Analytics Logo"
               className="w-full h-full object-contain"
               style={{ display: "block", maxHeight: "80px" }}
             />
-          </div>
-        )}
-        {allowSidebarMinimise && (
-          <div className="relative flex items-center justify-center h-0">
-            <button
-              onClick={() => setSidebarOpen((v) => !v)}
-              aria-label={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
-              className="absolute right-[-18px] top-1/2 -translate-y-1/2 bg-white text-[var(--trust-green)] border border-gray-200 rounded-full shadow hover:bg-gray-200 transition-all w-9 h-9 flex items-center justify-center"
-              style={{
-                boxShadow: "0 2px 8px 0 rgba(32,92,64,0.09)",
-              }}
-            >
-              {sidebarOpen ? (
+            {allowSidebarMinimise && (
+              <button
+                onClick={() => setSidebarOpen((v) => !v)}
+                aria-label="Collapse sidebar"
+                className="absolute right-2 top-1/2 -translate-y-1/2 bg-white text-[var(--trust-green)] border border-gray-200 rounded-full shadow hover:bg-gray-200 transition-all w-9 h-9 flex items-center justify-center"
+                style={{
+                  boxShadow: "0 2px 8px 0 rgba(32,92,64,0.09)",
+                }}
+              >
                 <HiChevronLeft size={22} />
-              ) : (
-                <HiChevronRight size={22} />
-              )}
-            </button>
+              </button>
+            )}
           </div>
+        ) : (
+          allowSidebarMinimise && (
+            <div className="w-full h-24 flex items-center justify-center relative">
+              <button
+                onClick={() => setSidebarOpen((v) => !v)}
+                aria-label="Expand sidebar"
+                className="bg-white text-[var(--trust-green)] border border-gray-200 rounded-full shadow hover:bg-gray-200 transition-all w-9 h-9 flex items-center justify-center"
+                style={{
+                  boxShadow: "0 2px 8px 0 rgba(32,92,64,0.09)",
+                }}
+              >
+                <HiChevronRight size={22} />
+              </button>
+            </div>
+          )
         )}
+
         {/* Nav: always at the top, under logo */}
         <nav className="mt-6 flex flex-col gap-1">
           {navItems.map((item, idx) => {
@@ -115,6 +125,7 @@ const AnalyticsLayout = ({
             );
           })}
         </nav>
+
         {/* User/Profile section, always pinned to bottom */}
         {isSignedIn && (
           <div className="relative p-4 border-t border-[#184b34] font-avenir mt-auto">
@@ -153,6 +164,7 @@ const AnalyticsLayout = ({
           </div>
         )}
       </aside>
+
       {/* Main content */}
       <main
         className={`transition-all duration-300 ${
