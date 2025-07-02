@@ -1,28 +1,26 @@
-// portals/dret-analytics/components/layout.js
-
 import React, { useState } from "react";
 import { useMsal } from "@azure/msal-react";
 import { FaUserCircle } from "react-icons/fa";
 import { FiChevronDown } from "react-icons/fi";
 import { HiChevronDoubleLeft, HiChevronDoubleRight } from "react-icons/hi";
 import { useLocation, Link } from "react-router-dom";
-import dretAnalyticsLogo from "../../../assets/dretai-logo.png"; // <-- adjust if your path is different
+import dretAnalyticsLogo from "../../../assets/dretai-logo.png";
 
-// Sidebar items
 const navItems = [
-  { label: "Favourites", to: "/analytics/favourites" },
+  { label: "Favourites", to: "/analytics" },
   { label: "Education", to: "/analytics/education" },
   { label: "Operations", to: "/analytics/operations" },
   { label: "Finance", to: "/analytics/finance" },
   { label: "HR", to: "/analytics/hr" },
   { label: "IT & Data", to: "/analytics/it-data" },
+  { label: "Toolbox", to: "/analytics/toolbox" }, // <--- Here it is
 ];
 
 const AnalyticsLayout = ({
   children,
   allowSidebarMinimise = false,
   hideHeaderWithSidebar = false,
-  headerContent = null, // Pass a custom header as a prop if needed
+  headerContent = null,
 }) => {
   const { accounts, instance } = useMsal();
   const account = accounts[0];
@@ -31,13 +29,10 @@ const AnalyticsLayout = ({
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const location = useLocation();
-
-  // Show the header unless (hideHeaderWithSidebar && sidebar is minimised)
-  const showHeader = !(hideHeaderWithSidebar && !sidebarOpen);
-
-  // Sidebar width (in px) to keep alignment consistent with the button
   const sidebarWidth = 240;
   const sidebarMiniWidth = 56;
+
+  const showHeader = !(hideHeaderWithSidebar && !sidebarOpen);
 
   const handleLogin = () => instance.loginRedirect();
   const handleLogout = () => instance.logoutRedirect();
@@ -176,16 +171,11 @@ const AnalyticsLayout = ({
         } flex-1 min-h-screen bg-gray-50`}
         style={{
           maxWidth: "100vw",
+          paddingTop: 0,
         }}
       >
-        {/* Header, if enabled */}
-        {showHeader && (
-          headerContent ? headerContent : (
-            <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-8 h-20 flex items-center sticky top-0 border-b border-gray-200">
-              {/* Optionally allow children to override this header */}
-            </div>
-          )
-        )}
+        {/* Header: only render if actually passed in */}
+        {showHeader && headerContent}
         {/* Children: if function, pass sidebarOpen for layout-aware rendering */}
         {typeof children === "function"
           ? children({ sidebarOpen })
