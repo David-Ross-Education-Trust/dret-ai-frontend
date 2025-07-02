@@ -28,7 +28,7 @@ export const reportConfig = [
     id: "progress-tracker",
     name: "Progress Tracker",
     description: "Monitor student progress by cohort.",
-    category: "Education",
+    category: "Toolkit",
     tag: "New",
     href: "/analytics/report/progress-tracker",
     component: ProgressTrackerReport,

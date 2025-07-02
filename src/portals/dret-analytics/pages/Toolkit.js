@@ -30,7 +30,7 @@ export default function ToolkitReports() {
         {/* Heading */}
         <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-8 h-24 flex items-center border-b border-gray-200">
           <h1 className="text-2xl font-bold" style={{ color: "#205c40" }}>
-            Toolkit Analytics
+            Toolkit
           </h1>
         </div>
         {/* Report Grid */}
