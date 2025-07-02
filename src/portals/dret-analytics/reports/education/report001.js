@@ -6,7 +6,7 @@ import AnalyticsLayout from "../../components/layout";
 
 const pbiScopes = ["openid", "profile"];
 
-export default function Report001() {
+export default function Report001({ hideHeader }) {
   const { instance, accounts } = useMsal();
   const [embedInfo, setEmbedInfo] = useState(null);
   const [error, setError] = useState(null);
@@ -44,47 +44,50 @@ export default function Report001() {
 
   return (
     <AnalyticsLayout>
-      {/* Header */}
-      <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-8 h-20 flex items-center sticky top-0 border-b border-gray-200">
-        <div style={{ display: "flex", alignItems: "center", transform: "translateY(4px)" }}>
-          <span
-            className="inline-block"
-            style={{
-              width: 6,
-              height: 34,
-              borderRadius: 6,
-              background: "#205c40",
-              marginRight: "1.1rem",
-            }}
-          />
-          <h1 className="text-xl font-bold" style={{ color: "#205c40" }}>
-            Attendance Overview
-          </h1>
+      {!hideHeader && (
+        <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-8 h-20 flex items-center sticky top-0 border-b border-gray-200">
+          <div style={{ display: "flex", alignItems: "center", transform: "translateY(4px)" }}>
+            <span
+              className="inline-block"
+              style={{
+                width: 6,
+                height: 34,
+                borderRadius: 6,
+                background: "#205c40",
+                marginRight: "1.1rem",
+              }}
+            />
+            <h1 className="text-xl font-bold" style={{ color: "#205c40" }}>
+              Attendance Overview
+            </h1>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Report container */}
       <div
-        className="
+        className={`
           flex-1 flex flex-col items-center justify-center
           w-full min-h-0 pt-4 pb-8 px-4 md:px-12
-        "
+          ${hideHeader ? "!pt-0" : ""}
+        `}
         style={{
           background: "#f3f4f6",
+          minHeight: hideHeader ? "100vh" : undefined,
         }}
       >
         <div
-          className="
+          className={`
             bg-white rounded-xl shadow-md flex-1 w-full
-            max-w-[1600px] min-h-[70vh] flex flex-col
+            max-w-[1600px] flex flex-col
             border border-gray-200
-          "
+          `}
           style={{
             transition: "all 0.3s cubic-bezier(.4,0,.2,1)",
-            padding: "2.5rem 2rem",
-            marginTop: "0.5rem",
-            marginBottom: "0.5rem",
-            minHeight: "72vh",
+            padding: hideHeader ? "0" : "2.5rem 2rem",
+            marginTop: hideHeader ? 0 : "0.5rem",
+            marginBottom: hideHeader ? 0 : "0.5rem",
+            minHeight: hideHeader ? "100vh" : "72vh",
           }}
         >
           {error && (
@@ -108,11 +111,11 @@ export default function Report001() {
                   },
                 },
               }}
-              cssClassName="w-full h-[72vh] rounded-xl"
+              cssClassName="w-full h-[80vh] rounded-xl"
               style={{
                 flex: 1,
                 width: "100%",
-                minHeight: "70vh",
+                minHeight: hideHeader ? "90vh" : "70vh",
               }}
             />
           )}
