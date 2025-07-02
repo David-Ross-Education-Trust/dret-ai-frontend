@@ -6,7 +6,7 @@ export const reportConfig = [
   {
     id: "pupil-profile",
     name: "Pupil Profile",
-    description: "In-depth Pupil Profile.",
+    description: "Indepth Pupil Profile.",
     category: "Education",
     tag: "New",
     href: "/analytics/report/pupil-profile",

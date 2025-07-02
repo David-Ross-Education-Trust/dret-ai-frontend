@@ -70,7 +70,7 @@ export default function Report001() {
                     }}
                   />
                   <h1 className="text-xl font-bold" style={{ color: "#205c40" }}>
-                    Attendance Overview
+                    Pupil Profile
                   </h1>
                 </div>
               </div>

@@ -31,7 +31,7 @@ export default function Report002() {
                     }}
                   />
                   <h1 className="text-xl font-bold" style={{ color: "#205c40" }}>
-                    Embedded Excel Report
+                    Toolkit Example
                   </h1>
                 </div>
               </div>
