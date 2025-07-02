@@ -1,20 +1,20 @@
-// ...other imports...
 import React, { useState } from "react";
 import { useMsal } from "@azure/msal-react";
 import { FaUserCircle } from "react-icons/fa";
 import { FiChevronDown } from "react-icons/fi";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import { useLocation, Link } from "react-router-dom";
-// Logo import removed
+import dretAnalyticsLogo from "../../../assets/dretai-logo.png";
 
+// You can keep navItems with 'icon' properties or remove the 'icon' fields, but they're unused now:
 const navItems = [
-  { label: "Favourites", to: "/analytics", icon: "fas fa-star" },
-  { label: "Education Dashboards", to: "/analytics/education", icon: "fas fa-chalkboard" },
-  { label: "Education Toolkit", to: "/analytics/toolkit", icon: "fas fa-toolbox" },
-  { label: "Operations", to: "/analytics/operations", icon: "fas fa-cogs" },
-  { label: "Finance", to: "/analytics/finance", icon: "fas fa-pound-sign" },
-  { label: "HR", to: "/analytics/hr", icon: "fas fa-users" },
-  { label: "IT & Data", to: "/analytics/it-data", icon: "fas fa-database" },
+  { label: "Favourites", to: "/analytics" },
+  { label: "Education Dashboards", to: "/analytics/education" },
+  { label: "Education Toolkit", to: "/analytics/toolkit" },
+  { label: "Operations", to: "/analytics/operations" },
+  { label: "Finance", to: "/analytics/finance" },
+  { label: "HR", to: "/analytics/hr" },
+  { label: "IT & Data", to: "/analytics/it-data" },
 ];
 
 const AnalyticsLayout = ({
@@ -48,7 +48,6 @@ const AnalyticsLayout = ({
         style={{ minWidth: sidebarOpen ? sidebarWidth : sidebarMiniWidth }}
       >
         <div className="flex flex-col flex-1">
-          {/* Logo section removed */}
           {allowSidebarMinimise && (
             <div className="relative flex items-center justify-center h-24">
               <button
@@ -102,20 +101,6 @@ const AnalyticsLayout = ({
                     >
                       <circle cx="5" cy="5" r="4" fill="white" />
                     </svg>
-                  )}
-                  {/* Icon - FontAwesome */}
-                  {sidebarOpen && item.icon && (
-                    <i
-                      className={item.icon}
-                      style={{
-                        fontSize: "1.1rem",
-                        marginRight: "10px",
-                        marginLeft: isSelected ? "0" : "16px",
-                        verticalAlign: "middle",
-                        minWidth: 18,
-                        textAlign: "center",
-                      }}
-                    />
                   )}
                   <span>{sidebarOpen ? item.label : ""}</span>
                 </Link>
@@ -171,7 +156,6 @@ const AnalyticsLayout = ({
           paddingTop: 0,
         }}
       >
-        {/* Header: only render if actually passed in */}
         {showHeader && headerContent}
         {typeof children === "function"
           ? children({ sidebarOpen })
