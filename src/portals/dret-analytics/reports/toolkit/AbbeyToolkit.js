@@ -1,5 +1,5 @@
 import React from "react";
-import AnalyticsLayout from "../components/layout";
+import AnalyticsLayout from "../../components/layout";
 import { FileSpreadsheet } from "lucide-react";
 
 const excelFiles = [
