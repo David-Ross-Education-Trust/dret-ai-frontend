@@ -1,28 +1,33 @@
 import React, { useState } from "react";
 import { Search, X } from "lucide-react";
-import AnalyticsLayout from "../../components/layout";
-import ExcelIcon from "../../../../assets/excel-icon.png";
-
-// Replace this array with your actual files for Abbey CE Academy
-const abbeyFiles = [
-  { name: "Attendance Tracker.xlsx", url: "https://sharepoint/link/1" },
-  { name: "Staff Timetable.xlsx", url: "https://sharepoint/link/2" },
-  { name: "Pupil Progress.xlsx", url: "https://sharepoint/link/3" },
-  // ... up to 10 or more
-];
+import AnalyticsLayout from "../components/layout";
 
 export default function AbbeyToolkit() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
 
-  // Filter files by search
-  const filteredFiles = abbeyFiles.filter(
-    file =>
-      !searchTerm.trim() ||
-      file.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Placeholder file data
+  const files = [
+    { name: "Attendance Tracker", link: "#" },
+    { name: "Staff Timetable", link: "#" },
+    { name: "Pupil Progress", link: "#" },
+    { name: "Assessment Overview", link: "#" },
+    { name: "Behaviour Log", link: "#" },
+    { name: "Intervention Register", link: "#" },
+    { name: "SEND Records", link: "#" },
+    { name: "Clubs List", link: "#" },
+    { name: "Parent Contacts", link: "#" },
+    { name: "Risk Assessment", link: "#" },
+  ];
 
   const TRUST_GREEN = "#205c40";
+
+  // Filter files by search term
+  const filteredFiles = files.filter(
+    (file) =>
+      searchTerm.trim() === "" ||
+      file.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <AnalyticsLayout>
@@ -33,7 +38,7 @@ export default function AbbeyToolkit() {
             "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
         }}
       >
-        {/* --- Top Bar --- */}
+        {/* --- Top Bar with heading + search bar --- */}
         <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-8 h-24 flex items-center justify-between">
           <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
             Abbey CE Academy Toolkit
@@ -42,7 +47,7 @@ export default function AbbeyToolkit() {
             <input
               type="text"
               value={searchTerm}
-              onChange={e => setSearchTerm(e.target.value)}
+              onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search files"
               onFocus={() => setSearchFocused(true)}
               onBlur={() => setSearchFocused(false)}
@@ -54,7 +59,7 @@ export default function AbbeyToolkit() {
                 boxShadow: searchFocused
                   ? `0 0 0 2px ${TRUST_GREEN}40`
                   : undefined,
-                fontFamily: "AvenirLTStdLight, Avenir, sans-serif"
+                fontFamily: "AvenirLTStdLight, Avenir, sans-serif",
               }}
             />
             {searchTerm && (
@@ -69,59 +74,49 @@ export default function AbbeyToolkit() {
           </div>
         </div>
         {/* --- File Grid --- */}
-        <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
-          <div
-            className="
-              grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 xl:grid-cols-10
-              gap-x-4 gap-y-6
-              w-full
-            "
-            style={{ minHeight: 200 }}
-          >
+        <div className="flex-1 overflow-y-auto p-10 custom-scrollbar">
+          <div className="grid grid-cols-5 gap-12">
             {filteredFiles.length === 0 ? (
               <div className="col-span-full text-gray-500 italic text-center">
-                No files available{searchTerm ? " for this search." : " yet."}
+                No files found{searchTerm ? " for this search." : "."}
               </div>
             ) : (
               filteredFiles.map((file, idx) => (
-                <a
+                <button
                   key={idx}
-                  href={file.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="
-                    flex flex-col items-center justify-center
-                    p-2 bg-white rounded-xl shadow hover:shadow-lg transition-shadow
-                    group cursor-pointer
-                  "
-                  style={{ minWidth: 90, maxWidth: 120 }}
-                  title={file.name}
+                  className="flex flex-col items-center justify-center group cursor-pointer focus:outline-none bg-transparent border-0"
+                  onClick={() => window.open(file.link, "_blank")}
+                  tabIndex={0}
+                  style={{ outline: "none" }}
                 >
                   <img
-                    src={ExcelIcon}
-                    alt="Excel File"
-                    className="w-12 h-12 object-contain mb-2"
+                    src="/excel-thumbnail.png"
+                    alt=""
+                    style={{
+                      width: 74,
+                      height: 90,
+                      marginBottom: 12,
+                      objectFit: "contain",
+                      display: "block",
+                      transition: "box-shadow 0.13s",
+                      boxShadow: "0 1px 5px 0 rgba(60, 90, 70, 0.06)",
+                    }}
                   />
                   <span
-                    className="
-                      text-xs text-gray-700 text-center truncate w-full
-                      font-medium group-hover:text-[var(--trust-green)]
-                      px-1
-                    "
+                    className="text-gray-700 text-base font-medium truncate w-32 text-center"
                     style={{
                       fontFamily: "AvenirLTStdLight, Avenir, sans-serif",
-                      maxWidth: 90,
-                      minHeight: 30,
                     }}
+                    title={file.name}
                   >
                     {file.name}
                   </span>
-                </a>
+                </button>
               ))
             )}
           </div>
         </div>
-        {/* --- Custom Scrollbar Style --- */}
+        {/* --- Custom Scrollbar Styles --- */}
         <style>
           {`
             .custom-scrollbar {
