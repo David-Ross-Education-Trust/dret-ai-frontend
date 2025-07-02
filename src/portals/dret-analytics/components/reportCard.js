@@ -1,5 +1,5 @@
 import React from "react";
-import { Flame, Sparkles } from "lucide-react";
+import { Star, Flame, Sparkles } from "lucide-react";
 
 const categoryColors = {
   Education: "bg-blue-50 text-blue-800",
@@ -15,7 +15,14 @@ const tagStyles = {
   New: "bg-green-50 text-green-800",
 };
 
-export default function ReportCard({ report, onClick, disabled }) {
+export default function ReportCard({
+  report,
+  isFavourite,
+  onFavourite,
+  onClick,
+  clickedStar,
+  disabled,
+}) {
   return (
     <div
       onClick={!disabled ? () => onClick(report) : undefined}
@@ -23,6 +30,43 @@ export default function ReportCard({ report, onClick, disabled }) {
         disabled ? "opacity-50 pointer-events-none" : ""
       }`}
     >
+      {/* Favourite/star button */}
+      {typeof onFavourite === "function" && (
+        <button
+          onClick={e => {
+            e.stopPropagation();
+            onFavourite(report.id || report.name);
+          }}
+          className="absolute top-3 right-3 p-2 rounded-full group transition z-20"
+          aria-label={isFavourite ? "Unfavourite" : "Favourite"}
+          tabIndex={0}
+          type="button"
+        >
+          <Star
+            className={`w-5 h-5 transition-transform duration-300 ${
+              isFavourite ? "text-yellow-400" : "text-gray-300"
+            } opacity-80 ${clickedStar === (report.id || report.name) ? "scale-125 animate-ping-once" : ""}`}
+            strokeWidth={1.5}
+            fill={isFavourite ? "#fde047" : "none"}
+            style={{
+              fill: !isFavourite ? "none" : "#fde047",
+              transition: "fill 0.2s",
+            }}
+            onMouseEnter={e => {
+              if (!isFavourite) {
+                e.currentTarget.style.fill = "#fde047";
+                e.currentTarget.style.opacity = "1";
+              }
+            }}
+            onMouseLeave={e => {
+              if (!isFavourite) {
+                e.currentTarget.style.fill = "none";
+                e.currentTarget.style.opacity = "0.8";
+              }
+            }}
+          />
+        </button>
+      )}
       <div className="flex flex-col gap-0 mb-10 mt-1">
         <h3
           className="text-base font-bold pr-8 leading-tight"

@@ -3,37 +3,19 @@ import { useNavigate } from "react-router-dom";
 import AnalyticsLayout from "../components/layout";
 import { reportConfig } from "../components/reportConfig";
 import ReportCard from "../components/reportCard";
+import { useFavourites } from "../hooks/useFavourites"; // if you moved the hook out!
 
-// Custom hook for persisting favourites in localStorage
-function useFavourites(key = "analyticsFavourites") {
-  const [favourites, setFavourites] = useState(() => {
-    const stored = localStorage.getItem(key);
-    return stored ? JSON.parse(stored) : [];
-  });
-
-  React.useEffect(() => {
-    localStorage.setItem(key, JSON.stringify(favourites));
-  }, [favourites, key]);
-
-  const toggleFavourite = (id) =>
-    setFavourites((prev) =>
-      prev.includes(id) ? prev.filter((fav) => fav !== id) : [...prev, id]
-    );
-
-  return [favourites, toggleFavourite];
-}
-
-export default function EducationReports() {
+export default function ToolkitReports() {
   const [favourites, toggleFavourite] = useFavourites();
   const [clickedStar, setClickedStar] = useState(null);
   const navigate = useNavigate();
 
-  // Only show Education reports, and not comingSoon
-  const educationReports = reportConfig.filter(
+  // Only show Toolkit reports, and not comingSoon
+  const toolkitReports = reportConfig.filter(
     (r) =>
       !r.comingSoon &&
       r.category &&
-      r.category.toLowerCase() === "education"
+      r.category.toLowerCase() === "toolkit"
   );
 
   const handleFavourite = (id) => {
@@ -48,18 +30,18 @@ export default function EducationReports() {
         {/* Heading */}
         <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-8 h-24 flex items-center border-b border-gray-200">
           <h1 className="text-2xl font-bold" style={{ color: "#205c40" }}>
-            Education Analytics
+            Toolkit Analytics
           </h1>
         </div>
         {/* Report Grid */}
         <div className="flex-1 overflow-y-auto p-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {educationReports.length === 0 ? (
+            {toolkitReports.length === 0 ? (
               <div className="col-span-full text-gray-500 italic text-center">
-                No education reports available yet.
+                No toolkit reports available yet.
               </div>
             ) : (
-              educationReports.map((report, idx) => (
+              toolkitReports.map((report, idx) => (
                 <ReportCard
                   key={report.id || idx}
                   report={report}
