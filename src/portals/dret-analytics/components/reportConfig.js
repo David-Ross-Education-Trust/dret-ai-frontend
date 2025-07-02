@@ -35,7 +35,7 @@ import ThomasMiddlecottToolkit from "../reports/toolkit/ThomasMiddlecottToolkit"
 import WeltonToolkit from "../reports/toolkit/WeltonToolkit";
 import WoldToolkit from "../reports/toolkit/WoldToolkit";
 import BobbyMooreToolkit from "../reports/toolkit/BobbyMooreToolkit";
-import BwAcademyToolkit from "../reports/toolkit/BwAcademyToolkit";
+import BarensWallisToolkit from "../reports/toolkit/BarnesWallisToolkit";
 
 // You can define this once for missing pages, as a placeholder component
 // import BlankToolkitPage from "../reports/toolkit/BlankToolkitPage";
@@ -430,13 +430,13 @@ export const reportConfig = [
     comingSoon: false,
   },
   {
-    id: "bw-academy",
-    name: "BW Academy",
-    description: "BW Academy Toolkit.",
+    id: "barneswallis",
+    name: "Barnes Wallis Academy",
+    description: "Barnes Wallis Academy Toolkit.",
     category: "Toolkit",
     tag: "",
-    href: "/analytics/report/bw-academy",
-    component: BwAcademyToolkit,
+    href: "/analytics/report/barneswallis",
+    component: BarnesWallisToolkit,
     logo: "bw-academy.png",
     comingSoon: false,
   },
