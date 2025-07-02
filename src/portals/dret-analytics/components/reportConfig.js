@@ -35,7 +35,7 @@ import ThomasMiddlecottToolkit from "../reports/toolkit/ThomasMiddlecottToolkit"
 import WeltonToolkit from "../reports/toolkit/WeltonToolkit";
 import WoldToolkit from "../reports/toolkit/WoldToolkit";
 import BobbyMooreToolkit from "../reports/toolkit/BobbyMooreToolkit";
-import BarensWallisToolkit from "../reports/toolkit/BarnesWallisToolkit";
+import BarnesWallisToolkit from "../reports/toolkit/BarnesWallisToolkit";
 
 // You can define this once for missing pages, as a placeholder component
 // import BlankToolkitPage from "../reports/toolkit/BlankToolkitPage";
