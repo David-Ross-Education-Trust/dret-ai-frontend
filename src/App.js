@@ -40,7 +40,6 @@ function App() {
                 )}
                 <Route path="/analytics" element={<AnalyticsHomePage />} />
                 <Route path="/analytics/education" element={<EducationReports />} />
-                <Route path="/analytics/toolkit" element={<ToolkitReports />} />
                 {reportConfig.map(
                   (report) =>
                     !report.comingSoon && (

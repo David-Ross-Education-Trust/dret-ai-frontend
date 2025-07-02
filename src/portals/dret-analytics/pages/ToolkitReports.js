@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Search, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import AnalyticsLayout from "../components/layout";
-import { reportConfig } from "../components/reportConfig";
+import { ToolkitConfig } from "../components/ToolkitConfig";
 import ToolkitReportCard from "../components/ToolkitReportCard";
 
 export default function ToolkitReports() {
@@ -11,7 +11,7 @@ export default function ToolkitReports() {
   const [searchFocused, setSearchFocused] = useState(false);
 
   // Only show Toolkit reports, and not comingSoon, and filter by searchTerm
-  const toolkitReports = reportConfig.filter(
+  const toolkitReports = ToolkitConfig.filter(
     (r) =>
       !r.comingSoon &&
       r.category &&
