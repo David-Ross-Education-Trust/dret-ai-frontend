@@ -17,8 +17,6 @@ export default function ToolkitReportCard({
         transition-all cursor-pointer flex flex-col items-center justify-center
         aspect-square w-full min-w-[140px] min-h-[140px] max-w-[220px] max-h-[220px]
         border border-gray-100 relative
-        pt-8  // More space at top for the star
-        overflow-visible  // Make sure star can't be clipped
         ${disabled ? "opacity-50 pointer-events-none" : ""}
       `}
     >
@@ -29,14 +27,10 @@ export default function ToolkitReportCard({
             e.stopPropagation();
             onFavourite(report.id || report.name);
           }}
-          className="absolute top-3 right-3 p-2 rounded-full group transition z-30 bg-white bg-opacity-80 hover:bg-opacity-100"
+          className="absolute top-3 right-3 p-2 rounded-full group transition z-20"
           aria-label={isFavourite ? "Unfavourite" : "Favourite"}
           tabIndex={0}
           type="button"
-          style={{
-            boxShadow: "0 2px 8px 0 rgba(0,0,0,0.07)",
-            backdropFilter: "blur(2px)",
-          }}
         >
           <Star
             className={`w-5 h-5 transition-transform duration-300 ${
@@ -69,8 +63,8 @@ export default function ToolkitReportCard({
           <img
             src={report.logoUrl}
             alt={`${report.name} logo`}
-            className="w-16 h-16 object-contain mb-2" // slightly smaller logo
-            style={{ maxWidth: "80%", maxHeight: "80%" }}
+            className="w-20 h-20 object-contain mb-3"
+            style={{ maxWidth: "90%", maxHeight: "90%" }}
           />
         )}
         <div
