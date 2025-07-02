@@ -1,13 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import AnalyticsLayout from "../components/layout";
 import { reportConfig } from "../components/reportConfig";
-import ReportCard from "../components/reportCard";
-import { useFavourites } from "../hooks/useFavourites"; // if you moved the hook out!
+import ToolkitReportCard from "../components/ToolkitReportCard";
 
 export default function ToolkitReports() {
-  const [favourites, toggleFavourite] = useFavourites();
-  const [clickedStar, setClickedStar] = useState(null);
   const navigate = useNavigate();
 
   // Only show Toolkit reports, and not comingSoon
@@ -17,12 +14,6 @@ export default function ToolkitReports() {
       r.category &&
       r.category.toLowerCase() === "toolkit"
   );
-
-  const handleFavourite = (id) => {
-    toggleFavourite(id);
-    setClickedStar(id);
-    setTimeout(() => setClickedStar(null), 400);
-  };
 
   return (
     <AnalyticsLayout>
@@ -35,23 +26,22 @@ export default function ToolkitReports() {
         </div>
         {/* Report Grid */}
         <div className="flex-1 overflow-y-auto p-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
             {toolkitReports.length === 0 ? (
               <div className="col-span-full text-gray-500 italic text-center">
                 No toolkit reports available yet.
               </div>
             ) : (
-              toolkitReports.map((report, idx) => (
-                <ReportCard
-                  key={report.id || idx}
-                  report={report}
-                  isFavourite={favourites.includes(report.id)}
-                  onFavourite={handleFavourite}
-                  onClick={() => navigate(report.href)}
-                  clickedStar={clickedStar}
-                  disabled={!!report.comingSoon}
-                />
-              ))
+              toolkitReports.map((report, idx) => {
+                const CardComponent = report.cardComponent || ToolkitReportCard;
+                return (
+                  <CardComponent
+                    key={report.id || idx}
+                    report={report}
+                    onClick={() => navigate(report.href)}
+                  />
+                );
+              })
             )}
           </div>
         </div>
