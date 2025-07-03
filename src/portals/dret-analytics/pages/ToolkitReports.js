@@ -3,7 +3,7 @@ import { Search, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import AnalyticsLayout from "../components/layout";
 import { toolkitConfig } from "../components/ToolkitConfig";
-import ToolkitReportCard from "../components/toolkitReportCard";
+import ToolkitReportCard from "../components/ToolkitReportCard";
 
 // Custom hook for persisting favourites in localStorage!
 function useFavourites(key = "toolkitFavourites") {
