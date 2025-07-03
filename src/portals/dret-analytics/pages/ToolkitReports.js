@@ -3,12 +3,33 @@ import { Search, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import AnalyticsLayout from "../components/layout";
 import { toolkitConfig } from "../components/ToolkitConfig";
-import ToolkitReportCard from "../components/ToolkitReportCard";
+import ToolkitReportCard from "../components/toolkitReportCard";
+
+// Custom hook for persisting favourites in localStorage
+function useFavourites(key = "toolkitFavourites") {
+  const [favourites, setFavourites] = useState(() => {
+    const stored = localStorage.getItem(key);
+    return stored ? JSON.parse(stored) : [];
+  });
+
+  React.useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(favourites));
+  }, [favourites, key]);
+
+  const toggleFavourite = (id) =>
+    setFavourites((prev) =>
+      prev.includes(id) ? prev.filter((fav) => fav !== id) : [...prev, id]
+    );
+
+  return [favourites, toggleFavourite];
+}
 
 export default function ToolkitReports() {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
+  const [favourites, toggleFavourite] = useFavourites();
+  const [clickedStar, setClickedStar] = useState(null);
 
   // Show all toolkit reports (optionally filter out comingSoon)
   const toolkitReports = toolkitConfig.filter(
@@ -22,6 +43,12 @@ export default function ToolkitReports() {
   );
 
   const TRUST_GREEN = "#205c40";
+
+  const handleFavourite = (id) => {
+    toggleFavourite(id);
+    setClickedStar(id);
+    setTimeout(() => setClickedStar(null), 400);
+  };
 
   return (
     <AnalyticsLayout>
@@ -84,7 +111,11 @@ export default function ToolkitReports() {
                   <CardComponent
                     key={report.id || idx}
                     report={report}
+                    isFavourite={favourites.includes(report.id)}
+                    onFavourite={handleFavourite}
+                    clickedStar={clickedStar}
                     onClick={() => navigate(report.href)}
+                    disabled={!!report.comingSoon}
                   />
                 );
               })
