@@ -5,7 +5,7 @@ import AnalyticsLayout from "../components/layout";
 import { toolkitConfig } from "../components/ToolkitConfig";
 import ToolkitReportCard from "../components/toolkitReportCard";
 
-// Custom hook for persisting favourites in localStorage
+// Custom hook for persisting favourites in localStorage!
 function useFavourites(key = "toolkitFavourites") {
   const [favourites, setFavourites] = useState(() => {
     const stored = localStorage.getItem(key);
