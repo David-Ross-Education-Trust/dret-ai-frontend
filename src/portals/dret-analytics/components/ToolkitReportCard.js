@@ -15,7 +15,7 @@ export default function ToolkitReportCard({
       className={`
         bg-white rounded-xl shadow-md hover:shadow-lg
         transition-all cursor-pointer flex flex-col items-center justify-center
-        aspect-square w-full min-w-[200px] min-h-[200px] max-w-[320px] max-h-[320px]
+        aspect-square w-full min-w-[140px] min-h-[140px] max-w-[220px] max-h-[220px]
         border border-gray-100 relative
         ${disabled ? "opacity-50 pointer-events-none" : ""}
       `}
