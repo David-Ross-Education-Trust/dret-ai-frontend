@@ -2,6 +2,18 @@ import React from "react";
 import { Star, Flame, Sparkles } from "lucide-react";
 
 const categoryColors = {
+  Assessment: "bg-blue-50 text-blue-800",
+  Planning: "bg-blue-50 text-blue-800",
+  Admin: "bg-blue-50 text-blue-800",
+  Leadership: "bg-blue-50 text-blue-800",
+  Inclusion: "bg-blue-50 text-blue-800",
+  CPD: "bg-blue-50 text-blue-800",
+  English: "bg-violet-50 text-violet-800",
+  Maths: "bg-amber-50 text-amber-800",
+  Science: "bg-cyan-50 text-cyan-800",
+  History: "bg-orange-50 text-orange-800",
+  Geography: "bg-lime-50 text-lime-800",
+  MFL: "bg-pink-50 text-pink-800",
   Education: "bg-blue-50 text-blue-800",
   Operations: "bg-green-50 text-green-800",
   HR: "bg-yellow-50 text-yellow-800",
@@ -25,12 +37,9 @@ export default function ReportCard({
   return (
     <div
       onClick={!disabled ? () => onClick(report) : undefined}
-      className={`relative rounded-xl bg-white shadow-md hover:shadow-lg transition-shadow cursor-pointer p-4 pt-3 h-[140px] flex flex-col justify-start
-        ${disabled ? "opacity-50 pointer-events-none" : ""}
-      `}
-      style={{
-        minWidth: 0, // allow to shrink in grid
-      }}
+      className={`relative rounded-xl bg-white shadow-md hover:shadow-lg transition-shadow cursor-pointer p-4 pt-3 h-[150px] flex flex-col justify-start ${
+        disabled ? "opacity-50 pointer-events-none" : ""
+      }`}
     >
       {/* Favourite/star button */}
       {typeof onFavourite === "function" && (
@@ -54,14 +63,32 @@ export default function ReportCard({
               fill: !isFavourite ? "none" : "#fde047",
               transition: "fill 0.2s",
             }}
+            onMouseEnter={e => {
+              if (!isFavourite) {
+                e.currentTarget.style.fill = "#fde047";
+                e.currentTarget.style.opacity = "1";
+              }
+            }}
+            onMouseLeave={e => {
+              if (!isFavourite) {
+                e.currentTarget.style.fill = "none";
+                e.currentTarget.style.opacity = "0.8";
+              }
+            }}
           />
         </button>
       )}
       <div className="flex flex-col gap-0 mb-10 mt-1">
-        <h3 className="text-base font-bold pr-8 leading-tight" style={{ fontFamily: "system-ui, sans-serif" }}>
+        <h3
+          className="text-base font-bold pr-8 leading-tight"
+          style={{ fontFamily: "system-ui, sans-serif" }}
+        >
           {report.name}
         </h3>
-        <p className="text-[13px] text-gray-500 font-normal leading-snug mt-2" style={{ fontFamily: "system-ui, sans-serif" }}>
+        <p
+          className="text-[13px] text-gray-500 font-normal leading-snug mt-2"
+          style={{ fontFamily: "system-ui, sans-serif" }}
+        >
           {report.description}
         </p>
       </div>
@@ -72,13 +99,24 @@ export default function ReportCard({
             New
           </span>
         )}
-        {report.category && (
-          <span
-            className={`px-3 py-1 rounded-full font-medium ${categoryColors[report.category] || "bg-gray-100 text-gray-600"}`}
-          >
-            {report.category}
-          </span>
-        )}
+        {Array.isArray(report.category)
+          ? report.category.map(cat =>
+              cat && (
+                <span
+                  key={cat}
+                  className={`px-3 py-1 rounded-full font-medium ${categoryColors[cat] || "bg-gray-100 text-gray-600"}`}
+                >
+                  {cat}
+                </span>
+              )
+            )
+          : report.category && (
+              <span
+                className={`px-3 py-1 rounded-full font-medium ${categoryColors[report.category] || "bg-gray-100 text-gray-600"}`}
+              >
+                {report.category}
+              </span>
+            )}
         {report.tag === "Hot" && (
           <span className={`${tagStyles.Hot} px-2 py-0.5 rounded-full font-medium flex items-center gap-1`}>
             <Flame className="w-3 h-3" />
