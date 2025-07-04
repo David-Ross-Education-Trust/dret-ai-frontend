@@ -124,12 +124,12 @@ export default function ToolkitReportCard({
       )}
 
       {/* Main card content */}
-      <div className="flex flex-col items-center justify-center flex-1 w-full h-full relative">
+      <div className="flex flex-col items-center justify-between flex-1 w-full h-full relative gap-1 px-2 py-4">
         {report.logoUrl && (
           <img
             src={report.logoUrl}
             alt={`${report.name} logo`}
-            className={`object-contain mb-3 ${
+            className={`object-contain ${
               report.logoUrl.includes("excel-icon") ? "w-12 h-12" : "w-20 h-20"
             }`}
             style={{
@@ -139,14 +139,19 @@ export default function ToolkitReportCard({
           />
         )}
         <div
-          className="text-sm text-center px-2 font-normal text-gray-900 font-avenir"
+          className="text-sm text-center font-normal text-gray-900 font-avenir"
           style={{
+            minHeight: "2.8em", // Reserve vertical space (~2 lines of text)
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
             fontFamily:
               "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
             fontWeight: 400,
             lineHeight: 1.2,
             wordBreak: "break-word",
-            marginTop: 2,
+            textAlign: "center",
+            paddingBottom: "2px",
           }}
         >
           {displayName}
