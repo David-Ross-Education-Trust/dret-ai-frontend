@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Search, X } from "lucide-react";
 import AnalyticsLayout from "../components/layout";
 import ReportCard from "../components/reportCard";
-import ToolCard from "../components/toolCard";
+import ToolkitReportCard from "../components/ToolkitReportCard";
 import { reportConfig } from "../components/reportConfig";
 import { toolkitConfig } from "../components/ToolkitConfig";
 
@@ -107,7 +107,7 @@ export default function FavouritesPage() {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {favouriteToolkits.map((toolkit, idx) => (
-              <ToolCard
+              <ToolkitReportCard
                 key={toolkit.id || idx}
                 tool={toolkit}
                 isFavourite={favourites.includes(toolkit.name)}
