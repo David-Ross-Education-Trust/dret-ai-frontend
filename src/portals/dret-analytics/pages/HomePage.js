@@ -79,7 +79,7 @@ export default function FavouritesPage() {
       <div className="bg-gray-100 min-h-screen h-screen flex flex-col font-avenir">
         {/* Top Bar */}
         <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-8 h-24 flex items-center justify-between">
-          <h1 className="text-4xl font-bold" style={{ color: TRUST_GREEN }}>
+          <h1 className="text-3xl font-bold" style={{ color: TRUST_GREEN }}>
             Favourites
           </h1>
           <div className="relative flex-shrink-0 w-[240px] ml-4">

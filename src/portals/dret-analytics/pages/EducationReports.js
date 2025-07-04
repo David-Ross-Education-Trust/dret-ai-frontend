@@ -62,7 +62,7 @@ export default function EducationReports() {
       >
         {/* --- Top Bar (Heading + Search) --- */}
         <div className="shrink-0 z-20 shadow-sm px-8 h-24 flex items-center justify-between"
-             style={{ backgroundColor: TRUST_GREEN_LIGHT_2 }}>
+             style={{ backgroundColor: "#ffffff" }}>
           <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
             Education Analytics
           </h1>
