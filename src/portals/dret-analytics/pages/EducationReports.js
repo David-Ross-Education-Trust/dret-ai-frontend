@@ -55,17 +55,14 @@ export default function EducationReports() {
   return (
     <AnalyticsLayout>
       <div
-        className="min-h-screen h-screen flex flex-col font-avenir"
+        className="bg-gray-100 min-h-screen h-screen flex flex-col font-avenir"
         style={{
-          backgroundColor: TRUST_GREEN_LIGHT_2,
           fontFamily: "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
         }}
       >
         {/* --- Top Bar (Heading + Search) --- */}
-        <div
-          className="shrink-0 z-20 shadow-sm px-8 h-24 flex items-center justify-between"
-          style={{ backgroundColor: "#ffffff" }}
-        >
+        <div className="shrink-0 z-20 shadow-sm px-8 h-24 flex items-center justify-between"
+             style={{ backgroundColor: TRUST_GREEN_LIGHT_2 }}>
           <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
             Education Analytics
           </h1>
@@ -101,7 +98,7 @@ export default function EducationReports() {
         {/* --- End Top Bar --- */}
 
         {/* --- Report Grid --- */}
-        <div className="scroll-area flex-1 overflow-y-auto font-avenir p-6 pb-16">
+        <div className="scroll-area flex-1 overflow-y-auto bg-gray-100 font-avenir p-6 pb-16">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-6">
             {educationReports.length === 0 ? (
               <div className="col-span-full text-gray-500 italic text-center">
