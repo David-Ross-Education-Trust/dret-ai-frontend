@@ -48,7 +48,7 @@ function App() {
                 {/* Analytics section root pages */}
                 <Route path="/analytics" element={<AnalyticsHomePage />} />
                 <Route path="/analytics/education" element={<EducationReports />} />
-                <Route path="/analytics/toolkit" element={<ToolkitReports />} />
+                <Route path="/analytics/toolkits" element={<ToolkitReports />} />
                 <Route path="/analytics/finance" element={<FinanceReports />} />
                 <Route path="/analytics/hr" element={<HRReports />} />
                 <Route path="/analytics/it-data" element={<ITDataReports />} />

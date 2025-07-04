@@ -8,7 +8,7 @@ export const reportConfig = [
     description: "All education-related analytics and reports.",
     category: "Education",
     tag: "",
-    href: "/analytics/education",
+    href: "/analytics/education/education-analytics",
     component: EducationReports,
     comingSoon: false,
   },
@@ -18,7 +18,7 @@ export const reportConfig = [
     description: "Track attendance across the trust.",
     category: "Education",
     tag: "New",
-    href: "/analytics/report/attendance-overview",
+    href: "/analytics/education/attendance-overview",
     component: AttendanceOverviewReport,
     comingSoon: false,
   },
@@ -28,7 +28,7 @@ export const reportConfig = [
     description: "Explore attainment trends at KS4.",
     category: "Education",
     tag: "",
-    href: "/analytics/report/mock-001",
+    href: "/analytics/education/mock-001",
     comingSoon: false,
   },
   {
@@ -37,7 +37,7 @@ export const reportConfig = [
     description: "View SATs outcomes and cohort comparison.",
     category: "Education",
     tag: "Hot",
-    href: "/analytics/report/mock-002",
+    href: "/analytics/education/mock-002",
     comingSoon: false,
   },
   {
@@ -46,7 +46,7 @@ export const reportConfig = [
     description: "Monitor reading age and comprehension progress.",
     category: "Education",
     tag: "",
-    href: "/analytics/report/mock-003",
+    href: "/analytics/education/mock-003",
     comingSoon: false,
   },
   {
@@ -55,7 +55,7 @@ export const reportConfig = [
     description: "Review behaviour points and exclusions.",
     category: "Education",
     tag: "",
-    href: "/analytics/report/mock-004",
+    href: "/analytics/education/mock-004",
     comingSoon: false,
   },
   {
@@ -64,7 +64,7 @@ export const reportConfig = [
     description: "Visualise SEND support by pupil and need.",
     category: "Education",
     tag: "",
-    href: "/analytics/report/mock-005",
+    href: "/analytics/education/mock-005",
     comingSoon: false,
   },
   {
@@ -73,7 +73,7 @@ export const reportConfig = [
     description: "Analyse patterns in staff absence by academy.",
     category: "Education",
     tag: "",
-    href: "/analytics/report/mock-006",
+    href: "/analytics/education/mock-006",
     comingSoon: false,
   },
   {
@@ -82,7 +82,7 @@ export const reportConfig = [
     description: "Compare progress across all core subjects.",
     category: "Education",
     tag: "",
-    href: "/analytics/report/mock-007",
+    href: "/analytics/education/mock-007",
     comingSoon: false,
   },
   {
@@ -91,7 +91,7 @@ export const reportConfig = [
     description: "Track outcomes for disadvantaged learners.",
     category: "Education",
     tag: "",
-    href: "/analytics/report/mock-008",
+    href: "/analytics/education/mock-008",
     comingSoon: false,
   },
   {
@@ -100,7 +100,7 @@ export const reportConfig = [
     description: "Monitor phonics scores and intervention progress.",
     category: "Education",
     tag: "",
-    href: "/analytics/report/mock-009",
+    href: "/analytics/education/mock-009",
     comingSoon: false,
   },
   {
@@ -109,7 +109,7 @@ export const reportConfig = [
     description: "Snapshot of EYFS assessments and development.",
     category: "Education",
     tag: "",
-    href: "/analytics/report/mock-010",
+    href: "/analytics/education/mock-010",
     comingSoon: false,
   },
   {
@@ -118,7 +118,7 @@ export const reportConfig = [
     description: "View recorded concerns and outcomes over time.",
     category: "Education",
     tag: "",
-    href: "/analytics/report/mock-011",
+    href: "/analytics/education/mock-011",
     comingSoon: false,
   },
   {
@@ -127,7 +127,7 @@ export const reportConfig = [
     description: "Track homework submissions and quality ratings.",
     category: "Education",
     tag: "",
-    href: "/analytics/report/mock-012",
+    href: "/analytics/education/mock-012",
     comingSoon: false,
   },
   {
@@ -136,7 +136,7 @@ export const reportConfig = [
     description: "Detailed Progress 8 scores by subject and pupil group.",
     category: "Education",
     tag: "",
-    href: "/analytics/report/mock-013",
+    href: "/analytics/education/mock-013",
     comingSoon: false,
   }
 ];
