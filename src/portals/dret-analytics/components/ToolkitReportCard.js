@@ -117,30 +117,24 @@ export default function ToolkitReportCard({
         </button>
       )}
 
-      {/* Main card content with spacer and bottom-aligned text */}
-      <div className="flex flex-col justify-between items-center flex-1 w-full h-full relative px-3 py-4">
-        {/* Fake top spacer to push content lower */}
-        <div className="h-4 flex-shrink-0" />
-
+      {/* Main card content */}
+      <div className="flex flex-col items-center justify-center flex-1 w-full h-full relative">
         {report.logoUrl && (
           <img
             src={report.logoUrl}
             alt={`${report.name} logo`}
-            className="object-contain mb-2"
-            style={{
-              width: report.logoUrl.includes("excel-icon") ? "48px" : "80px",
-              height: report.logoUrl.includes("excel-icon") ? "48px" : "80px",
-              maxWidth: "100%",
-              maxHeight: "100%",
-            }}
+            className="w-20 h-20 object-contain mb-3"
+            style={{ maxWidth: "100%", maxHeight: "100%" }}
           />
         )}
-
         <div
-          className="text-sm text-center font-bold text-gray-900 leading-tight mt-2"
+          className="text-sm text-center px-2 font-normal text-gray-900 font-avenir"
           style={{
             fontFamily: "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
+            fontWeight: 400,
+            lineHeight: 1.2,
             wordBreak: "break-word",
+            marginTop: 2,
           }}
         >
           {displayName}
