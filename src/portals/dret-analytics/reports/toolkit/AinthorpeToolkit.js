@@ -83,7 +83,7 @@ export default function DemoToolkit() {
           </div>
         </div>
 
-        {/* File Grid (updated layout spacing) */}
+        {/* File Grid */}
         <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
             {shownFiles.length === 0 ? (
@@ -104,6 +104,7 @@ export default function DemoToolkit() {
                   clickedStar={clickedStar}
                   onClick={() => window.open(file.href, "_blank")}
                   disabled={false}
+                  showMoreMenu={true}
                 />
               ))
             )}

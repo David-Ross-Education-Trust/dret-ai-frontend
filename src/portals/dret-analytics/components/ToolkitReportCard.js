@@ -1,3 +1,6 @@
+import React, { useState } from "react";
+import { Star, MoreVertical } from "lucide-react";
+
 export default function ToolkitReportCard({
   report,
   isFavourite,
@@ -5,11 +8,15 @@ export default function ToolkitReportCard({
   onClick,
   clickedStar,
   disabled,
-  showSourcePrefix = false, // new prop with default
+  showSourcePrefix = false,
+  showMoreMenu = false, // NEW
 }) {
-  const displayName = showSourcePrefix && report.sourceToolkit
-    ? `${report.sourceToolkit} – ${report.name}`
-    : report.name;
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const displayName =
+    showSourcePrefix && report.sourceToolkit
+      ? `${report.sourceToolkit} – ${report.name}`
+      : report.name;
 
   return (
     <div
@@ -22,9 +29,10 @@ export default function ToolkitReportCard({
         ${disabled ? "opacity-50 pointer-events-none" : ""}
       `}
     >
+      {/* Favourite/star button */}
       {typeof onFavourite === "function" && (
         <button
-          onClick={e => {
+          onClick={(e) => {
             e.stopPropagation();
             onFavourite(report.id || report.name);
           }}
@@ -43,13 +51,13 @@ export default function ToolkitReportCard({
               fill: !isFavourite ? "none" : "#fde047",
               transition: "fill 0.2s",
             }}
-            onMouseEnter={e => {
+            onMouseEnter={(e) => {
               if (!isFavourite) {
                 e.currentTarget.style.fill = "#fde047";
                 e.currentTarget.style.opacity = "1";
               }
             }}
-            onMouseLeave={e => {
+            onMouseLeave={(e) => {
               if (!isFavourite) {
                 e.currentTarget.style.fill = "none";
                 e.currentTarget.style.opacity = "0.8";
@@ -59,7 +67,8 @@ export default function ToolkitReportCard({
         </button>
       )}
 
-      <div className="flex flex-col items-center justify-center flex-1 w-full h-full">
+      {/* Main card content */}
+      <div className="flex flex-col items-center justify-center flex-1 w-full h-full relative">
         {report.logoUrl && (
           <img
             src={report.logoUrl}
@@ -68,17 +77,51 @@ export default function ToolkitReportCard({
             style={{ maxWidth: "90%", maxHeight: "90%" }}
           />
         )}
+
         <div
-          className="text-sm text-center px-2 font-normal text-gray-900 font-avenir"
+          className="text-sm text-center px-2 font-normal text-gray-900 font-avenir flex items-center justify-center gap-1"
           style={{
             fontFamily: "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
             fontWeight: 400,
             lineHeight: 1.2,
+            wordBreak: "break-word",
             marginTop: 2,
-            wordBreak: "break-word"
           }}
         >
           {displayName}
+
+          {showMoreMenu && (
+            <div className="relative ml-1">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setMenuOpen((prev) => !prev);
+                }}
+                className="text-gray-400 hover:text-gray-600 p-1"
+              >
+                <MoreVertical size={14} />
+              </button>
+
+              {menuOpen && (
+                <div
+                  className="absolute right-0 top-5 mt-1 w-36 bg-white border border-gray-200 shadow-lg rounded-md z-30"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <button
+                    className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+                    onClick={() => {
+                      setMenuOpen(false);
+                      if (report.openInBrowserHref) {
+                        window.open(report.openInBrowserHref, "_blank");
+                      }
+                    }}
+                  >
+                    Open in browser
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
