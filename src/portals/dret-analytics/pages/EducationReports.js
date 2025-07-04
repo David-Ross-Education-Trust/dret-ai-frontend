@@ -101,7 +101,7 @@ export default function EducationReports() {
 
         {/* --- Report Grid --- */}
         <div className="scroll-area flex-1 overflow-y-auto bg-gray-100 font-avenir p-6 pb-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-6">
             {educationReports.length === 0 ? (
               <div className="col-span-full text-gray-500 italic text-center">
                 No education reports available{searchTerm ? " for this search." : " yet."}
