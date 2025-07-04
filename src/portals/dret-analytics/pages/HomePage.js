@@ -2,6 +2,7 @@ import { reportConfig } from "../components/reportConfig";
 import { toolkitConfig } from "../components/ToolkitConfig";
 import { useFavourites } from "../hooks/useFavourites";
 import ReportCard from "../components/reportCard";
+import ToolkitReportCard from "../components/ToolkitReportCard";
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import { Search, X } from "lucide-react";
@@ -134,7 +135,7 @@ export default function AnalyticsHomePage() {
                 </div>
               ) : (
                 favouriteToolkits.map((toolkit, idx) => (
-                  <ReportCard
+                  <ToolkitReportCard
                     key={toolkit.id || idx}
                     report={toolkit}
                     isFavourite={favourites.includes(toolkit.id)}
