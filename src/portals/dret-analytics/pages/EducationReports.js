@@ -44,7 +44,7 @@ export default function EducationReports() {
   );
 
   const TRUST_GREEN = "#205c40";
-  const TRUST_GREEN_LIGHT = "#7d9286";
+  const TRUST_GREEN_LIGHT_2 = "#d6dbd9";
 
   const handleFavourite = (id) => {
     toggleFavourite(id);
@@ -62,7 +62,7 @@ export default function EducationReports() {
       >
         {/* --- Top Bar (Heading + Search) --- */}
         <div className="shrink-0 z-20 shadow-sm px-8 h-24 flex items-center justify-between"
-             style={{ backgroundColor: TRUST_GREEN_LIGHT }}>
+             style={{ backgroundColor: TRUST_GREEN_LIGHT_2 }}>
           <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
             Education Analytics
           </h1>
