@@ -79,7 +79,7 @@ export default function FavouritesPage() {
       <div className="bg-gray-100 min-h-screen h-screen flex flex-col font-avenir">
         {/* Top Bar */}
         <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-8 h-24 flex items-center justify-between">
-          <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
+          <h1 className="text-4xl font-bold" style={{ color: TRUST_GREEN }}>
             Favourites
           </h1>
           <div className="relative flex-shrink-0 w-[240px] ml-4">
@@ -112,11 +112,9 @@ export default function FavouritesPage() {
         <div className="flex-1 overflow-y-auto p-8 custom-scrollbar space-y-12">
           {/* Favourite Reports */}
           <div>
-            <div className="bg-white shadow-sm rounded-md px-6 py-3 mb-4">
-              <h2 className="text-xl font-semibold" style={{ color: TRUST_GREEN }}>
-                Dashboards
-              </h2>
-            </div>
+            <h2 className="text-xl font-semibold mb-4" style={{ color: TRUST_GREEN }}>
+              Dashboards
+            </h2>
             <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-6">
               {favouriteReports.length === 0 ? (
                 <div className="col-span-full text-gray-500 italic text-center">
@@ -140,11 +138,9 @@ export default function FavouritesPage() {
 
           {/* Favourite Toolkits */}
           <div>
-            <div className="bg-white shadow-sm rounded-md px-6 py-3 mb-4">
-              <h2 className="text-xl font-semibold" style={{ color: TRUST_GREEN }}>
-                Toolkits
-              </h2>
-            </div>
+            <h2 className="text-xl font-semibold mb-4" style={{ color: TRUST_GREEN }}>
+              Toolkits
+            </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
               {favouriteToolkits.length === 0 ? (
                 <div className="col-span-full text-gray-500 italic text-center">
