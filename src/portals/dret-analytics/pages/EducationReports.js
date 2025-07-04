@@ -114,7 +114,13 @@ export default function EducationReports() {
               </div>
             ) : (
               educationReports.map((report, idx) => (
-                <div key={report.id || idx} style={{ width: "360px" }}>
+                <div
+                  key={report.id || idx}
+                  style={{
+                    flex: "1 1 clamp(280px, 30%, 360px)",
+                    maxWidth: "360px",
+                  }}
+                >
                   <ReportCard
                     report={report}
                     isFavourite={favourites.includes(report.id)}
