@@ -9,7 +9,7 @@ import dretAnalyticsLogo from "../../../assets/dret-analytics-logo.png";
 const navItems = [
   { label: "Favourites", to: "/analytics" },
   { label: "Education Dashboards", to: "/analytics/education" },
-  { label: "Education Toolkits", to: "/analytics/toolkit" },
+  { label: "Education Toolkits", to: "/analytics/toolkits" },
   { label: "Operations", to: "/analytics/operations" },
   { label: "Finance", to: "/analytics/finance" },
   { label: "HR", to: "/analytics/hr" },
