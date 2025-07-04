@@ -101,35 +101,26 @@ export default function EducationReports() {
         {/* --- Report Grid --- */}
         <div className="scroll-area flex-1 overflow-y-auto bg-gray-100 font-avenir p-8 pb-16">
           <div
-            className="flex flex-wrap gap-y-6"
+            className="grid gap-6"
             style={{
-              justifyContent: "space-between",
-              rowGap: "1.5rem",
-              columnGap: "min(2rem, 4vw)",
+              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
             }}
           >
             {educationReports.length === 0 ? (
-              <div className="text-gray-500 italic text-center w-full">
+              <div className="text-gray-500 italic text-center w-full col-span-full">
                 No education reports available{searchTerm ? " for this search." : " yet."}
               </div>
             ) : (
               educationReports.map((report, idx) => (
-                <div
+                <ReportCard
                   key={report.id || idx}
-                  style={{
-                    flex: "1 1 clamp(240px, 30%, 360px)",
-                    maxWidth: "360px",
-                  }}
-                >
-                  <ReportCard
-                    report={report}
-                    isFavourite={favourites.includes(report.id)}
-                    onFavourite={handleFavourite}
-                    onClick={() => navigate(report.href)}
-                    clickedStar={clickedStar}
-                    disabled={!!report.comingSoon}
-                  />
-                </div>
+                  report={report}
+                  isFavourite={favourites.includes(report.id)}
+                  onFavourite={handleFavourite}
+                  onClick={() => navigate(report.href)}
+                  clickedStar={clickedStar}
+                  disabled={!!report.comingSoon}
+                />
               ))
             )}
           </div>
