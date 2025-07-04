@@ -117,7 +117,7 @@ export default function EducationReports() {
                 <div
                   key={report.id || idx}
                   style={{
-                    flex: "1 1 clamp(286px, 30%, 360px)",
+                    flex: "1 1 clamp(240px, 30%, 360px)",
                     maxWidth: "360px",
                   }}
                 >

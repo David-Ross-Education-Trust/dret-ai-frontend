@@ -115,14 +115,27 @@ export default function FavouritesPage() {
             <h2 className="text-xl font-semibold mb-4" style={{ color: TRUST_GREEN }}>
               Dashboards
             </h2>
-            <div className="flex flex-wrap justify-start gap-6">
+            <div
+              className="flex flex-wrap gap-y-6"
+              style={{
+                justifyContent: "space-between",
+                rowGap: "1.5rem",
+                columnGap: "min(2rem, 4vw)",
+              }}
+            >
               {favouriteReports.length === 0 ? (
                 <div className="text-gray-500 italic text-center w-full">
                   No favourite dashboards yet.
                 </div>
               ) : (
                 favouriteReports.map((report, idx) => (
-                  <div key={report.id || idx} className="w-[320px]">
+                  <div
+                    key={report.id || idx}
+                    style={{
+                      flex: "1 1 clamp(286px, 30%, 360px)",
+                      maxWidth: "360px",
+                    }}
+                  >
                     <ReportCard
                       report={report}
                       isFavourite={analyticsFavourites.includes(report.id)}
