@@ -118,7 +118,7 @@ export default function FavouritesPage() {
             <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-6">
               {favouriteReports.length === 0 ? (
                 <div className="col-span-full text-gray-500 italic text-center">
-                  No favourite reports yet. Click the star on any report to favourite it!
+                  No favourite dashboards yet.
                 </div>
               ) : (
                 favouriteReports.map((report, idx) => (
@@ -144,7 +144,7 @@ export default function FavouritesPage() {
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
               {favouriteToolkits.length === 0 ? (
                 <div className="col-span-full text-gray-500 italic text-center">
-                  No favourite toolkits yet. Click the star on any toolkit to favourite it!
+                  No favourite toolkits yet.
                 </div>
               ) : (
                 favouriteToolkits.map((toolkit, idx) => (
