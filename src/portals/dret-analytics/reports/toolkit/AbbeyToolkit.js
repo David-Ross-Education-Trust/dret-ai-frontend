@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Search, X } from "lucide-react";
 import AnalyticsLayout from "../../components/layout";
 import ToolkitReportCard from "../../components/ToolkitReportCard";
-import { demoToolkitConfig } from "../../components/DemoToolkitConfig";
+import { demoToolkitConfig } from "../toolkit/DemoToolkitConfig";
 
 const TRUST_GREEN = "#205c40";
 

@@ -7,7 +7,7 @@ import ReportCard from "../components/reportCard";
 import ToolkitReportCard from "../components/ToolkitReportCard";
 import { reportConfig } from "../components/reportConfig";
 import { toolkitConfig } from "../components/ToolkitConfig";
-import { demoToolkitConfig } from "../components/DemoToolkitConfig";
+import { demoToolkitConfig } from "../reports/toolkit/DemoToolkitConfig";
 import { useFavourites } from "../hooks/useFavourites";
 
 export default function FavouritesPage() {
