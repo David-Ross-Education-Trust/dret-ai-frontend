@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Search, X } from "lucide-react";
 import AnalyticsLayout from "../../components/layout";
-import ToolkitReportCard from "../../components/toolkitReportCard";
+import ToolkitReportCard from "../../components/ToolkitReportCard";
 import excelIcon from "../../../../assets/excel-icon.png";
 
 const dummyFiles = [
