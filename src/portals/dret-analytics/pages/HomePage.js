@@ -86,7 +86,7 @@ export default function FavouritesPage() {
 
         <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
           <h2 className="text-xl font-semibold mb-4" style={{ color: TRUST_GREEN }}>
-            Favourite Reports
+            Dashboards
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-6 mb-12">
             {favouriteReports.map((report, idx) => (
@@ -103,7 +103,7 @@ export default function FavouritesPage() {
           </div>
 
           <h2 className="text-xl font-semibold mb-4" style={{ color: TRUST_GREEN }}>
-            Favourite Toolkits
+            Toolkits
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {favouriteToolkits.map((toolkit, idx) => (
