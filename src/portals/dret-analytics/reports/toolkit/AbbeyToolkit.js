@@ -1,22 +1,9 @@
-// Updated DemoToolkit.js
+// pages/DemoToolkit.js
 import React, { useState } from "react";
 import { Search, X } from "lucide-react";
 import AnalyticsLayout from "../../components/layout";
 import ToolkitReportCard from "../../components/ToolkitReportCard";
-import excelIcon from "../../../../assets/excel-icon.png";
-
-const dummyFiles = [
-  { name: "Attendance Tracker", url: "ms-excel:ofe|u|https://.../Attendance%20Tracker.xlsx" },
-  { name: "Behaviour Tracker", url: "ms-excel:ofe|u|https://.../Behaviour%20Tracker.xlsx" },
-  { name: "Academy Context", url: "ms-excel:ofe|u|https://.../Academy%20Context.xlsx" },
-  { name: "Inclusion Map", url: "ms-excel:ofe|u|https://.../Inclusion%20Map.xlsx" },
-  { name: "School Around The Child", url: "ms-excel:ofe|u|https://.../School%20Around%20The%20Child.xlsx" },
-  { name: "Year 7 Achievement Tracker", url: "ms-excel:ofe|u|https://.../Year%207%20Achievement%20Tracker.xlsx" },
-  { name: "Year 8 Achievement Tracker", url: "ms-excel:ofe|u|https://.../Year%208%20Achievement%20Tracker.xlsx" },
-  { name: "Year 9 Achievement Tracker", url: "ms-excel:ofe|u|https://.../Year%209%20Achievement%20Tracker.xlsx" },
-  { name: "Year 10 Achievement Tracker", url: "ms-excel:ofe|u|https://.../Year%2010%20Achievement%20Tracker.xlsx" },
-  { name: "Year 11 Achievement Tracker", url: "ms-excel:ofe|u|https://.../Year%2011%20Achievement%20Tracker.xlsx" }
-];
+import { demoToolkitConfig } from "../../components/DemoToolkitConfig";
 
 const TRUST_GREEN = "#205c40";
 
@@ -41,13 +28,13 @@ function useFavourites(key = "toolkitFavourites") {
 export default function DemoToolkit() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
-  const [favourites, toggleFavourite] = useFavourites();
+  const [favourites, toggleFavourite] = useFavourites("toolkitFavourites");
   const [clickedStar, setClickedStar] = useState(null);
 
-  const shownFiles = dummyFiles.filter(
-    (f) =>
+  const shownFiles = demoToolkitConfig.filter(
+    (file) =>
       searchTerm.trim() === "" ||
-      f.name.toLowerCase().includes(searchTerm.toLowerCase())
+      file.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -75,7 +62,9 @@ export default function DemoToolkit() {
               placeholder="Search files"
               onFocus={() => setSearchFocused(true)}
               onBlur={() => setSearchFocused(false)}
-              className={`w-full border ${searchFocused ? "" : "border-gray-300"} rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
+              className={`w-full border ${
+                searchFocused ? "" : "border-gray-300"
+              } rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
               style={{
                 borderColor: searchFocused ? TRUST_GREEN : undefined,
                 boxShadow: searchFocused
@@ -106,16 +95,16 @@ export default function DemoToolkit() {
               ) : (
                 shownFiles.map((file) => (
                   <ToolkitReportCard
-                    key={file.name}
-                    report={{ ...file, id: file.name, logoUrl: excelIcon }}
-                    isFavourite={favourites.includes(file.name)}
-                    onFavourite={(id) => {
-                      toggleFavourite(id);
-                      setClickedStar(id);
+                    key={file.id}
+                    report={file}
+                    isFavourite={favourites.includes(file.id)}
+                    onFavourite={() => {
+                      toggleFavourite(file.id);
+                      setClickedStar(file.id);
                       setTimeout(() => setClickedStar(null), 400);
                     }}
                     clickedStar={clickedStar}
-                    onClick={() => window.open(file.url, "_blank")}
+                    onClick={() => window.open(file.href, "_blank")}
                     disabled={false}
                   />
                 ))

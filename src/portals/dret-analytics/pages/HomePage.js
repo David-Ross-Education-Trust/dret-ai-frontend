@@ -7,6 +7,7 @@ import ReportCard from "../components/reportCard";
 import ToolkitReportCard from "../components/ToolkitReportCard";
 import { reportConfig } from "../components/reportConfig";
 import { toolkitConfig } from "../components/ToolkitConfig";
+import { demoToolkitConfig } from "../components/DemoToolkitConfig";
 import { useFavourites } from "../hooks/useFavourites";
 
 export default function FavouritesPage() {
@@ -31,7 +32,7 @@ export default function FavouritesPage() {
       )
   );
 
-  const favouriteToolkits = toolkitConfig.filter(
+  const favouriteToolkits = [...toolkitConfig, ...demoToolkitConfig].filter(
     (t) =>
       !t.comingSoon &&
       t.id &&
@@ -46,10 +47,8 @@ export default function FavouritesPage() {
   const handleFavourite = (id) => {
     if (analyticsFavourites.includes(id)) {
       toggleAnalyticsFavourite(id);
-    } else if (toolkitFavourites.includes(id)) {
-      toggleToolkitFavourite(id);
     } else {
-      toggleAnalyticsFavourite(id); // fallback
+      toggleToolkitFavourite(id); // catch both toolkit + demoToolkit
     }
 
     setClickedStar(id);
@@ -86,7 +85,6 @@ export default function FavouritesPage() {
               style={{
                 borderColor: searchFocused ? TRUST_GREEN : undefined,
                 boxShadow: searchFocused ? `0 0 0 2px ${TRUST_GREEN}40` : undefined,
-                fontFamily: "AvenirLTStdLight, Avenir, sans-serif",
               }}
             />
             {searchTerm && (
@@ -100,9 +98,8 @@ export default function FavouritesPage() {
             <Search className="absolute right-3 top-2.5 h-4 w-4 text-gray-400" />
           </div>
         </div>
-        {/* --- End Top Bar --- */}
 
-        {/* Main Content */}
+        {/* --- Main Content --- */}
         <div className="flex-1 overflow-y-auto p-8 custom-scrollbar space-y-12">
           {/* Favourite Reports */}
           <div>
@@ -152,7 +149,11 @@ export default function FavouritesPage() {
                     report={toolkit}
                     isFavourite={toolkitFavourites.includes(toolkit.id)}
                     onFavourite={() => handleFavourite(toolkit.id)}
-                    onClick={() => navigate(toolkit.href)}
+                    onClick={() =>
+                      toolkit.href?.startsWith("http")
+                        ? window.open(toolkit.href, "_blank")
+                        : navigate(toolkit.href)
+                    }
                     clickedStar={clickedStar}
                     disabled={!!toolkit.comingSoon}
                   />
