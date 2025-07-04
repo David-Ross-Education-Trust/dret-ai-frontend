@@ -24,12 +24,10 @@ export default function ReportCard({
 }) {
   return (
     <div
-      onClick={!disabled ? () => onClick && onClick(report) : undefined}
+      onClick={!disabled ? () => onClick(report) : undefined}
       className={`
-        bg-white rounded-xl shadow-md hover:shadow-lg
-        transition-all cursor-pointer flex flex-col items-center justify-center
-        aspect-square w-full min-w-[140px] min-h-[140px] max-w-[220px] max-h-[220px]
-        border border-gray-100 relative
+        relative rounded-xl bg-white shadow-md hover:shadow-lg
+        transition-shadow cursor-pointer p-4 h-[150px] flex flex-col justify-start
         ${disabled ? "opacity-50 pointer-events-none" : ""}
       `}
     >
@@ -48,7 +46,11 @@ export default function ReportCard({
           <Star
             className={`w-5 h-5 transition-transform duration-300 ${
               isFavourite ? "text-yellow-400" : "text-gray-300"
-            } opacity-80 ${clickedStar === (report.id || report.name) ? "scale-125 animate-ping-once" : ""}`}
+            } opacity-80 ${
+              clickedStar === (report.id || report.name)
+                ? "scale-125 animate-ping-once"
+                : ""
+            }`}
             strokeWidth={1.5}
             fill={isFavourite ? "#fde047" : "none"}
             style={{
@@ -71,16 +73,16 @@ export default function ReportCard({
         </button>
       )}
 
-      {/* Main card content, centered */}
-      <div className="flex flex-col items-center justify-center flex-1 w-full h-full px-4 pt-4">
+      {/* Main content */}
+      <div className="flex flex-col gap-0 mb-10 mt-1">
         <h3
-          className="text-base font-bold text-center leading-tight mb-1"
+          className="text-base font-bold pr-8 leading-tight"
           style={{ fontFamily: "system-ui, sans-serif" }}
         >
           {report.name}
         </h3>
         <p
-          className="text-[13px] text-gray-500 text-center font-normal leading-snug"
+          className="text-[13px] text-gray-500 font-normal leading-snug mt-2"
           style={{ fontFamily: "system-ui, sans-serif" }}
         >
           {report.description}
@@ -90,7 +92,9 @@ export default function ReportCard({
       {/* Tags */}
       <div className="absolute bottom-3 left-3 flex flex-wrap gap-2 text-xs items-center">
         {report.tag === "New" && (
-          <span className={`${tagStyles.New} px-2 py-0.5 rounded-full font-medium flex items-center gap-1`}>
+          <span
+            className={`${tagStyles.New} px-2 py-0.5 rounded-full font-medium flex items-center gap-1`}
+          >
             <Sparkles className="w-3 h-3" />
             New
           </span>
@@ -101,7 +105,9 @@ export default function ReportCard({
                 categoryColors[cat] && (
                   <span
                     key={cat}
-                    className={`px-3 py-1 rounded-full font-medium ${categoryColors[cat]}`}
+                    className={`px-3 py-1 rounded-full font-medium ${
+                      categoryColors[cat] || "bg-gray-100 text-gray-600"
+                    }`}
                   >
                     {cat}
                   </span>
@@ -109,13 +115,17 @@ export default function ReportCard({
             )
           : categoryColors[report.category] && (
               <span
-                className={`px-3 py-1 rounded-full font-medium ${categoryColors[report.category]}`}
+                className={`px-3 py-1 rounded-full font-medium ${
+                  categoryColors[report.category] || "bg-gray-100 text-gray-600"
+                }`}
               >
                 {report.category}
               </span>
             )}
         {report.tag === "Hot" && (
-          <span className={`${tagStyles.Hot} px-2 py-0.5 rounded-full font-medium flex items-center gap-1`}>
+          <span
+            className={`${tagStyles.Hot} px-2 py-0.5 rounded-full font-medium flex items-center gap-1`}
+          >
             <Flame className="w-3 h-3" />
             Hot
           </span>
