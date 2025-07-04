@@ -101,12 +101,11 @@ export default function EducationReports() {
         {/* --- Report Grid --- */}
         <div className="scroll-area flex-1 overflow-y-auto bg-gray-100 font-avenir p-8 pb-16">
           <div
-            className="grid"
+            className="flex flex-wrap gap-y-6"
             style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(286px, 360px))",
-              gap: "1.5rem min(2rem, 4vw)",
-              justifyContent: "start",
+              justifyContent: "space-between",
+              rowGap: "1.5rem",
+              columnGap: "min(2rem, 4vw)",
             }}
           >
             {educationReports.length === 0 ? (
@@ -115,7 +114,13 @@ export default function EducationReports() {
               </div>
             ) : (
               educationReports.map((report, idx) => (
-                <div key={report.id || idx}>
+                <div
+                  key={report.id || idx}
+                  style={{
+                    flex: "1 1 clamp(286px, 30%, 360px)",
+                    maxWidth: "360px",
+                  }}
+                >
                   <ReportCard
                     report={report}
                     isFavourite={favourites.includes(report.id)}
