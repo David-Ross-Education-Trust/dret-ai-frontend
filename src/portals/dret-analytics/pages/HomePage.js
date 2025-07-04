@@ -9,7 +9,10 @@ import { Search, X } from "lucide-react";
 import AnalyticsLayout from "../components/layout";
 
 export default function AnalyticsHomePage() {
-  const [favourites, toggleFavourite] = useFavourites();
+  const [analyticsFavourites, toggleAnalyticsFavourite] = useFavourites("analyticsFavourites");
+  const [toolkitFavourites, toggleToolkitFavourite] = useFavourites("toolkitFavourites");
+  const allFavourites = [...new Set([...analyticsFavourites, ...toolkitFavourites])];
+
   const [clickedStar, setClickedStar] = React.useState(null);
   const [searchTerm, setSearchTerm] = React.useState("");
   const [searchFocused, setSearchFocused] = React.useState(false);
@@ -20,7 +23,7 @@ export default function AnalyticsHomePage() {
     (r) =>
       !r.comingSoon &&
       r.id &&
-      favourites.includes(r.id) &&
+      allFavourites.includes(r.id) &&
       (
         searchTerm.trim() === "" ||
         (r.name && r.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
@@ -33,7 +36,7 @@ export default function AnalyticsHomePage() {
     (t) =>
       !t.comingSoon &&
       t.id &&
-      favourites.includes(t.id) &&
+      allFavourites.includes(t.id) &&
       (
         searchTerm.trim() === "" ||
         (t.name && t.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
@@ -44,7 +47,15 @@ export default function AnalyticsHomePage() {
   const TRUST_GREEN = "#205c40";
 
   const handleFavourite = (id) => {
-    toggleFavourite(id);
+    if (analyticsFavourites.includes(id)) {
+      toggleAnalyticsFavourite(id);
+    } else if (toolkitFavourites.includes(id)) {
+      toggleToolkitFavourite(id);
+    } else {
+      // Default fallback — if it's in neither, favour analytics (or handle more robustly)
+      toggleAnalyticsFavourite(id);
+    }
+
     setClickedStar(id);
     setTimeout(() => setClickedStar(null), 400);
   };
@@ -54,8 +65,7 @@ export default function AnalyticsHomePage() {
       <div
         className="bg-gray-100 min-h-screen h-screen flex flex-col font-avenir"
         style={{
-          fontFamily:
-            "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
+          fontFamily: "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
         }}
       >
         {/* Top Bar */}
@@ -112,7 +122,7 @@ export default function AnalyticsHomePage() {
                   <ReportCard
                     key={report.id || idx}
                     report={report}
-                    isFavourite={favourites.includes(report.id)}
+                    isFavourite={allFavourites.includes(report.id)}
                     onFavourite={handleFavourite}
                     onClick={() => navigate(report.href)}
                     clickedStar={clickedStar}
@@ -138,7 +148,7 @@ export default function AnalyticsHomePage() {
                   <ToolkitReportCard
                     key={toolkit.id || idx}
                     report={toolkit}
-                    isFavourite={favourites.includes(toolkit.id)}
+                    isFavourite={allFavourites.includes(toolkit.id)}
                     onFavourite={handleFavourite}
                     onClick={() => navigate(toolkit.href)}
                     clickedStar={clickedStar}
