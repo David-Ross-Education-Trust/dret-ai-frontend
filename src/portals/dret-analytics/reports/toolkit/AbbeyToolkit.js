@@ -1,4 +1,3 @@
-// pages/DemoToolkit.js
 import React, { useState } from "react";
 import { Search, X } from "lucide-react";
 import AnalyticsLayout from "../../components/layout";
@@ -52,7 +51,7 @@ export default function DemoToolkit() {
           style={{ backgroundColor: "#ffffff" }}
         >
           <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
-            Demo Toolkit
+            Abbey CE Academy Toolkit
           </h1>
           <div className="relative flex-shrink-0 w-[240px] ml-4">
             <input
