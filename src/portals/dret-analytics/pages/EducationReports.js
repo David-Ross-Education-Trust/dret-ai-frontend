@@ -44,7 +44,6 @@ export default function EducationReports() {
   );
 
   const TRUST_GREEN = "#205c40";
-  const TRUST_GREEN_LIGHT_2 = "#d6dbd9";
 
   const handleFavourite = (id) => {
     toggleFavourite(id);
