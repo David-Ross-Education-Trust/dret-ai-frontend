@@ -21,11 +21,13 @@ export default function ToolkitReportCard({
 
   useEffect(() => {
     if (!showMoreMenu) return;
+
     const handleClickOutside = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
         setMenuOpen(false);
       }
     };
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -58,9 +60,7 @@ export default function ToolkitReportCard({
 
           <div
             className={`absolute left-0 top-8 w-40 bg-gray-50 border border-gray-200 shadow-md rounded-md z-30 transform transition duration-150 ease-out ${
-              menuOpen
-                ? "scale-100 opacity-100"
-                : "scale-95 opacity-0 pointer-events-none"
+              menuOpen ? "scale-100 opacity-100" : "scale-95 opacity-0 pointer-events-none"
             }`}
             onClick={(e) => e.stopPropagation()}
           >
@@ -94,11 +94,7 @@ export default function ToolkitReportCard({
           <Star
             className={`w-5 h-5 transition-transform duration-300 ${
               isFavourite ? "text-yellow-400" : "text-gray-300"
-            } opacity-80 ${
-              clickedStar === (report.id || report.name)
-                ? "scale-125 animate-ping-once"
-                : ""
-            }`}
+            } opacity-80 ${clickedStar === (report.id || report.name) ? "scale-125 animate-ping-once" : ""}`}
             strokeWidth={1.5}
             fill={isFavourite ? "#fde047" : "none"}
             style={{
@@ -121,7 +117,7 @@ export default function ToolkitReportCard({
         </button>
       )}
 
-      {/* Main card content (fixed icon centering) */}
+      {/* Main card content (centered icon, bold lowered text) */}
       <div className="flex flex-1 flex-col justify-center items-center px-3 w-full h-full">
         {report.logoUrl && (
           <img
@@ -129,17 +125,17 @@ export default function ToolkitReportCard({
             alt={`${report.name} logo`}
             className={`object-contain ${
               report.logoUrl.includes("excel-icon") ? "w-12 h-12" : "w-20 h-20"
-            } mb-2`}
+            }`}
             style={{ maxWidth: "90%", maxHeight: "90%" }}
           />
         )}
 
         <div
-          className="text-sm text-center text-gray-900 font-avenir leading-tight"
+          className="text-sm text-center text-gray-900 font-bold font-avenir mt-3 leading-tight"
           style={{
             fontFamily:
               "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
-            fontWeight: 400,
+            fontWeight: 700,
             lineHeight: 1.2,
             wordBreak: "break-word",
           }}
