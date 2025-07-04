@@ -37,7 +37,7 @@ export default function ReportCard({
   return (
     <div
       onClick={!disabled ? () => onClick(report) : undefined}
-      className={`relative rounded-xl bg-white shadow-md hover:shadow-lg transition-shadow cursor-pointer p-4 pt-3 h-[150px] flex flex-col justify-start ${
+      className={`relative rounded-xl bg-white shadow-md hover:shadow-lg transition-shadow cursor-pointer p-4 pt-3 flex flex-col justify-start ${
         disabled ? "opacity-50 pointer-events-none" : ""
       }`}
     >
