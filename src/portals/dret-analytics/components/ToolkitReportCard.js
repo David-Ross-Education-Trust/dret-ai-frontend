@@ -9,7 +9,7 @@ export default function ToolkitReportCard({
   clickedStar,
   disabled,
   showSourcePrefix = false,
-  showMoreMenu = false, // NEW
+  showMoreMenu = false,
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -29,7 +29,41 @@ export default function ToolkitReportCard({
         ${disabled ? "opacity-50 pointer-events-none" : ""}
       `}
     >
-      {/* Favourite/star button */}
+      {/* Three dots menu - TOP LEFT */}
+      {showMoreMenu && (
+        <div className="absolute top-3 left-3 z-20">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setMenuOpen((prev) => !prev);
+            }}
+            className="text-gray-400 hover:text-gray-600 p-2 rounded-full transition"
+          >
+            <MoreVertical size={16} />
+          </button>
+
+          {menuOpen && (
+            <div
+              className="absolute left-0 top-8 w-40 bg-white border border-gray-200 shadow-md rounded-md z-30"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+                onClick={() => {
+                  setMenuOpen(false);
+                  if (report.openInBrowserHref) {
+                    window.open(report.openInBrowserHref, "_blank");
+                  }
+                }}
+              >
+                Open in browser
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Star/favourite icon - TOP RIGHT */}
       {typeof onFavourite === "function" && (
         <button
           onClick={(e) => {
@@ -77,9 +111,8 @@ export default function ToolkitReportCard({
             style={{ maxWidth: "90%", maxHeight: "90%" }}
           />
         )}
-
         <div
-          className="text-sm text-center px-2 font-normal text-gray-900 font-avenir flex items-center justify-center gap-1"
+          className="text-sm text-center px-2 font-normal text-gray-900 font-avenir"
           style={{
             fontFamily: "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
             fontWeight: 400,
@@ -89,39 +122,6 @@ export default function ToolkitReportCard({
           }}
         >
           {displayName}
-
-          {showMoreMenu && (
-            <div className="relative ml-1">
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setMenuOpen((prev) => !prev);
-                }}
-                className="text-gray-400 hover:text-gray-600 p-1"
-              >
-                <MoreVertical size={14} />
-              </button>
-
-              {menuOpen && (
-                <div
-                  className="absolute right-0 top-5 mt-1 w-36 bg-white border border-gray-200 shadow-lg rounded-md z-30"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <button
-                    className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
-                    onClick={() => {
-                      setMenuOpen(false);
-                      if (report.openInBrowserHref) {
-                        window.open(report.openInBrowserHref, "_blank");
-                      }
-                    }}
-                  >
-                    Open in browser
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
         </div>
       </div>
     </div>
