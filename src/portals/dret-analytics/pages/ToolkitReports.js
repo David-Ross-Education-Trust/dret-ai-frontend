@@ -31,7 +31,6 @@ export default function ToolkitReports() {
   const [favourites, toggleFavourite] = useFavourites();
   const [clickedStar, setClickedStar] = useState(null);
 
-  // Show all toolkit reports (optionally filter out comingSoon)
   const toolkitReports = toolkitConfig.filter(
     (r) =>
       !r.comingSoon &&
@@ -55,12 +54,14 @@ export default function ToolkitReports() {
       <div
         className="bg-gray-100 min-h-screen h-screen flex flex-col font-avenir"
         style={{
-          fontFamily:
-            "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
+          fontFamily: "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
         }}
       >
-        {/* --- Top Bar (Heading + Search) --- */}
-        <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-8 h-24 flex items-center justify-between">
+        {/* --- Top Bar (Updated to match EducationReports) --- */}
+        <div
+          className="shrink-0 z-20 shadow-sm px-8 h-24 flex items-center justify-between"
+          style={{ backgroundColor: "#ffffff" }}
+        >
           <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
             Education Toolkit
           </h1>
@@ -77,9 +78,7 @@ export default function ToolkitReports() {
               } rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
               style={{
                 borderColor: searchFocused ? TRUST_GREEN : undefined,
-                boxShadow: searchFocused
-                  ? `0 0 0 2px ${TRUST_GREEN}40`
-                  : undefined,
+                boxShadow: searchFocused ? `0 0 0 2px ${TRUST_GREEN}40` : undefined,
                 fontFamily: "AvenirLTStdLight, Avenir, sans-serif"
               }}
             />
@@ -122,6 +121,7 @@ export default function ToolkitReports() {
             )}
           </div>
         </div>
+
         <style>
           {`
             .custom-scrollbar {

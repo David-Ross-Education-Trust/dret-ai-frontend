@@ -76,10 +76,18 @@ export default function FavouritesPage() {
 
   return (
     <AnalyticsLayout>
-      <div className="bg-gray-100 min-h-screen h-screen flex flex-col font-avenir">
-        {/* Top Bar */}
-        <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-8 h-24 flex items-center justify-between">
-          <h1 className="text-3xl font-bold" style={{ color: TRUST_GREEN }}>
+      <div
+        className="bg-gray-100 min-h-screen h-screen flex flex-col font-avenir"
+        style={{
+          fontFamily: "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
+        }}
+      >
+        {/* --- Top Bar (Matching EducationReports) --- */}
+        <div
+          className="shrink-0 z-20 shadow-sm px-8 h-24 flex items-center justify-between"
+          style={{ backgroundColor: "#ffffff" }}
+        >
+          <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
             Favourites
           </h1>
           <div className="relative flex-shrink-0 w-[240px] ml-4">
@@ -90,10 +98,13 @@ export default function FavouritesPage() {
               placeholder="Search favourites"
               onFocus={() => setSearchFocused(true)}
               onBlur={() => setSearchFocused(false)}
-              className={`w-full border ${searchFocused ? "" : "border-gray-300"} rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
+              className={`w-full border ${
+                searchFocused ? "" : "border-gray-300"
+              } rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
               style={{
                 borderColor: searchFocused ? TRUST_GREEN : undefined,
                 boxShadow: searchFocused ? `0 0 0 2px ${TRUST_GREEN}40` : undefined,
+                fontFamily: "AvenirLTStdLight, Avenir, sans-serif",
               }}
             />
             {searchTerm && (
@@ -107,6 +118,7 @@ export default function FavouritesPage() {
             <Search className="absolute right-3 top-2.5 h-4 w-4 text-gray-400" />
           </div>
         </div>
+        {/* --- End Top Bar --- */}
 
         {/* Main Content */}
         <div className="flex-1 overflow-y-auto p-8 custom-scrollbar space-y-12">

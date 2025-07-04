@@ -65,7 +65,7 @@ export default function EducationReports() {
           style={{ backgroundColor: "#ffffff" }}
         >
           <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
-            Education Analytics
+            Education Dashboards
           </h1>
           <div className="relative flex-shrink-0 w-[240px] ml-4">
             <input
