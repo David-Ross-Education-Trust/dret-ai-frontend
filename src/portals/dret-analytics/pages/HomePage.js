@@ -156,6 +156,7 @@ export default function FavouritesPage() {
                     }
                     clickedStar={clickedStar}
                     disabled={!!toolkit.comingSoon}
+                    showSourcePrefix={true} // ✅ prefix with toolkit name
                   />
                 ))
               )}

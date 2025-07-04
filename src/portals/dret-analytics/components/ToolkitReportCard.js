@@ -1,6 +1,3 @@
-import React from "react";
-import { Star } from "lucide-react";
-
 export default function ToolkitReportCard({
   report,
   isFavourite,
@@ -8,7 +5,12 @@ export default function ToolkitReportCard({
   onClick,
   clickedStar,
   disabled,
+  showSourcePrefix = false, // new prop with default
 }) {
+  const displayName = showSourcePrefix && report.sourceToolkit
+    ? `${report.sourceToolkit} – ${report.name}`
+    : report.name;
+
   return (
     <div
       onClick={!disabled ? () => onClick && onClick(report) : undefined}
@@ -20,7 +22,6 @@ export default function ToolkitReportCard({
         ${disabled ? "opacity-50 pointer-events-none" : ""}
       `}
     >
-      {/* Favourite/star button */}
       {typeof onFavourite === "function" && (
         <button
           onClick={e => {
@@ -57,7 +58,7 @@ export default function ToolkitReportCard({
           />
         </button>
       )}
-      {/* Main card content, always centered */}
+
       <div className="flex flex-col items-center justify-center flex-1 w-full h-full">
         {report.logoUrl && (
           <img
@@ -77,7 +78,7 @@ export default function ToolkitReportCard({
             wordBreak: "break-word"
           }}
         >
-          {report.name}
+          {displayName}
         </div>
       </div>
     </div>
