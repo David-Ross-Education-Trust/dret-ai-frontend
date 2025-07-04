@@ -30,7 +30,6 @@ function useFavourites(key) {
 export default function FavouritesPage() {
   const [analyticsFavourites, toggleAnalyticsFavourite] = useFavourites("analyticsFavourites");
   const [toolkitFavourites, toggleToolkitFavourite] = useFavourites("toolkitFavourites");
-  const allFavourites = [...new Set([...analyticsFavourites, ...toolkitFavourites])];
 
   const [clickedStar, setClickedStar] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");

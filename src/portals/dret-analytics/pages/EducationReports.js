@@ -31,7 +31,6 @@ export default function EducationReports() {
   const [searchFocused, setSearchFocused] = useState(false);
   const navigate = useNavigate();
 
-  // Filter: not comingSoon, category=education, search term match
   const educationReports = reportConfig.filter(
     (r) =>
       !r.comingSoon &&
@@ -45,6 +44,7 @@ export default function EducationReports() {
   );
 
   const TRUST_GREEN = "#205c40";
+  const TRUST_GREEN_LIGHT = "#7d9286";
 
   const handleFavourite = (id) => {
     toggleFavourite(id);
@@ -57,12 +57,12 @@ export default function EducationReports() {
       <div
         className="bg-gray-100 min-h-screen h-screen flex flex-col font-avenir"
         style={{
-          fontFamily:
-            "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
+          fontFamily: "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
         }}
       >
         {/* --- Top Bar (Heading + Search) --- */}
-        <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-8 h-24 flex items-center justify-between">
+        <div className="shrink-0 z-20 shadow-sm px-8 h-24 flex items-center justify-between"
+             style={{ backgroundColor: TRUST_GREEN_LIGHT }}>
           <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
             Education Analytics
           </h1>
@@ -79,10 +79,8 @@ export default function EducationReports() {
               } rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
               style={{
                 borderColor: searchFocused ? TRUST_GREEN : undefined,
-                boxShadow: searchFocused
-                  ? `0 0 0 2px ${TRUST_GREEN}40`
-                  : undefined,
-                fontFamily: "AvenirLTStdLight, Avenir, sans-serif"
+                boxShadow: searchFocused ? `0 0 0 2px ${TRUST_GREEN}40` : undefined,
+                fontFamily: "AvenirLTStdLight, Avenir, sans-serif",
               }}
             />
             {searchTerm && (
@@ -121,6 +119,7 @@ export default function EducationReports() {
             )}
           </div>
         </div>
+
         <style>
           {`
             .custom-scrollbar {
