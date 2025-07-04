@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Star, MoreVertical } from "lucide-react";
 
 export default function ToolkitReportCard({
@@ -12,11 +12,27 @@ export default function ToolkitReportCard({
   showMoreMenu = false,
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef(null);
 
   const displayName =
     showSourcePrefix && report.sourceToolkit
       ? `${report.sourceToolkit} ${report.name}`
       : report.name;
+
+  useEffect(() => {
+    if (!showMoreMenu) return;
+
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showMoreMenu]);
 
   return (
     <div
@@ -31,7 +47,7 @@ export default function ToolkitReportCard({
     >
       {/* Three dots menu - TOP LEFT */}
       {showMoreMenu && (
-        <div className="absolute top-3 left-3 z-20">
+        <div className="absolute top-3 left-3 z-20" ref={menuRef}>
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -42,24 +58,24 @@ export default function ToolkitReportCard({
             <MoreVertical size={16} />
           </button>
 
-          {menuOpen && (
-            <div
-              className="absolute left-0 top-8 w-40 bg-white border border-gray-200 shadow-md rounded-md z-30"
-              onClick={(e) => e.stopPropagation()}
+          <div
+            className={`absolute left-0 top-8 w-40 bg-white border border-gray-200 shadow-md rounded-md z-30 transform transition duration-150 ease-out ${
+              menuOpen ? "scale-100 opacity-100" : "scale-95 opacity-0 pointer-events-none"
+            }`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+              onClick={() => {
+                setMenuOpen(false);
+                if (report.openInBrowserHref) {
+                  window.open(report.openInBrowserHref, "_blank");
+                }
+              }}
             >
-              <button
-                className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
-                onClick={() => {
-                  setMenuOpen(false);
-                  if (report.openInBrowserHref) {
-                    window.open(report.openInBrowserHref, "_blank");
-                  }
-                }}
-              >
-                Open in browser
-              </button>
-            </div>
-          )}
+              Open in browser
+            </button>
+          </div>
         </div>
       )}
 
