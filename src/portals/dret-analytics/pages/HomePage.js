@@ -1,4 +1,13 @@
-// ...imports remain unchanged
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Search, X } from "lucide-react";
+
+import AnalyticsLayout from "../components/layout";
+import ReportCard from "../components/reportCard";
+import ToolkitReportCard from "../components/ToolkitReportCard";
+import { reportConfig } from "../components/reportConfig";
+import { toolkitConfig } from "../components/ToolkitConfig";
+import { useFavourites } from "../hooks/useFavourites";
 
 export default function FavouritesPage() {
   const [analyticsFavourites, toggleAnalyticsFavourite] = useFavourites("analyticsFavourites");
@@ -91,10 +100,11 @@ export default function FavouritesPage() {
             <Search className="absolute right-3 top-2.5 h-4 w-4 text-gray-400" />
           </div>
         </div>
+        {/* --- End Top Bar --- */}
 
         {/* Main Content */}
         <div className="flex-1 overflow-y-auto p-8 custom-scrollbar space-y-12">
-          {/* Favourite Reports - DASHBOARDS */}
+          {/* Favourite Reports */}
           <div>
             <h2 className="text-xl font-semibold mb-4" style={{ color: TRUST_GREEN }}>
               Dashboards
@@ -125,7 +135,7 @@ export default function FavouritesPage() {
             </div>
           </div>
 
-          {/* Favourite Toolkits (unchanged) */}
+          {/* Favourite Toolkits */}
           <div>
             <h2 className="text-xl font-semibold mb-4" style={{ color: TRUST_GREEN }}>
               Toolkits
