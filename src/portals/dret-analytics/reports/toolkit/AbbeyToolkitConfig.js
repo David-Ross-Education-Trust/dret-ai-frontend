@@ -1,5 +1,4 @@
-// components/DemoToolkitConfig.js
-import excelIcon from "../../../assets/excel-icon.png";
+import excelIcon from "../../../../assets/excel-icon.png";
 
 export const demoToolkitConfig = [
   {
