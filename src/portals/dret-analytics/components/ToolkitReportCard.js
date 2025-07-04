@@ -15,7 +15,7 @@ export default function ToolkitReportCard({
 
   const displayName =
     showSourcePrefix && report.sourceToolkit
-      ? `${report.sourceToolkit} – ${report.name}`
+      ? `${report.sourceToolkit} ${report.name}`
       : report.name;
 
   return (
