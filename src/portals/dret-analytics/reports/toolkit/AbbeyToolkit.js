@@ -51,7 +51,7 @@ export default function DemoToolkit() {
           style={{ backgroundColor: "#ffffff" }}
         >
           <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
-            Abbey CE Academy Toolkit
+            Demo Toolkit
           </h1>
           <div className="relative flex-shrink-0 w-[240px] ml-4">
             <input
@@ -84,31 +84,30 @@ export default function DemoToolkit() {
         </div>
 
         {/* File Grid */}
-        <div className="flex-1 overflow-y-auto p-10 custom-scrollbar">
-          <div className="w-full max-w-7xl mx-auto">
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-10">
-              {shownFiles.length === 0 ? (
-                <div className="col-span-full text-gray-500 italic text-center mt-20">
-                  No files found.
-                </div>
-              ) : (
-                shownFiles.map((file) => (
-                  <ToolkitReportCard
-                    key={file.id}
-                    report={file}
-                    isFavourite={favourites.includes(file.id)}
-                    onFavourite={() => {
-                      toggleFavourite(file.id);
-                      setClickedStar(file.id);
-                      setTimeout(() => setClickedStar(null), 400);
-                    }}
-                    clickedStar={clickedStar}
-                    onClick={() => window.open(file.href, "_blank")}
-                    disabled={false}
-                  />
-                ))
-              )}
-            </div>
+        <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+            {shownFiles.length === 0 ? (
+              <div className="col-span-full text-gray-500 italic text-center mt-20">
+                No files found.
+              </div>
+            ) : (
+              shownFiles.map((file) => (
+                <ToolkitReportCard
+                  key={file.id}
+                  report={file}
+                  isFavourite={favourites.includes(file.id)}
+                  onFavourite={() => {
+                    toggleFavourite(file.id);
+                    setClickedStar(file.id);
+                    setTimeout(() => setClickedStar(null), 400);
+                  }}
+                  clickedStar={clickedStar}
+                  onClick={() => window.open(file.href, "_blank")}
+                  disabled={false}
+                  showMoreMenu={true}
+                />
+              ))
+            )}
           </div>
         </div>
       </div>
