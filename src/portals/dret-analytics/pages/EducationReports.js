@@ -99,7 +99,7 @@ export default function EducationReports() {
         {/* --- End Top Bar --- */}
 
         {/* --- Report Grid --- */}
-        <div className="scroll-area flex-1 overflow-y-auto bg-gray-100 font-avenir p-6 pb-16">
+        <div className="scroll-area flex-1 overflow-y-auto bg-gray-100 font-avenir p-8 pb-16">
           <div
             className="flex flex-wrap gap-y-6"
             style={{
