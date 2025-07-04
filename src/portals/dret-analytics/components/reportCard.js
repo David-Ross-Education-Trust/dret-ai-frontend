@@ -2,18 +2,6 @@ import React from "react";
 import { Star, Flame, Sparkles } from "lucide-react";
 
 const categoryColors = {
-  Assessment: "bg-blue-50 text-blue-800",
-  Planning: "bg-blue-50 text-blue-800",
-  Admin: "bg-blue-50 text-blue-800",
-  Leadership: "bg-blue-50 text-blue-800",
-  Inclusion: "bg-blue-50 text-blue-800",
-  CPD: "bg-blue-50 text-blue-800",
-  English: "bg-violet-50 text-violet-800",
-  Maths: "bg-amber-50 text-amber-800",
-  Science: "bg-cyan-50 text-cyan-800",
-  History: "bg-orange-50 text-orange-800",
-  Geography: "bg-lime-50 text-lime-800",
-  MFL: "bg-pink-50 text-pink-800",
   Education: "bg-blue-50 text-blue-800",
   Operations: "bg-green-50 text-green-800",
   HR: "bg-yellow-50 text-yellow-800",
@@ -36,15 +24,19 @@ export default function ReportCard({
 }) {
   return (
     <div
-      onClick={!disabled ? () => onClick(report) : undefined}
-      className={`relative rounded-xl bg-white shadow-md hover:shadow-lg transition-shadow cursor-pointer p-4 pt-3 flex flex-col justify-start ${
-        disabled ? "opacity-50 pointer-events-none" : ""
-      }`}
+      onClick={!disabled ? () => onClick && onClick(report) : undefined}
+      className={`
+        bg-white rounded-xl shadow-md hover:shadow-lg
+        transition-all cursor-pointer flex flex-col items-center justify-center
+        aspect-square w-full min-w-[140px] min-h-[140px] max-w-[220px] max-h-[220px]
+        border border-gray-100 relative
+        ${disabled ? "opacity-50 pointer-events-none" : ""}
+      `}
     >
       {/* Favourite/star button */}
       {typeof onFavourite === "function" && (
         <button
-          onClick={e => {
+          onClick={(e) => {
             e.stopPropagation();
             onFavourite(report.id || report.name);
           }}
@@ -63,13 +55,13 @@ export default function ReportCard({
               fill: !isFavourite ? "none" : "#fde047",
               transition: "fill 0.2s",
             }}
-            onMouseEnter={e => {
+            onMouseEnter={(e) => {
               if (!isFavourite) {
                 e.currentTarget.style.fill = "#fde047";
                 e.currentTarget.style.opacity = "1";
               }
             }}
-            onMouseLeave={e => {
+            onMouseLeave={(e) => {
               if (!isFavourite) {
                 e.currentTarget.style.fill = "none";
                 e.currentTarget.style.opacity = "0.8";
@@ -78,20 +70,24 @@ export default function ReportCard({
           />
         </button>
       )}
-      <div className="flex flex-col gap-0 mb-10 mt-1">
+
+      {/* Main card content, centered */}
+      <div className="flex flex-col items-center justify-center flex-1 w-full h-full px-4 pt-4">
         <h3
-          className="text-base font-bold pr-8 leading-tight"
+          className="text-base font-bold text-center leading-tight mb-1"
           style={{ fontFamily: "system-ui, sans-serif" }}
         >
           {report.name}
         </h3>
         <p
-          className="text-[13px] text-gray-500 font-normal leading-snug mt-2"
+          className="text-[13px] text-gray-500 text-center font-normal leading-snug"
           style={{ fontFamily: "system-ui, sans-serif" }}
         >
           {report.description}
         </p>
       </div>
+
+      {/* Tags */}
       <div className="absolute bottom-3 left-3 flex flex-wrap gap-2 text-xs items-center">
         {report.tag === "New" && (
           <span className={`${tagStyles.New} px-2 py-0.5 rounded-full font-medium flex items-center gap-1`}>
@@ -100,19 +96,20 @@ export default function ReportCard({
           </span>
         )}
         {Array.isArray(report.category)
-          ? report.category.map(cat =>
-              cat && (
-                <span
-                  key={cat}
-                  className={`px-3 py-1 rounded-full font-medium ${categoryColors[cat] || "bg-gray-100 text-gray-600"}`}
-                >
-                  {cat}
-                </span>
-              )
+          ? report.category.map(
+              (cat) =>
+                categoryColors[cat] && (
+                  <span
+                    key={cat}
+                    className={`px-3 py-1 rounded-full font-medium ${categoryColors[cat]}`}
+                  >
+                    {cat}
+                  </span>
+                )
             )
-          : report.category && (
+          : categoryColors[report.category] && (
               <span
-                className={`px-3 py-1 rounded-full font-medium ${categoryColors[report.category] || "bg-gray-100 text-gray-600"}`}
+                className={`px-3 py-1 rounded-full font-medium ${categoryColors[report.category]}`}
               >
                 {report.category}
               </span>
