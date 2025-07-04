@@ -1,4 +1,4 @@
-import excelIcon from "../../../assets/excel-icon.png";
+import excelIcon from "../../../../assets/icons/excel.svg";
 
 export const demoToolkitConfig = [
   {
