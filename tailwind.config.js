@@ -9,7 +9,8 @@ module.exports = {
       colors: {
         'trust-green': '#205c40',
         'trust-green-dark': '#184b34',
-        'trust-green-light': '#7d9286', // ✅ Added
+        'trust-green-light': '#7d9286',
+        'trust-green-light-2': '#d6dbd9', // ✅ Newly added
         'note-yellow': '#fff9b1',
         'note-yellow-dark': '#eedc85',
       },

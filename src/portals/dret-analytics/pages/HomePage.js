@@ -141,7 +141,7 @@ export default function FavouritesPage() {
             <h2 className="text-xl font-semibold mb-4" style={{ color: TRUST_GREEN }}>
               Favourite Toolkits
             </h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
               {favouriteToolkits.length === 0 ? (
                 <div className="col-span-full text-gray-500 italic text-center">
                   No favourite toolkits yet. Click the star on any toolkit to favourite it!
