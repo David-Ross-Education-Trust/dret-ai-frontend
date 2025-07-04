@@ -16,7 +16,7 @@ export default function ToolkitReportCard({
 
   const displayName =
     showSourcePrefix && report.sourceToolkit
-      ? `${report.name} ${report.sourceToolkit}`
+      ? `${report.name} - ${report.sourceToolkit}`
       : report.name;
 
   useEffect(() => {
@@ -59,7 +59,7 @@ export default function ToolkitReportCard({
           </button>
 
           <div
-            className={`absolute left-0 top-8 w-40 bg-gray-50 border border-gray-200 shadow-md rounded-md z-30 transform transition duration-150 ease-out ${
+            className={`absolute left-0 top-8 w-40 bg-white border border-gray-200 shadow-md rounded-md z-30 transform transition duration-150 ease-out ${
               menuOpen ? "scale-100 opacity-100" : "scale-95 opacity-0 pointer-events-none"
             }`}
             onClick={(e) => e.stopPropagation()}
@@ -117,30 +117,24 @@ export default function ToolkitReportCard({
         </button>
       )}
 
-      {/* Main card layout: space-between to keep icon center and text low */}
-      <div className="flex flex-1 flex-col justify-between items-center px-3 w-full h-full py-4">
-        {/* Icon wrapper (remains centered regardless of text height) */}
-        <div className="flex justify-center items-center h-full">
-          {report.logoUrl && (
-            <img
-              src={report.logoUrl}
-              alt={`${report.name} logo`}
-              className={`object-contain ${
-                report.logoUrl.includes("excel-icon") ? "w-12 h-12" : "w-20 h-20"
-              }`}
-              style={{ maxWidth: "90%", maxHeight: "90%" }}
-            />
-          )}
-        </div>
-
-        {/* Bold display name anchored lower */}
+      {/* Main card content */}
+      <div className="flex flex-col items-center justify-center flex-1 w-full h-full relative">
+        {report.logoUrl && (
+          <img
+            src={report.logoUrl}
+            alt={`${report.name} logo`}
+            className="w-20 h-20 object-contain mb-3"
+            style={{ maxWidth: "90%", maxHeight: "90%" }}
+          />
+        )}
         <div
-          className="text-sm text-center text-gray-900 font-bold font-avenir mt-4"
+          className="text-sm text-center px-2 font-normal text-gray-900 font-avenir"
           style={{
-            fontFamily:
-              "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
+            fontFamily: "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
+            fontWeight: 400,
             lineHeight: 1.2,
             wordBreak: "break-word",
+            marginTop: 2,
           }}
         >
           {displayName}
