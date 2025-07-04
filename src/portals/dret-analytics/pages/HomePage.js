@@ -7,8 +7,8 @@ import ToolkitReportCard from "../components/ToolkitReportCard";
 import { reportConfig } from "../components/reportConfig";
 import { toolkitConfig } from "../components/ToolkitConfig";
 
-// Custom hook with named key
-function useFavourites(key = "analyticsFavourites") {
+// Separate hooks for each favourites type
+function useFavourites(key) {
   const [favourites, setFavourites] = useState(() => {
     const stored = localStorage.getItem(key);
     return stored ? JSON.parse(stored) : [];
@@ -18,16 +18,20 @@ function useFavourites(key = "analyticsFavourites") {
     localStorage.setItem(key, JSON.stringify(favourites));
   }, [favourites, key]);
 
-  const toggleFavourite = (id) =>
+  const toggleFavourite = (id) => {
     setFavourites((prev) =>
       prev.includes(id) ? prev.filter((fav) => fav !== id) : [...prev, id]
     );
+  };
 
   return [favourites, toggleFavourite];
 }
 
 export default function FavouritesPage() {
-  const [favourites, toggleFavourite] = useFavourites("analyticsFavourites");
+  const [analyticsFavourites, toggleAnalyticsFavourite] = useFavourites("analyticsFavourites");
+  const [toolkitFavourites, toggleToolkitFavourite] = useFavourites("toolkitFavourites");
+  const allFavourites = [...new Set([...analyticsFavourites, ...toolkitFavourites])];
+
   const [clickedStar, setClickedStar] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
@@ -38,7 +42,7 @@ export default function FavouritesPage() {
     (r) =>
       !r.comingSoon &&
       r.id &&
-      favourites.includes(r.id) &&
+      analyticsFavourites.includes(r.id) &&
       (
         searchTerm.trim() === "" ||
         (r.name && r.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
@@ -50,7 +54,7 @@ export default function FavouritesPage() {
     (t) =>
       !t.comingSoon &&
       t.id &&
-      favourites.includes(t.id) &&
+      toolkitFavourites.includes(t.id) &&
       (
         searchTerm.trim() === "" ||
         (t.name && t.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
@@ -58,9 +62,15 @@ export default function FavouritesPage() {
       )
   );
 
-  const handleFavourite = (item) => {
-    const id = item.id;
-    toggleFavourite(id);
+  const handleFavourite = (id) => {
+    if (analyticsFavourites.includes(id)) {
+      toggleAnalyticsFavourite(id);
+    } else if (toolkitFavourites.includes(id)) {
+      toggleToolkitFavourite(id);
+    } else {
+      toggleAnalyticsFavourite(id); // fallback
+    }
+
     setClickedStar(id);
     setTimeout(() => setClickedStar(null), 400);
   };
@@ -81,14 +91,10 @@ export default function FavouritesPage() {
               placeholder="Search favourites"
               onFocus={() => setSearchFocused(true)}
               onBlur={() => setSearchFocused(false)}
-              className={`w-full border ${
-                searchFocused ? "" : "border-gray-300"
-              } rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
+              className={`w-full border ${searchFocused ? "" : "border-gray-300"} rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
               style={{
                 borderColor: searchFocused ? TRUST_GREEN : undefined,
-                boxShadow: searchFocused
-                  ? `0 0 0 2px ${TRUST_GREEN}40`
-                  : undefined,
+                boxShadow: searchFocused ? `0 0 0 2px ${TRUST_GREEN}40` : undefined,
               }}
             />
             {searchTerm && (
@@ -120,8 +126,8 @@ export default function FavouritesPage() {
                   <ReportCard
                     key={report.id || idx}
                     report={report}
-                    isFavourite={favourites.includes(report.id)}
-                    onFavourite={() => handleFavourite(report)}
+                    isFavourite={analyticsFavourites.includes(report.id)}
+                    onFavourite={() => handleFavourite(report.id)}
                     onClick={() => navigate(report.href)}
                     clickedStar={clickedStar}
                     disabled={!!report.comingSoon}
@@ -146,8 +152,8 @@ export default function FavouritesPage() {
                   <ToolkitReportCard
                     key={toolkit.id || idx}
                     report={toolkit}
-                    isFavourite={favourites.includes(toolkit.id)}
-                    onFavourite={() => handleFavourite(toolkit)}
+                    isFavourite={toolkitFavourites.includes(toolkit.id)}
+                    onFavourite={() => handleFavourite(toolkit.id)}
                     onClick={() => navigate(toolkit.href)}
                     clickedStar={clickedStar}
                     disabled={!!toolkit.comingSoon}
