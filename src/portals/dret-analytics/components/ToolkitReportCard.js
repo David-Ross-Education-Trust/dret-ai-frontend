@@ -124,7 +124,7 @@ export default function ToolkitReportCard({
             src={report.logoUrl}
             alt={`${report.name} logo`}
             className="w-20 h-20 object-contain mb-3"
-            style={{ maxWidth: "90%", maxHeight: "90%" }}
+            style={{ maxWidth: "100%", maxHeight: "100%" }}
           />
         )}
         <div
