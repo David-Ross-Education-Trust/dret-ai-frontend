@@ -60,8 +60,10 @@ export default function EducationReports() {
         }}
       >
         {/* --- Top Bar (Heading + Search) --- */}
-        <div className="shrink-0 z-20 shadow-sm px-8 h-24 flex items-center justify-between"
-             style={{ backgroundColor: "#ffffff" }}>
+        <div
+          className="shrink-0 z-20 shadow-sm px-8 h-24 flex items-center justify-between"
+          style={{ backgroundColor: "#ffffff" }}
+        >
           <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
             Education Analytics
           </h1>
@@ -98,22 +100,23 @@ export default function EducationReports() {
 
         {/* --- Report Grid --- */}
         <div className="scroll-area flex-1 overflow-y-auto bg-gray-100 font-avenir p-6 pb-16">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-6">
+          <div className="flex flex-wrap justify-center gap-6">
             {educationReports.length === 0 ? (
-              <div className="col-span-full text-gray-500 italic text-center">
+              <div className="text-gray-500 italic text-center w-full">
                 No education reports available{searchTerm ? " for this search." : " yet."}
               </div>
             ) : (
               educationReports.map((report, idx) => (
-                <ReportCard
-                  key={report.id || idx}
-                  report={report}
-                  isFavourite={favourites.includes(report.id)}
-                  onFavourite={handleFavourite}
-                  onClick={() => navigate(report.href)}
-                  clickedStar={clickedStar}
-                  disabled={!!report.comingSoon}
-                />
+                <div key={report.id || idx} className="w-[220px]">
+                  <ReportCard
+                    report={report}
+                    isFavourite={favourites.includes(report.id)}
+                    onFavourite={handleFavourite}
+                    onClick={() => navigate(report.href)}
+                    clickedStar={clickedStar}
+                    disabled={!!report.comingSoon}
+                  />
+                </div>
               ))
             )}
           </div>
