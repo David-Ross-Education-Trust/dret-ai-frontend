@@ -113,7 +113,7 @@ export default function FavouritesPage() {
           {/* Favourite Reports */}
           <div>
             <h2 className="text-xl font-semibold mb-4" style={{ color: TRUST_GREEN }}>
-              Favourite Reports
+              Dashboards
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-6">
               {favouriteReports.length === 0 ? (
@@ -139,7 +139,7 @@ export default function FavouritesPage() {
           {/* Favourite Toolkits */}
           <div>
             <h2 className="text-xl font-semibold mb-4" style={{ color: TRUST_GREEN }}>
-              Favourite Toolkits
+              Toolkits
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
               {favouriteToolkits.length === 0 ? (
