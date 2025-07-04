@@ -100,8 +100,8 @@ export default function EducationReports() {
         {/* --- End Top Bar --- */}
 
         {/* --- Report Grid --- */}
-        <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+        <div className="scroll-area flex-1 overflow-y-auto bg-gray-100 font-avenir p-6 pb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {educationReports.length === 0 ? (
               <div className="col-span-full text-gray-500 italic text-center">
                 No education reports available{searchTerm ? " for this search." : " yet."}
