@@ -22,6 +22,7 @@ const subjectCategories = [
   "History",
   "Geography",
   "MFL",
+  "Primary",
 ];
 
 const filterColors = {
@@ -39,6 +40,7 @@ const filterColors = {
   History: "bg-orange-50 text-orange-800 border-orange-200",
   Geography: "bg-lime-50 text-lime-800 border-lime-200",
   MFL: "bg-pink-50 text-pink-800 border-pink-200",
+  Primary: "bg-blue-100 text-white-800 border-blue-200",
 };
 
 const filterActiveColors = {

@@ -14,6 +14,7 @@ const categoryColors = {
   History: "bg-orange-50 text-orange-800",
   Geography: "bg-lime-50 text-lime-800",
   MFL: "bg-pink-50 text-pink-800",
+  Primary: "bg-blue-100 text-white-800"
 };
 
 const tagStyles = {
