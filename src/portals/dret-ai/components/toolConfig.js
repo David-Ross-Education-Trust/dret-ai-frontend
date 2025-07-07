@@ -2,7 +2,6 @@ import LessonPlanningTool from "../tools/001";
 import ReportWritingTool from "../tools/002";
 import ExclusionReportTool from "../tools/003";
 import CASEParagraphFeedback from "../tools/004";
-import CASEParagraphFeedbackStudent from "../tools/005";
 
 // Dummy component for placeholder tools
 const DummyTool = () => <div>Coming soon...</div>;
@@ -48,16 +47,6 @@ export const toolsConfig = [
     component: CASEParagraphFeedback,
     comingSoon: false,
   },
-  {
-    id: "case-paragraph-student",
-    name: "Testing",
-    description: "Testing",
-    category: ["Assessment", "Geography"],
-    tag: "New",
-    href: "/ai/tool/case-paragraph-student",
-    component: CASEParagraphFeedbackStudent,
-    comingSoon: false,
-  },
 
   // Expanded dummy tools
   {
@@ -84,7 +73,7 @@ export const toolsConfig = [
     id: "eal-adapt",
     name: "EAL Work Adaptor",
     description: "Adapt worksheets and texts for EAL learners.",
-    category: ["Inclusion", "Support"],
+    category: ["Inclusion"],
     tag: "New",
     href: "/ai/tool/eal-adapt",
     component: DummyTool,
@@ -114,7 +103,7 @@ export const toolsConfig = [
     id: "primary-phonics-helper",
     name: "Phonics Prompt Generator",
     description: "Create phonics-based activities for early readers.",
-    category: ["Primary", "Literacy"],
+    category: ["Primary"],
     tag: "New",
     href: "/ai/tool/primary-phonics-helper",
     component: DummyTool,
@@ -134,7 +123,7 @@ export const toolsConfig = [
     id: "ta-taskboard",
     name: "TA Task Board Generator",
     description: "Generate visual task boards for support staff use.",
-    category: ["Inclusion", "Primary", "Support"],
+    category: ["Inclusion", "Primary"],
     tag: "New",
     href: "/ai/tool/ta-taskboard",
     component: DummyTool,
@@ -154,7 +143,7 @@ export const toolsConfig = [
     id: "sat-analysis-helper",
     name: "KS2 SATs Analysis Helper",
     description: "Summarise trends and group gaps from KS2 SATs data.",
-    category: ["Primary", "Data"],
+    category: ["Primary"],
     tag: "New",
     href: "/ai/tool/sat-analysis-helper",
     component: DummyTool,
@@ -194,7 +183,7 @@ export const toolsConfig = [
     id: "ks3-starter-idea-bank",
     name: "KS3 Starter Idea Bank",
     description: "Quick warm-up activities by subject and topic.",
-    category: ["Planning", "Secondary"],
+    category: ["Planning"],
     tag: "New",
     href: "/ai/tool/ks3-starter-idea-bank",
     component: DummyTool,
@@ -224,7 +213,7 @@ export const toolsConfig = [
     id: "do-now-generator",
     name: "Do Now Generator",
     description: "Generate do-now tasks for any subject.",
-    category: ["Planning", "All Subjects"],
+    category: ["Planning"],
     tag: "New",
     href: "/ai/tool/ta-deployment-scheduler",
     component: DummyTool,
@@ -234,7 +223,7 @@ export const toolsConfig = [
     id: "marking-feedback-pool",
     name: "Marking Feedback Pool",
     description: "Pull banked comments and personalised suggestions.",
-    category: ["Assessment", "English", "All Subjects"],
+    category: ["Assessment", "English"],
     tag: "New",
     href: "/ai/tool/marking-feedback-pool",
     component: DummyTool,
@@ -244,7 +233,7 @@ export const toolsConfig = [
     id: "homework-creator",
     name: "Homework Generator",
     description: "Generate differentiated homework tasks by topic.",
-    category: ["Planning", "All Subjects"],
+    category: ["Planning"],
     tag: "New",
     href: "/ai/tool/homework-creator",
     component: DummyTool,
