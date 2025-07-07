@@ -10,6 +10,7 @@ export default function LessonPlanningTool() {
     year: "",
     topic: "",
     unit: "",
+    context: "",
     length: "",
   });
   const [response, setResponse] = useState("");
@@ -23,19 +24,20 @@ export default function LessonPlanningTool() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!fields.year.trim() || !fields.topic.trim() || !fields.unit.trim() || !fields.length.trim()) {
-      setResponse("Please fill in all fields.");
+    if (!fields.year.trim() || !fields.length.trim()) {
+      setResponse("Please fill in at least Year and Length.");
       return;
     }
 
-    const message = `
-Year Group: ${fields.year}
-Topic: ${fields.topic}
-Unit: ${fields.unit}
-Length (minutes): ${fields.length}
+    let message = `Please generate a lesson plan.`;
 
-Please format your response in markdown.
-    `.trim();
+    if (fields.year) message += `\n\nYear Group: ${fields.year}`;
+    if (fields.topic) message += `\nSubject: ${fields.topic}`;
+    if (fields.unit) message += `\nTopic: ${fields.unit}`;
+    if (fields.context) message += `\nAdditional Context: ${fields.context}`;
+    if (fields.length) message += `\nLength (minutes): ${fields.length}`;
+
+    message += `\n\nPlease format your response in markdown.`;
 
     setLoading(true);
     setResponse("");
@@ -103,12 +105,22 @@ Please format your response in markdown.
               style={{ minHeight: 120 }}
             >
               <div className="mb-3">
-                <label className="block text-xs font-medium text-gray-700 mb-1">Year Group</label>
+                <label className="block text-xs font-medium text-gray-700 mb-1">Audience</label>
                 <input
                   type="text"
                   value={fields.year}
                   onChange={e => handleChange("year", e.target.value)}
-                  placeholder="Year 8"
+                  placeholder="Year 2"
+                  className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm"
+                />
+              </div>
+              <div className="mb-3">
+                <label className="block text-xs font-medium text-gray-700 mb-1">Subject</label>
+                <input
+                  type="text"
+                  value={fields.topic}
+                  onChange={e => handleChange("topic", e.target.value)}
+                  placeholder="History"
                   className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm"
                 />
               </div>
@@ -116,20 +128,20 @@ Please format your response in markdown.
                 <label className="block text-xs font-medium text-gray-700 mb-1">Topic</label>
                 <input
                   type="text"
-                  value={fields.topic}
-                  onChange={e => handleChange("topic", e.target.value)}
-                  placeholder="The Cold War"
+                  value={fields.unit}
+                  onChange={e => handleChange("unit", e.target.value)}
+                  placeholder="The Great Fire of London"
                   className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm"
                 />
               </div>
               <div className="mb-3">
-                <label className="block text-xs font-medium text-gray-700 mb-1">Unit</label>
-                <input
-                  type="text"
-                  value={fields.unit}
-                  onChange={e => handleChange("unit", e.target.value)}
-                  placeholder="Unit 2"
-                  className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm"
+                <label className="block text-xs font-medium text-gray-700 mb-1">Additional Context</label>
+                <textarea
+                  value={fields.context}
+                  onChange={e => handleChange("context", e.target.value)}
+                  placeholder="Include retrieval questions at the start"
+                  rows={5}
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm resize-none"
                 />
               </div>
               <div className="mb-3">
