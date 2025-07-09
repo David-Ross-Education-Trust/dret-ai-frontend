@@ -3,14 +3,16 @@ import Layout from "../../../layout";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-export default function StudentTutorChat() {
+export default function UserTutorChat() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [threadId, setThreadId] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [userName, setUserName] = useState("");
+  const [yearGroup, setYearGroup] = useState("");
   const scrollRef = useRef(null);
 
-  // ✅ Create thread and start tutor conversation once on mount
   useEffect(() => {
     const initChat = async () => {
       try {
@@ -19,12 +21,11 @@ export default function StudentTutorChat() {
         const newThreadId = data.thread_id;
         setThreadId(newThreadId);
 
-        // ✅ Send first message from tutor
         const initialRes = await fetch("https://dret-ai-backend-f9drcacng0f2gmc4.uksouth-01.azurewebsites.net/ask", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            agentId: "asst_TPio94mmgxvIfBBOJGrV51z5", // 🔁 Replace with your actual tutoring agent ID
+            agentId: "asst_TPio94mmgxvIfBBOJGrV51z5",
             message: "Hi! I'm your personal AI tutor. What’s your name?",
             threadId: newThreadId,
           }),
@@ -39,7 +40,7 @@ export default function StudentTutorChat() {
     };
 
     initChat();
-  }, []); // ✅ only runs once
+  }, []);
 
   const sendMessage = async () => {
     if (!input.trim() || !threadId) return;
@@ -49,14 +50,31 @@ export default function StudentTutorChat() {
     setMessages((prev) => [...prev, { role: "user", content: userMessage }]);
     setLoading(true);
 
+    // Optional: Basic heuristics to extract name/yearGroup
+    if (!userName && userMessage.toLowerCase().includes("my name is")) {
+      const name = userMessage.split("my name is")[1]?.trim().split(" ")[0];
+      if (name) setUserName(name);
+    }
+    if (!yearGroup && userMessage.toLowerCase().includes("year")) {
+      const match = userMessage.match(/year\s*(\d+)/i);
+      if (match) setYearGroup("Year " + match[1]);
+    }
+
+    // Generate a simple unique userId if needed
+    const id = userId || `user_${Math.random().toString(36).substr(2, 9)}`;
+    if (!userId) setUserId(id);
+
     try {
       const res = await fetch("https://dret-ai-backend-f9drcacng0f2gmc4.uksouth-01.azurewebsites.net/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          agentId: "asst_YOUR_AGENT_ID", // 🔁 same agent ID
+          agentId: "asst_TPio94mmgxvIfBBOJGrV51z5",
           message: userMessage,
-          threadId: threadId,
+          threadId,
+          userId: id,
+          userName,
+          yearGroup,
         }),
       });
 
