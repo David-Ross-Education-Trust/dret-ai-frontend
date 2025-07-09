@@ -2,6 +2,7 @@ import LessonPlanningTool from "../tools/001";
 import ReportWritingTool from "../tools/002";
 import ExclusionReportTool from "../tools/003";
 import CASEParagraphFeedback from "../tools/004";
+import StudentTutorAgent from "../tools/005";
 
 // Dummy component for placeholder tools
 const DummyTool = () => <div>Coming soon...</div>;
@@ -45,6 +46,16 @@ export const toolsConfig = [
     tag: "New",
     href: "/ai/tool/case-paragraph",
     component: CASEParagraphFeedback,
+    comingSoon: false,
+  },
+  {
+    id: "student-tutor-agent",
+    name: "Student Tutor",
+    description: "Student Tutor.",
+    category: ["Assessment", "History"],
+    tag: "New",
+    href: "/ai/tool/student-tutor",
+    component: StudentTutorAgent,
     comingSoon: false,
   },
 
