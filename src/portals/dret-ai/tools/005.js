@@ -1,147 +1,128 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Layout from "../../../layout";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-export default function StudentTutorAgent() {
-  const [fields, setFields] = useState({
-    name: "",
-    yearGroup: "",
-    subjects: "",
-    goals: "",
-    strengths: "",
-    weaknesses: "",
-  });
-
-  const [response, setResponse] = useState("");
+export default function StudentTutorChat() {
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const scrollAreaRef = useRef(null);
+  const scrollRef = useRef(null);
+  const [threadId, setThreadId] = useState(null); // Track per-user thread
 
-  const handleChange = (name, value) => {
-    setFields((prev) => ({ ...prev, [name]: value }));
+  // On mount, send initial tutor message
+  useEffect(() => {
+    if (messages.length === 0) {
+      startConversation();
+    }
+  }, []);
+
+  const startConversation = async () => {
+    const initialMessage = "Hi! I'm your personal AI tutor. What’s your name?";
+    setMessages([{ role: "assistant", content: initialMessage }]);
+    
+    // Optional: create thread now
+    const res = await fetch("/api/create-thread", { method: "POST" });
+    const data = await res.json();
+    setThreadId(data.thread_id); // Save this for reuse
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const sendMessage = async () => {
+    if (!input.trim()) return;
 
-    const message = `
-Student Name: ${fields.name}
-Year Group: ${fields.yearGroup}
-Subjects Interested In: ${fields.subjects}
-Learning Goals: ${fields.goals}
-Strengths: ${fields.strengths}
-Areas to Improve: ${fields.weaknesses}
-
-You're a personal tutor helping this student on their learning journey. Start by greeting the student and suggesting a relevant topic to get started based on their inputs.
-    `.trim();
-
+    const userMessage = input.trim();
+    setInput("");
+    setMessages((prev) => [...prev, { role: "user", content: userMessage }]);
     setLoading(true);
-    setResponse("");
 
     try {
       const res = await fetch("https://dret-ai-backend-f9drcacng0f2gmc4.uksouth-01.azurewebsites.net/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          agentId: "asst_TPio94mmgxvIfBBOJGrV51z5", // Replace with your tutor assistant
-          message,
-          metadata: {
-            student_name: fields.name,
-            year_group: fields.yearGroup,
-          }
+          agentId: "asst_TPio94mmgxvIfBBOJGrV51z5", // Replace this with your tutor agent ID
+          message: userMessage,
+          threadId: threadId,
         }),
       });
+
       const data = await res.json();
-      setResponse(data.response || data.error || "No response.");
+      const aiReply = data.response || "Hmm, something went wrong...";
+
+      setMessages((prev) => [...prev, { role: "assistant", content: aiReply }]);
     } catch (err) {
-      setResponse("Error: " + err.message);
+      setMessages((prev) => [
+        ...prev,
+        { role: "assistant", content: "⚠️ Error: " + err.message },
+      ]);
     }
+
     setLoading(false);
 
     setTimeout(() => {
-      if (scrollAreaRef.current) {
-        scrollAreaRef.current.scrollTop = 0;
+      if (scrollRef.current) {
+        scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
       }
     }, 100);
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  };
+
   return (
     <Layout>
-      <div className="bg-gray-50 min-h-screen h-screen flex flex-col font-avenir">
-        <div className="bg-gray-50/80 shadow-sm px-6 h-24 flex items-center sticky top-0 z-20">
-          <div style={{ display: "flex", alignItems: "center", transform: "translateY(4px)" }}>
-            <span className="inline-block w-1.5 h-8 rounded-full bg-[var(--trust-green)] mr-4" />
-            <h1 className="text-xl font-bold text-[var(--trust-green)]">Student Tutor Agent</h1>
-          </div>
+      <div className="flex flex-col h-screen bg-gray-50 font-avenir">
+        <div className="bg-white shadow-sm px-6 h-20 flex items-center sticky top-0 z-20">
+          <h1 className="text-xl font-bold text-[var(--trust-green)]">
+            Your Personal Tutor
+          </h1>
         </div>
 
-        <div className="flex flex-1 min-h-0 w-full gap-8 px-8 py-8 bg-gray-100">
-          {/* Form Section */}
-          <div className="bg-white rounded-xl shadow-md w-[420px] flex flex-col h-full min-w-[320px] max-w-[420px]">
-            <div className="flex-1 min-h-0 overflow-y-auto px-6 pt-6 pb-4 custom-scrollbar">
-              {[
-                { label: "Name", key: "name", placeholder: "Alex" },
-                { label: "Year Group", key: "yearGroup", placeholder: "Year 8" },
-                { label: "Subjects", key: "subjects", placeholder: "Maths, History, Science" },
-                { label: "Goals", key: "goals", placeholder: "Improve exam scores, revise key topics" },
-                { label: "Strengths", key: "strengths", placeholder: "Good at problem-solving" },
-                { label: "Weaknesses", key: "weaknesses", placeholder: "Struggles with essay planning" },
-              ].map(({ label, key, placeholder }) => (
-                <div className="mb-3" key={key}>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">{label}</label>
-                  <textarea
-                    value={fields[key]}
-                    onChange={e => handleChange(key, e.target.value)}
-                    placeholder={placeholder}
-                    className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm min-h-[60px]"
-                  />
-                </div>
-              ))}
+        {/* Chat Area */}
+        <div
+          className="flex-1 overflow-y-auto px-6 py-6 space-y-4 custom-scrollbar"
+          ref={scrollRef}
+        >
+          {messages.map((msg, i) => (
+            <div
+              key={i}
+              className={`max-w-[70%] rounded-lg px-4 py-2 whitespace-pre-wrap text-sm ${
+                msg.role === "user"
+                  ? "ml-auto bg-green-600 text-white"
+                  : "bg-white text-gray-800 shadow"
+              }`}
+            >
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.content}</ReactMarkdown>
             </div>
-
-            <div className="border-t border-gray-100 px-6 py-3 bg-white rounded-b-xl sticky bottom-0 z-10 flex justify-end">
-              <button
-                type="submit"
-                disabled={loading}
-                onClick={handleSubmit}
-                className="bg-[var(--trust-green)] text-white px-4 py-2 rounded-md hover:bg-green-800 transition text-sm font-semibold"
-              >
-                {loading ? "Thinking..." : "Start Tutoring"}
-              </button>
-            </div>
-          </div>
-
-          {/* AI Response Section */}
-          <div className="flex-1 min-w-0 flex flex-col">
-            <div className="bg-white rounded-xl shadow-md h-full flex flex-col relative">
-              <div
-                ref={scrollAreaRef}
-                className="flex-1 overflow-y-auto px-6 pt-6 pb-4 custom-scrollbar prose prose-sm max-w-none"
-              >
-                {loading ? (
-                  <div className="flex flex-col items-center justify-center h-full w-full py-10">
-                    <div className="flex space-x-2 mt-4">
-                      {[0, 1, 2].map((i) => (
-                        <span key={i} className="inline-block w-3 h-3 rounded-full bg-[var(--trust-green)] animate-bounce" style={{ animationDelay: `${-0.3 + i * 0.15}s` }}></span>
-                      ))}
-                    </div>
-                    <div className="text-gray-500 italic text-sm mt-3">Loading tutor response...</div>
-                  </div>
-                ) : response ? (
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                    {response}
-                  </ReactMarkdown>
-                ) : (
-                  <div className="text-gray-400 italic text-sm">
-                    Your tutor's response will appear here.
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
+          ))}
+          {loading && (
+            <div className="text-sm italic text-gray-400">Your tutor is typing...</div>
+          )}
         </div>
 
-        {/* Scrollbar styling */}
+        {/* Input */}
+        <div className="bg-white border-t px-6 py-4 flex gap-2 sticky bottom-0">
+          <textarea
+            rows={1}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="Type your message here..."
+            className="flex-1 resize-none rounded-md border px-3 py-2 text-sm shadow-sm focus:outline-none"
+          />
+          <button
+            onClick={sendMessage}
+            disabled={loading}
+            className="bg-[var(--trust-green)] text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-green-800"
+          >
+            Send
+          </button>
+        </div>
+
         <style>{`
           .custom-scrollbar {
             scrollbar-width: thin;
