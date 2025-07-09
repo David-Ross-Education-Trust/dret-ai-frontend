@@ -10,22 +10,39 @@ export default function StudentTutorChat() {
   const [threadId, setThreadId] = useState(null);
   const scrollRef = useRef(null);
 
-  // ✅ Run once on mount to start the conversation
+  // ✅ Create thread and start tutor conversation once on mount
   useEffect(() => {
-    const init = async () => {
-      const firstMessage = "Hi! I'm your personal AI tutor. What’s your name?";
-      setMessages([{ role: "assistant", content: firstMessage }]);
+    const initChat = async () => {
+      try {
+        const res = await fetch("/api/create-thread", { method: "POST" });
+        const data = await res.json();
+        const newThreadId = data.thread_id;
+        setThreadId(newThreadId);
 
-      const res = await fetch("/api/create-thread", { method: "POST" });
-      const data = await res.json();
-      setThreadId(data.thread_id);
+        // ✅ Send first message from tutor
+        const initialRes = await fetch("https://dret-ai-backend-f9drcacng0f2gmc4.uksouth-01.azurewebsites.net/ask", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            agentId: "asst_TPio94mmgxvIfBBOJGrV51z5", // 🔁 Replace with your actual tutoring agent ID
+            message: "Hi! I'm your personal AI tutor. What’s your name?",
+            threadId: newThreadId,
+          }),
+        });
+
+        const initialData = await initialRes.json();
+        setMessages([{ role: "assistant", content: initialData.response }]);
+      } catch (error) {
+        console.error("Failed to start chat:", error);
+        setMessages([{ role: "assistant", content: "⚠️ Something went wrong starting the chat." }]);
+      }
     };
 
-    init();
-  }, []); // ✅ empty dependency array — run once on mount
+    initChat();
+  }, []); // ✅ only runs once
 
   const sendMessage = async () => {
-    if (!input.trim()) return;
+    if (!input.trim() || !threadId) return;
 
     const userMessage = input.trim();
     setInput("");
@@ -37,14 +54,14 @@ export default function StudentTutorChat() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          agentId: "asst_TPio94mmgxvIfBBOJGrV51z5", // replace with your actual agent ID
+          agentId: "asst_YOUR_AGENT_ID", // 🔁 same agent ID
           message: userMessage,
           threadId: threadId,
         }),
       });
 
       const data = await res.json();
-      const aiReply = data.response || "Hmm, something went wrong...";
+      const aiReply = data.response || "🤖 (No response)";
 
       setMessages((prev) => [...prev, { role: "assistant", content: aiReply }]);
     } catch (err) {
@@ -113,14 +130,13 @@ export default function StudentTutorChat() {
           />
           <button
             onClick={sendMessage}
-            disabled={loading}
+            disabled={loading || !input.trim()}
             className="bg-[var(--trust-green)] text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-green-800"
           >
             Send
           </button>
         </div>
 
-        {/* Scrollbar styling */}
         <style>{`
           .custom-scrollbar {
             scrollbar-width: thin;
