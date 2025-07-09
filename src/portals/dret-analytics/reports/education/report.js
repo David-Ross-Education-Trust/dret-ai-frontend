@@ -61,8 +61,9 @@ export default function PowerBIReportPage({ reportKey, title = "Power BI Report"
             }
           >
             <div
-              className="bg-white rounded-xl shadow-md flex-1 w-full max-w-[1600px] min-h-[70vh] flex flex-col border border-gray-200"
+              className="bg-white rounded-xl shadow-md w-full max-w-[1600px] flex flex-col border border-gray-200"
               style={{
+                height: "85vh", // ✅ Force consistent vertical space
                 padding: sidebarOpen ? "2.5rem 2rem" : "0",
                 margin: sidebarOpen ? "0.5rem 0" : "0",
               }}
@@ -91,7 +92,7 @@ export default function PowerBIReportPage({ reportKey, title = "Power BI Report"
                     flex: 1,
                     width: "100%",
                     height: "100%",
-                    minHeight: "60vh",
+                    minHeight: "80vh", // ✅ Bump minHeight for better scaling
                     borderRadius: "inherit",
                   }}
                 />
