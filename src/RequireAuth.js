@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useMsal } from "@azure/msal-react";
 
 function LoginSplash({ onLogin }) {
@@ -18,15 +18,38 @@ function LoginSplash({ onLogin }) {
 }
 
 export default function RequireAuth({ children }) {
-  const { accounts, instance } = useMsal();
-  const isSignedIn = accounts.length > 0;
+  const { instance, accounts } = useMsal();
+  const [loading, setLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
+  const [isSignedIn, setIsSignedIn] = useState(false);
 
-  if (!isSignedIn) {
+  useEffect(() => {
+    try {
+      const allAccounts = instance.getAllAccounts();
+      setIsSignedIn(allAccounts.length > 0);
+    } catch (err) {
+      console.error("❌ MSAL account check failed:", err);
+      setHasError(true);
+    } finally {
+      setLoading(false);
+    }
+  }, [instance]);
+
+  if (loading) {
+    return null; // or a splash/loading spinner
+  }
+
+  if (hasError) {
     return (
-      <div className="h-screen flex items-center justify-center font-avenir">
-        <LoginSplash onLogin={() => instance.loginRedirect()} />
+      <div className="text-red-600 p-10 text-center">
+        <h1>Something went wrong during login check.</h1>
+        <p>Try refreshing the page or using a different browser.</p>
       </div>
     );
+  }
+
+  if (!isSignedIn) {
+    return <LoginSplash onLogin={() => instance.loginRedirect()} />;
   }
 
   return children;
