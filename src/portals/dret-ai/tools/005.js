@@ -37,7 +37,7 @@ export default function StudentTutorChat() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          agentId: "asst_YOUR_AGENT_ID", // replace with your actual agent ID
+          agentId: "asst_TPio94mmgxvIfBBOJGrV51z5", // replace with your actual agent ID
           message: userMessage,
           threadId: threadId,
         }),
