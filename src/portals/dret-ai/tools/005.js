@@ -16,23 +16,32 @@ export default function UserTutorChat() {
   useEffect(() => {
     const initChat = async () => {
       try {
+        // 🔁 Use local backend route to create thread
         const res = await fetch("/api/create-thread", { method: "POST" });
+        if (!res.ok) throw new Error("Failed to create thread");
         const data = await res.json();
         const newThreadId = data.thread_id;
         setThreadId(newThreadId);
 
-        const initialRes = await fetch("https://dret-ai-backend-f9drcacng0f2gmc4.uksouth-01.azurewebsites.net/ask", {
+        // 🔁 Generate fallback userId upfront
+        const id = `user_${Math.random().toString(36).substr(2, 9)}`;
+        setUserId(id);
+
+        const initialRes = await fetch("/ask", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             agentId: "asst_TPio94mmgxvIfBBOJGrV51z5",
             message: "Hi! I'm your personal AI tutor. What’s your name?",
             threadId: newThreadId,
+            userId: id,
+            userName: "",
+            yearGroup: ""
           }),
         });
 
         const initialData = await initialRes.json();
-        setMessages([{ role: "assistant", content: initialData.response }]);
+        setMessages([{ role: "assistant", content: initialData.response || "⚠️ No reply" }]);
       } catch (error) {
         console.error("Failed to start chat:", error);
         setMessages([{ role: "assistant", content: "⚠️ Something went wrong starting the chat." }]);
@@ -50,7 +59,7 @@ export default function UserTutorChat() {
     setMessages((prev) => [...prev, { role: "user", content: userMessage }]);
     setLoading(true);
 
-    // Optional: Basic heuristics to extract name/yearGroup
+    // Extract name/yearGroup heuristics
     if (!userName && userMessage.toLowerCase().includes("my name is")) {
       const name = userMessage.split("my name is")[1]?.trim().split(" ")[0];
       if (name) setUserName(name);
@@ -60,12 +69,11 @@ export default function UserTutorChat() {
       if (match) setYearGroup("Year " + match[1]);
     }
 
-    // Generate a simple unique userId if needed
     const id = userId || `user_${Math.random().toString(36).substr(2, 9)}`;
     if (!userId) setUserId(id);
 
     try {
-      const res = await fetch("https://dret-ai-backend-f9drcacng0f2gmc4.uksouth-01.azurewebsites.net/ask", {
+      const res = await fetch("/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -80,7 +88,6 @@ export default function UserTutorChat() {
 
       const data = await res.json();
       const aiReply = data.response || "🤖 (No response)";
-
       setMessages((prev) => [...prev, { role: "assistant", content: aiReply }]);
     } catch (err) {
       setMessages((prev) => [
@@ -128,7 +135,9 @@ export default function UserTutorChat() {
                   : "bg-white text-gray-800 shadow"
               }`}
             >
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.content}</ReactMarkdown>
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {msg.content}
+              </ReactMarkdown>
             </div>
           ))}
           {loading && (
