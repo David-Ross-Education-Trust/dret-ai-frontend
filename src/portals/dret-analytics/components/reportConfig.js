@@ -29,6 +29,7 @@ export const reportConfig = [
     category: "Education",
     tag: "",
     href: "/analytics/education/mock-001",
+    component: AttendanceOverviewReport,
     comingSoon: false,
   },
   {
