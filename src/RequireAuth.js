@@ -18,7 +18,7 @@ function LoginSplash({ onLogin }) {
 }
 
 export default function RequireAuth({ children }) {
-  const { instance, accounts } = useMsal();
+  const { instance } = useMsal();
   const [loading, setLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
