@@ -13,38 +13,33 @@ export default function UserTutorChat() {
   const [yearGroup, setYearGroup] = useState("");
   const scrollRef = useRef(null);
 
+  // Generate userId on mount
   useEffect(() => {
+    const id = `user_${Math.random().toString(36).substr(2, 9)}`;
+    setUserId(id);
+
+    // Kick off chat by sending first message to /ask
     const initChat = async () => {
       try {
-        // 🔁 Use local backend route to create thread
-        const res = await fetch("/api/create-thread", { method: "POST" });
-        if (!res.ok) throw new Error("Failed to create thread");
-        const data = await res.json();
-        const newThreadId = data.thread_id;
-        setThreadId(newThreadId);
-
-        // 🔁 Generate fallback userId upfront
-        const id = `user_${Math.random().toString(36).substr(2, 9)}`;
-        setUserId(id);
-
-        const initialRes = await fetch("/ask", {
+        const res = await fetch("/ask", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             agentId: "asst_TPio94mmgxvIfBBOJGrV51z5",
             message: "Hi! I'm your personal AI tutor. What’s your name?",
-            threadId: newThreadId,
+            threadId: null, // ❗ Let backend create the thread
             userId: id,
             userName: "",
             yearGroup: ""
           }),
         });
 
-        const initialData = await initialRes.json();
-        setMessages([{ role: "assistant", content: initialData.response || "⚠️ No reply" }]);
-      } catch (error) {
-        console.error("Failed to start chat:", error);
-        setMessages([{ role: "assistant", content: "⚠️ Something went wrong starting the chat." }]);
+        const data = await res.json();
+        setThreadId(data.threadId); // 🧠 Capture returned threadId
+        setMessages([{ role: "assistant", content: data.response || "⚠️ No reply" }]);
+      } catch (err) {
+        console.error("Init chat error:", err);
+        setMessages([{ role: "assistant", content: "⚠️ Failed to start chat." }]);
       }
     };
 
@@ -52,7 +47,7 @@ export default function UserTutorChat() {
   }, []);
 
   const sendMessage = async () => {
-    if (!input.trim() || !threadId) return;
+    if (!input.trim()) return;
 
     const userMessage = input.trim();
     setInput("");
@@ -69,9 +64,6 @@ export default function UserTutorChat() {
       if (match) setYearGroup("Year " + match[1]);
     }
 
-    const id = userId || `user_${Math.random().toString(36).substr(2, 9)}`;
-    if (!userId) setUserId(id);
-
     try {
       const res = await fetch("/ask", {
         method: "POST",
@@ -80,24 +72,27 @@ export default function UserTutorChat() {
           agentId: "asst_TPio94mmgxvIfBBOJGrV51z5",
           message: userMessage,
           threadId,
-          userId: id,
+          userId,
           userName,
           yearGroup,
         }),
       });
 
       const data = await res.json();
-      const aiReply = data.response || "🤖 (No response)";
-      setMessages((prev) => [...prev, { role: "assistant", content: aiReply }]);
+      const reply = data.response || "🤖 (No reply)";
+      setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
+
+      // Update threadId in case backend created it just now
+      if (!threadId && data.threadId) setThreadId(data.threadId);
     } catch (err) {
+      console.error("Send error:", err);
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: "⚠️ Error: " + err.message },
+        { role: "assistant", content: "⚠️ Error sending message." },
       ]);
     }
 
     setLoading(false);
-
     setTimeout(() => {
       if (scrollRef.current) {
         scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -121,7 +116,6 @@ export default function UserTutorChat() {
           </h1>
         </div>
 
-        {/* Chat Area */}
         <div
           className="flex-1 overflow-y-auto px-6 py-6 space-y-4 custom-scrollbar"
           ref={scrollRef}
@@ -135,9 +129,7 @@ export default function UserTutorChat() {
                   : "bg-white text-gray-800 shadow"
               }`}
             >
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                {msg.content}
-              </ReactMarkdown>
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.content}</ReactMarkdown>
             </div>
           ))}
           {loading && (
@@ -145,7 +137,6 @@ export default function UserTutorChat() {
           )}
         </div>
 
-        {/* Input */}
         <div className="bg-white border-t px-6 py-4 flex gap-2 sticky bottom-0">
           <textarea
             rows={1}
