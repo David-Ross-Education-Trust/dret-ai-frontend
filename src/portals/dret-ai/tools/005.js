@@ -7,25 +7,22 @@ export default function StudentTutorChat() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [threadId, setThreadId] = useState(null);
   const scrollRef = useRef(null);
-  const [threadId, setThreadId] = useState(null); // Track per-user thread
 
-  // On mount, send initial tutor message
+  // ✅ Run once on mount to start the conversation
   useEffect(() => {
-    if (messages.length === 0) {
-      startConversation();
-    }
-  }, []);
+    const init = async () => {
+      const firstMessage = "Hi! I'm your personal AI tutor. What’s your name?";
+      setMessages([{ role: "assistant", content: firstMessage }]);
 
-  const startConversation = async () => {
-    const initialMessage = "Hi! I'm your personal AI tutor. What’s your name?";
-    setMessages([{ role: "assistant", content: initialMessage }]);
-    
-    // Optional: create thread now
-    const res = await fetch("/api/create-thread", { method: "POST" });
-    const data = await res.json();
-    setThreadId(data.thread_id); // Save this for reuse
-  };
+      const res = await fetch("/api/create-thread", { method: "POST" });
+      const data = await res.json();
+      setThreadId(data.thread_id);
+    };
+
+    init();
+  }, []); // ✅ empty dependency array — run once on mount
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -40,7 +37,7 @@ export default function StudentTutorChat() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          agentId: "asst_TPio94mmgxvIfBBOJGrV51z5", // Replace this with your tutor agent ID
+          agentId: "asst_YOUR_AGENT_ID", // replace with your actual agent ID
           message: userMessage,
           threadId: threadId,
         }),
@@ -123,6 +120,7 @@ export default function StudentTutorChat() {
           </button>
         </div>
 
+        {/* Scrollbar styling */}
         <style>{`
           .custom-scrollbar {
             scrollbar-width: thin;
