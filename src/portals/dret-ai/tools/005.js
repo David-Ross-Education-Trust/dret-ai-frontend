@@ -18,16 +18,15 @@ export default function UserTutorChat() {
     const id = `user_${Math.random().toString(36).substr(2, 9)}`;
     setUserId(id);
 
-    // Kick off chat by sending first message to /ask
     const initChat = async () => {
       try {
-        const res = await fetch("/ask", {
+        const res = await fetch("/tutor-ask", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             agentId: "asst_TPio94mmgxvIfBBOJGrV51z5",
             message: "Hi! I'm your personal AI tutor. What’s your name?",
-            threadId: null, // ❗ Let backend create the thread
+            threadId: null,
             userId: id,
             userName: "",
             yearGroup: ""
@@ -35,7 +34,7 @@ export default function UserTutorChat() {
         });
 
         const data = await res.json();
-        setThreadId(data.threadId); // 🧠 Capture returned threadId
+        setThreadId(data.threadId);
         setMessages([{ role: "assistant", content: data.response || "⚠️ No reply" }]);
       } catch (err) {
         console.error("Init chat error:", err);
@@ -54,18 +53,18 @@ export default function UserTutorChat() {
     setMessages((prev) => [...prev, { role: "user", content: userMessage }]);
     setLoading(true);
 
-    // Extract name/yearGroup heuristics
     if (!userName && userMessage.toLowerCase().includes("my name is")) {
       const name = userMessage.split("my name is")[1]?.trim().split(" ")[0];
       if (name) setUserName(name);
     }
+
     if (!yearGroup && userMessage.toLowerCase().includes("year")) {
-      const match = userMessage.match(/year\s*(\d+)/i);
+      const match = userMessage.match(/year\\s*(\\d+)/i);
       if (match) setYearGroup("Year " + match[1]);
     }
 
     try {
-      const res = await fetch("/ask", {
+      const res = await fetch("/tutor-ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -82,7 +81,6 @@ export default function UserTutorChat() {
       const reply = data.response || "🤖 (No reply)";
       setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
 
-      // Update threadId in case backend created it just now
       if (!threadId && data.threadId) setThreadId(data.threadId);
     } catch (err) {
       console.error("Send error:", err);
