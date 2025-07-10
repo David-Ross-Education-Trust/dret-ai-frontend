@@ -46,23 +46,28 @@ export default function PowerBIReportPage({ reportKey, title = "Power BI Report"
       {({ sidebarOpen }) => (
         <div className="flex flex-col min-h-screen bg-gray-50">
           {sidebarOpen && (
-            <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-4 md:px-8 h-20 flex items-center sticky top-0 border-b border-gray-200">
-              <div className="flex items-center gap-3 md:translate-y-1 flex-wrap md:flex-nowrap">
-                <span className="w-1.5 h-8 rounded bg-[#205c40]" />
-                <h1 className="text-lg md:text-xl font-bold text-[#205c40]">{title}</h1>
+            <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-8 h-16 flex items-center sticky top-0 border-b border-gray-200">
+              <div className="flex items-center translate-y-1">
+                <span className="w-1.5 h-8 rounded bg-[#205c40] mr-4" />
+                <h1 className="text-xl font-bold text-[#205c40]">{title}</h1>
               </div>
             </div>
           )}
 
-          <div className="flex-1 flex flex-col items-center justify-center w-full min-h-0 px-2 sm:px-4 md:px-12 pb-6">
+          <div
+            className={
+              `flex-1 flex flex-col items-center w-full min-h-0 ` +
+              (sidebarOpen ? "px-2 sm:px-4 md:px-6" : "p-0")
+            }
+          >
             <div
-              className="bg-white rounded-xl shadow-md w-full max-w-[1600px] flex flex-col border border-gray-200 mt-4"
+              className="bg-white rounded-xl shadow-md w-full flex flex-col border border-gray-200"
               style={{
-                flex: 1,
-                height: "calc(100vh - 6.5rem)", // responsive height including header
+                marginTop: "1.25rem", // adds spacing under top bar
+                height: "85vh",
               }}
             >
-              {error && <div className="text-red-600 p-4">{error}</div>}
+              {error && <div className="text-red-600 mb-4">{error}</div>}
               {!embedInfo && !error && (
                 <div className="text-gray-500 p-4">Loading Power BI report...</div>
               )}
@@ -86,7 +91,7 @@ export default function PowerBIReportPage({ reportKey, title = "Power BI Report"
                     flex: 1,
                     width: "100%",
                     height: "100%",
-                    minHeight: "0",
+                    minHeight: "80vh",
                     borderRadius: "inherit",
                   }}
                 />
