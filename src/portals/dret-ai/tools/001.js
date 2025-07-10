@@ -25,7 +25,7 @@ export default function HistorySourcesAgent() {
   const agentId = AGENT_IDS[decade];
 
   const stripCitations = (text) =>
-    text.replace(/\[[^\]]*\u2020[^\]]*\]/g, "").trim();
+    text.replace(/\[[^\]]*†[^\]]*\]/g, "").trim();
 
   const sendMessage = async () => {
     if (!input.trim()) return;
