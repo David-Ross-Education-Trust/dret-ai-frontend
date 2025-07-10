@@ -12,6 +12,7 @@ const AGENT_IDS = {
 };
 
 const DECADES = Object.keys(AGENT_IDS);
+const BASE_URL = "https://dret-ai-backend-f9drcacng0f2gmc4.uksouth-01.azurewebsites.net";
 
 export default function HistorySourcesAgent() {
   const [decade, setDecade] = useState("1930s");
@@ -31,7 +32,7 @@ export default function HistorySourcesAgent() {
     setInput("");
 
     try {
-      const res = await fetch("/ask", {
+      const res = await fetch(`${BASE_URL}/ask`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -40,10 +41,23 @@ export default function HistorySourcesAgent() {
         }),
       });
 
-      const data = await res.json();
-      setMessages((prev) => [...prev, { role: "assistant", content: data.response }]);
+      const text = await res.text();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (e) {
+        throw new Error("Invalid JSON response: " + text);
+      }
+
+      setMessages((prev) => [
+        ...prev,
+        { role: "assistant", content: data.response || data.error || "No response." },
+      ]);
     } catch (err) {
-      setMessages((prev) => [...prev, { role: "assistant", content: "Error: " + err.message }]);
+      setMessages((prev) => [
+        ...prev,
+        { role: "assistant", content: "Error: " + err.message },
+      ]);
     }
 
     setLoading(false);
@@ -61,7 +75,7 @@ export default function HistorySourcesAgent() {
 
   const handleDecadeChange = (newDecade) => {
     setDecade(newDecade);
-    setMessages([]); // Optional: reset chat on switch
+    setMessages([]);
     setInput("");
   };
 
