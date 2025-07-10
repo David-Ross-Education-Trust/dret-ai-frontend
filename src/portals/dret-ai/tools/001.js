@@ -3,6 +3,9 @@ import Layout from "../../../layout";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
+// Backend root URL
+const BACKEND_URL = "https://dret-ai-backend-f9drcacng0f2gmc4.uksouth-01.azurewebsites.net";
+
 // Decade → Agent ID map
 const AGENT_IDS = {
   "1920s": "asst_gqVt9ilxDv8m9mnONcpPL68l",
@@ -20,14 +23,24 @@ export default function HistorySourcesAgent() {
   const scrollRef = useRef(null);
 
   const agentId = AGENT_IDS[decade];
-  const userId = `student-${decade}`; // Can change to UUID or session-based if needed
+  const userId = `student-${decade}`; // Replace with per-user session logic if needed
 
   useEffect(() => {
     const init = async () => {
-      const res = await fetch("/api/create-thread", { method: "POST" });
-      const data = await res.json();
-      setThreadId(data.thread_id);
-      setMessages([]);
+      try {
+        const res = await fetch(`${BACKEND_URL}/api/create-thread`, {
+          method: "POST",
+        });
+        const data = await res.json();
+        if (data.thread_id) {
+          setThreadId(data.thread_id);
+        } else {
+          console.error("Thread creation failed:", data.error);
+        }
+        setMessages([]);
+      } catch (err) {
+        console.error("Error creating thread:", err);
+      }
     };
     init();
   }, [decade]);
@@ -41,7 +54,7 @@ export default function HistorySourcesAgent() {
     setInput("");
 
     try {
-      const res = await fetch("/tutor-ask", {
+      const res = await fetch(`${BACKEND_URL}/tutor-ask`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -56,8 +69,11 @@ export default function HistorySourcesAgent() {
 
       const data = await res.json();
       if (data.threadId) setThreadId(data.threadId);
-
-      setMessages((prev) => [...prev, { role: "assistant", content: data.response }]);
+      if (data.response) {
+        setMessages((prev) => [...prev, { role: "assistant", content: data.response }]);
+      } else {
+        setMessages((prev) => [...prev, { role: "assistant", content: data.error || "No response." }]);
+      }
     } catch (err) {
       setMessages((prev) => [...prev, { role: "assistant", content: "Error: " + err.message }]);
     }
