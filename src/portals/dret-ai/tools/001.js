@@ -1,205 +1,134 @@
-import React, { useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Layout from "../../../layout";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { marked } from "marked";
-import htmlDocx from "html-docx-js/dist/html-docx";
 
-export default function LessonPlanningTool() {
-  const [fields, setFields] = useState({
-    year: "",
-    topic: "",
-    unit: "",
-    context: "",
-    length: "",
-  });
-  const [response, setResponse] = useState("");
+// Decade → Agent ID map
+const AGENT_IDS = {
+  "1920s": "asst_gqVt9ilxDv8m9mnONcpPL68l",
+  "1930s": "asst_p33AjFj2FyyrTZVIsmtkfB3g",
+  "1940s": "asst_EDJXVxTDKm3ztUb46sGTKXUu",
+  "1950s": "asst_5FUkhBq8zwEnPvawHUm8WCkj",
+};
+
+export default function HistorySourcesAgent() {
+  const [decade, setDecade] = useState("1930s");
+  const [threadId, setThreadId] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const scrollAreaRef = useRef(null);
-  const inputScrollRef = useRef(null);
+  const scrollRef = useRef(null);
 
-  const handleChange = (name, value) => {
-    setFields((prev) => ({ ...prev, [name]: value }));
-  };
+  const agentId = AGENT_IDS[decade];
+  const userId = `student-${decade}`; // Can change to UUID or session-based if needed
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!fields.year.trim() || !fields.length.trim()) {
-      setResponse("Please fill in at least Year and Length.");
-      return;
-    }
+  useEffect(() => {
+    const init = async () => {
+      const res = await fetch("/api/create-thread", { method: "POST" });
+      const data = await res.json();
+      setThreadId(data.thread_id);
+      setMessages([]);
+    };
+    init();
+  }, [decade]);
 
-    let message = `Please generate a lesson plan.`;
-
-    if (fields.year) message += `\n\nYear Group: ${fields.year}`;
-    if (fields.topic) message += `\nSubject: ${fields.topic}`;
-    if (fields.unit) message += `\nTopic: ${fields.unit}`;
-    if (fields.context) message += `\nAdditional Context: ${fields.context}`;
-    if (fields.length) message += `\nLength (minutes): ${fields.length}`;
-
-    message += `\n\nPlease format your response in markdown.`;
-
+  const sendMessage = async () => {
+    if (!input.trim()) return;
     setLoading(true);
-    setResponse("");
+
+    const userMessage = input;
+    setMessages((prev) => [...prev, { role: "user", content: userMessage }]);
+    setInput("");
+
     try {
-      const res = await fetch("https://dret-ai-backend-f9drcacng0f2gmc4.uksouth-01.azurewebsites.net/ask", {
+      const res = await fetch("/tutor-ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          agentId: "asst_1UapHOvlRnY8SYKyizeXmUcZ",
-          message,
+          agentId,
+          message: userMessage,
+          threadId,
+          userId,
+          userName: "History Student",
+          yearGroup: "Key Stage 4",
         }),
       });
+
       const data = await res.json();
-      setResponse(data.response || data.error || "No response.");
+      if (data.threadId) setThreadId(data.threadId);
+
+      setMessages((prev) => [...prev, { role: "assistant", content: data.response }]);
     } catch (err) {
-      setResponse("Error: " + err.message);
+      setMessages((prev) => [...prev, { role: "assistant", content: "Error: " + err.message }]);
     }
+
     setLoading(false);
     setTimeout(() => {
-      if (scrollAreaRef.current) {
-        scrollAreaRef.current.scrollTop = 0;
-      }
+      scrollRef.current?.scrollIntoView({ behavior: "smooth" });
     }, 100);
   };
 
-  const exportToDocx = () => {
-    const html = marked.parse(response);
-    const fullHtml = `<html><body>${html}</body></html>`;
-    const docxBlob = htmlDocx.asBlob(fullHtml);
-    const url = URL.createObjectURL(docxBlob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "lesson-plan.docx";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
   };
 
   return (
     <Layout>
-      <div className="font-avenir bg-gray-50 min-h-screen h-screen flex flex-col">
-        <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-6 h-24 flex items-center sticky top-0">
-          <div style={{ display: "flex", alignItems: "center", transform: "translateY(4px)" }}>
-            <span
-              className="inline-block"
-              style={{
-                width: 6,
-                height: 34,
-                borderRadius: 6,
-                background: "#205c40",
-                marginRight: "1.1rem",
-              }}
-            />
-            <h1 className="text-xl font-bold" style={{ color: "#205c40" }}>
-              Lesson Planner
-            </h1>
-          </div>
+      <div className="min-h-screen bg-gray-50 flex flex-col font-avenir">
+        <div className="shrink-0 bg-white px-6 py-4 border-b flex items-center justify-between">
+          <h1 className="text-xl font-bold text-[var(--trust-green)]">Historical Source Chat</h1>
+          <select
+            value={decade}
+            onChange={(e) => setDecade(e.target.value)}
+            className="border border-gray-300 rounded px-2 py-1 text-sm"
+          >
+            {Object.keys(AGENT_IDS).map((d) => (
+              <option key={d} value={d}>
+                {d}
+              </option>
+            ))}
+          </select>
         </div>
-        <div className="flex flex-1 min-h-0 w-full gap-8 px-8 py-8 bg-gray-100">
-          <div className="bg-white rounded-xl shadow-md w-[420px] flex flex-col h-full" style={{ minWidth: 340, maxWidth: 420 }}>
+
+        <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-gray-100">
+          {messages.map((m, idx) => (
             <div
-              ref={inputScrollRef}
-              className="flex-1 min-h-0 overflow-y-auto px-6 pt-6 pb-4 custom-scrollbar"
-              style={{ minHeight: 120 }}
+              key={idx}
+              className={`rounded-lg px-4 py-2 max-w-2xl ${
+                m.role === "user"
+                  ? "bg-[var(--trust-green)] text-white self-end ml-auto"
+                  : "bg-white text-gray-800"
+              }`}
             >
-              <div className="mb-3">
-                <label className="block text-xs font-medium text-gray-700 mb-1">Audience</label>
-                <input
-                  type="text"
-                  value={fields.year}
-                  onChange={e => handleChange("year", e.target.value)}
-                  placeholder="Year 2"
-                  className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm"
-                />
-              </div>
-              <div className="mb-3">
-                <label className="block text-xs font-medium text-gray-700 mb-1">Subject</label>
-                <input
-                  type="text"
-                  value={fields.topic}
-                  onChange={e => handleChange("topic", e.target.value)}
-                  placeholder="History"
-                  className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm"
-                />
-              </div>
-              <div className="mb-3">
-                <label className="block text-xs font-medium text-gray-700 mb-1">Topic</label>
-                <input
-                  type="text"
-                  value={fields.unit}
-                  onChange={e => handleChange("unit", e.target.value)}
-                  placeholder="The Great Fire of London"
-                  className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm"
-                />
-              </div>
-              <div className="mb-3">
-                <label className="block text-xs font-medium text-gray-700 mb-1">Additional Context</label>
-                <textarea
-                  value={fields.context}
-                  onChange={e => handleChange("context", e.target.value)}
-                  placeholder="Include retrieval questions at the start"
-                  rows={5}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm resize-none"
-                />
-              </div>
-              <div className="mb-3">
-                <label className="block text-xs font-medium text-gray-700 mb-1">Length (minutes)</label>
-                <input
-                  type="text"
-                  value={fields.length}
-                  onChange={e => handleChange("length", e.target.value)}
-                  placeholder="60"
-                  className="w-full border border-gray-300 rounded-md px-3 py-1.5 text-sm"
-                />
-              </div>
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{m.content}</ReactMarkdown>
             </div>
-            <div className="border-t border-gray-100 px-6 py-3 bg-white rounded-b-xl sticky bottom-0 z-10 flex justify-end">
-              <button
-                type="submit"
-                disabled={loading}
-                onClick={handleSubmit}
-                className="bg-[var(--trust-green)] text-white px-4 py-2 rounded-md hover:bg-green-800 transition text-sm font-semibold font-avenir"
-              >
-                {loading ? "Generating..." : "Generate"}
-              </button>
-            </div>
-          </div>
-          <div className="flex-1 min-w-0 flex flex-col">
-            <div className="bg-white rounded-xl shadow-md h-full flex flex-col relative">
-              <div
-                ref={scrollAreaRef}
-                className="flex-1 overflow-y-auto px-6 pt-6 pb-4 custom-scrollbar prose prose-sm max-w-none"
-                style={{ minHeight: 120 }}
-              >
-                {loading ? (
-                  <div className="flex flex-col items-center justify-center h-full w-full py-10">
-                    <div className="flex space-x-2 mt-4">
-                      <span className="inline-block w-3 h-3 rounded-full bg-[var(--trust-green)] animate-bounce [animation-delay:-0.3s]"></span>
-                      <span className="inline-block w-3 h-3 rounded-full bg-[var(--trust-green)] animate-bounce [animation-delay:-0.15s]"></span>
-                      <span className="inline-block w-3 h-3 rounded-full bg-[var(--trust-green)] animate-bounce"></span>
-                    </div>
-                    <div className="text-gray-500 italic text-sm mt-3">Generating lesson plan...</div>
-                  </div>
-                ) : response ? (
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{response}</ReactMarkdown>
-                ) : (
-                  <div className="text-gray-400 italic text-sm">Your lesson plan will appear here.</div>
-                )}
-              </div>
-              {response && !loading && (
-                <div className="border-t border-gray-100 px-6 py-3 bg-white rounded-b-xl sticky bottom-0 z-10 flex justify-end">
-                  <button
-                    className="bg-[var(--trust-green)] text-white px-4 py-2 rounded-md hover:bg-green-800 transition text-sm font-semibold font-avenir"
-                    onClick={exportToDocx}
-                    type="button"
-                  >
-                    Export
-                  </button>
-                </div>
-              )}
-            </div>
+          ))}
+          {loading && (
+            <div className="italic text-sm text-gray-500">Thinking...</div>
+          )}
+          <div ref={scrollRef} />
+        </div>
+
+        <div className="shrink-0 p-4 bg-white border-t">
+          <textarea
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyPress}
+            rows={3}
+            placeholder="Ask something about the sources..."
+            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm resize-none"
+          />
+          <div className="flex justify-end mt-2">
+            <button
+              disabled={loading}
+              onClick={sendMessage}
+              className="bg-[var(--trust-green)] text-white px-4 py-2 rounded-md hover:bg-green-800 transition text-sm font-semibold"
+            >
+              Send
+            </button>
           </div>
         </div>
       </div>
