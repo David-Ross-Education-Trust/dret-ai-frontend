@@ -83,7 +83,7 @@ export default function HistorySourcesAgent() {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-gray-50 flex flex-col font-avenir">
+      <div className="h-screen bg-gray-50 flex flex-col font-avenir">
         {/* Header and Tabs */}
         <div className="shrink-0 bg-white px-6 py-4 border-b">
           <h1 className="text-xl font-bold text-[var(--trust-green)] mb-3">
