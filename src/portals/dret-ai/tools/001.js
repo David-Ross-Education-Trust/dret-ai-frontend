@@ -26,12 +26,13 @@ export default function HistorySourcesAgent() {
 
   const stripCitations = (text) =>
     text
-      .replace(/[\[【][^\]】]*[\]】]/g, "")
+      .replace(/[[][^\]]*†[^\]]*[\]]/g, "") // avoids \[ escaping
+      .replace(/【[^】]*】/g, "")
       .replace(/†[^\s.,;:!?)]*/g, "")
       .replace(/\s{2,}/g, " ")
       .trim();
 
-  // Scroll to bottom after any message
+  // Scroll to bottom on any message change
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -99,7 +100,7 @@ export default function HistorySourcesAgent() {
               <button
                 key={d}
                 onClick={() => handleDecadeChange(d)}
-                className={`px-3 py-1.5 rounded-md text-sm font-medium border ${
+                className={`px-2.5 py-1.5 rounded text-sm font-medium border ${
                   d === decade
                     ? "bg-[var(--trust-green)] text-white border-[var(--trust-green)]"
                     : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
