@@ -32,7 +32,6 @@ export default function HistorySourcesAgent() {
       .replace(/\s{2,}/g, " ")
       .trim();
 
-  // Scroll to bottom on any message change
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -48,10 +47,7 @@ export default function HistorySourcesAgent() {
       const res = await fetch(`${BASE_URL}/ask`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          agentId,
-          message: userMessage,
-        }),
+        body: JSON.stringify({ agentId, message: userMessage }),
       });
 
       const text = await res.text();
@@ -90,17 +86,14 @@ export default function HistorySourcesAgent() {
   return (
     <Layout>
       <div className="h-screen bg-gray-50 flex flex-col font-avenir">
-        {/* Header and Tabs */}
+        {/* Decade Tabs Only */}
         <div className="shrink-0 bg-white px-6 py-4 border-b">
-          <h1 className="text-xl font-bold text-[var(--trust-green)] mb-3">
-            Historical Source Chat
-          </h1>
-          <div className="flex space-x-2 flex-wrap">
+          <div className="grid gap-2 w-full grid-cols-2 sm:grid-cols-4">
             {DECADES.map((d) => (
               <button
                 key={d}
                 onClick={() => handleDecadeChange(d)}
-                className={`px-2.5 py-1.5 rounded text-sm font-medium border ${
+                className={`w-full px-3 py-1.5 rounded-md text-sm font-medium border ${
                   d === decade
                     ? "bg-[var(--trust-green)] text-white border-[var(--trust-green)]"
                     : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
