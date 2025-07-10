@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Layout from "../../../layout";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -25,15 +25,23 @@ export default function HistorySourcesAgent() {
   const agentId = AGENT_IDS[decade];
 
   const stripCitations = (text) =>
-    text.replace(/\[[^\]]*†[^\]]*\]/g, "").trim();
+    text
+      .replace(/[\[【][^\]】]*[\]】]/g, "")
+      .replace(/†[^\s.,;:!?)]*/g, "")
+      .replace(/\s{2,}/g, " ")
+      .trim();
+
+  // Scroll to bottom after any message
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   const sendMessage = async () => {
     if (!input.trim()) return;
-    setLoading(true);
-
     const userMessage = input;
     setMessages((prev) => [...prev, { role: "user", content: userMessage }]);
     setInput("");
+    setLoading(true);
 
     try {
       const res = await fetch(`${BASE_URL}/ask`, {
@@ -63,9 +71,6 @@ export default function HistorySourcesAgent() {
     }
 
     setLoading(false);
-    setTimeout(() => {
-      scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, 100);
   };
 
   const handleKeyPress = (e) => {
@@ -89,12 +94,12 @@ export default function HistorySourcesAgent() {
           <h1 className="text-xl font-bold text-[var(--trust-green)] mb-3">
             Historical Source Chat
           </h1>
-          <div className="flex space-x-4 flex-wrap">
+          <div className="flex space-x-2 flex-wrap">
             {DECADES.map((d) => (
               <button
                 key={d}
                 onClick={() => handleDecadeChange(d)}
-                className={`px-4 py-2 rounded-lg text-base font-semibold border ${
+                className={`px-3 py-1.5 rounded-md text-sm font-medium border ${
                   d === decade
                     ? "bg-[var(--trust-green)] text-white border-[var(--trust-green)]"
                     : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
