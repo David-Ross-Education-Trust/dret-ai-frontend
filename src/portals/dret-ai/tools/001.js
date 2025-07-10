@@ -16,10 +16,12 @@ const BASE_URL = "https://dret-ai-backend-f9drcacng0f2gmc4.uksouth-01.azurewebsi
 
 export default function HistorySourcesAgent() {
   const [decade, setDecade] = useState("1920s");
-  const [messages, setMessages] = useState([{
-    role: "assistant",
-    content: "Welcome! I'm here to help you explore historical sources from the 1920s. Where would you like to begin?",
-  }]);
+  const [messages, setMessages] = useState([
+    {
+      role: "assistant",
+      content: "Welcome! I'm here to help you explore historical sources from the 1920s. Where would you like to begin?",
+    },
+  ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const scrollRef = useRef(null);
@@ -116,15 +118,15 @@ export default function HistorySourcesAgent() {
         {/* Message Area */}
         <div
           ref={messageScrollRef}
-          className="flex-1 min-h-0 overflow-y-auto p-6 space-y-4 bg-gray-100 custom-scrollbar"
+          className="flex-1 min-h-0 overflow-y-auto p-6 space-y-4 bg-[#f8fafc] custom-scrollbar"
         >
           {messages.map((m, idx) => (
             <div
               key={idx}
-              className={`rounded-lg px-4 py-2 max-w-2xl ${
+              className={`rounded-xl px-5 py-4 max-w-3xl leading-relaxed whitespace-pre-wrap shadow-sm transition-all duration-300 ease-in-out ${
                 m.role === "user"
                   ? "bg-[var(--trust-green)] text-white self-end ml-auto"
-                  : "bg-white text-gray-800"
+                  : "bg-white text-gray-900 border border-gray-200"
               }`}
             >
               <ReactMarkdown remarkPlugins={[remarkGfm]}>{m.content}</ReactMarkdown>
