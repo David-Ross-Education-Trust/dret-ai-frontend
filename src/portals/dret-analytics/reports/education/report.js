@@ -55,19 +55,16 @@ export default function PowerBIReportPage({ reportKey, title = "Power BI Report"
           )}
 
           <div
-            className={
-              `flex-1 flex flex-col items-center w-full min-h-0 ` +
-              (sidebarOpen ? "px-2 sm:px-4 md:px-6" : "p-0")
-            }
+            className={`flex-1 flex flex-col w-full min-h-0 ${sidebarOpen ? "px-2 sm:px-4 md:px-6" : "p-0"}`}
           >
             <div
-              className="bg-white rounded-xl shadow-md w-full flex flex-col border border-gray-200"
+              className="flex-grow flex-shrink bg-white rounded-xl shadow-md w-full flex flex-col border border-gray-200"
               style={{
-                marginTop: "1.25rem", // adds spacing under top bar
-                height: "85vh",
+                marginTop: sidebarOpen ? "1.25rem" : "0",
+                height: "calc(100vh - 4rem)", // fallback if flex fails
               }}
             >
-              {error && <div className="text-red-600 mb-4">{error}</div>}
+              {error && <div className="text-red-600 p-4">{error}</div>}
               {!embedInfo && !error && (
                 <div className="text-gray-500 p-4">Loading Power BI report...</div>
               )}
@@ -91,7 +88,7 @@ export default function PowerBIReportPage({ reportKey, title = "Power BI Report"
                     flex: 1,
                     width: "100%",
                     height: "100%",
-                    minHeight: "80vh",
+                    minHeight: "100%",
                     borderRadius: "inherit",
                   }}
                 />
