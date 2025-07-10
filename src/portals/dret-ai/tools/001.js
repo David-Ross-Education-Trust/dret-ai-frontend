@@ -11,6 +11,8 @@ const AGENT_IDS = {
   "1950s": "asst_5FUkhBq8zwEnPvawHUm8WCkj",
 };
 
+const DECADES = Object.keys(AGENT_IDS);
+
 export default function HistorySourcesAgent() {
   const [decade, setDecade] = useState("1930s");
   const [messages, setMessages] = useState([]);
@@ -29,7 +31,7 @@ export default function HistorySourcesAgent() {
     setInput("");
 
     try {
-      const res = await fetch("https://dret-ai-backend-f9drcacng0f2gmc4.uksouth-01.azurewebsites.net/ask", {
+      const res = await fetch("/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -38,23 +40,10 @@ export default function HistorySourcesAgent() {
         }),
       });
 
-      const text = await res.text();
-      let data;
-      try {
-        data = JSON.parse(text);
-      } catch (e) {
-        throw new Error("Invalid JSON response: " + text);
-      }
-
-      setMessages((prev) => [
-        ...prev,
-        { role: "assistant", content: data.response || data.error || "No response." },
-      ]);
+      const data = await res.json();
+      setMessages((prev) => [...prev, { role: "assistant", content: data.response }]);
     } catch (err) {
-      setMessages((prev) => [
-        ...prev,
-        { role: "assistant", content: "Error: " + err.message },
-      ]);
+      setMessages((prev) => [...prev, { role: "assistant", content: "Error: " + err.message }]);
     }
 
     setLoading(false);
@@ -70,24 +59,38 @@ export default function HistorySourcesAgent() {
     }
   };
 
+  const handleDecadeChange = (newDecade) => {
+    setDecade(newDecade);
+    setMessages([]); // Optional: reset chat on switch
+    setInput("");
+  };
+
   return (
     <Layout>
       <div className="min-h-screen bg-gray-50 flex flex-col font-avenir">
-        <div className="shrink-0 bg-white px-6 py-4 border-b flex items-center justify-between">
-          <h1 className="text-xl font-bold text-[var(--trust-green)]">Historical Source Chat</h1>
-          <select
-            value={decade}
-            onChange={(e) => setDecade(e.target.value)}
-            className="border border-gray-300 rounded px-2 py-1 text-sm"
-          >
-            {Object.keys(AGENT_IDS).map((d) => (
-              <option key={d} value={d}>
+        {/* Header and Tabs */}
+        <div className="shrink-0 bg-white px-6 py-4 border-b">
+          <h1 className="text-xl font-bold text-[var(--trust-green)] mb-2">
+            Historical Source Chat
+          </h1>
+          <div className="flex space-x-4">
+            {DECADES.map((d) => (
+              <button
+                key={d}
+                onClick={() => handleDecadeChange(d)}
+                className={`px-3 py-1 rounded-md text-sm font-medium border ${
+                  d === decade
+                    ? "bg-[var(--trust-green)] text-white border-[var(--trust-green)]"
+                    : "bg-white text-gray-600 border-gray-300 hover:bg-gray-100"
+                }`}
+              >
                 {d}
-              </option>
+              </button>
             ))}
-          </select>
+          </div>
         </div>
 
+        {/* Message Area */}
         <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-gray-100">
           {messages.map((m, idx) => (
             <div
@@ -107,13 +110,14 @@ export default function HistorySourcesAgent() {
           <div ref={scrollRef} />
         </div>
 
+        {/* Input */}
         <div className="shrink-0 p-4 bg-white border-t">
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyPress}
             rows={3}
-            placeholder="Ask something about the sources..."
+            placeholder={`Ask the ${decade} source agent a question...`}
             className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm resize-none"
           />
           <div className="flex justify-end mt-2">
