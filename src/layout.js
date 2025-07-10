@@ -12,7 +12,7 @@ const navItems = [
   { label: "Student Hub", icon: "fas fa-user-graduate", to: "/ai/student-hub" },
 ];
 
-const Layout = ({ children }) => {
+const Layout = ({ children, disableNavLinks = false }) => {
   const { accounts, instance } = useMsal();
   const account = accounts[0];
   const isSignedIn = !!account;
@@ -45,13 +45,12 @@ const Layout = ({ children }) => {
           <div className="p-6 flex flex-col gap-4 overflow-y-auto mt-4 font-avenir">
             {navItems.map((item, index) => {
               const isSelected = location.pathname === item.to;
-              return (
-                <Link
-                  key={index}
-                  to={item.to}
+
+              const NavContent = (
+                <div
                   className={`
                     flex items-center px-4 py-2 rounded font-avenir transition-transform duration-150 relative group
-                    hover:scale-110
+                    ${disableNavLinks ? "opacity-40 pointer-events-none" : "hover:scale-110"}
                   `}
                   style={{
                     color: "#fff",
@@ -85,6 +84,14 @@ const Layout = ({ children }) => {
                     <i className={item.icon}></i>
                   </span>
                   <span className="ml-2">{item.label}</span>
+                </div>
+              );
+
+              return disableNavLinks ? (
+                <div key={index}>{NavContent}</div>
+              ) : (
+                <Link key={index} to={item.to}>
+                  {NavContent}
                 </Link>
               );
             })}
