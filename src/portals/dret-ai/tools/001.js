@@ -15,8 +15,11 @@ const DECADES = Object.keys(AGENT_IDS);
 const BASE_URL = "https://dret-ai-backend-f9drcacng0f2gmc4.uksouth-01.azurewebsites.net";
 
 export default function HistorySourcesAgent() {
-  const [decade, setDecade] = useState("1930s");
-  const [messages, setMessages] = useState([]);
+  const [decade, setDecade] = useState("1920s");
+  const [messages, setMessages] = useState([{
+    role: "assistant",
+    content: "Welcome! I'm here to help you explore historical sources from the 1920s. Where would you like to begin?",
+  }]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const scrollRef = useRef(null);
@@ -26,7 +29,7 @@ export default function HistorySourcesAgent() {
 
   const stripCitations = (text) =>
     text
-      .replace(/[[][^\]]*†[^\]]*[\]]/g, "") // avoids \[ escaping
+      .replace(/[[][^\]]*†[^\]]*[\]]/g, "")
       .replace(/【[^】]*】/g, "")
       .replace(/†[^\s.,;:!?)]*/g, "")
       .replace(/\s{2,}/g, " ")
@@ -79,7 +82,12 @@ export default function HistorySourcesAgent() {
 
   const handleDecadeChange = (newDecade) => {
     setDecade(newDecade);
-    setMessages([]);
+    setMessages([
+      {
+        role: "assistant",
+        content: `Welcome! I'm here to help you explore historical sources from the ${newDecade}. Where would you like to begin?`,
+      },
+    ]);
     setInput("");
   };
 
