@@ -29,7 +29,7 @@ export default function HistorySourcesAgent() {
     setInput("");
 
     try {
-      const res = await fetch("/ask", {
+      const res = await fetch("https://dret-ai-backend-f9drcacng0f2gmc4.uksouth-01.azurewebsites.net/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -38,10 +38,23 @@ export default function HistorySourcesAgent() {
         }),
       });
 
-      const data = await res.json();
-      setMessages((prev) => [...prev, { role: "assistant", content: data.response }]);
+      const text = await res.text();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (e) {
+        throw new Error("Invalid JSON response: " + text);
+      }
+
+      setMessages((prev) => [
+        ...prev,
+        { role: "assistant", content: data.response || data.error || "No response." },
+      ]);
     } catch (err) {
-      setMessages((prev) => [...prev, { role: "assistant", content: "Error: " + err.message }]);
+      setMessages((prev) => [
+        ...prev,
+        { role: "assistant", content: "Error: " + err.message },
+      ]);
     }
 
     setLoading(false);
