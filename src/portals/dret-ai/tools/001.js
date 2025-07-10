@@ -84,7 +84,7 @@ export default function HistorySourcesAgent() {
   };
 
   return (
-    <Layout>
+    <Layout disableNavLinks>
       <div className="h-screen bg-gray-50 flex flex-col font-avenir">
         {/* Decade Tabs Only */}
         <div className="shrink-0 bg-white px-6 py-4 border-b">
