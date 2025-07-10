@@ -20,11 +20,12 @@ export default function HistorySourcesAgent() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const scrollRef = useRef(null);
+  const messageScrollRef = useRef(null);
 
   const agentId = AGENT_IDS[decade];
 
   const stripCitations = (text) =>
-    text.replace(/\[\d+(:\d+)?†source\]/g, "").trim();
+    text.replace(/\[[^\]]*\u2020[^\]]*\]/g, "").trim();
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -106,7 +107,10 @@ export default function HistorySourcesAgent() {
         </div>
 
         {/* Message Area */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-gray-100 custom-scrollbar">
+        <div
+          ref={messageScrollRef}
+          className="flex-1 min-h-0 overflow-y-auto p-6 space-y-4 bg-gray-100 custom-scrollbar"
+        >
           {messages.map((m, idx) => (
             <div
               key={idx}
@@ -145,25 +149,25 @@ export default function HistorySourcesAgent() {
             </button>
           </div>
         </div>
-      </div>
 
-      {/* Scrollbar styling */}
-      <style>{`
-        .custom-scrollbar {
-          scrollbar-width: thin;
-          scrollbar-color: #cbd5e1 transparent;
-        }
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background-color: #cbd5e1;
-          border-radius: 3px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background-color: #94a3b8;
-        }
-      `}</style>
+        {/* Scrollbar styling */}
+        <style>{`
+          .custom-scrollbar {
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e1 transparent;
+          }
+          .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+          }
+          .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 3px;
+          }
+          .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background-color: #94a3b8;
+          }
+        `}</style>
+      </div>
     </Layout>
   );
 }
