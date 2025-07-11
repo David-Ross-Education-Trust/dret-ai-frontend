@@ -20,7 +20,7 @@ export default function HistorySourcesAgent() {
     {
       role: "assistant",
       content:
-        "Welcome! I'm here to help you explore historical sources from the 1920s. Where would you like to begin?",
+        "Welcome! I'm here to help you explore historical sources from the 1920s. Do you have a source you'd like to look at, or would you like me to help you find one?",
     },
   ]);
   const [input, setInput] = useState("");
@@ -114,7 +114,7 @@ export default function HistorySourcesAgent() {
     setMessages([
       {
         role: "assistant",
-        content: `Welcome! I'm here to help you explore historical sources from the ${friendlyDecade}. Where would you like to begin?`,
+        content: `Welcome! I'm here to help you explore historical sources from the ${friendlyDecade}. Do you have a source you'd like to look at, or would you like me to help you find one?`,
       },
     ]);
     setInput("");
