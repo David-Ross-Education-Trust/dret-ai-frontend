@@ -4,13 +4,13 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 const AGENT_IDS = {
+  "School Dinners": "asst_4Nbg4LJdFraYUYn7Hg7d5QXy",
+  "Attlee's Britain Introduction": "asst_LctRxu5PW6J4tOU9YPz34v5h",
   "1920s (Part 1)": "asst_gqVt9ilxDv8m9mnONcpPL68l",
   "1920s (Part 2)": "asst_SFqNTt6WgFIFlqxRjnpJRJWr",
   "1930s": "asst_p33AjFj2FyyrTZVIsmtkfB3g",
   "1940s": "asst_EDJXVxTDKm3ztUb46sGTKXUu",
   "1950s": "asst_5FUkhBq8zwEnPvawHUm8WCkj",
-  "School Dinners": "asst_4Nbg4LJdFraYUYn7Hg7d5QXy",
-  "Attlee's Britain Introduction": "asst_LctRxu5PW6J4tOU9YPz34v5h",
 };
 
 const DECADES = Object.keys(AGENT_IDS);
@@ -112,20 +112,24 @@ export default function HistorySourcesAgent() {
 
   const handleDecadeChange = (newDecade) => {
     setDecade(newDecade);
+
+    const isSimpleIntro =
+      newDecade === "School Dinners" || newDecade === "Attlee's Britain Introduction";
+
     const friendlyDecade = newDecade.replace(" (Part 1)", "").replace(" (Part 2)", "");
-    setMessages([
-      {
-        role: "assistant",
-        content: `Welcome! I'm here to help you explore historical sources from the ${friendlyDecade}. Do you have a specific source you'd like to look at, or shall I help you find one?`,
-      },
-    ]);
+
+    const message = isSimpleIntro
+      ? "Welcome! I'm here to help you explore historical sources from the School Dinners for school dinners and Attlee's Britain."
+      : `Welcome! I'm here to help you explore historical sources from the ${friendlyDecade}. Do you have a specific source you'd like to look at, or shall I help you find one?`;
+
+    setMessages([{ role: "assistant", content: message }]);
     setInput("");
   };
 
   return (
     <Layout disableNavLinks>
       <div className="h-screen bg-gray-50 flex flex-col font-avenir">
-        {/* Decade Tabs */}
+        {/* Tabs */}
         <div className="shrink-0 bg-white px-6 py-4 border-b">
           <div className="grid gap-2 w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7">
             {DECADES.map((d) => (
