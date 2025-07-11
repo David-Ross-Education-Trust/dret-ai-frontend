@@ -31,10 +31,10 @@ export default function HistorySourcesAgent() {
 
   const stripCitations = (text) =>
     text
-      .replace(/[[][^\]]*†[^\]]*[\]]/g, "")
-      .replace(/【[^】]*】/g, "")
-      .replace(/†[^\s.,;:!?)]*/g, "")
-      .replace(/\s{2,}/g, " ")
+      .replace(/\[\d+:\d+†[^\]]*]/g, "")     // Match [4:14†source]
+      .replace(/【\d+:\d+†[^】]*】/g, "")     // Match  
+      .replace(/†[^\s.,;:!?)]*/g, "")        // Remove lone daggers and fragments
+      .replace(/[ ]{2,}/g, " ")              // Replace double spaces
       .trim();
 
   useEffect(() => {
