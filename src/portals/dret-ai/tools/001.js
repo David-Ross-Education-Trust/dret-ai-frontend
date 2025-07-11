@@ -197,4 +197,21 @@ export default function HistorySourcesAgent() {
         {/* Scrollbar styling */}
         <style>{`
           .custom-scrollbar {
-            scrollbar-wi
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e1 transparent;
+          }
+          .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+          }
+          .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 3px;
+          }
+          .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background-color: #94a3b8;
+          }
+        `}</style>
+      </div>
+    </Layout>
+  );
+}
