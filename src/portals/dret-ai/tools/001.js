@@ -5,7 +5,8 @@ import remarkGfm from "remark-gfm";
 
 // Decade → Agent ID map
 const AGENT_IDS = {
-  "1920s": "asst_gqVt9ilxDv8m9mnONcpPL68l",
+  "1920s (Part 1)": "asst_gqVt9ilxDv8m9mnONcpPL68l",
+  "1920s (Part 2)": "asst_SFqNTt6WgFIFlqxRjnpJRJWr",
   "1930s": "asst_p33AjFj2FyyrTZVIsmtkfB3g",
   "1940s": "asst_EDJXVxTDKm3ztUb46sGTKXUu",
   "1950s": "asst_5FUkhBq8zwEnPvawHUm8WCkj",
@@ -15,7 +16,7 @@ const DECADES = Object.keys(AGENT_IDS);
 const BASE_URL = "https://dret-ai-backend-f9drcacng0f2gmc4.uksouth-01.azurewebsites.net";
 
 export default function HistorySourcesAgent() {
-  const [decade, setDecade] = useState("1920s");
+  const [decade, setDecade] = useState("1920s (Part 1)");
   const [messages, setMessages] = useState([
     {
       role: "assistant",
@@ -95,10 +96,11 @@ export default function HistorySourcesAgent() {
 
   const handleDecadeChange = (newDecade) => {
     setDecade(newDecade);
+    const friendlyDecade = newDecade.replace(" (Part 1)", "").replace(" (Part 2)", "");
     setMessages([
       {
         role: "assistant",
-        content: `Welcome! I'm here to help you explore historical sources from the ${newDecade}. Where would you like to begin?`,
+        content: `Welcome! I'm here to help you explore historical sources from the ${friendlyDecade}. Where would you like to begin?`,
       },
     ]);
     setInput("");
@@ -109,7 +111,7 @@ export default function HistorySourcesAgent() {
       <div className="h-screen bg-gray-50 flex flex-col font-avenir">
         {/* Decade Tabs */}
         <div className="shrink-0 bg-white px-6 py-4 border-b">
-          <div className="grid gap-2 w-full grid-cols-2 sm:grid-cols-4">
+          <div className="grid gap-2 w-full grid-cols-2 sm:grid-cols-5">
             {DECADES.map((d) => (
               <button
                 key={d}
