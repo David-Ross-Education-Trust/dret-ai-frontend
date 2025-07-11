@@ -24,6 +24,7 @@ export default function HistorySourcesAgent() {
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [lastUserMessage, setLastUserMessage] = useState("");
   const scrollRef = useRef(null);
   const messageScrollRef = useRef(null);
 
@@ -31,10 +32,10 @@ export default function HistorySourcesAgent() {
 
   const stripCitations = (text) =>
     text
-      .replace(/\[\d+:\d+†[^\]]*]/g, "")     // Match [4:14†source]
-      .replace(/【\d+:\d+†[^】]*】/g, "")     // Match  
-      .replace(/†[^\s.,;:!?)]*/g, "")        // Remove lone daggers and fragments
-      .replace(/[ ]{2,}/g, " ")              // Replace double spaces
+      .replace(/\[\d+:\d+†[^\]]*]/g, "")
+      .replace(/【\d+:\d+†[^】]*】/g, "")
+      .replace(/†[^\s.,;:!?)]*/g, "")
+      .replace(/[ ]{2,}/g, " ")
       .trim();
 
   useEffect(() => {
@@ -43,7 +44,8 @@ export default function HistorySourcesAgent() {
 
   const sendMessage = async () => {
     if (!input.trim()) return;
-    const userMessage = input;
+    const userMessage = input.trim();
+    setLastUserMessage(userMessage);
     setMessages((prev) => [...prev, { role: "user", content: userMessage }]);
     setInput("");
     setLoading(true);
@@ -57,22 +59,43 @@ export default function HistorySourcesAgent() {
 
       const text = await res.text();
       let data;
+      let fallback = false;
+
       try {
         data = JSON.parse(text);
       } catch (e) {
-        throw new Error("Invalid JSON response: " + text);
+        fallback = true;
       }
 
-      const clean = stripCitations(data.response || data.error || "No response.");
-      setMessages((prev) => [...prev, { role: "assistant", content: clean }]);
+      const clean = !fallback
+        ? stripCitations(data.response || data.error || "No response.")
+        : "⚠️ Sorry, something went wrong when trying to get a response. Would you like to try again?";
+
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: clean,
+          error: fallback,
+        },
+      ]);
     } catch (err) {
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: "Error: " + err.message },
+        {
+          role: "assistant",
+          content: "⚠️ Hmm, something went wrong. Want to try again?",
+          error: true,
+        },
       ]);
     }
 
     setLoading(false);
+  };
+
+  const retryLastMessage = () => {
+    setInput(lastUserMessage);
+    setTimeout(() => sendMessage(), 0);
   };
 
   const handleKeyPress = (e) => {
@@ -96,7 +119,6 @@ export default function HistorySourcesAgent() {
   return (
     <Layout disableNavLinks>
       <div className="h-screen bg-gray-50 flex flex-col font-avenir">
-        {/* Decade Tabs Only */}
         <div className="shrink-0 bg-white px-6 py-4 border-b">
           <div className="grid gap-2 w-full grid-cols-2 sm:grid-cols-4">
             {DECADES.map((d) => (
@@ -115,7 +137,6 @@ export default function HistorySourcesAgent() {
           </div>
         </div>
 
-        {/* Message Area */}
         <div
           ref={messageScrollRef}
           className="flex-1 min-h-0 overflow-y-auto p-6 space-y-4 bg-[#f8fafc] custom-scrollbar"
@@ -130,6 +151,16 @@ export default function HistorySourcesAgent() {
               }`}
             >
               <ReactMarkdown remarkPlugins={[remarkGfm]}>{m.content}</ReactMarkdown>
+              {m.error && (
+                <div className="mt-2">
+                  <button
+                    onClick={retryLastMessage}
+                    className="text-sm text-[var(--trust-green)] underline"
+                  >
+                    Retry
+                  </button>
+                </div>
+              )}
             </div>
           ))}
           {loading && (
@@ -138,7 +169,6 @@ export default function HistorySourcesAgent() {
           <div ref={scrollRef} />
         </div>
 
-        {/* Input */}
         <div className="shrink-0 p-4 bg-white border-t">
           <textarea
             value={input}
@@ -159,7 +189,6 @@ export default function HistorySourcesAgent() {
           </div>
         </div>
 
-        {/* Scrollbar styling */}
         <style>{`
           .custom-scrollbar {
             scrollbar-width: thin;
