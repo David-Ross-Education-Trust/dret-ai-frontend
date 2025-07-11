@@ -19,12 +19,13 @@ export default function HistorySourcesAgent() {
   const [messages, setMessages] = useState([
     {
       role: "assistant",
-      content: "Welcome! I'm here to help you explore historical sources from the 1920s. Where would you like to begin?",
+      content:
+        "Welcome! I'm here to help you explore historical sources from the 1920s. Where would you like to begin?",
     },
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [lastUserMessage, setLastUserMessage] = useState("");
+  const [lastMessage, setLastMessage] = useState(null);
   const scrollRef = useRef(null);
   const messageScrollRef = useRef(null);
 
@@ -42,13 +43,17 @@ export default function HistorySourcesAgent() {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const sendMessage = async () => {
-    if (!input.trim()) return;
-    const userMessage = input.trim();
-    setLastUserMessage(userMessage);
-    setMessages((prev) => [...prev, { role: "user", content: userMessage }]);
-    setInput("");
+  const sendMessage = async (retryText = null) => {
+    const userMessage = retryText || input;
+    if (!userMessage.trim()) return;
+
+    if (!retryText) {
+      setMessages((prev) => [...prev, { role: "user", content: userMessage }]);
+      setInput("");
+    }
+
     setLoading(true);
+    setLastMessage(userMessage);
 
     try {
       const res = await fetch(`${BASE_URL}/ask`, {
@@ -59,43 +64,26 @@ export default function HistorySourcesAgent() {
 
       const text = await res.text();
       let data;
-      let fallback = false;
-
       try {
         data = JSON.parse(text);
-      } catch (e) {
-        fallback = true;
+      } catch {
+        throw new Error("Something went wrong — want to try again?");
       }
 
-      const clean = !fallback
-        ? stripCitations(data.response || data.error || "No response.")
-        : "⚠️ Sorry, something went wrong when trying to get a response. Would you like to try again?";
-
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: "assistant",
-          content: clean,
-          error: fallback,
-        },
-      ]);
+      const clean = stripCitations(data.response || data.error || "No response.");
+      setMessages((prev) => [...prev, { role: "assistant", content: clean }]);
     } catch (err) {
       setMessages((prev) => [
         ...prev,
         {
           role: "assistant",
-          content: "⚠️ Hmm, something went wrong. Want to try again?",
+          content: `${err.message}`,
           error: true,
         },
       ]);
     }
 
     setLoading(false);
-  };
-
-  const retryLastMessage = () => {
-    setInput(lastUserMessage);
-    setTimeout(() => sendMessage(), 0);
   };
 
   const handleKeyPress = (e) => {
@@ -119,6 +107,7 @@ export default function HistorySourcesAgent() {
   return (
     <Layout disableNavLinks>
       <div className="h-screen bg-gray-50 flex flex-col font-avenir">
+        {/* Decade Tabs */}
         <div className="shrink-0 bg-white px-6 py-4 border-b">
           <div className="grid gap-2 w-full grid-cols-2 sm:grid-cols-4">
             {DECADES.map((d) => (
@@ -137,6 +126,7 @@ export default function HistorySourcesAgent() {
           </div>
         </div>
 
+        {/* Chat */}
         <div
           ref={messageScrollRef}
           className="flex-1 min-h-0 overflow-y-auto p-6 space-y-4 bg-[#f8fafc] custom-scrollbar"
@@ -144,31 +134,28 @@ export default function HistorySourcesAgent() {
           {messages.map((m, idx) => (
             <div
               key={idx}
-              className={`rounded-xl px-5 py-3 max-w-3xl whitespace-pre-line shadow-sm transition-all duration-300 ease-in-out ${
+              className={`rounded-xl px-5 py-3 max-w-3xl shadow-sm transition-all duration-300 ease-in-out prose prose-sm leading-snug ${
                 m.role === "user"
-                  ? "bg-[var(--trust-green)] text-white self-end ml-auto"
+                  ? "bg-[var(--trust-green)] text-white self-end ml-auto prose-invert"
                   : "bg-white text-gray-900 border border-gray-200"
               }`}
             >
               <ReactMarkdown remarkPlugins={[remarkGfm]}>{m.content}</ReactMarkdown>
-              {m.error && (
-                <div className="mt-2">
-                  <button
-                    onClick={retryLastMessage}
-                    className="text-sm text-[var(--trust-green)] underline"
-                  >
-                    Retry
-                  </button>
-                </div>
+              {m.error && lastMessage && (
+                <button
+                  onClick={() => sendMessage(lastMessage)}
+                  className="mt-2 inline-block bg-red-100 text-red-700 px-3 py-1 rounded text-xs hover:bg-red-200"
+                >
+                  Retry
+                </button>
               )}
             </div>
           ))}
-          {loading && (
-            <div className="italic text-sm text-gray-500">Thinking...</div>
-          )}
+          {loading && <div className="italic text-sm text-gray-500">Thinking...</div>}
           <div ref={scrollRef} />
         </div>
 
+        {/* Input */}
         <div className="shrink-0 p-4 bg-white border-t">
           <textarea
             value={input}
@@ -181,7 +168,7 @@ export default function HistorySourcesAgent() {
           <div className="flex justify-end mt-2">
             <button
               disabled={loading}
-              onClick={sendMessage}
+              onClick={() => sendMessage()}
               className="bg-[var(--trust-green)] text-white px-4 py-2 rounded-md hover:bg-green-800 transition text-sm font-semibold"
             >
               Send
@@ -189,6 +176,7 @@ export default function HistorySourcesAgent() {
           </div>
         </div>
 
+        {/* Scrollbar styling */}
         <style>{`
           .custom-scrollbar {
             scrollbar-width: thin;
