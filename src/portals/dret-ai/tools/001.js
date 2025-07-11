@@ -3,7 +3,6 @@ import Layout from "../../../layout";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-// Decade → Agent ID map
 const AGENT_IDS = {
   "1920s (Part 1)": "asst_gqVt9ilxDv8m9mnONcpPL68l",
   "1920s (Part 2)": "asst_SFqNTt6WgFIFlqxRjnpJRJWr",
@@ -27,6 +26,7 @@ export default function HistorySourcesAgent() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [lastMessage, setLastMessage] = useState(null);
+  const [threadId, setThreadId] = useState(null);
   const scrollRef = useRef(null);
   const messageScrollRef = useRef(null);
 
@@ -34,15 +34,28 @@ export default function HistorySourcesAgent() {
 
   const stripCitations = (text) =>
     text
-      .replace(/\[\d+:\d+†[^\]]*]/g, "")
-      .replace(/【\d+:\d+†[^】]*】/g, "")
-      .replace(/†[^\s.,;:!?)]*/g, "")
+      .replace(/\[\d+:\d+\u2020[^\]]*]/g, "")
+      .replace(/\u3010\d+:\d+\u2020[^\u3011]*\u3011/g, "")
+      .replace(/\u2020[^\s.,;:!?)\]]*/g, "")
       .replace(/[ ]{2,}/g, " ")
       .trim();
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  useEffect(() => {
+    const createThread = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/api/create-thread`, { method: "POST" });
+        const data = await res.json();
+        setThreadId(data.thread_id);
+      } catch (err) {
+        console.error("Thread creation failed:", err);
+      }
+    };
+    createThread();
+  }, [decade]);
 
   const sendMessage = async (retryText = null) => {
     const userMessage = retryText || input;
@@ -57,21 +70,22 @@ export default function HistorySourcesAgent() {
     setLastMessage(userMessage);
 
     try {
-      const res = await fetch(`${BASE_URL}/ask`, {
+      const res = await fetch(`${BASE_URL}/tutor-ask`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ agentId, message: userMessage }),
+        body: JSON.stringify({
+          agentId,
+          message: userMessage,
+          threadId,
+          userId: "demo-user",
+          userName: "History Explorer",
+          yearGroup: "Year 12",
+        }),
       });
 
-      const text = await res.text();
-      let data;
-      try {
-        data = JSON.parse(text);
-      } catch {
-        throw new Error("Something went wrong — want to try again?");
-      }
-
+      const data = await res.json();
       const clean = stripCitations(data.response || data.error || "No response.");
+      if (data.threadId) setThreadId(data.threadId);
       setMessages((prev) => [...prev, { role: "assistant", content: clean }]);
     } catch (err) {
       setMessages((prev) => [
