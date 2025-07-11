@@ -44,7 +44,7 @@ export const toolsConfig = [
     description: "Provide feedback on student CASE paragraphs.",
     category: ["Assessment", "History"],
     tag: "New",
-    href: "/ai/tool/case-paragraph",
+    href: "/ai/case",
     component: CASEParagraphFeedback,
     comingSoon: false,
   },
