@@ -118,7 +118,7 @@ export default function HistorySourcesAgent() {
       message = "Hi, Professor Gemini here! I'm here to help you explore the School Dinners sources.";
     } else if (newDecade === "Attlee's Britain Introduction") {
       message =
-        "Hi, Professor Gemini here! I'm here to help you explore the introduction to Attlee's Britain.";
+        "Explore the introduction to Attlee's Britain.";
     } else {
       const friendlyDecade = newDecade.replace(" (Part 1)", "").replace(" (Part 2)", "");
       message = `Welcome! I'm here to help you explore historical sources from the ${friendlyDecade}. Do you have a specific source you'd like to look at, or shall I help you find one?`;
