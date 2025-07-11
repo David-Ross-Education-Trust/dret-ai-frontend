@@ -1,4 +1,4 @@
-import LessonPlanningTool from "../tools/001";
+import HistorySourcesAgent from "../tools/001";
 import ReportWritingTool from "../tools/002";
 import ExclusionReportTool from "../tools/003";
 import CASEParagraphFeedback from "../tools/004";
@@ -19,13 +19,13 @@ export const toolsConfig = [
     comingSoon: false,
   },
   {
-    id: "lesson-planner",
-    name: "KS1 / KS2 Lesson Planner",
-    description: "Plan and manage lessons with ease.",
-    category: ["Planning", "Primary"],
+    id: "history-sources",
+    name: "History Sources Agent",
+    description: "Investigate historical sources using RICHRAB.",
+    category: ["History"],
     tag: "New",
-    href: "/ai/tool/lesson-planner",
-    component: LessonPlanningTool,
+    href: "/ai/tool/richrab",
+    component: HistorySourcesAgent,
     comingSoon: false,
   },
   {
