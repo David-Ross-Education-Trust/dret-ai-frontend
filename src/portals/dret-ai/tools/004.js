@@ -59,7 +59,7 @@ export default function ParagraphTool() {
   };
 
   return (
-    <Layout>
+    <Layout disableNavLinks>
       <div className="font-avenir bg-gray-50 min-h-screen h-screen flex flex-col">
         <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-6 h-24 flex items-center sticky top-0">
           <div style={{ display: "flex", alignItems: "center", transform: "translateY(4px)" }}>
