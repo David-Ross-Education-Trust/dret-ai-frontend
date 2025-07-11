@@ -115,7 +115,7 @@ export default function HistorySourcesAgent() {
 
     let message = "";
     if (newDecade === "School Dinners") {
-      message = "Hi, Professor Gemini here! Ask me questions about the School Dinners sources.";
+      message = "Ask me questions about the School Dinners sources.";
     } else if (newDecade === "Attlee's Britain Introduction") {
       message =
         "Explore the introduction to Attlee's Britain.";
