@@ -123,7 +123,7 @@ export default function HistorySourcesAgent() {
           {messages.map((m, idx) => (
             <div
               key={idx}
-              className={`rounded-xl px-5 py-4 max-w-3xl leading-relaxed whitespace-pre-wrap shadow-sm transition-all duration-300 ease-in-out ${
+              className={`rounded-xl px-5 py-3 max-w-3xl whitespace-pre-line shadow-sm transition-all duration-300 ease-in-out ${
                 m.role === "user"
                   ? "bg-[var(--trust-green)] text-white self-end ml-auto"
                   : "bg-white text-gray-900 border border-gray-200"
