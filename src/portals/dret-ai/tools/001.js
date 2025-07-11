@@ -9,6 +9,8 @@ const AGENT_IDS = {
   "1930s": "asst_p33AjFj2FyyrTZVIsmtkfB3g",
   "1940s": "asst_EDJXVxTDKm3ztUb46sGTKXUu",
   "1950s": "asst_5FUkhBq8zwEnPvawHUm8WCkj",
+  "School Dinners": "asst_4Nbg4LJdFraYUYn7Hg7d5QXy",
+  "Attlee's Britain Introduction": "asst_LctRxu5PW6J4tOU9YPz34v5h",
 };
 
 const DECADES = Object.keys(AGENT_IDS);
@@ -125,7 +127,7 @@ export default function HistorySourcesAgent() {
       <div className="h-screen bg-gray-50 flex flex-col font-avenir">
         {/* Decade Tabs */}
         <div className="shrink-0 bg-white px-6 py-4 border-b">
-          <div className="grid gap-2 w-full grid-cols-2 sm:grid-cols-5">
+          <div className="grid gap-2 w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7">
             {DECADES.map((d) => (
               <button
                 key={d}
@@ -195,21 +197,4 @@ export default function HistorySourcesAgent() {
         {/* Scrollbar styling */}
         <style>{`
           .custom-scrollbar {
-            scrollbar-width: thin;
-            scrollbar-color: #cbd5e1 transparent;
-          }
-          .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-          }
-          .custom-scrollbar::-webkit-scrollbar-thumb {
-            background-color: #cbd5e1;
-            border-radius: 3px;
-          }
-          .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background-color: #94a3b8;
-          }
-        `}</style>
-      </div>
-    </Layout>
-  );
-}
+            scrollbar-wi
