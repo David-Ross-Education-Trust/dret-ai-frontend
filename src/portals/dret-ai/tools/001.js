@@ -133,7 +133,7 @@ export default function HistorySourcesAgent() {
                 className={`w-full px-3 py-1.5 rounded-md text-sm font-medium border ${
                   d === decade
                     ? "bg-[var(--trust-green)] text-white border-[var(--trust-green)]"
-                    : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+                    : "bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200"
                 }`}
               >
                 {d}
