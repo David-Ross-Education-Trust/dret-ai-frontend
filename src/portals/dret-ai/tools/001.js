@@ -173,19 +173,19 @@ export default function HistorySourcesAgent() {
 
         {/* Input */}
         <div className="shrink-0 p-4 bg-white border-t">
-          <textarea
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyPress}
-            rows={3}
-            placeholder={`Ask the ${decade} source agent a question...`}
-            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm resize-none"
-          />
-          <div className="flex justify-end mt-2">
+          <div className="flex gap-2">
+            <textarea
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyPress}
+              rows={3}
+              placeholder={`Ask the ${decade} source agent a question...`}
+              className="flex-grow border border-gray-300 rounded-md px-3 py-2 text-sm resize-none"
+            />
             <button
               disabled={loading}
               onClick={() => sendMessage()}
-              className="bg-[var(--trust-green)] text-white px-4 py-2 rounded-md hover:bg-green-800 transition text-sm font-semibold"
+              className="bg-[var(--trust-green)] text-white px-4 py-2 rounded-md hover:bg-green-800 transition text-sm font-semibold self-end"
             >
               Send
             </button>
