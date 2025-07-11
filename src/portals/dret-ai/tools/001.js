@@ -106,10 +106,7 @@ export default function HistorySourcesAgent() {
 
   return (
     <Layout disableNavLinks>
-      <div
-        className="h-screen bg-gray-50 flex flex-col font-avenir"
-        style={{ transform: "scale(0.8)", transformOrigin: "top left" }}
-      >
+      <div className="h-screen bg-gray-50 flex flex-col font-avenir">
         {/* Decade Tabs */}
         <div className="shrink-0 bg-white px-6 py-4 border-b">
           <div className="grid gap-2 w-full grid-cols-2 sm:grid-cols-4">
@@ -137,9 +134,9 @@ export default function HistorySourcesAgent() {
           {messages.map((m, idx) => (
             <div
               key={idx}
-              className={`font-avenir rounded-xl px-5 py-3 max-w-3xl shadow-sm transition-all duration-300 ease-in-out leading-snug whitespace-pre-line ${
+              className={`rounded-xl px-5 py-3 max-w-3xl shadow-sm transition-all duration-300 ease-in-out prose prose-sm leading-snug ${
                 m.role === "user"
-                  ? "bg-[var(--trust-green)] text-white self-end ml-auto"
+                  ? "bg-[var(--trust-green)] text-white self-end ml-auto prose-invert"
                   : "bg-white text-gray-900 border border-gray-200"
               }`}
             >
@@ -159,7 +156,7 @@ export default function HistorySourcesAgent() {
         </div>
 
         {/* Input */}
-        <div className="shrink-0 p-4 bg-white border-t font-avenir">
+        <div className="shrink-0 p-4 bg-white border-t">
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
