@@ -113,14 +113,16 @@ export default function HistorySourcesAgent() {
   const handleDecadeChange = (newDecade) => {
     setDecade(newDecade);
 
-    const isSimpleIntro =
-      newDecade === "School Dinners" || newDecade === "Attlee's Britain Introduction";
-
-    const friendlyDecade = newDecade.replace(" (Part 1)", "").replace(" (Part 2)", "");
-
-    const message = isSimpleIntro
-      ? "Welcome! I'm here to help you explore historical sources from the School Dinners for school dinners and Attlee's Britain."
-      : `Welcome! I'm here to help you explore historical sources from the ${friendlyDecade}. Do you have a specific source you'd like to look at, or shall I help you find one?`;
+    let message = "";
+    if (newDecade === "School Dinners") {
+      message = "Hi, Professor Gemini here! I'm here to help you explore the School Dinners sources.";
+    } else if (newDecade === "Attlee's Britain Introduction") {
+      message =
+        "Hi, Professor Gemini here! I'm here to help you explore the introduction to Attlee's Britain.";
+    } else {
+      const friendlyDecade = newDecade.replace(" (Part 1)", "").replace(" (Part 2)", "");
+      message = `Welcome! I'm here to help you explore historical sources from the ${friendlyDecade}. Do you have a specific source you'd like to look at, or shall I help you find one?`;
+    }
 
     setMessages([{ role: "assistant", content: message }]);
     setInput("");
@@ -129,7 +131,7 @@ export default function HistorySourcesAgent() {
   return (
     <Layout disableNavLinks>
       <div className="h-screen bg-gray-50 flex flex-col font-avenir">
-        {/* Tabs */}
+        {/* Decade Tabs */}
         <div className="shrink-0 bg-white px-6 py-4 border-b">
           <div className="grid gap-2 w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7">
             {DECADES.map((d) => (
