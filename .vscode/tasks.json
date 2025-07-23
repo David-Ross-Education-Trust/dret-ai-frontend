@@ -1,0 +1,12 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run Python App",
+            "type": "shell",
+            "command": "py main.py",
+            "group": "build",
+            "problemMatcher": []
+        }
+    ]
+}
