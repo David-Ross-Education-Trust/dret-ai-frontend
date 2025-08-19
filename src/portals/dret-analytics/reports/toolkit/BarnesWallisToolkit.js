@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Search, X } from "lucide-react";
 import AnalyticsLayout from "../../components/layout";
 import ToolkitReportCard from "../../components/ToolkitReportCard";
-import { BarnesWallisToolkitConfig } from "../toolkit/BarnesWallisConfig";
+import { BarnesWallisConfig } from "../toolkit/BarnesWallisConfig";
 
 const TRUST_GREEN = "#205c40";
 
@@ -30,7 +30,7 @@ export default function BarnesWallisToolkit() {
   const [favourites, toggleFavourite] = useFavourites("toolkitFavourites_BarnesWallis");
   const [clickedStar, setClickedStar] = useState(null);
 
-  const shownFiles = BarnesWallisToolkitConfig.filter(
+  const shownFiles = BarnesWallisConfig.filter(
     (file) =>
       searchTerm.trim() === "" ||
       file.name.toLowerCase().includes(searchTerm.toLowerCase())

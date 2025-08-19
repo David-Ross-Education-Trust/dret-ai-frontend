@@ -1,6 +1,6 @@
 import excelIcon from "../../../../assets/excel-icon.png";
 
-export const barnesWallisToolkitConfig = [
+export const BarnesWallisConfig = [
   {
     id: "Attendance Tracker",
     name: "Attendance Tracker",
