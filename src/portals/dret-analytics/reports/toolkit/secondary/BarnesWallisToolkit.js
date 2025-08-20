@@ -51,7 +51,7 @@ export default function BarnesWallisToolkit() {
           style={{ backgroundColor: "#ffffff" }}
         >
           <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
-            Barnes Wallis Toolkit
+            Barnes Wallis
           </h1>
           <div className="relative flex-shrink-0 w-[240px] ml-4">
             <input
