@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Search, X } from "lucide-react";
-import AnalyticsLayout from "../../components/layout";
-import ToolkitReportCard from "../../components/ToolkitReportCard";
-import { BobbyMooreConfig } from "../toolkit/BobbyMooreConfig";
+import AnalyticsLayout from "../../../components/layout";
+import ToolkitReportCard from "../../../components/ToolkitReportCard";
+import { BobbyMooreConfig } from "./BobbyMooreConfig";
 
 const TRUST_GREEN = "#205c40";
 

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Search, X } from "lucide-react";
-import AnalyticsLayout from "../../components/layout";
-import ToolkitReportCard from "../../components/ToolkitReportCard";
-import { BarnesWallisConfig } from "../toolkit/BarnesWallisConfig";
+import AnalyticsLayout from "../../../components/layout";
+import ToolkitReportCard from "../../../components/ToolkitReportCard";
+import { BarnesWallisConfig } from "./BarnesWallisConfig";
 
 const TRUST_GREEN = "#205c40";
 
