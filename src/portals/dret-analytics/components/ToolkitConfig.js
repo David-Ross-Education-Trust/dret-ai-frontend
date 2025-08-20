@@ -71,8 +71,8 @@ import ThomasHinderwellToolkit from "../reports/toolkit/ThomasHinderwellToolkit"
 import ThomasMiddlecottToolkit from "../reports/toolkit/ThomasMiddlecottToolkit";
 import WeltonToolkit from "../reports/toolkit/WeltonToolkit";
 import WoldToolkit from "../reports/toolkit/WoldToolkit";
-import BobbyMooreToolkit from "../reports/toolkit/BobbyMooreToolkit";
-import BarnesWallisToolkit from "../reports/toolkit/BarnesWallisToolkit";
+import BobbyMooreToolkit from "../reports/toolkit/secondary/BobbyMooreToolkit";
+import BarnesWallisToolkit from "../reports/toolkit/secondary/BarnesWallisToolkit";
 
 // 3. Export the config array, each with logoUrl mapped to new imports
 export const toolkitConfig = [
