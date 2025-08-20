@@ -44,7 +44,7 @@ import BoothWoodToolkit from "../reports/toolkit/BoothWoodToolkit";
 import BriarHillToolkit from "../reports/toolkit/BriarHillToolkit";
 import BringhurstToolkit from "../reports/toolkit/BringhurstToolkit";
 import CedarRdToolkit from "../reports/toolkit/CedarRdToolkit";
-import CharlesReadToolkit from "../reports/toolkit/CharlesReadToolkit";
+import CharlesReadToolkit from "../reports/toolkit/secondary/CharlesReadToolkit";
 import CharnwoodToolkit from "../reports/toolkit/CharnwoodToolkit";
 import EastfieldToolkit from "../reports/toolkit/EastfieldToolkit";
 import EdHeneageToolkit from "../reports/toolkit/EdHeneageToolkit";
