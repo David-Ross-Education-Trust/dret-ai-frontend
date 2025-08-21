@@ -26,7 +26,7 @@ export const reportConfig = [
     name: "Attendance Overview",
     description: "Track attendance across the trust.",
     category: "Bromcom",
-    tag: "New",
+    tag: "",
     href: "/analytics/education/bromcom-attendance",
     component: () => <PowerBIReportPage reportKey="bromcom-attendance" title="Attendance Overview" />,
     comingSoon: false,
