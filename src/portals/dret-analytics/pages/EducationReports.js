@@ -35,7 +35,7 @@ export default function EducationReports() {
     (r) =>
       !r.comingSoon &&
       r.category &&
-      r.category.toLowerCase() === "education" &&
+      r.category.toLowerCase() === "dret" &&
       (
         searchTerm.trim() === "" ||
         (r.name && r.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
