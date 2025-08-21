@@ -3,6 +3,8 @@ import { Star, Flame, Sparkles } from "lucide-react";
 
 const categoryColors = {
   Education: "bg-blue-50 text-blue-800",
+  DRET: "bg-green-50 text-green-800",
+  Bromcom: "bg-red-50 text-red-800", 
   Operations: "bg-green-50 text-green-800",
   HR: "bg-yellow-50 text-yellow-800",
   Finance: "bg-red-50 text-red-800",
