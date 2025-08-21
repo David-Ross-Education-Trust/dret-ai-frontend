@@ -35,13 +35,7 @@ export default function EducationReports() {
     (r) =>
       !r.comingSoon &&
       r.category &&
-      r.category.toLowerCase() === "dret" &&
-      (
-        searchTerm.trim() === "" ||
-        (r.name && r.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (r.description && r.description.toLowerCase().includes(searchTerm.toLowerCase()))
-      )
-      r.category.toLowerCase() === "bromcom" &&
+      ["dret", "bromcom"].includes(r.category.toLowerCase()) &&
       (
         searchTerm.trim() === "" ||
         (r.name && r.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
