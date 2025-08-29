@@ -19,7 +19,7 @@ export default function PowerBIReportPage({ reportKey, title = "Power BI Report"
         });
 
         const res = await fetch(
-          "https://dret-ai-backend-f9drcacng0f2gmc4.uksouth-01.azurewebsites.net/api/powerbi/embed-token",
+          "https://dretai-backend-fkf6bhgug2f3eney.uksouth-01.azurewebsites.net/api/powerbi/embed-token",
           {
             method: "POST",
             headers: {
