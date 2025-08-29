@@ -1,6 +1,3 @@
-export default function ThomasMiddlecottToolkit() {
-  return <div>Thomas Middlecott Academy Toolkit Page (Coming soon)</div>;
-}
 import React, { useState } from "react";
 import { Search, X } from "lucide-react";
 import AnalyticsLayout from "../../../components/layout";
