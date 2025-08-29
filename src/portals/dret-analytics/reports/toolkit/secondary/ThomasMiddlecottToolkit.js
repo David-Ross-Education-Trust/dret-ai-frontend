@@ -26,7 +26,7 @@ function useFavourites(key = "toolkitFavourites_ThomasMiddlecott") {
 
 export default function ThomasMiddlecottToolkit() {
   const [searchTerm, setSearchTerm] = useState("");
-  the [searchFocused, setSearchFocused] = useState(false);
+  const [searchFocused, setSearchFocused] = useState(false);
   const [favourites, toggleFavourite] = useFavourites("toolkitFavourites_ThomasMiddlecott");
   const [clickedStar, setClickedStar] = useState(null);
 
