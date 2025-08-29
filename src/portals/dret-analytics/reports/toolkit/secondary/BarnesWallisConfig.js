@@ -7,7 +7,7 @@ export const BarnesWallisConfig = [
     href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-BarnesWallis/Shared%20Documents/Barnes%20Wallis/2025-26/BWA%20Attendance%20Tracker%20(25-26).xlsx?d=w9c39aa86f3a14b2496326f350f955714&csf=1&web=1&e=ZrmMvK",
     openInBrowserHref: "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-BarnesWallis/Shared%20Documents/Barnes%20Wallis/2025-26/BWA%20Attendance%20Tracker%20(25-26).xlsx?d=w9c39aa86f3a14b2496326f350f955714&csf=1&web=1&e=ZrmMvK",
     logoUrl: excelIcon,
-    sourceToolkit: "Barnes Wallis Toolkit",
+    sourceToolkit: "Barnes Wallis Tookit",
   },
   {
     id: "Behaviour Tracker",

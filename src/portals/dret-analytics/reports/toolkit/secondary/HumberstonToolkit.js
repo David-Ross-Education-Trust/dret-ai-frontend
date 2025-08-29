@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { Search, X } from "lucide-react";
 import AnalyticsLayout from "../../../components/layout";
 import ToolkitReportCard from "../../../components/ToolkitReportCard";
-import { BarnesWallisConfig } from "./BarnesWallisConfig";
+import { HumberstonConfig } from "./HumberstonConfig";
 
 const TRUST_GREEN = "#205c40";
 
-function useFavourites(key = "toolkitFavourites_BarnesWallis") {
+function useFavourites(key = "toolkitFavourites_Humberston") {
   const [favourites, setFavourites] = useState(() => {
     const stored = localStorage.getItem(key);
     return stored ? JSON.parse(stored) : [];
@@ -24,13 +24,13 @@ function useFavourites(key = "toolkitFavourites_BarnesWallis") {
   return [favourites, toggleFavourite];
 }
 
-export default function BarnesWallisToolkit() {
+export default function HumberstonToolkit() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
-  const [favourites, toggleFavourite] = useFavourites("toolkitFavourites_BarnesWallis");
+  const [favourites, toggleFavourite] = useFavourites("toolkitFavourites_Humberston");
   const [clickedStar, setClickedStar] = useState(null);
 
-  const shownFiles = BarnesWallisConfig.filter(
+  const shownFiles = HumberstonConfig.filter(
     (file) =>
       searchTerm.trim() === "" ||
       file.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -51,7 +51,7 @@ export default function BarnesWallisToolkit() {
           style={{ backgroundColor: "#ffffff" }}
         >
           <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
-            Barnes Wallis Academy
+            Humberston Academy
           </h1>
           <div className="relative flex-shrink-0 w-[240px] ml-4">
             <input
