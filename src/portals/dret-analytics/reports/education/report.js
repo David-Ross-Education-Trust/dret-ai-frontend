@@ -46,22 +46,29 @@ export default function PowerBIReportPage({ reportKey, title = "Power BI Report"
       {({ sidebarOpen }) => (
         <div className="flex flex-col min-h-screen bg-gray-50">
           {sidebarOpen && (
-            <div className="shrink-0 z-20 bg-gray-50/80 backdrop-blur-md shadow-sm px-8 h-16 flex items-center sticky top-0 border-b border-gray-200">
-              <div className="flex items-center translate-y-1">
-                <span className="w-1.5 h-8 rounded bg-[#205c40] mr-4" />
-                <h1 className="text-xl font-bold text-[#205c40]">{title}</h1>
-              </div>
+            // Header updated to match Toolkit styling
+            <div
+              className="shrink-0 z-20 shadow-sm px-8 h-24 flex items-center justify-between"
+              style={{ backgroundColor: "#ffffff" }}
+            >
+              <h1 className="text-2xl font-bold" style={{ color: "#205c40" }}>
+                {title}
+              </h1>
+              {/* empty right slot to mirror Toolkit spacing */}
+              <div className="relative flex-shrink-0 w-[240px] ml-4" />
             </div>
           )}
 
           <div
-            className={`flex-1 flex flex-col w-full min-h-0 ${sidebarOpen ? "px-2 sm:px-4 md:px-6" : "p-0"}`}
+            className={`flex-1 flex flex-col w-full min-h-0 ${
+              sidebarOpen ? "px-2 sm:px-4 md:px-6" : "p-0"
+            }`}
           >
             <div
               className="flex-grow flex-shrink bg-white rounded-xl shadow-md w-full flex flex-col border border-gray-200"
               style={{
                 marginTop: sidebarOpen ? "1.25rem" : "0",
-                height: "calc(100vh - 4rem)", // fallback if flex fails
+                height: "calc(100vh - 4rem)", // fallback if flex fails (left unchanged)
               }}
             >
               {error && <div className="text-red-600 p-4">{error}</div>}
