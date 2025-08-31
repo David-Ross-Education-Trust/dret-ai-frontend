@@ -38,39 +38,39 @@ import BarnesWallisLogo from "../../../assets/Barnes_Wallis_thumb.jpg";
 
 // 2. Import your Toolkit page components (unchanged)
 import DemoToolkit from "../reports/toolkit/DemoToolkit";
-import AbbeyToolkit from "../reports/toolkit/AbbeyToolkit";
-import AinthorpeToolkit from "../reports/toolkit/AinthorpeToolkit";
-import BoothWoodToolkit from "../reports/toolkit/BoothWoodToolkit";
-import BriarHillToolkit from "../reports/toolkit/BriarHillToolkit";
-import BringhurstToolkit from "../reports/toolkit/BringhurstToolkit";
-import CedarRdToolkit from "../reports/toolkit/CedarRdToolkit";
+import AbbeyToolkit from "../reports/toolkit/primary/AbbeyToolkit";
+import AinthorpeToolkit from "../reports/toolkit/primary/AinthorpeToolkit";
+import BoothWoodToolkit from "../reports/toolkit/primary/BoothWoodToolkit";
+import BriarHillToolkit from "../reports/toolkit/primary/BriarHillToolkit";
+import BringhurstToolkit from "../reports/toolkit/primary/BringhurstToolkit";
+import CedarRoadToolkit from "../reports/toolkit/primary/CedarRoadToolkit";
 import CharlesReadToolkit from "../reports/toolkit/secondary/CharlesReadToolkit";
 import CharnwoodToolkit from "../reports/toolkit/secondary/CharnwoodToolkit";
-import EastfieldToolkit from "../reports/toolkit/EastfieldToolkit";
-import EdHeneageToolkit from "../reports/toolkit/EdHeneageToolkit";
-import EndikeToolkit from "../reports/toolkit/EndikeToolkit";
-import EresbyToolkit from "../reports/toolkit/EresbyToolkit";
-import FairfieldToolkit from "../reports/toolkit/FairfieldToolkit";
-import FalconersToolkit from "../reports/toolkit/FalconersToolkit";
-import GreenfieldsToolkit from "../reports/toolkit/GreenfieldsToolkit";
+import EastfieldToolkit from "../reports/toolkit/primary/EastfieldToolkit";
+import EdwardHeneageToolkit from "../reports/toolkit/primary/EdwardHeneageToolkit";
+import EndikeToolkit from "../reports/toolkit/primary/EndikeToolkit";
+import EresbyToolkit from "../reports/toolkit/primary/EresbyToolkit";
+import FairfieldToolkit from "../reports/toolkit/primary/FairfieldToolkit";
+import FalconersHillToolkit from "../reports/toolkit/primary/FalconersHillToolkit";
+import GreenfieldsToolkit from "../reports/toolkit/primary/GreenfieldsToolkit";
 import HavelockToolkit from "../reports/toolkit/secondary/HavelockToolkit";
-import HogsToolkit from "../reports/toolkit/HogsToolkit";
+import HogsthorpeToolkit from "../reports/toolkit/primary/HogsthorpeToolkit";
 import HumberstonToolkit from "../reports/toolkit/secondary/HumberstonToolkit";
-import IngoldsbyToolkit from "../reports/toolkit/IngoldsbyToolkit";
+import IngoldsbyToolkit from "../reports/toolkit/primary/IngoldsbyToolkit";
 import KingEdwardToolkit from "../reports/toolkit/secondary/KingEdwardToolkit";
-import KingsHeathToolkit from "../reports/toolkit/KingsheathToolkit";
+import KingsHeathToolkit from "../reports/toolkit/primary/KingsHeathToolkit";
 import LodgeParkToolkit from "../reports/toolkit/secondary/LodgeParkToolkit";
 import MalcolmArnoldToolkit from "../reports/toolkit/secondary/MalcolmArnoldToolkit";
-import MalcolmArnoldPrepToolkit from "../reports/toolkit/MalcolmArnoldPrepToolkit";
-import NewnhamToolkit from "../reports/toolkit/NewnhamToolkit";
-import QuayToolkit from "../reports/toolkit/QuayToolkit";
-import RockinghamToolkit from "../reports/toolkit/RockinghamToolkit";
+import MalcolmArnoldPrepToolkit from "../reports/toolkit/primary/MalcolmArnoldPrepToolkit";
+import NewnhamToolkit from "../reports/toolkit/primary/NewnhamToolkit";
+import QuayToolkit from "../reports/toolkit/primary/QuayToolkit";
+import RockinghamToolkit from "../reports/toolkit/primary/RockinghamToolkit";
 import SkegnessToolkit from "../reports/toolkit/secondary/SkegnessToolkit";
-import TheArboursToolkit from "../reports/toolkit/TheArboursToolkit";
-import ThomasHinderwellToolkit from "../reports/toolkit/ThomasHinderwellToolkit";
+import TheArboursToolkit from "../reports/toolkit/primary/TheArboursToolkit";
+import ThomasHinderwellToolkit from "../reports/toolkit/primary/ThomasHinderwellToolkit";
 import ThomasMiddlecottToolkit from "../reports/toolkit/secondary/ThomasMiddlecottToolkit";
-import WeltonToolkit from "../reports/toolkit/WeltonToolkit";
-import WoldToolkit from "../reports/toolkit/WoldToolkit";
+import WeltonToolkit from "../reports/toolkit/primary/WeltonToolkit";
+import WoldToolkit from "../reports/toolkit/primary/WoldToolkit";
 import BobbyMooreToolkit from "../reports/toolkit/secondary/BobbyMooreToolkit";
 import BarnesWallisToolkit from "../reports/toolkit/secondary/BarnesWallisToolkit";
 
@@ -85,18 +85,18 @@ export const toolkitConfig = [
   { id: "boothwood", name: "Booth Wood Academy", description: "Booth Wood Academy Toolkit.", category: "Toolkit", tag: "", href: "/analytics/toolkits/boothwood", component: BoothWoodToolkit, logoUrl: BoothWoodLogo, comingSoon: false },
   { id: "briarhill", name: "Briar Hill Primary School", description: "Briar Hill Primary School Toolkit.", category: "Toolkit", tag: "", href: "/analytics/toolkits/briarhill", component: BriarHillToolkit, logoUrl: BriarHillLogo, comingSoon: false },
   { id: "bringhurst", name: "Bringhurst Primary School", description: "Bringhurst Primary School Toolkit.", category: "Toolkit", tag: "", href: "/analytics/toolkits/bringhurst", component: BringhurstToolkit, logoUrl: BringhurstLogo, comingSoon: false },
-  { id: "cedarroad", name: "Cedar Road Primary School", description: "Cedar Road Primary School Toolkit.", category: "Toolkit", tag: "", href: "/analytics/toolkits/cedarroad", component: CedarRdToolkit, logoUrl: CedarRdLogo, comingSoon: false },
+  { id: "cedarroad", name: "Cedar Road Primary School", description: "Cedar Road Primary School Toolkit.", category: "Toolkit", tag: "", href: "/analytics/toolkits/cedarroad", component: CedarRoadToolkit, logoUrl: CedarRdLogo, comingSoon: false },
   { id: "charlesread", name: "Charles Read Academy", description: "Charles Read Academy Toolkit.", category: "Toolkit", tag: "", href: "/analytics/toolkits/charlesread", component: CharlesReadToolkit, logoUrl: CharlesReadLogo, comingSoon: false },
   { id: "charnwood", name: "Charnwood College", description: "Charnwood College Toolkit.", category: "Toolkit", tag: "", href: "/analytics/toolkits/charnwood", component: CharnwoodToolkit, logoUrl: CharnwoodLogo, comingSoon: false },
   { id: "eastfield", name: "Eastfield Academy", description: "Eastfield Academy Toolkit.", category: "Toolkit", tag: "", href: "/analytics/toolkits/eastfield", component: EastfieldToolkit, logoUrl: EastfieldLogo, comingSoon: false },
-  { id: "edwardheneage", name: "Edward Heneage Primary Academy", description: "Edward Heneage Primary Academy Toolkit.", category: "Toolkit", tag: "", href: "/analytics/toolkits/edwardheneage", component: EdHeneageToolkit, logoUrl: EdHeneageLogo, comingSoon: false },
+  { id: "edwardheneage", name: "Edward Heneage Primary Academy", description: "Edward Heneage Primary Academy Toolkit.", category: "Toolkit", tag: "", href: "/analytics/toolkits/edwardheneage", component: EdwardHeneageToolkit, logoUrl: EdHeneageLogo, comingSoon: false },
   { id: "endike", name: "Endike Academy", description: "Endike Academy Toolkit.", category: "Toolkit", tag: "", href: "/analytics/toolkits/endike", component: EndikeToolkit, logoUrl: EndikeLogo, comingSoon: false },
   { id: "eresby", name: "Eresby School", description: "Eresby School Toolkit.", category: "Toolkit", tag: "", href: "/analytics/toolkits/eresby", component: EresbyToolkit, logoUrl: EresbyLogo, comingSoon: false },
   { id: "fairfield", name: "Fairfield Academy", description: "Fairfield Academy Toolkit.", category: "Toolkit", tag: "", href: "/analytics/toolkits/fairfield", component: FairfieldToolkit, logoUrl: FairfieldLogo, comingSoon: false },
-  { id: "falconers", name: "Falconer's Hill Academy", description: "Falconer's Hill Academy Toolkit.", category: "Toolkit", tag: "", href: "/analytics/toolkits/falconers", component: FalconersToolkit, logoUrl: FalconersLogo, comingSoon: false },
+  { id: "falconers", name: "Falconer's Hill Academy", description: "Falconer's Hill Academy Toolkit.", category: "Toolkit", tag: "", href: "/analytics/toolkits/falconers", component: FalconersHillToolkit, logoUrl: FalconersLogo, comingSoon: false },
   { id: "greenfields", name: "Greenfields Primary School and Nursery", description: "Greenfields Primary School and Nursery Toolkit.", category: "Toolkit", tag: "", href: "/analytics/toolkits/greenfields", component: GreenfieldsToolkit, logoUrl: GreenfieldsLogo, comingSoon: false },
   { id: "havelock", name: "Havelock Academy", description: "Havelock Academy Toolkit.", category: "Toolkit", tag: "", href: "/analytics/toolkits/havelock", component: HavelockToolkit, logoUrl: HavelockLogo, comingSoon: false },
-  { id: "hogs", name: "Hogsthorpe Primary Academy", description: "Hogsthorpe Primary Academy Toolkit.", category: "Toolkit", tag: "", href: "/analytics/toolkits/hogsthorpe", component: HogsToolkit, logoUrl: HogsLogo, comingSoon: false },
+  { id: "hogs", name: "Hogsthorpe Primary Academy", description: "Hogsthorpe Primary Academy Toolkit.", category: "Toolkit", tag: "", href: "/analytics/toolkits/hogsthorpe", component: HogsthorpeToolkit, logoUrl: HogsLogo, comingSoon: false },
   { id: "humberston", name: "Humberston Academy", description: "Humberston Academy Toolkit.", category: "Toolkit", tag: "", href: "/analytics/toolkits/humberston", component: HumberstonToolkit, logoUrl: HumberstonLogo, comingSoon: false },
   { id: "ingoldsby", name: "Ingoldsby Academy", description: "Ingoldsby Academy Toolkit.", category: "Toolkit", tag: "", href: "/analytics/toolkits/ingoldsby", component: IngoldsbyToolkit, logoUrl: IngoldsbyLogo, comingSoon: false },
   { id: "kevi", name: "King Edward VI Academy", description: "King Edward VI Academy Toolkit.", category: "Toolkit", tag: "", href: "/analytics/toolkits/kevi", component: KingEdwardToolkit, logoUrl: KingEdwardLogo, comingSoon: false },
