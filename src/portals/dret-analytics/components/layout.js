@@ -10,10 +10,10 @@ const navItems = [
   { label: "Favourites", to: "/analytics" },
   { label: "Education Dashboards", to: "/analytics/education" },
   { label: "Education Toolkits", to: "/analytics/toolkits" },
-  { label: "Operations", to: "/analytics/operations" },
-  { label: "Finance", to: "/analytics/finance" },
-  { label: "HR", to: "/analytics/hr" },
-  { label: "IT & Data", to: "/analytics/it-data" },
+  { label: "Operations", to: "/analytics/operations", disabled: true },
+  { label: "Finance", to: "/analytics/finance", disabled: true },
+  { label: "HR", to: "/analytics/hr", disabled: true },
+  { label: "IT & Data", to: "/analytics/it-data", disabled: true },
 ];
 
 const AnalyticsLayout = ({
@@ -90,8 +90,36 @@ const AnalyticsLayout = ({
           {navItems.map((item, idx) => {
             const isSelected =
               location.pathname === item.to ||
-              (item.label === "Favourites" && location.pathname.startsWith("/analytics/favourites"));
+              (item.label === "Favourites" &&
+                location.pathname.startsWith("/analytics/favourites"));
+            const isDisabled = !!item.disabled;
 
+            if (isDisabled) {
+              // Disabled: non-clickable, muted/greyed, no hover scale, no selected dot
+              return (
+                <div
+                  key={idx}
+                  aria-disabled="true"
+                  title={`${item.label} (coming soon)`}
+                  className={`
+                    flex items-center px-4 py-3 rounded font-avenir transition-transform duration-150 relative
+                    ${sidebarOpen ? "" : "justify-center"}
+                    opacity-60 cursor-not-allowed
+                  `}
+                  style={{
+                    color: "rgba(255,255,255,0.7)",
+                    fontWeight: 400,
+                    fontFamily:
+                      "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
+                  }}
+                >
+                  {/* no dot for disabled */}
+                  <span>{sidebarOpen ? item.label : ""}</span>
+                </div>
+              );
+            }
+
+            // Enabled: behaves as before
             return (
               <Link
                 key={idx}
@@ -99,11 +127,13 @@ const AnalyticsLayout = ({
                 className={`
                   flex items-center px-4 py-3 rounded font-avenir transition-transform duration-150 relative group
                   hover:scale-[1.04]
+                  ${sidebarOpen ? "" : "justify-center"}
                 `}
                 style={{
                   color: "#fff",
                   fontWeight: 400,
-                  fontFamily: "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
+                  fontFamily:
+                    "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
                   transition: "transform 0.18s cubic-bezier(.4,0,.2,1)",
                 }}
               >
@@ -134,16 +164,15 @@ const AnalyticsLayout = ({
               className="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-[#184b34] transition font-avenir"
             >
               <FaUserCircle className="text-2xl" />
-              {sidebarOpen && (
-                isSignedIn ? (
+              {sidebarOpen &&
+                (isSignedIn ? (
                   <div className="flex items-center gap-1">
                     <span className="font-medium text-sm">{account.name}</span>
                     <FiChevronDown className="text-xs" />
                   </div>
                 ) : (
                   <span className="font-medium text-sm">Sign in</span>
-                )
-              )}
+                ))}
             </div>
             {isSignedIn && menuOpen && (
               <div className="absolute bottom-16 left-4 bg-white text-black rounded shadow-md w-48 z-50 font-avenir">
@@ -176,9 +205,7 @@ const AnalyticsLayout = ({
         }}
       >
         {showHeader && headerContent}
-        {typeof children === "function"
-          ? children({ sidebarOpen })
-          : children}
+        {typeof children === "function" ? children({ sidebarOpen }) : children}
       </main>
     </div>
   );
