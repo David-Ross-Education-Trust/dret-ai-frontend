@@ -26,7 +26,7 @@ function useFavourites(key = "toolkitFavourites_Newnham") {
 
 export default function NewnhamToolkit() {
   const [searchTerm, setSearchTerm] = useState("");
-  the [searchFocused, setSearchFocused] = useState(false);
+  const [searchFocused, setSearchFocused] = useState(false);
   const [favourites, toggleFavourite] = useFavourites(
     "toolkitFavourites_Newnham"
   );
