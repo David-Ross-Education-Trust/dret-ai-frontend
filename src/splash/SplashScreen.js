@@ -17,12 +17,15 @@ export default function SplashScreen() {
         >
           Continue to DRET Analytics
         </button>
+
+        {/* AI entry temporarily disabled
         <button
           className="bg-white text-[var(--trust-green)] font-avenir font-semibold rounded-full py-3 px-6 shadow-md text-lg transition hover:bg-gray-100"
           onClick={() => navigate("/ai/home")}
         >
           Continue to DRET AI
         </button>
+        */}
       </div>
     </div>
   );
