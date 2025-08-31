@@ -51,7 +51,7 @@ export default function AinthorpeToolkit() {
           style={{ backgroundColor: "#ffffff" }}
         >
           <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
-            Ainthorpe Primary Academy
+            Ainthorpe Primary School
           </h1>
           <div className="relative flex-shrink-0 w-[240px] ml-4">
             <input

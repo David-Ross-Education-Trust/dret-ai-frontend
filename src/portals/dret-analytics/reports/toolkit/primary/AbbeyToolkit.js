@@ -51,7 +51,7 @@ export default function AbbeyToolkit() {
           style={{ backgroundColor: "#ffffff" }}
         >
           <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
-            Abbey College
+            Abbey CE Academy
           </h1>
           <div className="relative flex-shrink-0 w-[240px] ml-4">
             <input
