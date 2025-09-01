@@ -43,67 +43,66 @@ export default function PowerBIReportPage({ reportKey, title = "Power BI Report"
 
   return (
     <AnalyticsLayout allowSidebarMinimise hideHeaderWithSidebar>
-      {({ sidebarOpen }) => (
-        <div className="flex flex-col min-h-screen bg-gray-50">
-          {sidebarOpen && (
-            // Header updated to match Toolkit styling
-            <div
-              className="shrink-0 z-20 shadow-sm px-8 h-24 flex items-center justify-between"
-              style={{ backgroundColor: "#ffffff" }}
-            >
-              <h1 className="text-2xl font-bold" style={{ color: "#205c40" }}>
-                {title}
-              </h1>
-              {/* empty right slot to mirror Toolkit spacing */}
-              <div className="relative flex-shrink-0 w-[240px] ml-4" />
-            </div>
-          )}
+      {({ sidebarOpen }) => {
+        const cardHeight = sidebarOpen ? "calc(100vh - 7.25rem)" : "100vh"; // 6rem header + 1.25rem top gap
 
-          <div
-            className={`flex-1 flex flex-col w-full min-h-0 ${
-              sidebarOpen ? "px-2 sm:px-4 md:px-6" : "p-0"
-            }`}
-          >
-            <div
-              className="flex-grow flex-shrink bg-white rounded-xl shadow-md w-full flex flex-col border border-gray-200"
-              style={{
-                marginTop: sidebarOpen ? "1.25rem" : "0",
-                height: "calc(100vh - 4rem)", // fallback if flex fails (left unchanged)
-              }}
-            >
-              {error && <div className="text-red-600 p-4">{error}</div>}
-              {!embedInfo && !error && (
-                <div className="text-gray-500 p-4">Loading Power BI report...</div>
-              )}
-              {embedInfo && (
-                <PowerBIEmbed
-                  embedConfig={{
-                    type: "report",
-                    id: embedInfo.reportId,
-                    embedUrl: embedInfo.embedUrl,
-                    accessToken: embedInfo.embedToken,
-                    tokenType: models.TokenType.Embed,
-                    settings: {
-                      panes: {
-                        filters: { visible: false },
-                        pageNavigation: { visible: true },
+        return (
+          <div className="flex flex-col min-h-screen bg-gray-50">
+            {sidebarOpen && (
+              <div
+                className="shrink-0 z-20 shadow-sm px-8 h-24 flex items-center justify-between"
+                style={{ backgroundColor: "#ffffff" }}
+              >
+                <h1 className="text-2xl font-bold" style={{ color: "#205c40" }}>
+                  {title}
+                </h1>
+                <div className="relative flex-shrink-0 w-[240px] ml-4" />
+              </div>
+            )}
+
+            <div className={`flex-1 flex flex-col w-full min-h-0 ${sidebarOpen ? "px-2 sm:px-4 md:px-6" : "p-0"}`}>
+              <div
+                className="flex-grow flex-shrink bg-white rounded-xl shadow-md w-full flex flex-col border border-gray-200"
+                style={{
+                  marginTop: sidebarOpen ? "1.25rem" : "0",
+                  height: cardHeight,
+                  overflow: "hidden",
+                }}
+              >
+                {error && <div className="text-red-600 p-4">{error}</div>}
+                {!embedInfo && !error && (
+                  <div className="text-gray-500 p-4">Loading Power BI report...</div>
+                )}
+                {embedInfo && (
+                  <PowerBIEmbed
+                    embedConfig={{
+                      type: "report",
+                      id: embedInfo.reportId,
+                      embedUrl: embedInfo.embedUrl,
+                      accessToken: embedInfo.embedToken,
+                      tokenType: models.TokenType.Embed,
+                      settings: {
+                        panes: {
+                          filters: { visible: false },
+                          pageNavigation: { visible: true },
+                        },
                       },
-                    },
-                  }}
-                  cssClassName="w-full h-full rounded-xl"
-                  style={{
-                    flex: 1,
-                    width: "100%",
-                    height: "100%",
-                    minHeight: "100%",
-                    borderRadius: "inherit",
-                  }}
-                />
-              )}
+                    }}
+                    cssClassName="w-full h-full rounded-xl"
+                    style={{
+                      flex: 1,
+                      width: "100%",
+                      height: "100%",
+                      minHeight: "100%",
+                      borderRadius: "inherit",
+                    }}
+                  />
+                )}
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        );
+      }}
     </AnalyticsLayout>
   );
 }
