@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search, X } from "lucide-react";
 
@@ -29,8 +29,9 @@ function readSetFromLS(key) {
 export default function HomePage() {
   const [analyticsFavourites, toggleAnalyticsFavourite] = useFavourites("analyticsFavourites");
   const [toolkitFavVersion, setToolkitFavVersion] = useState(0);
+  const [toolkitFavSets, setToolkitFavSets] = useState({});
 
-  const toolkitFavSets = useMemo(() => {
+  useEffect(() => {
     const sets = {};
     sets["toolkitFavourites"] = readSetFromLS("toolkitFavourites");
     for (const key of Object.keys(localStorage)) {
@@ -38,7 +39,7 @@ export default function HomePage() {
         sets[key] = readSetFromLS(key);
       }
     }
-    return sets;
+    setToolkitFavSets(sets);
   }, [toolkitFavVersion]);
 
   const [clickedStar, setClickedStar] = useState(null);
