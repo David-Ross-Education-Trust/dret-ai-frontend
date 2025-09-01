@@ -34,7 +34,7 @@ export const reportConfig = [
   {
     id: "bromcom-eyf-stage-assessment",
     name: "EYF Stage Assessment",
-    description: "Outcoms for the last academic year.",
+    description: "Outcomes for the previous academic year.",
     category: "Bromcom",
     tag: "",
     href: "/analytics/education/bromcom-eyf-stage-assessment",
@@ -54,7 +54,7 @@ export const reportConfig = [
   {
     id: "bromcom-ks1-ks2-assessment",
     name: "KS1/KS2 Assessment",
-    description: "Outcomes for the current and last academic years.",
+    description: "Outcomes for the current and previous academic years.",
     category: "Bromcom",
     tag: "",
     href: "/analytics/education/bromcom-ks1-ks2-assessment",
