@@ -26,7 +26,7 @@ function readSetFromLS(key) {
   }
 }
 
-export default function FavouritesPage() {
+export default function HomePage() {
   const [analyticsFavourites, toggleAnalyticsFavourite] = useFavourites("analyticsFavourites");
   const [toolkitFavVersion, setToolkitFavVersion] = useState(0);
 
@@ -83,8 +83,8 @@ export default function FavouritesPage() {
     const key = storageKeyForItem(item);
     const legacyKey = "toolkitFavourites";
     const candidates = [key, legacyKey];
-    let targetKey =
-      candidates.find((k) => readSetFromLS(k).has(item.id)) || key;
+    const existingKey = candidates.find((k) => readSetFromLS(k).has(item.id));
+    const targetKey = existingKey || key;
     const arr = JSON.parse(localStorage.getItem(targetKey) || "[]");
     const exists = arr.includes(item.id);
     const next = exists ? arr.filter((x) => x !== item.id) : [...arr, item.id];

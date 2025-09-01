@@ -4,7 +4,7 @@ export const reportConfig = [
   {
     id: "dret-pupil-profile",
     name: "DRET Pupil Profile",
-    description: "View detailed profile data for each pupil.",
+    description: "Detailed profile data for each pupil.",
     category: "DRET",
     tag: "",
     href: "/analytics/education/dret-pupil-profile",
@@ -14,7 +14,7 @@ export const reportConfig = [
   {
     id: "dret-education-team-report",
     name: "Education Team Report",
-    description: "Trust-level metrics used by the central team.",
+    description: "Education Team metrics and analysis.",
     category: "DRET",
     tag: "",
     href: "/analytics/education/dret-education-team-report",
@@ -24,7 +24,7 @@ export const reportConfig = [
   {
     id: "bromcom-attendance",
     name: "Attendance Overview",
-    description: "Track attendance across the trust.",
+    description: "Attendance data analysis tools.",
     category: "Bromcom",
     tag: "",
     href: "/analytics/education/bromcom-attendance",
@@ -34,7 +34,7 @@ export const reportConfig = [
   {
     id: "bromcom-eyf-stage-assessment",
     name: "EYF Stage Assessment",
-    description: "EYFS stage-level outcomes and progress.",
+    description: "Outcoms for the last academic year.",
     category: "Bromcom",
     tag: "",
     href: "/analytics/education/bromcom-eyf-stage-assessment",
@@ -54,7 +54,7 @@ export const reportConfig = [
   {
     id: "bromcom-ks1-ks2-assessment",
     name: "KS1/KS2 Assessment",
-    description: "View assessment performance at KS1 and KS2.",
+    description: "Outcomes for the current and last academic years.",
     category: "Bromcom",
     tag: "",
     href: "/analytics/education/bromcom-ks1-ks2-assessment",
@@ -64,7 +64,7 @@ export const reportConfig = [
   {
     id: "bromcom-ks1-ks2-tracker",
     name: "KS1/KS2 Tracker",
-    description: "Cohort-level tracking across subjects.",
+    description: "Compare Summative results to ARE/Summative Targets.",
     category: "Bromcom",
     tag: "",
     href: "/analytics/education/bromcom-ks1-ks2-tracker",
@@ -74,7 +74,7 @@ export const reportConfig = [
   {
     id: "bromcom-ks4-performance",
     name: "KS4 Performance",
-    description: "GCSE and equivalent attainment data.",
+    description: "Progress 8 and other metric analysis tools.",
     category: "Bromcom",
     tag: "",
     href: "/analytics/education/bromcom-ks4-performance",
@@ -84,7 +84,7 @@ export const reportConfig = [
   {
     id: "bromcom-mat-performance-overview",
     name: "MAT Performance Overview",
-    description: "Trust-wide headline performance figures.",
+    description: "MAT level overview of aggregated statistics.",
     category: "Bromcom",
     tag: "",
     href: "/analytics/education/bromcom-mat-performance-overview",
@@ -94,7 +94,7 @@ export const reportConfig = [
   {
     id: "bromcom-suspensions-exclusions",
     name: "Suspensions & Exclusions",
-    description: "Monitor behaviour incidents and exclusions.",
+    description: "Suspension and permanent exclusion analysis tools.",
     category: "Bromcom",
     tag: "",
     href: "/analytics/education/bromcom-suspensions-exclusions",
