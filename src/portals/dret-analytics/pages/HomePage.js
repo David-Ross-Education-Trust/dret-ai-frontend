@@ -6,6 +6,7 @@ import AnalyticsLayout from "../components/layout";
 import ReportCard from "../components/reportCard";
 import ToolkitReportCard from "../components/ToolkitReportCard";
 import { reportConfig } from "../components/reportConfig";
+import { toolkitConfig } from "../components/ToolkitConfig";
 import { demoToolkitConfig } from "../reports/toolkit/DemoToolkitConfig";
 import { allToolkitConfigs } from "../reports/toolkit/allToolkits";
 import { useFavourites } from "../hooks/useFavourites";
@@ -65,7 +66,8 @@ export default function HomePage() {
   );
 
   const favouriteToolkits = useMemo(() => {
-    return [...allToolkitConfigs, ...demoToolkitConfig].filter((item) => {
+    const items = [...toolkitConfig, ...demoToolkitConfig, ...allToolkitConfigs];
+    return items.filter((item) => {
       if (!item?.id || item?.comingSoon) return false;
       const key = storageKeyForItem(item);
       const inSchool = toolkitFavSets[key]?.has(item.id);

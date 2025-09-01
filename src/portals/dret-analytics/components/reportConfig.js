@@ -84,7 +84,7 @@ export const reportConfig = [
   {
     id: "bromcom-mat-performance-overview",
     name: "MAT Performance Overview",
-    description: "MAT level overview of aggregated statistics.",
+    description: "MAT-level overview of aggregated statistics.",
     category: "Bromcom",
     tag: "",
     href: "/analytics/education/bromcom-mat-performance-overview",
@@ -114,7 +114,7 @@ export const reportConfig = [
   {
     id: "mat-comparison-analysis-ks2",
     name: "MAT KS2 Comparison",
-    description: "Compare KS2 outcomes across academies.",
+    description: "Compare KS2 outcomes across MATs.",
     category: "DRET",
     tag: "",
     href: "/analytics/education/mat-comparison-analysis-ks2",
@@ -124,7 +124,7 @@ export const reportConfig = [
   {
     id: "mat-comparison-analysis-ks4",
     name: "MAT KS4 Comparison",
-    description: "Compare KS4 outcomes across academies.",
+    description: "Compare KS4 outcomes across MATs.",
     category: "DRET",
     tag: "",
     href: "/analytics/education/mat-comparison-analysis-ks4",
