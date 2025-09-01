@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search, X } from "lucide-react";
 
@@ -6,52 +6,91 @@ import AnalyticsLayout from "../components/layout";
 import ReportCard from "../components/reportCard";
 import ToolkitReportCard from "../components/ToolkitReportCard";
 import { reportConfig } from "../components/reportConfig";
-import { toolkitConfig } from "../components/ToolkitConfig";
 import { demoToolkitConfig } from "../reports/toolkit/DemoToolkitConfig";
+import { allToolkitConfigs } from "../reports/toolkit/allToolkits";
 import { useFavourites } from "../hooks/useFavourites";
+
+const TRUST_GREEN = "#205c40";
+
+function storageKeyForItem(item) {
+  const school = item?.sourceToolkit?.replace(/\s*Toolkit\s*$/i, "")?.replace(/\s+/g, "");
+  return school ? `toolkitFavourites_${school}` : "toolkitFavourites";
+}
+
+function readSetFromLS(key) {
+  try {
+    const arr = JSON.parse(localStorage.getItem(key) || "[]");
+    return new Set(Array.isArray(arr) ? arr : []);
+  } catch {
+    return new Set();
+  }
+}
 
 export default function FavouritesPage() {
   const [analyticsFavourites, toggleAnalyticsFavourite] = useFavourites("analyticsFavourites");
-  const [toolkitFavourites, toggleToolkitFavourite] = useFavourites("toolkitFavourites");
+  const [toolkitFavVersion, setToolkitFavVersion] = useState(0);
+
+  const toolkitFavSets = useMemo(() => {
+    const sets = {};
+    sets["toolkitFavourites"] = readSetFromLS("toolkitFavourites");
+    for (const key of Object.keys(localStorage)) {
+      if (key.startsWith("toolkitFavourites_")) {
+        sets[key] = readSetFromLS(key);
+      }
+    }
+    return sets;
+  }, [toolkitFavVersion]);
 
   const [clickedStar, setClickedStar] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
   const navigate = useNavigate();
-  const TRUST_GREEN = "#205c40";
+
+  const textMatches = (obj, term) => {
+    if (!term) return true;
+    const t = term.toLowerCase();
+    return (
+      (obj.name && obj.name.toLowerCase().includes(t)) ||
+      (obj.description && obj.description.toLowerCase().includes(t))
+    );
+  };
 
   const favouriteReports = reportConfig.filter(
     (r) =>
       !r.comingSoon &&
       r.id &&
       analyticsFavourites.includes(r.id) &&
-      (
-        searchTerm.trim() === "" ||
-        (r.name && r.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (r.description && r.description.toLowerCase().includes(searchTerm.toLowerCase()))
-      )
+      textMatches(r, searchTerm)
   );
 
-  const favouriteToolkits = [...toolkitConfig, ...demoToolkitConfig].filter(
-    (t) =>
-      !t.comingSoon &&
-      t.id &&
-      toolkitFavourites.includes(t.id) &&
-      (
-        searchTerm.trim() === "" ||
-        (t.name && t.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (t.description && t.description.toLowerCase().includes(searchTerm.toLowerCase()))
-      )
-  );
+  const favouriteToolkits = useMemo(() => {
+    return [...allToolkitConfigs, ...demoToolkitConfig].filter((item) => {
+      if (!item?.id || item?.comingSoon) return false;
+      const key = storageKeyForItem(item);
+      const inSchool = toolkitFavSets[key]?.has(item.id);
+      const inLegacy = toolkitFavSets["toolkitFavourites"]?.has(item.id);
+      return (inSchool || inLegacy) && textMatches(item, searchTerm);
+    });
+  }, [toolkitFavSets, searchTerm]);
 
-  const handleFavourite = (id) => {
-    if (analyticsFavourites.includes(id)) {
-      toggleAnalyticsFavourite(id);
-    } else {
-      toggleToolkitFavourite(id); // catch both toolkit + demoToolkit
-    }
-
+  const handleDashboardFavourite = (id) => {
+    toggleAnalyticsFavourite(id);
     setClickedStar(id);
+    setTimeout(() => setClickedStar(null), 400);
+  };
+
+  const toggleToolkitItemFavourite = (item) => {
+    const key = storageKeyForItem(item);
+    const legacyKey = "toolkitFavourites";
+    const candidates = [key, legacyKey];
+    let targetKey =
+      candidates.find((k) => readSetFromLS(k).has(item.id)) || key;
+    const arr = JSON.parse(localStorage.getItem(targetKey) || "[]");
+    const exists = arr.includes(item.id);
+    const next = exists ? arr.filter((x) => x !== item.id) : [...arr, item.id];
+    localStorage.setItem(targetKey, JSON.stringify(next));
+    setToolkitFavVersion((v) => v + 1);
+    setClickedStar(`${targetKey}:${item.id}`);
     setTimeout(() => setClickedStar(null), 400);
   };
 
@@ -63,7 +102,6 @@ export default function FavouritesPage() {
           fontFamily: "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
         }}
       >
-        {/* --- Top Bar --- */}
         <div
           className="shrink-0 z-20 shadow-sm px-8 h-24 flex items-center justify-between"
           style={{ backgroundColor: "#ffffff" }}
@@ -79,9 +117,7 @@ export default function FavouritesPage() {
               placeholder="Search favourites"
               onFocus={() => setSearchFocused(true)}
               onBlur={() => setSearchFocused(false)}
-              className={`w-full border ${
-                searchFocused ? "" : "border-gray-300"
-              } rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
+              className={`w-full border ${searchFocused ? "" : "border-gray-300"} rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
               style={{
                 borderColor: searchFocused ? TRUST_GREEN : undefined,
                 boxShadow: searchFocused ? `0 0 0 2px ${TRUST_GREEN}40` : undefined,
@@ -99,18 +135,14 @@ export default function FavouritesPage() {
           </div>
         </div>
 
-        {/* --- Main Content --- */}
         <div className="flex-1 overflow-y-auto p-8 custom-scrollbar space-y-12">
-          {/* Favourite Reports */}
           <div>
             <h2 className="text-xl font-semibold mb-4" style={{ color: TRUST_GREEN }}>
               Dashboards
             </h2>
             <div
               className="grid gap-6"
-              style={{
-                gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-              }}
+              style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}
             >
               {favouriteReports.length === 0 ? (
                 <div className="text-gray-500 italic text-center w-full col-span-full">
@@ -122,7 +154,7 @@ export default function FavouritesPage() {
                     key={report.id || idx}
                     report={report}
                     isFavourite={analyticsFavourites.includes(report.id)}
-                    onFavourite={() => handleFavourite(report.id)}
+                    onFavourite={() => handleDashboardFavourite(report.id)}
                     onClick={() => navigate(report.href)}
                     clickedStar={clickedStar}
                     disabled={!!report.comingSoon}
@@ -132,7 +164,6 @@ export default function FavouritesPage() {
             </div>
           </div>
 
-          {/* Favourite Toolkits */}
           <div>
             <h2 className="text-xl font-semibold mb-4" style={{ color: TRUST_GREEN }}>
               Toolkits
@@ -145,10 +176,13 @@ export default function FavouritesPage() {
               ) : (
                 favouriteToolkits.map((toolkit, idx) => (
                   <ToolkitReportCard
-                    key={toolkit.id || idx}
+                    key={`${storageKeyForItem(toolkit)}:${toolkit.id}:${idx}`}
                     report={toolkit}
-                    isFavourite={toolkitFavourites.includes(toolkit.id)}
-                    onFavourite={() => handleFavourite(toolkit.id)}
+                    isFavourite={
+                      readSetFromLS(storageKeyForItem(toolkit)).has(toolkit.id) ||
+                      readSetFromLS("toolkitFavourites").has(toolkit.id)
+                    }
+                    onFavourite={() => toggleToolkitItemFavourite(toolkit)}
                     onClick={() =>
                       toolkit.href?.startsWith("http")
                         ? window.open(toolkit.href, "_blank")
@@ -156,7 +190,7 @@ export default function FavouritesPage() {
                     }
                     clickedStar={clickedStar}
                     disabled={!!toolkit.comingSoon}
-                    showSourcePrefix={true} // ✅ prefix with toolkit name
+                    showSourcePrefix={true}
                   />
                 ))
               )}
