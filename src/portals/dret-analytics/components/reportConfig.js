@@ -9,7 +9,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/education/dret-pupil-profile",
     component: () => <PowerBIReportPage reportKey="dret-pupil-profile" title="DRET Pupil Profile" />,
-    comingSoon: false,
+    status: "active",
   },
   {
     id: "dret-education-team-report",
@@ -19,7 +19,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/education/dret-education-team-report",
     component: () => <PowerBIReportPage reportKey="dret-education-team-report" title="Education Team Report" />,
-    comingSoon: false,
+    status: "active",
   },
   {
     id: "bromcom-attendance",
@@ -29,17 +29,17 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/education/bromcom-attendance",
     component: () => <PowerBIReportPage reportKey="bromcom-attendance" title="Attendance Overview" />,
-    comingSoon: false,
+    status: "active",
   },
   {
-    id: "bromcom-eyf-stage-assessment",
+    id: "bromcom-eyfs-assessment",
     name: "EYF Stage Assessment",
     description: "Outcomes for the previous academic year.",
     category: "Bromcom",
     tag: "",
-    href: "/analytics/education/bromcom-eyf-stage-assessment",
+    href: "/analytics/education/bromcom-eyfs-assessment",
     component: () => <PowerBIReportPage reportKey="bromcom-eyf-stage-assessment" title="EYF Stage Assessment" />,
-    comingSoon: false,
+    status: "active",
   },
   {
     id: "bromcom-formative-assessment",
@@ -49,7 +49,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/education/bromcom-formative-assessment",
     component: () => <PowerBIReportPage reportKey="bromcom-formative-assessment" title="Formative Assessment" />,
-    comingSoon: false,
+    status: "hidden",
   },
   {
     id: "bromcom-ks1-ks2-assessment",
@@ -59,7 +59,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/education/bromcom-ks1-ks2-assessment",
     component: () => <PowerBIReportPage reportKey="bromcom-ks1-ks2-assessment" title="KS1/KS2 Assessment" />,
-    comingSoon: false,
+    status: "active",
   },
   {
     id: "bromcom-ks1-ks2-tracker",
@@ -69,7 +69,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/education/bromcom-ks1-ks2-tracker",
     component: () => <PowerBIReportPage reportKey="bromcom-ks1-ks2-tracker" title="KS1/KS2 Tracker" />,
-    comingSoon: false,
+    status: "active",
   },
   {
     id: "bromcom-ks4-performance",
@@ -79,7 +79,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/education/bromcom-ks4-performance",
     component: () => <PowerBIReportPage reportKey="bromcom-ks4-performance" title="KS4 Performance" />,
-    comingSoon: false,
+    status: "active",
   },
   {
     id: "bromcom-mat-performance-overview",
@@ -89,7 +89,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/education/bromcom-mat-performance-overview",
     component: () => <PowerBIReportPage reportKey="bromcom-mat-performance-overview" title="MAT Performance Overview" />,
-    comingSoon: false,
+    status: "active",
   },
   {
     id: "bromcom-suspensions-exclusions",
@@ -99,7 +99,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/education/bromcom-suspensions-exclusions",
     component: () => <PowerBIReportPage reportKey="bromcom-suspensions-exclusions" title="Suspensions & Exclusions" />,
-    comingSoon: false,
+    status: "active",
   },
   {
     id: "dret-academy-report",
@@ -109,7 +109,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/education/dret-academy-report",
     component: () => <PowerBIReportPage reportKey="dret-academy-report" title="DRET Academy Report" />,
-    comingSoon: false,
+    status: "active",
   },
   {
     id: "mat-comparison-analysis-ks2",
@@ -119,7 +119,7 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/education/mat-comparison-analysis-ks2",
     component: () => <PowerBIReportPage reportKey="mat-comparison-analysis-ks2" title="MAT KS2 Comparison" />,
-    comingSoon: false,
+    status: "active",
   },
   {
     id: "mat-comparison-analysis-ks4",
@@ -129,6 +129,6 @@ export const reportConfig = [
     tag: "",
     href: "/analytics/education/mat-comparison-analysis-ks4",
     component: () => <PowerBIReportPage reportKey="mat-comparison-analysis-ks4" title="MAT KS4 Comparison" />,
-    comingSoon: false,
+    status: "active",
   }
 ];
