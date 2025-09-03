@@ -8,7 +8,14 @@ export const reportConfig = [
     category: "DRET",
     tag: "",
     href: "/analytics/education/dret-pupil-profile",
-    component: () => <PowerBIReportPage reportKey="dret-pupil-profile" title="DRET Pupil Profile" />,
+    component: () => (
+      <PowerBIReportPage
+        reportKey="dret-pupil-profile"
+        title="DRET Pupil Profile"
+        showFilters={true}
+        expandFilters={false}
+      />
+    ),
     status: "active",
   },
   {
@@ -18,7 +25,14 @@ export const reportConfig = [
     category: "DRET",
     tag: "",
     href: "/analytics/education/dret-education-team-report",
-    component: () => <PowerBIReportPage reportKey="dret-education-team-report" title="Education Team Report" />,
+    component: () => (
+      <PowerBIReportPage
+        reportKey="dret-education-team-report"
+        title="Education Team Report"
+        showFilters={true}
+        expandFilters={false}
+      />
+    ),
     status: "active",
   },
   {
@@ -28,7 +42,14 @@ export const reportConfig = [
     category: "Bromcom",
     tag: "",
     href: "/analytics/education/bromcom-attendance",
-    component: () => <PowerBIReportPage reportKey="bromcom-attendance" title="Attendance Overview" />,
+    component: () => (
+      <PowerBIReportPage
+        reportKey="bromcom-attendance"
+        title="Attendance Overview"
+        showFilters={true}
+        expandFilters={false}
+      />
+    ),
     status: "active",
   },
   {
@@ -38,7 +59,14 @@ export const reportConfig = [
     category: "Bromcom",
     tag: "",
     href: "/analytics/education/bromcom-eyfs-assessment",
-    component: () => <PowerBIReportPage reportKey="bromcom-eyfs-assessment" title="EYFS Assessment" />,
+    component: () => (
+      <PowerBIReportPage
+        reportKey="bromcom-eyfs-assessment"
+        title="EYFS Assessment"
+        showFilters={true}
+        expandFilters={false}
+      />
+    ),
     status: "active",
   },
   {
@@ -48,7 +76,14 @@ export const reportConfig = [
     category: "Bromcom",
     tag: "",
     href: "/analytics/education/bromcom-formative-assessment",
-    component: () => <PowerBIReportPage reportKey="bromcom-formative-assessment" title="Formative Assessment" />,
+    component: () => (
+      <PowerBIReportPage
+        reportKey="bromcom-formative-assessment"
+        title="Formative Assessment"
+        showFilters={true}
+        expandFilters={false}
+      />
+    ),
     status: "hidden",
   },
   {
@@ -58,7 +93,14 @@ export const reportConfig = [
     category: "Bromcom",
     tag: "",
     href: "/analytics/education/bromcom-ks1-ks2-assessment",
-    component: () => <PowerBIReportPage reportKey="bromcom-ks1-ks2-assessment" title="KS1/KS2 Assessment" />,
+    component: () => (
+      <PowerBIReportPage
+        reportKey="bromcom-ks1-ks2-assessment"
+        title="KS1/KS2 Assessment"
+        showFilters={true}
+        expandFilters={false}
+      />
+    ),
     status: "active",
   },
   {
@@ -68,7 +110,14 @@ export const reportConfig = [
     category: "Bromcom",
     tag: "",
     href: "/analytics/education/bromcom-ks1-ks2-tracker",
-    component: () => <PowerBIReportPage reportKey="bromcom-ks1-ks2-tracker" title="KS1/KS2 Tracker" />,
+    component: () => (
+      <PowerBIReportPage
+        reportKey="bromcom-ks1-ks2-tracker"
+        title="KS1/KS2 Tracker"
+        showFilters={true}
+        expandFilters={false}
+      />
+    ),
     status: "active",
   },
   {
@@ -78,7 +127,14 @@ export const reportConfig = [
     category: "Bromcom",
     tag: "",
     href: "/analytics/education/bromcom-ks4-performance",
-    component: () => <PowerBIReportPage reportKey="bromcom-ks4-performance" title="KS4 Performance" />,
+    component: () => (
+      <PowerBIReportPage
+        reportKey="bromcom-ks4-performance"
+        title="KS4 Performance"
+        showFilters={true}
+        expandFilters={false}
+      />
+    ),
     status: "active",
   },
   {
@@ -88,7 +144,14 @@ export const reportConfig = [
     category: "Bromcom",
     tag: "",
     href: "/analytics/education/bromcom-mat-performance-overview",
-    component: () => <PowerBIReportPage reportKey="bromcom-mat-performance-overview" title="MAT Performance Overview" />,
+    component: () => (
+      <PowerBIReportPage
+        reportKey="bromcom-mat-performance-overview"
+        title="MAT Performance Overview"
+        showFilters={true}
+        expandFilters={false}
+      />
+    ),
     status: "active",
   },
   {
@@ -98,7 +161,14 @@ export const reportConfig = [
     category: "Bromcom",
     tag: "",
     href: "/analytics/education/bromcom-suspensions-exclusions",
-    component: () => <PowerBIReportPage reportKey="bromcom-suspensions-exclusions" title="Suspensions & Exclusions" />,
+    component: () => (
+      <PowerBIReportPage
+        reportKey="bromcom-suspensions-exclusions"
+        title="Suspensions & Exclusions"
+        showFilters={true}
+        expandFilters={false}
+      />
+    ),
     status: "active",
   },
   {
@@ -108,7 +178,14 @@ export const reportConfig = [
     category: "DRET",
     tag: "",
     href: "/analytics/education/dret-academy-report",
-    component: () => <PowerBIReportPage reportKey="dret-academy-report" title="DRET Academy Report" />,
+    component: () => (
+      <PowerBIReportPage
+        reportKey="dret-academy-report"
+        title="DRET Academy Report"
+        showFilters={true}
+        expandFilters={false}
+      />
+    ),
     status: "active",
   },
   {
@@ -118,7 +195,14 @@ export const reportConfig = [
     category: "DRET",
     tag: "",
     href: "/analytics/education/mat-comparison-analysis-ks2",
-    component: () => <PowerBIReportPage reportKey="mat-comparison-analysis-ks2" title="MAT KS2 Comparison" />,
+    component: () => (
+      <PowerBIReportPage
+        reportKey="mat-comparison-analysis-ks2"
+        title="MAT KS2 Comparison"
+        showFilters={true}
+        expandFilters={false}
+      />
+    ),
     status: "active",
   },
   {
@@ -128,7 +212,14 @@ export const reportConfig = [
     category: "DRET",
     tag: "",
     href: "/analytics/education/mat-comparison-analysis-ks4",
-    component: () => <PowerBIReportPage reportKey="mat-comparison-analysis-ks4" title="MAT KS4 Comparison" />,
+    component: () => (
+      <PowerBIReportPage
+        reportKey="mat-comparison-analysis-ks4"
+        title="MAT KS4 Comparison"
+        showFilters={true}
+        expandFilters={false}
+      />
+    ),
     status: "active",
-  }
+  },
 ];

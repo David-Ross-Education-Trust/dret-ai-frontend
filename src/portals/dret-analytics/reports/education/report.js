@@ -7,8 +7,8 @@ import AnalyticsLayout from "../../components/layout";
 export default function PowerBIReportPage({
   reportKey,
   title = "Power BI Report",
-  showFilters = true,      // ✅ default: show filter pane
-  expandFilters = false,   // optional: start expanded
+  showFilters = false,
+  expandFilters = false,
 }) {
   const { instance, accounts } = useMsal();
   const [embedInfo, setEmbedInfo] = useState(null);
