@@ -4,7 +4,12 @@ import { PowerBIEmbed } from "powerbi-client-react";
 import { models } from "powerbi-client";
 import AnalyticsLayout from "../../components/layout";
 
-export default function PowerBIReportPage({ reportKey, title = "Power BI Report" }) {
+export default function PowerBIReportPage({
+  reportKey,
+  title = "Power BI Report",
+  showFilters = true,      // ✅ default: show filter pane
+  expandFilters = false,   // optional: start expanded
+}) {
   const { instance, accounts } = useMsal();
   const [embedInfo, setEmbedInfo] = useState(null);
   const [error, setError] = useState(null);
@@ -44,7 +49,7 @@ export default function PowerBIReportPage({ reportKey, title = "Power BI Report"
   return (
     <AnalyticsLayout allowSidebarMinimise hideHeaderWithSidebar>
       {({ sidebarOpen }) => {
-        const cardHeight = sidebarOpen ? "calc(100vh - 7.25rem)" : "100vh"; // 6rem header + 1.25rem top gap
+        const cardHeight = sidebarOpen ? "calc(100vh - 7.25rem)" : "100vh"; // 6rem header + 1.25rem gap
 
         return (
           <div className="flex flex-col min-h-screen bg-gray-50">
@@ -73,6 +78,7 @@ export default function PowerBIReportPage({ reportKey, title = "Power BI Report"
                 {!embedInfo && !error && (
                   <div className="text-gray-500 p-4">Loading Power BI report...</div>
                 )}
+
                 {embedInfo && (
                   <PowerBIEmbed
                     embedConfig={{
@@ -82,11 +88,16 @@ export default function PowerBIReportPage({ reportKey, title = "Power BI Report"
                       accessToken: embedInfo.embedToken,
                       tokenType: models.TokenType.Embed,
                       settings: {
+                        // Prefer the new panes API
                         panes: {
-                          filters: { visible: false },
+                          filters: { visible: showFilters, expanded: expandFilters },
                           pageNavigation: { visible: true },
                         },
+                        // Back-compat flags (harmless to include)
+                        filterPaneEnabled: showFilters,
+                        navContentPaneEnabled: true,
                       },
+                      viewMode: models.ViewMode.View,
                     }}
                     cssClassName="w-full h-full rounded-xl"
                     style={{
