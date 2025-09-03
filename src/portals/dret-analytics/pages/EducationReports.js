@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Search, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import AnalyticsLayout from "../components/layout";
-import { reportConfig } from "../components/reportConfig";
+import { visibleReports } from "../components/reportConfig"; // ⬅️ use helper
 import ReportCard from "../components/reportCard";
 
 // Custom hook for persisting favourites in localStorage
@@ -31,17 +31,21 @@ export default function EducationReports() {
   const [searchFocused, setSearchFocused] = useState(false);
   const navigate = useNavigate();
 
-  const educationReports = reportConfig.filter(
-    (r) =>
-      !r.comingSoon &&
+  // ⬇️ Only visible reports, limited to DRET/Bromcom, then apply search
+  const educationReports = visibleReports.filter((r) => {
+    const inCategory =
       r.category &&
-      ["dret", "bromcom"].includes(r.category.toLowerCase()) &&
-      (
-        searchTerm.trim() === "" ||
-        (r.name && r.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (r.description && r.description.toLowerCase().includes(searchTerm.toLowerCase()))
-      )
-  );
+      ["dret", "bromcom"].includes(
+        Array.isArray(r.category) ? r.category[0]?.toLowerCase() : r.category.toLowerCase()
+      );
+
+    const matchesSearch =
+      !searchTerm.trim() ||
+      r.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      r.description?.toLowerCase().includes(searchTerm.toLowerCase());
+
+    return inCategory && matchesSearch;
+  });
 
   const TRUST_GREEN = "#205c40";
 
@@ -75,9 +79,7 @@ export default function EducationReports() {
               placeholder="Search education reports"
               onFocus={() => setSearchFocused(true)}
               onBlur={() => setSearchFocused(false)}
-              className={`w-full border ${
-                searchFocused ? "" : "border-gray-300"
-              } rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
+              className={`w-full border ${searchFocused ? "" : "border-gray-300"} rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
               style={{
                 borderColor: searchFocused ? TRUST_GREEN : undefined,
                 boxShadow: searchFocused ? `0 0 0 2px ${TRUST_GREEN}40` : undefined,
@@ -102,51 +104,35 @@ export default function EducationReports() {
         <div className="scroll-area flex-1 overflow-y-auto bg-gray-100 font-avenir p-8 pb-16">
           <div
             className="grid gap-6"
-            style={{
-              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-            }}
+            style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}
           >
             {educationReports.length === 0 ? (
               <div className="text-gray-500 italic text-center w-full col-span-full">
                 No education reports available{searchTerm ? " for this search." : " yet."}
               </div>
             ) : (
-              educationReports.map((report, idx) => (
+              educationReports.map((report) => (
                 <ReportCard
-                  key={report.id || idx}
+                  key={report.id}
                   report={report}
                   isFavourite={favourites.includes(report.id)}
                   onFavourite={handleFavourite}
                   onClick={() => navigate(report.href)}
                   clickedStar={clickedStar}
-                  disabled={!!report.comingSoon}
+                  disabled={report.status === "coming-soon"} // ⬅️ new logic
                 />
               ))
             )}
           </div>
         </div>
 
-        <style>
-          {`
-            .custom-scrollbar {
-              scrollbar-width: thin;
-              scrollbar-color: #cbd5e1 transparent;
-            }
-            .custom-scrollbar::-webkit-scrollbar {
-              width: 6px;
-            }
-            .custom-scrollbar::-webkit-scrollbar-track {
-              background: transparent;
-            }
-            .custom-scrollbar::-webkit-scrollbar-thumb {
-              background-color: #cbd5e1;
-              border-radius: 3px;
-            }
-            .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-              background-color: #94a3b8;
-            }
-          `}
-        </style>
+        <style>{`
+          .custom-scrollbar { scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent; }
+          .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+          .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+          .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 3px; }
+          .custom-scrollbar::-webkit-scrollbar-thumb:hover { background-color: #94a3b8; }
+        `}</style>
       </div>
     </AnalyticsLayout>
   );
