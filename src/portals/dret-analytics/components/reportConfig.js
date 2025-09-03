@@ -13,7 +13,7 @@ export const reportConfig = [
         reportKey="dret-pupil-profile"
         title="DRET Pupil Profile"
         showFilters={true}
-        expandFilters={false}
+        expandFilters={true}
       />
     ),
     status: "active",
@@ -30,7 +30,7 @@ export const reportConfig = [
         reportKey="dret-education-team-report"
         title="Education Team Report"
         showFilters={true}
-        expandFilters={false}
+        expandFilters={true}
       />
     ),
     status: "active",
@@ -46,7 +46,7 @@ export const reportConfig = [
       <PowerBIReportPage
         reportKey="bromcom-attendance"
         title="Attendance Overview"
-        showFilters={true}
+        showFilters={false}
         expandFilters={false}
       />
     ),
@@ -63,7 +63,7 @@ export const reportConfig = [
       <PowerBIReportPage
         reportKey="bromcom-eyfs-assessment"
         title="EYFS Assessment"
-        showFilters={true}
+        showFilters={false}
         expandFilters={false}
       />
     ),
@@ -80,7 +80,7 @@ export const reportConfig = [
       <PowerBIReportPage
         reportKey="bromcom-formative-assessment"
         title="Formative Assessment"
-        showFilters={true}
+        showFilters={false}
         expandFilters={false}
       />
     ),
@@ -97,7 +97,7 @@ export const reportConfig = [
       <PowerBIReportPage
         reportKey="bromcom-ks1-ks2-assessment"
         title="KS1/KS2 Assessment"
-        showFilters={true}
+        showFilters={false}
         expandFilters={false}
       />
     ),
@@ -114,7 +114,7 @@ export const reportConfig = [
       <PowerBIReportPage
         reportKey="bromcom-ks1-ks2-tracker"
         title="KS1/KS2 Tracker"
-        showFilters={true}
+        showFilters={false}
         expandFilters={false}
       />
     ),
@@ -131,7 +131,7 @@ export const reportConfig = [
       <PowerBIReportPage
         reportKey="bromcom-ks4-performance"
         title="KS4 Performance"
-        showFilters={true}
+        showFilters={false}
         expandFilters={false}
       />
     ),
@@ -148,7 +148,7 @@ export const reportConfig = [
       <PowerBIReportPage
         reportKey="bromcom-mat-performance-overview"
         title="MAT Performance Overview"
-        showFilters={true}
+        showFilters={false}
         expandFilters={false}
       />
     ),
@@ -165,7 +165,7 @@ export const reportConfig = [
       <PowerBIReportPage
         reportKey="bromcom-suspensions-exclusions"
         title="Suspensions & Exclusions"
-        showFilters={true}
+        showFilters={false}
         expandFilters={false}
       />
     ),
@@ -183,7 +183,7 @@ export const reportConfig = [
         reportKey="dret-academy-report"
         title="DRET Academy Report"
         showFilters={true}
-        expandFilters={false}
+        expandFilters={true}
       />
     ),
     status: "active",
@@ -200,7 +200,7 @@ export const reportConfig = [
         reportKey="mat-comparison-analysis-ks2"
         title="MAT KS2 Comparison"
         showFilters={true}
-        expandFilters={false}
+        expandFilters={true}
       />
     ),
     status: "active",
@@ -217,7 +217,7 @@ export const reportConfig = [
         reportKey="mat-comparison-analysis-ks4"
         title="MAT KS4 Comparison"
         showFilters={true}
-        expandFilters={false}
+        expandFilters={true}
       />
     ),
     status: "active",
