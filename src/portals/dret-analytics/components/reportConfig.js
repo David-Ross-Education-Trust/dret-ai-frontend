@@ -33,12 +33,12 @@ export const reportConfig = [
   },
   {
     id: "bromcom-eyfs-assessment",
-    name: "EYF Stage Assessment",
+    name: "EYFS Assessment",
     description: "Outcomes for the previous academic year.",
     category: "Bromcom",
     tag: "",
     href: "/analytics/education/bromcom-eyfs-assessment",
-    component: () => <PowerBIReportPage reportKey="bromcom-eyf-stage-assessment" title="EYF Stage Assessment" />,
+    component: () => <PowerBIReportPage reportKey="bromcom-eyfs-assessment" title="EYFS Assessment" />,
     status: "active",
   },
   {
