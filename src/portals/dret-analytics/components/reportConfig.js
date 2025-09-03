@@ -223,3 +223,9 @@ export const reportConfig = [
     status: "active",
   },
 ];
+
+export const isActive  = (r) => r.status === "active";
+export const isVisible = (r) => r.status !== "hidden"; // active or coming-soon
+
+export const activeReports  = reportConfig.filter(isActive);   // use for routes
+export const visibleReports = reportConfig.filter(isVisible);  // use for cards/menus
