@@ -6,7 +6,7 @@ import { demoToolkitConfig } from "../toolkit/DemoToolkitConfig";
 
 const TRUST_GREEN = "#205c40";
 
-function useFavourites(key = "toolkitFavourites") {
+function useFavourites(key = "toolkitFavourites_Demo") {
   const [favourites, setFavourites] = useState(() => {
     const stored = localStorage.getItem(key);
     return stored ? JSON.parse(stored) : [];
@@ -27,7 +27,7 @@ function useFavourites(key = "toolkitFavourites") {
 export default function DemoToolkit() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
-  const [favourites, toggleFavourite] = useFavourites("toolkitFavourites");
+  const [favourites, toggleFavourite] = useFavourites("toolkitFavourites_Demo");
   const [clickedStar, setClickedStar] = useState(null);
 
   const shownFiles = demoToolkitConfig.filter(
