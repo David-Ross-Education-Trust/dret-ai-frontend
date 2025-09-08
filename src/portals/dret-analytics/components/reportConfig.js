@@ -2,16 +2,16 @@ import PowerBIReportPage from "../reports/education/report";
 
 export const reportConfig = [
   {
-    id: "dret-pupil-profile",
-    name: "DRET Pupil Profile",
-    description: "Detailed profile data for each pupil.",
+    id: "dret-education-team-report",
+    name: "Education Report [DEMO]",
+    description: "Education metrics and analysis.",
     category: "DRET",
     tag: "",
-    href: "/analytics/education/dret-pupil-profile",
+    href: "/analytics/education/dret-education-team-report",
     component: () => (
       <PowerBIReportPage
-        reportKey="dret-pupil-profile"
-        title="DRET Pupil Profile"
+        reportKey="dret-education-team-report"
+        title="Education Report"
         showFilters={true}
         expandFilters={true}
       />
@@ -19,16 +19,33 @@ export const reportConfig = [
     status: "active",
   },
   {
-    id: "dret-education-team-report",
-    name: "Education Team Report",
-    description: "Education Team metrics and analysis.",
+    id: "dret-academy-report",
+    name: "Academy Report [DEMO]",
+    description: "Academy-level performance and analysis.",
     category: "DRET",
     tag: "",
-    href: "/analytics/education/dret-education-team-report",
+    href: "/analytics/education/dret-academy-report",
     component: () => (
       <PowerBIReportPage
-        reportKey="dret-education-team-report"
-        title="Education Team Report"
+        reportKey="dret-academy-report"
+        title="Academy Report"
+        showFilters={true}
+        expandFilters={true}
+      />
+    ),
+    status: "active",
+  },
+  {
+    id: "dret-pupil-profile",
+    name: "Pupil Profile [DEMO]",
+    description: "Detailed profile data for each pupil.",
+    category: "DRET",
+    tag: "",
+    href: "/analytics/education/dret-pupil-profile",
+    component: () => (
+      <PowerBIReportPage
+        reportKey="dret-pupil-profile"
+        title="Pupil Profile"
         showFilters={true}
         expandFilters={true}
       />
@@ -167,23 +184,6 @@ export const reportConfig = [
         title="Suspensions & Exclusions"
         showFilters={false}
         expandFilters={false}
-      />
-    ),
-    status: "active",
-  },
-  {
-    id: "dret-academy-report",
-    name: "Academy Report",
-    description: "Academy-level performance and analysis.",
-    category: "DRET",
-    tag: "",
-    href: "/analytics/education/dret-academy-report",
-    component: () => (
-      <PowerBIReportPage
-        reportKey="dret-academy-report"
-        title="DRET Academy Report"
-        showFilters={true}
-        expandFilters={true}
       />
     ),
     status: "active",
