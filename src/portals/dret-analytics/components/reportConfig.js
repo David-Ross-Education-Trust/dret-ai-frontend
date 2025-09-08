@@ -4,7 +4,7 @@ export const reportConfig = [
   {
     id: "dret-education-team-report",
     name: "Education Report [DEMO]",
-    description: "Education metrics and analysis.",
+    description: "Education metrics and analysis. This is a demo report, data is not live.",
     category: "DRET",
     tag: "",
     href: "/analytics/education/dret-education-team-report",
@@ -21,7 +21,7 @@ export const reportConfig = [
   {
     id: "dret-academy-report",
     name: "Academy Report [DEMO]",
-    description: "Academy-level performance and analysis.",
+    description: "Academy-level performance and analysis. This is a demo report, data is not live.",
     category: "DRET",
     tag: "",
     href: "/analytics/education/dret-academy-report",
@@ -38,7 +38,7 @@ export const reportConfig = [
   {
     id: "dret-pupil-profile",
     name: "Pupil Profile [DEMO]",
-    description: "Detailed profile data for each pupil.",
+    description: "Detailed profile data for each pupil. This is a demo report, data is not live.",
     category: "DRET",
     tag: "",
     href: "/analytics/education/dret-pupil-profile",
