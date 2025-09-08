@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search, X } from "lucide-react";
 
@@ -90,13 +90,15 @@ export default function HomePage() {
   );
 
   // Helper: is this toolkit item favourited in ANY key?
-  const isToolkitFavedAnywhere = (item) =>
-    Object.values(toolkitFavSets).some((set) => set?.has?.(item.id));
+  const isToolkitFavedAnywhere = useCallback(
+    (item) => Object.values(toolkitFavSets).some((set) => set?.has?.(item.id)),
+    [toolkitFavSets]
+  );
 
   const favouriteToolkits = useMemo(() => {
     const items = [...toolkitConfig, ...demoToolkitConfig, ...allToolkitConfigs];
     return items.filter((item) => isToolkitFavedAnywhere(item) && textMatches(item, searchTerm));
-  }, [toolkitFavSets, searchTerm]);
+  }, [isToolkitFavedAnywhere, searchTerm]);
 
   const handleDashboardFavourite = (id) => {
     toggleAnalyticsFavourite(id);
@@ -120,11 +122,7 @@ export default function HomePage() {
     const next = exists ? currentArr.filter((x) => x !== item.id) : [...currentArr, item.id];
     localStorage.setItem(targetKey, JSON.stringify(next));
 
-    // Keep legacy/global in sync if you still want it honoured
-    // (optional; you can remove these two lines if you want to fully deprecate the legacy key)
-    if (targetKey !== legacyKey) {
-      // no-op, but left here as a note if you want to mirror to the legacy key
-    }
+    // (optional) If you want to mirror to the legacy key, you could also update it here.
 
     setToolkitFavVersion((v) => v + 1);
     setClickedStar(`${targetKey}:${item.id}`);
