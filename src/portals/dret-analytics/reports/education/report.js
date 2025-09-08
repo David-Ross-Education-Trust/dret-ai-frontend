@@ -1,8 +1,10 @@
+// reports/education/report.js
 import React, { useEffect, useState } from "react";
 import { useMsal } from "@azure/msal-react";
 import { PowerBIEmbed } from "powerbi-client-react";
 import { models } from "powerbi-client";
 import AnalyticsLayout from "../../components/layout";
+import { API_SCOPES } from "../../msalConfig";
 
 export default function PowerBIReportPage({
   reportKey,
@@ -32,38 +34,74 @@ export default function PowerBIReportPage({
   useEffect(() => {
     async function fetchEmbedToken() {
       if (!accounts[0]) return;
-      try {
-        const response = await instance.acquireTokenSilent({
-          account: accounts[0],
-          scopes: ["openid", "profile"],
-        });
 
-        const res = await fetch(
+      // Helper to get an access token for your backend API
+      const getApiToken = async (forceRefresh = false) => {
+        try {
+          return await instance.acquireTokenSilent({
+            account: accounts[0],
+            scopes: API_SCOPES,
+            forceRefresh,
+          });
+        } catch (e) {
+          if (e?.errorCode === "interaction_required") {
+            await instance.acquireTokenRedirect({ scopes: API_SCOPES });
+            return null; // control returns here after redirect
+          }
+          throw e;
+        }
+      };
+
+      try {
+        let tokenResp = await getApiToken(false);
+        if (!tokenResp) return;
+
+        let res = await fetch(
           "https://dretai-backend-fkf6bhgug2f3eney.uksouth-01.azurewebsites.net/api/powerbi/embed-token",
           {
             method: "POST",
             headers: {
-              Authorization: `Bearer ${response.idToken}`,
+              Authorization: `Bearer ${tokenResp.accessToken}`, // ✅ access token to backend
               "Content-Type": "application/json",
             },
             body: JSON.stringify({ reportKey }),
           }
         );
 
+        // One-shot retry with forceRefresh if unauthorized (key rollover / clock skew)
+        if (res.status === 401) {
+          tokenResp = await getApiToken(true);
+          if (!tokenResp) return;
+          res = await fetch(
+            "https://dretai-backend-fkf6bhgug2f3eney.uksouth-01.azurewebsites.net/api/powerbi/embed-token",
+            {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${tokenResp.accessToken}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ reportKey }),
+            }
+          );
+        }
+
         const data = await res.json();
-        if (data.error) throw new Error(data.error);
+        if (!res.ok || data.error) {
+          throw new Error(data.error || `Embed token fetch failed (${res.status})`);
+        }
         setEmbedInfo(data);
       } catch (err) {
-        setError(err.message);
+        setError(err.message || "Failed to load report");
       }
     }
+
     fetchEmbedToken();
   }, [accounts, instance, reportKey]);
 
   return (
     <AnalyticsLayout allowSidebarMinimise hideHeaderWithSidebar>
       {({ sidebarOpen }) => {
-        // Prefer 100svh; fall back to --vh (set above) for older Safari
+        // Prefer 100svh; fall back to --vh for older Safari
         const fullSVH = "100svh";
         const fullFallback = "calc(var(--vh, 1vh) * 100)";
 

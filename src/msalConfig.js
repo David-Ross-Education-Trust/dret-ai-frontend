@@ -1,3 +1,4 @@
+// msalConfig.js
 export const msalConfig = {
   auth: {
     clientId: "6080bbaa-4454-430b-8295-8ffe42fb7595",
@@ -9,3 +10,5 @@ export const msalConfig = {
     storeAuthStateInCookie: true,
   },
 };
+
+export const API_SCOPES = ["api://6080bbaa-4454-430b-8295-8ffe42fb7595/Access.AsUser"];
