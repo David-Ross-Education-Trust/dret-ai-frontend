@@ -13,8 +13,27 @@ import { useFavourites } from "../hooks/useFavourites";
 
 const TRUST_GREEN = "#205c40";
 
+// --- Normalise a label like "Barnes Wallis Academy Toolkit" -> "BarnesWallis"
+function normaliseSchoolLabel(label) {
+  if (!label) return "";
+  return (
+    label
+      .replace(/\bToolkit\b/i, "")
+      .replace(/\bAcademy\b/i, "")
+      .replace(/\bPrimary\b/i, "")
+      .replace(/[\W_]+/g, "") // remove spaces, punctuation, underscores
+      .trim()
+  );
+}
+
+// Build LS key from item metadata (sourceToolkit preferred)
 function storageKeyForItem(item) {
-  const school = item?.sourceToolkit?.replace(/\s*Toolkit\s*$/i, "")?.replace(/\s+/g, "");
+  const raw =
+    item?.sourceToolkit ||
+    item?.source ||
+    item?.school ||
+    ""; // fallbacks if some configs use different fields
+  const school = normaliseSchoolLabel(raw);
   return school ? `toolkitFavourites_${school}` : "toolkitFavourites";
 }
 
@@ -29,12 +48,16 @@ function readSetFromLS(key) {
 
 export default function HomePage() {
   const [analyticsFavourites, toggleAnalyticsFavourite] = useFavourites("analyticsFavourites");
+
+  // Keep an in-memory snapshot of all toolkit favourites sets
   const [toolkitFavVersion, setToolkitFavVersion] = useState(0);
   const [toolkitFavSets, setToolkitFavSets] = useState({});
 
   useEffect(() => {
     const sets = {};
+    // legacy/global
     sets["toolkitFavourites"] = readSetFromLS("toolkitFavourites");
+    // all per-school keys
     for (const key of Object.keys(localStorage)) {
       if (key.startsWith("toolkitFavourites_")) {
         sets[key] = readSetFromLS(key);
@@ -57,6 +80,7 @@ export default function HomePage() {
     );
   };
 
+  // Dashboards favourites (unchanged)
   const favouriteReports = reportConfig.filter(
     (r) =>
       !r.comingSoon &&
@@ -65,15 +89,13 @@ export default function HomePage() {
       textMatches(r, searchTerm)
   );
 
+  // Helper: is this toolkit item favourited in ANY key?
+  const isToolkitFavedAnywhere = (item) =>
+    Object.values(toolkitFavSets).some((set) => set?.has?.(item.id));
+
   const favouriteToolkits = useMemo(() => {
     const items = [...toolkitConfig, ...demoToolkitConfig, ...allToolkitConfigs];
-    return items.filter((item) => {
-      if (!item?.id || item?.comingSoon) return false;
-      const key = storageKeyForItem(item);
-      const inSchool = toolkitFavSets[key]?.has(item.id);
-      const inLegacy = toolkitFavSets["toolkitFavourites"]?.has(item.id);
-      return (inSchool || inLegacy) && textMatches(item, searchTerm);
-    });
+    return items.filter((item) => isToolkitFavedAnywhere(item) && textMatches(item, searchTerm));
   }, [toolkitFavSets, searchTerm]);
 
   const handleDashboardFavourite = (id) => {
@@ -82,16 +104,28 @@ export default function HomePage() {
     setTimeout(() => setClickedStar(null), 400);
   };
 
+  // Toggle toolkit favourite in the key where it currently lives, else in the normalised key
   const toggleToolkitItemFavourite = (item) => {
-    const key = storageKeyForItem(item);
+    const normalizedKey = storageKeyForItem(item);
     const legacyKey = "toolkitFavourites";
-    const candidates = [key, legacyKey];
-    const existingKey = candidates.find((k) => readSetFromLS(k).has(item.id));
-    const targetKey = existingKey || key;
-    const arr = JSON.parse(localStorage.getItem(targetKey) || "[]");
-    const exists = arr.includes(item.id);
-    const next = exists ? arr.filter((x) => x !== item.id) : [...arr, item.id];
+
+    // Find the existing key that currently contains the item (if any)
+    const existingKey =
+      Object.keys(toolkitFavSets).find((k) => toolkitFavSets[k]?.has?.(item.id)) ||
+      null;
+
+    const targetKey = existingKey || normalizedKey; // write back to original if present; else to normalized
+    const currentArr = JSON.parse(localStorage.getItem(targetKey) || "[]");
+    const exists = currentArr.includes(item.id);
+    const next = exists ? currentArr.filter((x) => x !== item.id) : [...currentArr, item.id];
     localStorage.setItem(targetKey, JSON.stringify(next));
+
+    // Keep legacy/global in sync if you still want it honoured
+    // (optional; you can remove these two lines if you want to fully deprecate the legacy key)
+    if (targetKey !== legacyKey) {
+      // no-op, but left here as a note if you want to mirror to the legacy key
+    }
+
     setToolkitFavVersion((v) => v + 1);
     setClickedStar(`${targetKey}:${item.id}`);
     setTimeout(() => setClickedStar(null), 400);
@@ -181,10 +215,7 @@ export default function HomePage() {
                   <ToolkitReportCard
                     key={`${storageKeyForItem(toolkit)}:${toolkit.id}:${idx}`}
                     report={toolkit}
-                    isFavourite={
-                      readSetFromLS(storageKeyForItem(toolkit)).has(toolkit.id) ||
-                      readSetFromLS("toolkitFavourites").has(toolkit.id)
-                    }
+                    isFavourite={isToolkitFavedAnywhere(toolkit)}
                     onFavourite={() => toggleToolkitItemFavourite(toolkit)}
                     onClick={() =>
                       toolkit.href?.startsWith("http")
