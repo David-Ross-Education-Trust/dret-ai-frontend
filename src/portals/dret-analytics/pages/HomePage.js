@@ -89,16 +89,22 @@ export default function HomePage() {
       textMatches(r, searchTerm)
   );
 
-  // Helper: is this toolkit item favourited in ANY key?
-  const isToolkitFavedAnywhere = useCallback(
-    (item) => Object.values(toolkitFavSets).some((set) => set?.has?.(item.id)),
+  // ✅ Scoped favourite check: only consider THIS item's school key (plus legacy)
+  const isToolkitFavedForItem = useCallback(
+    (item) => {
+      const key = storageKeyForItem(item);
+      return (
+        toolkitFavSets[key]?.has?.(item.id) ||
+        toolkitFavSets["toolkitFavourites"]?.has?.(item.id) // legacy/global fallback
+      );
+    },
     [toolkitFavSets]
   );
 
   const favouriteToolkits = useMemo(() => {
     const items = [...toolkitConfig, ...demoToolkitConfig, ...allToolkitConfigs];
-    return items.filter((item) => isToolkitFavedAnywhere(item) && textMatches(item, searchTerm));
-  }, [isToolkitFavedAnywhere, searchTerm]);
+    return items.filter((item) => isToolkitFavedForItem(item) && textMatches(item, searchTerm));
+  }, [isToolkitFavedForItem, searchTerm]);
 
   const handleDashboardFavourite = (id) => {
     toggleAnalyticsFavourite(id);
@@ -106,16 +112,9 @@ export default function HomePage() {
     setTimeout(() => setClickedStar(null), 400);
   };
 
-  // Toggle toolkit favourite in the key where it currently lives, else in the normalised key
+  // Toggle toolkit favourite ONLY in this item's normalised school key
   const toggleToolkitItemFavourite = (item) => {
-    const normalizedKey = storageKeyForItem(item);
-
-    // Find the existing key that currently contains the item (if any)
-    const existingKey =
-      Object.keys(toolkitFavSets).find((k) => toolkitFavSets[k]?.has?.(item.id)) ||
-      null;
-
-    const targetKey = existingKey || normalizedKey; // write back to original if present; else to normalized
+    const targetKey = storageKeyForItem(item); // enforce per-school storage
     const currentArr = JSON.parse(localStorage.getItem(targetKey) || "[]");
     const exists = currentArr.includes(item.id);
     const next = exists ? currentArr.filter((x) => x !== item.id) : [...currentArr, item.id];
@@ -135,7 +134,7 @@ export default function HomePage() {
         }}
       >
         <div
-          className="shrink-0 z-20 shadow-sm px-8 h-24 flex itemscenter justify-between"
+          className="shrink-0 z-20 shadow-sm px-8 h-24 flex items-center justify-between"
           style={{ backgroundColor: "#ffffff" }}
         >
           <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
@@ -210,7 +209,7 @@ export default function HomePage() {
                   <ToolkitReportCard
                     key={`${storageKeyForItem(toolkit)}:${toolkit.id}:${idx}`}
                     report={toolkit}
-                    isFavourite={isToolkitFavedAnywhere(toolkit)}
+                    isFavourite={isToolkitFavedForItem(toolkit)}
                     onFavourite={() => toggleToolkitItemFavourite(toolkit)}
                     onClick={() =>
                       toolkit.href?.startsWith("http")
