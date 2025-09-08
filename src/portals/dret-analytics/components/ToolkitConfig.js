@@ -26,6 +26,7 @@ import MalcolmArnoldLogo from "../../../assets/Malcolm_Arnold_Academy_thumb.jpg"
 import MalcolmArnoldPrepLogo from "../../../assets/Malcolm_Arnold_Prep_thumb.jpg";
 import NewnhamLogo from "../../../assets/Newnham_Primary_thumb.jpg";
 import QuayLogo from "../../../assets/Quay_Academy_thumb.jpg";
+import RichmondLogo from "../../../assets/Richmond_thumb.jpg";
 import RockinghamLogo from "../../../assets/Rockingham_Primary_School_thumb.jpg";
 import SgsLogo from "../../../assets/Skegness_Grammar_School_thumb.jpg";
 import TheArboursLogo from "../../../assets/The_Arbours_Primary_Academy_thumb.jpg";
@@ -64,6 +65,7 @@ import MalcolmArnoldToolkit from "../reports/toolkit/secondary/MalcolmArnoldTool
 import MalcolmArnoldPrepToolkit from "../reports/toolkit/primary/MalcolmArnoldPrepToolkit";
 import NewnhamToolkit from "../reports/toolkit/primary/NewnhamToolkit";
 import QuayToolkit from "../reports/toolkit/primary/QuayToolkit";
+import RichmondToolkit from "../reports/toolkit/primary/RichmondToolkit";
 import RockinghamToolkit from "../reports/toolkit/primary/RockinghamToolkit";
 import SkegnessToolkit from "../reports/toolkit/secondary/SkegnessToolkit";
 import TheArboursToolkit from "../reports/toolkit/primary/TheArboursToolkit";
@@ -106,6 +108,7 @@ export const toolkitConfig = [
   { id: "malcolmarnoldprep", name: "Malcolm Arnold Preparatory School", description: "Malcolm Arnold Preparatory School Toolkit.", category: "Toolkit", tag: "", href: "/analytics/toolkits/malcolmarnoldprep", component: MalcolmArnoldPrepToolkit, logoUrl: MalcolmArnoldPrepLogo, comingSoon: false },
   { id: "newnham", name: "Newnham Primary School", description: "Newnham Primary School Toolkit.", category: "Toolkit", tag: "", href: "/analytics/toolkits/newnham", component: NewnhamToolkit, logoUrl: NewnhamLogo, comingSoon: false },
   { id: "quay", name: "Quay Academy", description: "Quay Academy Toolkit.", category: "Toolkit", tag: "", href: "/analytics/toolkits/quay", component: QuayToolkit, logoUrl: QuayLogo, comingSoon: false },
+  { id: "richmond", name: "Richmond Primary School", description: "Richmond Primary School Toolkit.", category: "Toolkit", tag: "", href: "/analytics/toolkits/rochmond", component: RichmondToolkit, logoUrl: RichmondLogo, comingSoon: false },
   { id: "rockingham", name: "Rockingham Primary School", description: "Rockingham Primary School Toolkit.", category: "Toolkit", tag: "", href: "/analytics/toolkits/rockingham", component: RockinghamToolkit, logoUrl: RockinghamLogo, comingSoon: false },
   { id: "sgs", name: "Skegness Grammar School", description: "Skegness Grammar School Toolkit.", category: "Toolkit", tag: "", href: "/analytics/toolkits/skegness", component: SkegnessToolkit, logoUrl: SgsLogo, comingSoon: false },
   { id: "thomashinderwell", name: "Thomas Hinderwell Primary Academy", description: "Thomas Hinderwell Primary Academy Toolkit.", category: "Toolkit", tag: "", href: "/analytics/toolkits/thomashinderwell", component: ThomasHinderwellToolkit, logoUrl: ThomasHinderwellLogo, comingSoon: false },

@@ -8,7 +8,7 @@ export const KingsHeathConfig = [
     openInBrowserHref:
       "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-Data-KHA/Shared%20Documents/KHA/2025-26/KHPA%2025-26%20Baseline%20Summary.xlsx?d=weceb1a4a7bd04149b52c6ceab0e4ef70&csf=1&web=1&e=9ebCRO",
     logoUrl: excelIcon,
-    sourceToolkit: "Kings Heath Toolkit",
+    sourceToolkit: "Kings Heath Academy",
   },
   {
     id: "Academy Context",
@@ -17,7 +17,7 @@ export const KingsHeathConfig = [
     openInBrowserHref:
       "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-Data-KHA/Shared%20Documents/KHA/2025-26/KHPA%20Academy%20Context%20(25-26).xlsx?d=wd2c94531750346668fd3daf365175568&csf=1&web=1&e=ZDMrd7",
     logoUrl: excelIcon,
-    sourceToolkit: "Kings Heath Toolkit",
+    sourceToolkit: "Kings Heath Academy",
   },
   {
     id: "Attendance Tracker",
@@ -26,7 +26,7 @@ export const KingsHeathConfig = [
     openInBrowserHref:
       "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-Data-KHA/Shared%20Documents/KHA/2025-26/KHPA%20Attendance%20Tracker%20(25-26).xlsx?d=wafa0de0cf8a745a982d880acd2e92c5c&csf=1&web=1&e=0gl0xq",
     logoUrl: excelIcon,
-    sourceToolkit: "Kings Heath Toolkit",
+    sourceToolkit: "Kings Heath Academy",
   },
   {
     id: "Behaviour Tracker",
@@ -35,7 +35,7 @@ export const KingsHeathConfig = [
     openInBrowserHref:
       "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-Data-KHA/Shared%20Documents/KHA/2025-26/KHPA%20Behaviour%20Tracker%20(25-26).xlsx?d=w1486de7e251c47509f90e358b4b7a2ce&csf=1&web=1&e=DiXcar",
     logoUrl: excelIcon,
-    sourceToolkit: "Kings Heath Toolkit",
+    sourceToolkit: "Kings Heath Academy",
   },
   {
     id: "Class On a Page",
@@ -44,7 +44,7 @@ export const KingsHeathConfig = [
     openInBrowserHref:
       "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-Data-KHA/Shared%20Documents/KHA/2025-26/KHPA%20COAP%20(25-26).xlsx?d=w7405c2a6a98b4758bce03d698a51aa3e&csf=1&web=1&e=Q7ehpf",
     logoUrl: excelIcon,
-    sourceToolkit: "Kings Heath Toolkit",
+    sourceToolkit: "Kings Heath Academy",
   },
   {
     id: "Inclusion Map",
@@ -53,7 +53,7 @@ export const KingsHeathConfig = [
     openInBrowserHref:
       "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-Data-KHA/Shared%20Documents/KHA/2025-26/KHPA%20Inclusion%20Map%20(25-26).xlsx?d=w9066441647334203a6be45106a5b431e&csf=1&web=1&e=AhQkGd",
     logoUrl: excelIcon,
-    sourceToolkit: "Kings Heath Toolkit",
+    sourceToolkit: "Kings Heath Academy",
   },
   {
     id: "School Around The Child",
@@ -62,6 +62,6 @@ export const KingsHeathConfig = [
     openInBrowserHref:
       "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-Data-KHA/Shared%20Documents/KHA/2025-26/KHPA%20School%20Around%20The%20Child%20(25-26).xlsx?d=w64432fc72b6346f2a50a7ad57e46a4f3&csf=1&web=1&e=melg7o",
     logoUrl: excelIcon,
-    sourceToolkit: "Kings Heath Toolkit",
+    sourceToolkit: "Kings Heath Academy",
   },
 ];

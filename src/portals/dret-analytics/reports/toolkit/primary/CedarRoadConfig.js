@@ -8,7 +8,7 @@ export const CedarRoadConfig = [
     openInBrowserHref:
       "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-Data-CDA/Shared%20Documents/CDA/2025-26/CDA%2025-26%20Baseline%20Summary.xlsx?d=w62a8072844404d9d80cf11c0ebda6c56&csf=1&web=1&e=jLGWog",
     logoUrl: excelIcon,
-    sourceToolkit: "Cedar Road Toolkit",
+    sourceToolkit: "Cedar Road Primary",
   },
   {
     id: "Academy Context",
@@ -17,7 +17,7 @@ export const CedarRoadConfig = [
     openInBrowserHref:
       "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-Data-CDA/Shared%20Documents/CDA/2025-26/CDA%20Academy%20Context%20(25-26).xlsx?d=w73ebbb14cd8546d6aa8e1f8417cf810a&csf=1&web=1&e=13tHdS",
     logoUrl: excelIcon,
-    sourceToolkit: "Cedar Road Toolkit",
+    sourceToolkit: "Cedar Road Primary",
   },
   {
     id: "Attendance Tracker",
@@ -26,7 +26,7 @@ export const CedarRoadConfig = [
     openInBrowserHref:
       "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-Data-CDA/Shared%20Documents/CDA/2025-26/CDA%20Attendance%20Tracker%20(25-26).xlsx?d=w1c5edc965cd441bea7b2b97892d6a2b5&csf=1&web=1&e=5UZFlQ",
     logoUrl: excelIcon,
-    sourceToolkit: "Cedar Road Toolkit",
+    sourceToolkit: "Cedar Road Primary",
   },
   {
     id: "Behaviour Tracker",
@@ -35,7 +35,7 @@ export const CedarRoadConfig = [
     openInBrowserHref:
       "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-Data-CDA/Shared%20Documents/CDA/2025-26/CDA%20Behaviour%20Tracker%20(25-26).xlsx?d=w6b8233c0e5904f209b202a182d7408ad&csf=1&web=1&e=ljDDTc",
     logoUrl: excelIcon,
-    sourceToolkit: "Cedar Road Toolkit",
+    sourceToolkit: "Cedar Road Primary",
   },
   {
     id: "Class On a Page",
@@ -44,7 +44,7 @@ export const CedarRoadConfig = [
     openInBrowserHref:
       "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-Data-CDA/Shared%20Documents/CDA/2025-26/CDA%20COAP%20(25-26).xlsx?d=w59a5690d719e47a292b0584f85d9e3ed&csf=1&web=1&e=SthvU4",
     logoUrl: excelIcon,
-    sourceToolkit: "Cedar Road Toolkit",
+    sourceToolkit: "Cedar Road Primary",
   },
   {
     id: "Inclusion Map",
@@ -53,7 +53,7 @@ export const CedarRoadConfig = [
     openInBrowserHref:
       "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-Data-CDA/Shared%20Documents/CDA/2025-26/CDA%20Inclusion%20Map%20(25-26).xlsx?d=w70a0a4af88794686aa545dcee9444297&csf=1&web=1&e=eahZgJ",
     logoUrl: excelIcon,
-    sourceToolkit: "Cedar Road Toolkit",
+    sourceToolkit: "Cedar Road Primary",
   },
   {
     id: "School Around The Child",
@@ -62,6 +62,6 @@ export const CedarRoadConfig = [
     openInBrowserHref:
       "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-Data-CDA/Shared%20Documents/CDA/2025-26/CDA%20School%20Around%20The%20Child%20(25-26).xlsx?d=we791ca44d5bb4b3a8d56ace7e1fcee67&csf=1&web=1&e=r24gxb",
     logoUrl: excelIcon,
-    sourceToolkit: "Cedar Road Toolkit",
+    sourceToolkit: "Cedar Road Primary",
   },
 ];
