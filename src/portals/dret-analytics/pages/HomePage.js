@@ -109,7 +109,6 @@ export default function HomePage() {
   // Toggle toolkit favourite in the key where it currently lives, else in the normalised key
   const toggleToolkitItemFavourite = (item) => {
     const normalizedKey = storageKeyForItem(item);
-    const legacyKey = "toolkitFavourites";
 
     // Find the existing key that currently contains the item (if any)
     const existingKey =
@@ -121,8 +120,6 @@ export default function HomePage() {
     const exists = currentArr.includes(item.id);
     const next = exists ? currentArr.filter((x) => x !== item.id) : [...currentArr, item.id];
     localStorage.setItem(targetKey, JSON.stringify(next));
-
-    // (optional) If you want to mirror to the legacy key, you could also update it here.
 
     setToolkitFavVersion((v) => v + 1);
     setClickedStar(`${targetKey}:${item.id}`);
@@ -138,7 +135,7 @@ export default function HomePage() {
         }}
       >
         <div
-          className="shrink-0 z-20 shadow-sm px-8 h-24 flex items-center justify-between"
+          className="shrink-0 z-20 shadow-sm px-8 h-24 flex itemscenter justify-between"
           style={{ backgroundColor: "#ffffff" }}
         >
           <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
