@@ -8,6 +8,12 @@ import AnalyticsLayout from "../components/layout";
 import ReportCard from "../components/reportCard";
 import { visibleReports } from "../components/reportConfig";
 
+// ---- CONFIG (inline for now; lift to a config file if you prefer)
+const BACKEND_BASE =
+  "https://dretai-backend-fkf6bhgug2f3eney.uksouth-01.azurewebsites.net";
+const API_SCOPE =
+  "api://6080bbaa-4454-430b-8295-8ffe42fb7595/Access.AsUser";
+
 const TRUST_GREEN = "#205c40";
 
 // Custom hook for persisting favourites in localStorage
