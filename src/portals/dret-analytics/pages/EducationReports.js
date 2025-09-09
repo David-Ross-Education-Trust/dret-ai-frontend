@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { Search, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import AnalyticsLayout from "../components/layout";
-import { visibleReports } from "../components/reportConfig"; // ⬅️ use helper
+import { visibleReports } from "../components/reportConfig"; // base list (excludes hidden)
 import ReportCard from "../components/reportCard";
+import { useAllowedReports } from "../hooks/useAllowedReports";
 
 // Custom hook for persisting favourites in localStorage
 function useFavourites(key = "analyticsFavourites") {
@@ -31,21 +32,26 @@ export default function EducationReports() {
   const [searchFocused, setSearchFocused] = useState(false);
   const navigate = useNavigate();
 
-  // ⬇️ Only visible reports, limited to DRET/Bromcom, then apply search
-  const educationReports = visibleReports.filter((r) => {
-    const inCategory =
-      r.category &&
-      ["dret", "bromcom"].includes(
-        Array.isArray(r.category) ? r.category[0]?.toLowerCase() : r.category.toLowerCase()
-      );
+  // 🔐 Fetch allowlist from backend
+  const { loading, error, allowed } = useAllowedReports();
+  const allowSet = new Set(allowed || []);
 
+  // Base filter: only DRET/Bromcom + search
+  let educationReports = visibleReports.filter((r) => {
+    const category = Array.isArray(r.category) ? r.category[0] : r.category;
+    const inCategory = category && ["dret", "bromcom"].includes(String(category).toLowerCase());
+    const q = searchTerm.trim().toLowerCase();
     const matchesSearch =
-      !searchTerm.trim() ||
-      r.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      r.description?.toLowerCase().includes(searchTerm.toLowerCase());
-
+      !q ||
+      r.name?.toLowerCase().includes(q) ||
+      r.description?.toLowerCase().includes(q);
     return inCategory && matchesSearch;
   });
+
+  // ✅ After allowlist loads (and no error), hide everything not allowed
+  if (!loading && !error) {
+    educationReports = educationReports.filter((r) => allowSet.has(r.id));
+  }
 
   const TRUST_GREEN = "#205c40";
 
@@ -59,15 +65,10 @@ export default function EducationReports() {
     <AnalyticsLayout>
       <div
         className="bg-gray-100 min-h-screen h-screen flex flex-col font-avenir"
-        style={{
-          fontFamily: "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
-        }}
+        style={{ fontFamily: "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif" }}
       >
-        {/* --- Top Bar (Heading + Search) --- */}
-        <div
-          className="shrink-0 z-20 shadow-sm px-8 h-24 flex items-center justify-between"
-          style={{ backgroundColor: "#ffffff" }}
-        >
+        {/* --- Top Bar --- */}
+        <div className="shrink-0 z-20 shadow-sm px-8 h-24 flex items-center justify-between bg-white">
           <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
             Education Dashboards
           </h1>
@@ -98,32 +99,42 @@ export default function EducationReports() {
             <Search className="absolute right-3 top-2.5 h-4 w-4 text-gray-400" />
           </div>
         </div>
-        {/* --- End Top Bar --- */}
 
         {/* --- Report Grid --- */}
         <div className="scroll-area flex-1 overflow-y-auto bg-gray-100 font-avenir p-8 pb-16">
-          <div
-            className="grid gap-6"
-            style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}
-          >
-            {educationReports.length === 0 ? (
-              <div className="text-gray-500 italic text-center w-full col-span-full">
-                No education reports available{searchTerm ? " for this search." : " yet."}
-              </div>
-            ) : (
-              educationReports.map((report) => (
-                <ReportCard
-                  key={report.id}
-                  report={report}
-                  isFavourite={favourites.includes(report.id)}
-                  onFavourite={handleFavourite}
-                  onClick={() => navigate(report.href)}
-                  clickedStar={clickedStar}
-                  disabled={report.status === "coming-soon"} // ⬅️ new logic
-                />
-              ))
-            )}
-          </div>
+          {loading ? (
+            <div className="text-gray-500 italic text-center w-full">
+              Loading available reports…
+            </div>
+          ) : error ? (
+            <div className="text-red-600 text-center w-full">
+              Couldn’t determine your report access. Showing none.
+              <div className="text-xs text-gray-500 mt-2">{String(error)}</div>
+            </div>
+          ) : (
+            <div
+              className="grid gap-6"
+              style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}
+            >
+              {educationReports.length === 0 ? (
+                <div className="text-gray-500 italic text-center w-full col-span-full">
+                  No education reports available{searchTerm ? " for this search." : "."}
+                </div>
+              ) : (
+                educationReports.map((report) => (
+                  <ReportCard
+                    key={report.id}
+                    report={report}
+                    isFavourite={favourites.includes(report.id)}
+                    onFavourite={handleFavourite}
+                    onClick={() => navigate(report.href)}
+                    clickedStar={clickedStar}
+                    disabled={false}
+                  />
+                ))
+              )}
+            </div>
+          )}
         </div>
 
         <style>{`
