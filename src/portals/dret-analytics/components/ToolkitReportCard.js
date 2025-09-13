@@ -14,8 +14,9 @@ export default function ToolkitReportCard({
   disabled,
   showSourcePrefix = false,
   showMoreMenu = false,
-  size = "medium", // "compact" | "small" | "medium" | "large" (compact alias provided)
-  subtle = false,   // reduce shadow/border for a calmer grid
+  size = "medium",          // keeps your existing preset if you want it
+  subtle = false,           // softer chrome
+  visualScale = 1,          // NEW: 0.8–1.3 (or any number)
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
@@ -29,9 +30,7 @@ export default function ToolkitReportCard({
   useEffect(() => {
     if (!showMoreMenu) return;
     const handleClickOutside = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
-        setMenuOpen(false);
-      }
+      if (menuRef.current && !menuRef.current.contains(e.target)) setMenuOpen(false);
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -60,18 +59,21 @@ export default function ToolkitReportCard({
 
   const browserHref = report?.openInBrowserHref || report?.openInBrowserUrl;
 
-  // Size presets
+  // (Optional) keep your min/max presets; these govern the *base* size before scaling.
   const resolvedSize = size === "compact" ? "small" : size;
   const sizeClasses =
     resolvedSize === "small"
       ? "min-w-[110px] min-h-[110px] max-w-[160px] max-h-[160px]"
       : resolvedSize === "large"
       ? "min-w-[160px] min-h-[160px] max-w-[240px] max-h-[240px]"
-      : "min-w-[120px] min-h-[120px] max-w-[180px] max-h-[180px]"; // medium
+      : "min-w-[120px] min-h-[120px] max-w-[180px] max-h-[180px]"; // medium default
 
   const chromeClasses = subtle
     ? "border border-gray-200 shadow-sm hover:shadow-md"
     : "border border-gray-100 shadow-md hover:shadow-lg";
+
+  // We scale the *visuals* so the grid still wraps nicely.
+  const scale = Math.max(0.5, Math.min(2, visualScale || 1));
 
   return (
     <div
@@ -82,6 +84,11 @@ export default function ToolkitReportCard({
         aspect-square w-full ${sizeClasses}
         relative ${disabled ? "opacity-50 pointer-events-none" : ""}
       `}
+      style={{
+        transform: `scale(${scale})`,
+        transformOrigin: "center",
+        transition: "transform 120ms ease, box-shadow 120ms ease",
+      }}
     >
       {/* Three dots menu - TOP LEFT */}
       {showMoreMenu && (
