@@ -21,7 +21,7 @@ function useFavourites(key = "toolkitFavourites") {
   return [favourites, toggleFavourite];
 }
 
-// Helper: open links smartly (deep links same-tab; https in new tab; in-app via router)
+// Helper: open links smartly
 const CUSTOM_SCHEME_RE =
   /^(ms-(excel|word|powerpoint|project|access|onenote|visio|office):|mailto:|tel:)/i;
 
@@ -45,12 +45,15 @@ export default function ToolkitReports() {
   const [favourites, toggleFavourite] = useFavourites();
   const [clickedStar, setClickedStar] = useState(null);
 
-  // NEW: slider controls overall visual scale of cards (0.8x–1.3x)
-  const [scalePct, setScalePct] = useState(100); // 80–130
-  const visualScale = Math.max(50, Math.min(200, scalePct)) / 100;
+  // TRUE SIZE SLIDER — controls real card size and grid column count
+  const [sizePx, setSizePx] = useState(160); // base card size
+  const minSize = 110;
+  const maxSize = 220;
+
+  // Slightly scale the gap with card size
+  const gapPx = Math.round(6 + (sizePx - 110) * 0.06); // ~6px at 110 → ~12px at 220
 
   const [showOnlyFaves, setShowOnlyFaves] = useState(false);
-
   const TRUST_GREEN = "#205c40";
 
   const filtered = useMemo(() => {
@@ -98,19 +101,19 @@ export default function ToolkitReports() {
               Favourites only
             </label>
 
-            {/* Size slider */}
+            {/* TRUE SIZE SLIDER */}
             <div className="flex items-center gap-2">
               <span className="text-xs text-gray-500">Size</span>
               <input
                 type="range"
-                min={80}
-                max={130}
-                value={scalePct}
-                onChange={(e) => setScalePct(parseInt(e.target.value, 10))}
-                className="w-36 accent-[##205c40]"
+                min={minSize}
+                max={maxSize}
+                value={sizePx}
+                onChange={(e) => setSizePx(parseInt(e.target.value, 10))}
+                className="w-40"
                 aria-label="Card size"
               />
-              <span className="text-xs w-10 text-right text-gray-600">{scalePct}%</span>
+              <span className="text-xs w-12 text-right text-gray-600">{sizePx}px</span>
             </div>
 
             {/* Search */}
@@ -151,7 +154,13 @@ export default function ToolkitReports() {
               No toolkits{searchTerm ? " match this search." : "."}
             </div>
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
+            <div
+              className="grid"
+              style={{
+                gridTemplateColumns: `repeat(auto-fill, minmax(${sizePx}px, 1fr))`,
+                gap: `${gapPx}px`,
+              }}
+            >
               {filtered.map((report) => (
                 <ToolkitReportCard
                   key={report.id}
@@ -162,9 +171,8 @@ export default function ToolkitReports() {
                   onClick={() => openExternalOrRoute(report.href, navigate)}
                   disabled={!!report.comingSoon}
                   showMoreMenu={Boolean(report.openInBrowserHref || report.openInBrowserUrl)}
-                  size="medium"
+                  layoutSizePx={sizePx}
                   subtle={true}
-                  visualScale={visualScale}   // ← slider-driven scale
                 />
               ))}
             </div>

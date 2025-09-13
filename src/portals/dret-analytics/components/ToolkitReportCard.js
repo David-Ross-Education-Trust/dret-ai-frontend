@@ -14,9 +14,9 @@ export default function ToolkitReportCard({
   disabled,
   showSourcePrefix = false,
   showMoreMenu = false,
-  size = "medium",          // keeps your existing preset if you want it
-  subtle = false,           // softer chrome
-  visualScale = 1,          // NEW: 0.8–1.3 (or any number)
+  subtle = true,
+  /** Real layout size in pixels; controls card width & height (square) */
+  layoutSizePx = 160,
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
@@ -59,21 +59,12 @@ export default function ToolkitReportCard({
 
   const browserHref = report?.openInBrowserHref || report?.openInBrowserUrl;
 
-  // (Optional) keep your min/max presets; these govern the *base* size before scaling.
-  const resolvedSize = size === "compact" ? "small" : size;
-  const sizeClasses =
-    resolvedSize === "small"
-      ? "min-w-[110px] min-h-[110px] max-w-[160px] max-h-[160px]"
-      : resolvedSize === "large"
-      ? "min-w-[160px] min-h-[160px] max-w-[240px] max-h-[240px]"
-      : "min-w-[120px] min-h-[120px] max-w-[180px] max-h-[180px]"; // medium default
-
   const chromeClasses = subtle
     ? "border border-gray-200 shadow-sm hover:shadow-md"
     : "border border-gray-100 shadow-md hover:shadow-lg";
 
-  // We scale the *visuals* so the grid still wraps nicely.
-  const scale = Math.max(0.5, Math.min(2, visualScale || 1));
+  // Logo scales with card size
+  const logoSize = Math.round(layoutSizePx * 0.38); // ~60px at 160px card
 
   return (
     <div
@@ -81,13 +72,12 @@ export default function ToolkitReportCard({
       className={`
         bg-white rounded-xl ${chromeClasses}
         transition-all cursor-pointer flex flex-col items-center justify-center
-        aspect-square w-full ${sizeClasses}
-        relative ${disabled ? "opacity-50 pointer-events-none" : ""}
+        relative
+        ${disabled ? "opacity-50 pointer-events-none" : ""}
       `}
       style={{
-        transform: `scale(${scale})`,
-        transformOrigin: "center",
-        transition: "transform 120ms ease, box-shadow 120ms ease",
+        width: layoutSizePx,
+        height: layoutSizePx,
       }}
     >
       {/* Three dots menu - TOP LEFT */}
@@ -148,27 +138,28 @@ export default function ToolkitReportCard({
         </button>
       )}
 
-      {/* Main card content */}
-      <div className="flex flex-col items-center justify-center flex-1 w-full h-full relative">
+      {/* Main content */}
+      <div className="flex flex-col items-center justify-center w-full h-full px-2">
         {report?.logoUrl && (
           <img
             src={report.logoUrl}
             alt={`${report?.name} logo`}
-            className="w-16 h-16 object-contain mb-3"
-            style={{ maxWidth: "100%", maxHeight: "100%" }}
+            className="object-contain mb-3"
+            style={{ width: logoSize, height: logoSize, maxWidth: "100%", maxHeight: "100%" }}
           />
         )}
         <div
-          className="text-sm text-center px-2 font-normal text-gray-900 font-avenir"
+          className="text-center font-avenir text-gray-900"
           style={{
             fontFamily: "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
-            fontWeight: 400,
-            lineHeight: 1.2,
+            fontSize: Math.max(11, Math.round(layoutSizePx * 0.09)), // ~14px at 160px
+            lineHeight: 1.15,
             wordBreak: "break-word",
-            marginTop: 2,
           }}
         >
-          {displayName}
+          {showSourcePrefix && report?.sourceToolkit
+            ? `${report?.name} - ${report?.sourceToolkit}`
+            : report?.name}
         </div>
       </div>
     </div>
