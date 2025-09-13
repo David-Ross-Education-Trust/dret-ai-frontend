@@ -20,9 +20,9 @@ const CUSTOM_SCHEME_RE =
 function openExternalOrRoute(href, navigate) {
   if (!href) return;
 
-  // Custom schemes → hard navigation (don’t let the router touch it)
+  // Custom schemes → same-tab hard navigation (prevents blank tab)
   if (CUSTOM_SCHEME_RE.test(href)) {
-    window.location.assign(href); // or window.location.href = href
+    window.location.assign(href);
     return;
   }
 
@@ -32,7 +32,7 @@ function openExternalOrRoute(href, navigate) {
     return;
   }
 
-  // In-app paths → SPA navigation
+  // In-app routes → SPA navigation
   navigate(href);
 }
 
@@ -238,6 +238,8 @@ export default function HomePage() {
                     clickedStar={clickedStar}
                     disabled={!!toolkit.comingSoon}
                     showSourcePrefix={true}
+                    // 👉 show 3-dots menu only when there's a browser URL to open
+                    showMoreMenu={Boolean(toolkit.openInBrowserHref || toolkit.openInBrowserUrl)}
                   />
                 ))
               )}

@@ -44,17 +44,16 @@ export default function ToolkitReportCard({
 
     const href = report?.href;
     if (href) {
-      // 1) Custom schemes (e.g., ms-excel:) — same-tab hard navigation to avoid blank tab
+      // 1) Custom schemes — same-tab hard navigation to avoid blank tab
       if (CUSTOM_SCHEME_RE.test(href)) {
         e.preventDefault();
         window.location.assign(href);
         return;
       }
 
-      // 2) Normal web links — open in new tab by default
+      // 2) Normal web links — open new tab unless parent overrides
       if (/^https?:\/\//i.test(href)) {
         if (typeof onClick === "function") {
-          // Allow parent to override for http(s) if desired
           onClick(report);
         } else {
           window.open(href, "_blank", "noopener,noreferrer");
@@ -62,7 +61,7 @@ export default function ToolkitReportCard({
         return;
       }
 
-      // 3) In-app routes — SPA navigation
+      // 3) In-app routes — SPA navigation (or parent handler)
       if (typeof onClick === "function") {
         onClick(report);
       } else {
@@ -71,9 +70,11 @@ export default function ToolkitReportCard({
       return;
     }
 
-    // Fallback: if no href, let parent handler (if any) decide
+    // Fallback
     if (typeof onClick === "function") onClick(report);
   };
+
+  const browserHref = report?.openInBrowserHref || report?.openInBrowserUrl;
 
   return (
     <div
@@ -110,12 +111,12 @@ export default function ToolkitReportCard({
               className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
               onClick={() => {
                 setMenuOpen(false);
-                if (report?.openInBrowserHref) {
-                  // This is a normal https:// link, so opening in a new tab is desired.
-                  window.open(report.openInBrowserHref, "_blank", "noopener,noreferrer");
+                if (browserHref) {
+                  window.open(browserHref, "_blank", "noopener,noreferrer");
                 }
               }}
               type="button"
+              disabled={!browserHref}
             >
               Open in browser
             </button>
