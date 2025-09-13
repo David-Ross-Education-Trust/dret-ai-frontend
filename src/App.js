@@ -15,7 +15,7 @@ import ITDataReports from "./portals/dret-analytics/pages/ITDataReports";
 import OperationsReports from "./portals/dret-analytics/pages/OperationsReports";
 import { toolsConfig } from "./portals/dret-ai/components/toolConfig";
 import { reportConfig } from "./portals/dret-analytics/components/reportConfig";
-import SchoolToolkitRouter from "./portals/dret-analytics/reports/toolkit/SchoolToolkitRouter";
+import SchoolToolkitRouter from "./portals/dret-analytics/reports/toolkit/schoolToolkitRouter";
 import RequireAuth from "./RequireAuth";
 
 function App() {
