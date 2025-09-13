@@ -13,6 +13,29 @@ import { useFavourites } from "../hooks/useFavourites";
 
 const TRUST_GREEN = "#205c40";
 
+// --- Treat Office deep links and other custom schemes as external navigations.
+const CUSTOM_SCHEME_RE =
+  /^(ms-(excel|word|powerpoint|project|access|onenote|visio|office):|mailto:|tel:)/i;
+
+function openExternalOrRoute(href, navigate) {
+  if (!href) return;
+
+  // Custom schemes → hard navigation (don’t let the router touch it)
+  if (CUSTOM_SCHEME_RE.test(href)) {
+    window.location.assign(href); // or window.location.href = href
+    return;
+  }
+
+  // Normal web links → new tab
+  if (/^https?:\/\//i.test(href)) {
+    window.open(href, "_blank", "noopener,noreferrer");
+    return;
+  }
+
+  // In-app paths → SPA navigation
+  navigate(href);
+}
+
 // --- Normalise a label like "Barnes Wallis Academy Toolkit" -> "BarnesWallis"
 function normaliseSchoolLabel(label) {
   if (!label) return "";
@@ -211,11 +234,7 @@ export default function HomePage() {
                     report={toolkit}
                     isFavourite={isToolkitFavedForItem(toolkit)}
                     onFavourite={() => toggleToolkitItemFavourite(toolkit)}
-                    onClick={() =>
-                      toolkit.href?.startsWith("http")
-                        ? window.open(toolkit.href, "_blank")
-                        : navigate(toolkit.href)
-                    }
+                    onClick={() => openExternalOrRoute(toolkit.href, navigate)}
                     clickedStar={clickedStar}
                     disabled={!!toolkit.comingSoon}
                     showSourcePrefix={true}
