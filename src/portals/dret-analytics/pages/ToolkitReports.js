@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { Search, X, LayoutGrid, Rows, Grid } from "lucide-react";
+import { Search, X, LayoutGrid, Rows, Grid, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import AnalyticsLayout from "../components/layout";
 import { toolkitConfig } from "../components/ToolkitConfig";
@@ -45,14 +45,14 @@ export default function ToolkitReports() {
   const [favourites, toggleFavourite] = useFavourites();
   const [clickedStar, setClickedStar] = useState(null);
 
-  // View mode: compact | cosy | list
+  // View mode: compact | cosy | list (British English ✅)
   const [mode, setMode] = useState("cosy");
   const [showOnlyFaves, setShowOnlyFaves] = useState(false);
 
-  // Presets with more generous gaps
+  // Presets with more generous gaps; cosy is a bit larger per your request
   const PRESETS = {
     compact: { size: 130, gap: 16 },
-    cosy: { size: 190, gap: 24 },   // bumped up size + spacing
+    cosy: { size: 190, gap: 24 },
     list: { size: 0, gap: 0 },
   };
   const { size, gap } = PRESETS[mode];
