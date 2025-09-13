@@ -15,7 +15,7 @@ import ITDataReports from "./portals/dret-analytics/pages/ITDataReports";
 import OperationsReports from "./portals/dret-analytics/pages/OperationsReports";
 import { toolsConfig } from "./portals/dret-ai/components/toolConfig";
 import { reportConfig } from "./portals/dret-analytics/components/reportConfig";
-import { toolkitConfig } from "./portals/dret-analytics/components/ToolkitConfig";
+import SchoolToolkitRouter from "./portals/dret-analytics/reports/toolkit/SchoolToolkitRouter";
 import RequireAuth from "./RequireAuth";
 
 function App() {
@@ -47,24 +47,24 @@ function App() {
 
                 {/* Analytics section root pages */}
                 <Route path="/analytics" element={<AnalyticsHomePage />} />
-                <Route path="/analytics/education" element={<EducationReports />} />
+                <Route
+                  path="/analytics/education"
+                  element={<EducationReports />}
+                />
                 <Route path="/analytics/toolkits" element={<ToolkitReports />} />
                 <Route path="/analytics/finance" element={<FinanceReports />} />
                 <Route path="/analytics/hr" element={<HRReports />} />
                 <Route path="/analytics/it-data" element={<ITDataReports />} />
-                <Route path="/analytics/operations" element={<OperationsReports />} />
+                <Route
+                  path="/analytics/operations"
+                  element={<OperationsReports />}
+                />
 
-                {/* Individual toolkit report pages */}
-                {toolkitConfig.map(
-                  (toolkit) =>
-                    !toolkit.comingSoon && (
-                      <Route
-                        key={toolkit.id}
-                        path={toolkit.href}
-                        element={<toolkit.component />}
-                      />
-                    )
-                )}
+                {/* Dynamic school toolkit pages */}
+                <Route
+                  path="/analytics/toolkits/:schoolKey"
+                  element={<SchoolToolkitRouter />}
+                />
 
                 {/* Individual analytics report pages */}
                 {reportConfig.map(

@@ -13,29 +13,6 @@ import { useFavourites } from "../hooks/useFavourites";
 
 const TRUST_GREEN = "#205c40";
 
-// --- Treat Office deep links and other custom schemes as external navigations.
-const CUSTOM_SCHEME_RE =
-  /^(ms-(excel|word|powerpoint|project|access|onenote|visio|office):|mailto:|tel:)/i;
-
-function openExternalOrRoute(href, navigate) {
-  if (!href) return;
-
-  // Custom schemes → same-tab hard navigation (prevents blank tab)
-  if (CUSTOM_SCHEME_RE.test(href)) {
-    window.location.assign(href);
-    return;
-  }
-
-  // Normal web links → new tab
-  if (/^https?:\/\//i.test(href)) {
-    window.open(href, "_blank", "noopener,noreferrer");
-    return;
-  }
-
-  // In-app routes → SPA navigation
-  navigate(href);
-}
-
 // --- Normalise a label like "Barnes Wallis Academy Toolkit" -> "BarnesWallis"
 function normaliseSchoolLabel(label) {
   if (!label) return "";
@@ -55,7 +32,7 @@ function storageKeyForItem(item) {
     item?.sourceToolkit ||
     item?.source ||
     item?.school ||
-    ""; // fallbacks if some configs use different fields
+    "";
   const school = normaliseSchoolLabel(raw);
   return school ? `toolkitFavourites_${school}` : "toolkitFavourites";
 }
@@ -70,7 +47,8 @@ function readSetFromLS(key) {
 }
 
 export default function HomePage() {
-  const [analyticsFavourites, toggleAnalyticsFavourite] = useFavourites("analyticsFavourites");
+  const [analyticsFavourites, toggleAnalyticsFavourite] =
+    useFavourites("analyticsFavourites");
 
   // Keep an in-memory snapshot of all toolkit favourites sets
   const [toolkitFavVersion, setToolkitFavVersion] = useState(0);
@@ -103,7 +81,7 @@ export default function HomePage() {
     );
   };
 
-  // Dashboards favourites (unchanged)
+  // Dashboards favourites
   const favouriteReports = reportConfig.filter(
     (r) =>
       !r.comingSoon &&
@@ -112,7 +90,7 @@ export default function HomePage() {
       textMatches(r, searchTerm)
   );
 
-  // ✅ Scoped favourite check: only consider THIS item's school key (plus legacy)
+  // Scoped favourite check: only consider THIS item's school key (plus legacy)
   const isToolkitFavedForItem = useCallback(
     (item) => {
       const key = storageKeyForItem(item);
@@ -126,7 +104,9 @@ export default function HomePage() {
 
   const favouriteToolkits = useMemo(() => {
     const items = [...toolkitConfig, ...demoToolkitConfig, ...allToolkitConfigs];
-    return items.filter((item) => isToolkitFavedForItem(item) && textMatches(item, searchTerm));
+    return items.filter(
+      (item) => isToolkitFavedForItem(item) && textMatches(item, searchTerm)
+    );
   }, [isToolkitFavedForItem, searchTerm]);
 
   const handleDashboardFavourite = (id) => {
@@ -137,10 +117,12 @@ export default function HomePage() {
 
   // Toggle toolkit favourite ONLY in this item's normalised school key
   const toggleToolkitItemFavourite = (item) => {
-    const targetKey = storageKeyForItem(item); // enforce per-school storage
+    const targetKey = storageKeyForItem(item);
     const currentArr = JSON.parse(localStorage.getItem(targetKey) || "[]");
     const exists = currentArr.includes(item.id);
-    const next = exists ? currentArr.filter((x) => x !== item.id) : [...currentArr, item.id];
+    const next = exists
+      ? currentArr.filter((x) => x !== item.id)
+      : [...currentArr, item.id];
     localStorage.setItem(targetKey, JSON.stringify(next));
 
     setToolkitFavVersion((v) => v + 1);
@@ -153,9 +135,11 @@ export default function HomePage() {
       <div
         className="bg-gray-100 min-h-screen h-screen flex flex-col font-avenir"
         style={{
-          fontFamily: "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
+          fontFamily:
+            "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
         }}
       >
+        {/* Top Bar */}
         <div
           className="shrink-0 z-20 shadow-sm px-8 h-24 flex items-center justify-between"
           style={{ backgroundColor: "#ffffff" }}
@@ -171,10 +155,14 @@ export default function HomePage() {
               placeholder="Search favourites"
               onFocus={() => setSearchFocused(true)}
               onBlur={() => setSearchFocused(false)}
-              className={`w-full border ${searchFocused ? "" : "border-gray-300"} rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
+              className={`w-full border ${
+                searchFocused ? "" : "border-gray-300"
+              } rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
               style={{
                 borderColor: searchFocused ? TRUST_GREEN : undefined,
-                boxShadow: searchFocused ? `0 0 0 2px ${TRUST_GREEN}40` : undefined,
+                boxShadow: searchFocused
+                  ? `0 0 0 2px ${TRUST_GREEN}40`
+                  : undefined,
               }}
             />
             {searchTerm && (
@@ -189,7 +177,9 @@ export default function HomePage() {
           </div>
         </div>
 
+        {/* Content */}
         <div className="flex-1 overflow-y-auto p-8 custom-scrollbar space-y-12">
+          {/* Dashboards */}
           <div>
             <h2 className="text-xl font-semibold mb-4" style={{ color: TRUST_GREEN }}>
               Dashboards
@@ -218,6 +208,7 @@ export default function HomePage() {
             </div>
           </div>
 
+          {/* Toolkits */}
           <div>
             <h2 className="text-xl font-semibold mb-4" style={{ color: TRUST_GREEN }}>
               Toolkits
@@ -234,18 +225,42 @@ export default function HomePage() {
                     report={toolkit}
                     isFavourite={isToolkitFavedForItem(toolkit)}
                     onFavourite={() => toggleToolkitItemFavourite(toolkit)}
-                    onClick={() => openExternalOrRoute(toolkit.href, navigate)}
+                    onClick={() =>
+                      toolkit.schoolKey
+                        ? navigate(`/analytics/toolkits/${toolkit.schoolKey}`)
+                        : null
+                    }
                     clickedStar={clickedStar}
                     disabled={!!toolkit.comingSoon}
                     showSourcePrefix={true}
-                    // 👉 show 3-dots menu only when there's a browser URL to open
-                    showMoreMenu={Boolean(toolkit.openInBrowserHref || toolkit.openInBrowserUrl)}
                   />
                 ))
               )}
             </div>
           </div>
         </div>
+
+        <style>
+          {`
+            .custom-scrollbar {
+              scrollbar-width: thin;
+              scrollbar-color: #cbd5e1 transparent;
+            }
+            .custom-scrollbar::-webkit-scrollbar {
+              width: 6px;
+            }
+            .custom-scrollbar::-webkit-scrollbar-track {
+              background: transparent;
+            }
+            .custom-scrollbar::-webkit-scrollbar-thumb {
+              background-color: #cbd5e1;
+              border-radius: 3px;
+            }
+            .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+              background-color: #94a3b8;
+            }
+          `}
+        </style>
       </div>
     </AnalyticsLayout>
   );
