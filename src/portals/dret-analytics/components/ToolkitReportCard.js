@@ -75,10 +75,7 @@ export default function ToolkitReportCard({
         relative
         ${disabled ? "opacity-50 pointer-events-none" : ""}
       `}
-      style={{
-        width: layoutSizePx,
-        height: layoutSizePx,
-      }}
+      style={{ width: layoutSizePx, height: layoutSizePx }}
     >
       {/* Three dots menu - TOP LEFT */}
       {showMoreMenu && (
@@ -157,9 +154,7 @@ export default function ToolkitReportCard({
             wordBreak: "break-word",
           }}
         >
-          {showSourcePrefix && report?.sourceToolkit
-            ? `${report?.name} - ${report?.sourceToolkit}`
-            : report?.name}
+          {displayName}
         </div>
       </div>
     </div>
