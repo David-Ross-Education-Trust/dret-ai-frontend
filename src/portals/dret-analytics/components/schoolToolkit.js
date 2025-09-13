@@ -1,115 +1,212 @@
-import React, { useState, useEffect } from "react";
-import { Search, X, LayoutGrid, Grid3X3, List, Star } from "lucide-react";
+import React, { useState, useEffect, useMemo } from "react";
+import { Search, X, Rows, Grid, LayoutGrid, Star } from "lucide-react";
 import AnalyticsLayout from "./layout";
 import ToolkitReportCard from "./ToolkitReportCard";
 
 const TRUST_GREEN = "#205c40";
 
-// Put constants outside component so ESLint doesn't warn
-const VIEW_KEYS = {
-  mode: "viewMode",
-  favesOnly: "showFavesOnly",
-  search: "searchTerm",
-};
-
+// Persist favourites in localStorage (per-school)
 function useFavourites(key) {
   const [favourites, setFavourites] = useState(() => {
-    const stored = localStorage.getItem(key);
-    return stored ? JSON.parse(stored) : [];
+    try {
+      const stored = localStorage.getItem(key);
+      const parsed = stored ? JSON.parse(stored) : [];
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
   });
 
   useEffect(() => {
-    localStorage.setItem(key, JSON.stringify(favourites));
+    try {
+      localStorage.setItem(key, JSON.stringify(favourites));
+    } catch {
+      /* no-op */
+    }
   }, [favourites, key]);
 
   const toggleFavourite = (id) =>
-    setFavourites((prev) =>
-      prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id]
-    );
+    setFavourites((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
 
   return [favourites, toggleFavourite];
 }
 
+// Smart open: deep links same-tab; https new tab; relative -> location.assign
+const CUSTOM_SCHEME_RE =
+  /^(ms-(excel|word|powerpoint|project|access|onenote|visio|office):|mailto:|tel:)/i;
+
+function openExternalOrRoute(href) {
+  if (!href) return;
+  if (CUSTOM_SCHEME_RE.test(href)) {
+    window.location.assign(href);
+    return;
+  }
+  if (/^https?:\/\//i.test(href)) {
+    window.open(href, "_blank", "noopener,noreferrer");
+    return;
+  }
+  window.location.assign(href);
+}
+
+// Storage keys for view preferences (per-school suffix will be added)
+const VIEW_STORAGE_KEYS = {
+  mode: "toolkitViewMode", // "compact" | "cosy" | "list"
+  favesOnly: "toolkitViewFavesOnly", // "true" | "false"
+};
+
 export default function SchoolToolkit({
   schoolName,
   items,
-  storageKey,
+  storageKey,        // e.g. "toolkitFavourites_BarnesWallis"
   defaultMode = "cosy",
 }) {
   const [favourites, toggleFavourite] = useFavourites(storageKey);
   const [clickedStar, setClickedStar] = useState(null);
 
-  // View mode (persisted per school)
-  const [mode, setMode] = useState(
-    localStorage.getItem(`${VIEW_KEYS.mode}_${storageKey}`) || defaultMode
-  );
+  // ---- Per-school persisted view settings
+  const [mode, setMode] = useState(() => {
+    try {
+      const stored = localStorage.getItem(`${VIEW_STORAGE_KEYS.mode}_${storageKey}`);
+      return stored === "compact" || stored === "cosy" || stored === "list" ? stored : defaultMode;
+    } catch {
+      return defaultMode;
+    }
+  });
   useEffect(() => {
-    localStorage.setItem(`${VIEW_KEYS.mode}_${storageKey}`, mode);
+    try {
+      localStorage.setItem(`${VIEW_STORAGE_KEYS.mode}_${storageKey}`, mode);
+    } catch {}
   }, [mode, storageKey]);
 
-  // Favourites-only toggle (persisted per school)
-  const [showFavouritesOnly, setShowFavouritesOnly] = useState(
-    localStorage.getItem(`${VIEW_KEYS.favesOnly}_${storageKey}`) === "true"
-  );
+  const [showOnlyFaves, setShowOnlyFaves] = useState(() => {
+    try {
+      const stored = localStorage.getItem(`${VIEW_STORAGE_KEYS.favesOnly}_${storageKey}`);
+      return stored === "true";
+    } catch {
+      return false;
+    }
+  });
   useEffect(() => {
-    localStorage.setItem(
-      `${VIEW_KEYS.favesOnly}_${storageKey}`,
-      showFavouritesOnly
-    );
-  }, [showFavouritesOnly, storageKey]);
+    try {
+      localStorage.setItem(`${VIEW_STORAGE_KEYS.favesOnly}_${storageKey}`, String(showOnlyFaves));
+    } catch {}
+  }, [showOnlyFaves, storageKey]);
 
-  // Search term (persisted per school)
-  const [searchTerm, setSearchTerm] = useState(
-    localStorage.getItem(`${VIEW_KEYS.search}_${storageKey}`) || ""
-  );
+  // Search (not persisted, to mirror ToolkitReports)
+  const [searchTerm, setSearchTerm] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
 
-  useEffect(() => {
-    localStorage.setItem(`${VIEW_KEYS.search}_${storageKey}`, searchTerm);
-  }, [searchTerm, storageKey]);
+  // Presets (match ToolkitReports)
+  const PRESETS = {
+    compact: { size: 130, gap: 16 },
+    cosy: { size: 190, gap: 24 },
+    list: { size: 0, gap: 0 },
+  };
+  const { size, gap } = PRESETS[mode] || PRESETS.cosy;
 
-  const shownFiles = items.filter(
-    (file) =>
-      (searchTerm.trim() === "" ||
-        file.name.toLowerCase().includes(searchTerm.toLowerCase())) &&
-      (!showFavouritesOnly || favourites.includes(file.id))
-  );
+  const filtered = useMemo(() => {
+    const t = searchTerm.trim().toLowerCase();
+    return items.filter((r) => {
+      if (r.comingSoon) return false;
+      if (showOnlyFaves && !favourites.includes(r.id)) return false;
+      if (!t) return true;
+      return (
+        (r.name && r.name.toLowerCase().includes(t)) ||
+        (r.description && r.description.toLowerCase().includes(t))
+      );
+    });
+  }, [items, searchTerm, showOnlyFaves, favourites]);
+
+  const handleFavourite = (id) => {
+    toggleFavourite(id);
+    setClickedStar(id);
+    setTimeout(() => setClickedStar(null), 300);
+  };
 
   return (
     <AnalyticsLayout>
       <div
         className="bg-gray-100 min-h-screen h-screen flex flex-col font-avenir"
-        style={{
-          fontFamily:
-            "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
-        }}
+        style={{ fontFamily: "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif" }}
       >
         {/* Top Bar */}
         <div
-          className="shrink-0 z-20 shadow-sm px-8 h-24 flex items-center justify-between"
+          className="shrink-0 z-20 shadow-sm px-6 md:px-8 h-24 flex items-center justify-between"
           style={{ backgroundColor: "#ffffff" }}
         >
           <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
             {schoolName}
           </h1>
 
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center gap-3">
+            {/* View toggle (Compact / Cosy / List) */}
+            <div className="hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden">
+              <button
+                className={`px-3 py-2 text-sm flex items-center gap-1 ${
+                  mode === "compact" ? "bg-gray-100" : ""
+                }`}
+                onClick={() => setMode("compact")}
+                title="Compact grid"
+                type="button"
+              >
+                <Grid size={16} />
+                Compact
+              </button>
+              <button
+                className={`px-3 py-2 text-sm flex items-center gap-1 border-l border-gray-200 ${
+                  mode === "cosy" ? "bg-gray-100" : ""
+                }`}
+                onClick={() => setMode("cosy")}
+                title="Cosy grid"
+                type="button"
+              >
+                <LayoutGrid size={16} />
+                Cosy
+              </button>
+              <button
+                className={`px-3 py-2 text-sm flex items-center gap-1 border-l border-gray-200 ${
+                  mode === "list" ? "bg-gray-100" : ""
+                }`}
+                onClick={() => setMode("list")}
+                title="List view"
+                type="button"
+              >
+                <Rows size={16} />
+                List
+              </button>
+            </div>
+
+            {/* Favourites-only toggle button */}
+            <button
+              onClick={() => setShowOnlyFaves((v) => !v)}
+              className={`p-2 rounded-full border transition ${
+                showOnlyFaves ? "bg-yellow-100 border-yellow-400" : "border-gray-200 hover:bg-gray-100"
+              }`}
+              title="Toggle favourites only"
+              type="button"
+            >
+              <Star
+                size={18}
+                className={`${showOnlyFaves ? "text-yellow-500" : "text-gray-400"}`}
+                fill={showOnlyFaves ? "#fde047" : "none"}
+                strokeWidth={1.5}
+              />
+            </button>
+
             {/* Search */}
-            <div className="relative flex-shrink-0 w-[240px]">
+            <div className="relative flex-shrink-0 w-[220px] md:w-[260px]">
               <input
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search files"
+                placeholder="Search toolkits"
                 onFocus={() => setSearchFocused(true)}
                 onBlur={() => setSearchFocused(false)}
-                className={`w-full border ${
-                  searchFocused ? "" : "border-gray-300"
-                } rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
+                className={`w-full border ${searchFocused ? "" : "border-gray-300"} rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
                 style={{
                   borderColor: searchFocused ? TRUST_GREEN : undefined,
-                  boxShadow: searchFocused
-                    ? `0 0 0 2px ${TRUST_GREEN}40` : undefined,
+                  boxShadow: searchFocused ? `0 0 0 2px ${TRUST_GREEN}40` : undefined,
+                  fontFamily: "AvenirLTStdLight, Avenir, sans-serif",
                 }}
               />
               {searchTerm && (
@@ -117,157 +214,87 @@ export default function SchoolToolkit({
                   onClick={() => setSearchTerm("")}
                   className="absolute right-9 top-2.5 text-gray-400 hover:text-gray-600"
                   tabIndex={-1}
+                  aria-label="Clear"
+                  type="button"
                 >
                   <X size={16} />
                 </button>
               )}
               <Search className="absolute right-3 top-2.5 h-4 w-4 text-gray-400" />
             </div>
-
-            {/* Favourites toggle */}
-            <button
-              onClick={() => setShowFavouritesOnly((prev) => !prev)}
-              className={`px-3 py-1 rounded-md text-sm font-medium border transition ${
-                showFavouritesOnly
-                  ? "bg-yellow-100 border-yellow-400 text-yellow-700"
-                  : "bg-white border-gray-300 text-gray-600 hover:bg-gray-100"
-              }`}
-            >
-              <Star
-                className={`w-4 h-4 inline mr-1 ${
-                  showFavouritesOnly ? "text-yellow-500 fill-yellow-400" : ""
-                }`}
-              />
-              Favourites only
-            </button>
-
-            {/* Layout toggle */}
-            <div className="flex space-x-1 ml-2">
-              <button
-                onClick={() => setMode("compact")}
-                className={`p-2 rounded-md ${
-                  mode === "compact"
-                    ? "bg-gray-200 text-gray-800"
-                    : "text-gray-400 hover:text-gray-600"
-                }`}
-              >
-                <Grid3X3 size={16} />
-              </button>
-              <button
-                onClick={() => setMode("cosy")}
-                className={`p-2 rounded-md ${
-                  mode === "cosy"
-                    ? "bg-gray-200 text-gray-800"
-                    : "text-gray-400 hover:text-gray-600"
-                }`}
-              >
-                <LayoutGrid size={16} />
-              </button>
-              <button
-                onClick={() => setMode("list")}
-                className={`p-2 rounded-md ${
-                  mode === "list"
-                    ? "bg-gray-200 text-gray-800"
-                    : "text-gray-400 hover:text-gray-600"
-                }`}
-              >
-                <List size={16} />
-              </button>
-            </div>
           </div>
         </div>
 
-        {/* File Grid/List */}
-        <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
-          {shownFiles.length === 0 ? (
-            <div className="text-gray-500 italic text-center mt-20">
-              No files found.
+        {/* Content */}
+        <div className="flex-1 overflow-y-auto p-6 md:p-8 custom-scrollbar">
+          {filtered.length === 0 ? (
+            <div className="text-gray-500 italic text-center">
+              No toolkits{searchTerm ? " match this search." : "."}
             </div>
           ) : mode === "list" ? (
-            <div className="space-y-2">
-              {shownFiles.map((file) => (
-                <div
-                  key={file.id}
-                  className="flex items-center justify-between bg-white rounded-lg shadow p-3 hover:shadow-md transition cursor-pointer"
-                  onClick={() => {
-                    if (file.href?.startsWith("ms-excel:")) {
-                      window.location.href = file.href;
-                    } else {
-                      window.open(file.href, "_blank");
-                    }
-                  }}
-                >
-                  <div className="flex items-center space-x-3">
-                    {file.logoUrl && (
-                      <img
-                        src={file.logoUrl}
-                        alt={`${file.name} logo`}
-                        className="w-6 h-6 object-contain"
-                      />
-                    )}
-                    <span className="text-sm font-medium text-gray-900">
-                      {file.name}
-                    </span>
-                  </div>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleFavourite(file.id);
-                      setClickedStar(file.id);
-                      setTimeout(() => setClickedStar(null), 400);
-                    }}
-                    className="p-1 rounded-full group transition"
-                    aria-label={
-                      favourites.includes(file.id) ? "Unfavourite" : "Favourite"
-                    }
+            // LIST VIEW — row clickable, star at end
+            <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+              <ul className="divide-y divide-gray-100">
+                {filtered.map((report) => (
+                  <li
+                    key={report.id}
+                    className="flex items-center justify-between px-4 py-3 hover:bg-gray-50 cursor-pointer"
+                    onClick={() => openExternalOrRoute(report.href)}
                   >
-                    <Star
-                      className={`w-5 h-5 transition-transform duration-300 ${
-                        favourites.includes(file.id)
-                          ? "text-yellow-400"
-                          : "text-gray-300"
-                      } ${
-                        clickedStar === file.id
-                          ? "scale-125 animate-ping-once"
-                          : ""
-                      }`}
-                      strokeWidth={1.5}
-                      fill={favourites.includes(file.id) ? "#fde047" : "none"}
-                      style={{
-                        fill: !favourites.includes(file.id) ? "none" : "#fde047",
-                        transition: "fill 0.2s",
+                    <div className="flex items-center gap-3 min-w-0">
+                      {report.logoUrl && (
+                        <img src={report.logoUrl} alt="" className="w-8 h-8 object-contain flex-shrink-0" />
+                      )}
+                      <div className="min-w-0">
+                        <div className="truncate text-sm text-gray-900">{report.name}</div>
+                        {report.sourceToolkit && (
+                          <div className="truncate text-xs text-gray-500">{report.sourceToolkit}</div>
+                        )}
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation(); // prevent row navigation
+                        handleFavourite(report.id);
                       }}
-                    />
-                  </button>
-                </div>
-              ))}
+                      className="p-2 rounded-full group transition z-20"
+                      aria-label={favourites.includes(report.id) ? "Unfavourite" : "Favourite"}
+                      type="button"
+                    >
+                      <Star
+                        className={`w-5 h-5 transition-transform duration-300 ${
+                          favourites.includes(report.id) ? "text-yellow-400" : "text-gray-300"
+                        } opacity-80 ${clickedStar === report.id ? "scale-125 animate-ping-once" : ""}`}
+                        strokeWidth={1.5}
+                        fill={favourites.includes(report.id) ? "#fde047" : "none"}
+                      />
+                    </button>
+                  </li>
+                ))}
+              </ul>
             </div>
           ) : (
+            // GRID VIEW — uses auto-fill + minmax just like ToolkitReports
             <div
-              className={`grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 ${
-                mode === "compact" ? "gap-4" : "gap-8"
-              }`}
+              className="grid"
+              style={{
+                gridTemplateColumns: `repeat(auto-fill, minmax(${size}px, 1fr))`,
+                gap: `${gap}px`,
+              }}
             >
-              {shownFiles.map((file, idx) => (
+              {filtered.map((report) => (
                 <ToolkitReportCard
-                  key={`${storageKey}:${file.id}:${idx}`}
-                  report={file}
-                  isFavourite={favourites.includes(file.id)}
-                  onFavourite={() => {
-                    toggleFavourite(file.id);
-                    setClickedStar(file.id);
-                    setTimeout(() => setClickedStar(null), 400);
-                  }}
+                  key={report.id}
+                  report={report}
+                  isFavourite={favourites.includes(report.id)}
+                  onFavourite={handleFavourite}
                   clickedStar={clickedStar}
-                  onClick={() => {
-                    if (file.href?.startsWith("ms-excel:")) {
-                      window.location.href = file.href;
-                    } else {
-                      window.open(file.href, "_blank");
-                    }
-                  }}
-                  disabled={!!file.comingSoon}
-                  showMoreMenu={true}
+                  onClick={() => openExternalOrRoute(report.href)}
+                  disabled={!!report.comingSoon}
+                  showMoreMenu={Boolean(report.openInBrowserHref || report.openInBrowserUrl)}
+                  layoutSizePx={size}
+                  subtle={true}
                 />
               ))}
             </div>
@@ -276,23 +303,11 @@ export default function SchoolToolkit({
 
         <style>
           {`
-            .custom-scrollbar {
-              scrollbar-width: thin;
-              scrollbar-color: #cbd5e1 transparent;
-            }
-            .custom-scrollbar::-webkit-scrollbar {
-              width: 6px;
-            }
-            .custom-scrollbar::-webkit-scrollbar-track {
-              background: transparent;
-            }
-            .custom-scrollbar::-webkit-scrollbar-thumb {
-              background-color: #cbd5e1;
-              border-radius: 3px;
-            }
-            .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-              background-color: #94a3b8;
-            }
+            .custom-scrollbar { scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent; }
+            .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+            .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+            .custom-scrollbar-thumb { background-color: #cbd5e1; border-radius: 3px; }
+            .custom-scrollbar-thumb:hover { background-color: #94a3b8; }
           `}
         </style>
       </div>
