@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { Search, X, LayoutGrid, Rows, Grid, Sparkles } from "lucide-react";
+import { Search, X, Rows, Grid, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import AnalyticsLayout from "../components/layout";
 import { toolkitConfig } from "../components/ToolkitConfig";
