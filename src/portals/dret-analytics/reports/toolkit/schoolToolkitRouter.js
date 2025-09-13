@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import SchoolToolkit from "../../../components/SchoolToolkit";
+import SchoolToolkit from "../../../components/schoolToolkit";
 import { schoolToolkitConfigs } from "./allToolkits";
 
 export default function SchoolToolkitRouter() {
