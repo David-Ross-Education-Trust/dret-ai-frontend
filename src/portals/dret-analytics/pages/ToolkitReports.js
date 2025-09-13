@@ -1,5 +1,6 @@
+// src/portals/dret-analytics/pages/ToolkitReports.js
 import React, { useState, useMemo } from "react";
-import { Search, X, Rows, Grid, Sparkles } from "lucide-react";
+import { Search, X, Rows, Grid, LayoutGrid } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import AnalyticsLayout from "../components/layout";
 import { toolkitConfig } from "../components/ToolkitConfig";
@@ -49,7 +50,7 @@ export default function ToolkitReports() {
   const [mode, setMode] = useState("cosy");
   const [showOnlyFaves, setShowOnlyFaves] = useState(false);
 
-  // Presets with more generous gaps; cosy is a bit larger per your request
+  // Presets with generous gaps; cosy is larger per your request
   const PRESETS = {
     compact: { size: 130, gap: 16 },
     cosy: { size: 190, gap: 24 },
@@ -103,7 +104,7 @@ export default function ToolkitReports() {
                 onClick={() => setMode("compact")}
                 title="Compact grid"
               >
-                <Sparkles size={16} />
+                <Grid size={16} />
                 Compact
               </button>
               <button
@@ -113,7 +114,7 @@ export default function ToolkitReports() {
                 onClick={() => setMode("cosy")}
                 title="Cosy grid"
               >
-                <Grid size={16} />
+                <LayoutGrid size={16} />
                 Cosy
               </button>
               <button
@@ -178,13 +179,14 @@ export default function ToolkitReports() {
               No toolkits{searchTerm ? " match this search." : "."}
             </div>
           ) : mode === "list" ? (
-            // LIST VIEW
+            // LIST VIEW — row is clickable; star stays at the end
             <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
               <ul className="divide-y divide-gray-100">
                 {filtered.map((report) => (
                   <li
                     key={report.id}
-                    className="flex items-center justify-between px-4 py-3 hover:bg-gray-50"
+                    className="flex items-center justify-between px-4 py-3 hover:bg-gray-50 cursor-pointer"
+                    onClick={() => openExternalOrRoute(report.href, navigate)}
                   >
                     <div className="flex items-center gap-3 min-w-0">
                       {report.logoUrl && (
@@ -206,18 +208,15 @@ export default function ToolkitReports() {
 
                     <div className="flex items-center gap-2">
                       <button
-                        className="px-2 py-1 text-sm rounded border border-gray-200 hover:bg-gray-100"
-                        onClick={() => openExternalOrRoute(report.href, navigate)}
-                      >
-                        Open
-                      </button>
-                      <button
                         className={`px-2 py-1 text-sm rounded border ${
                           favourites.includes(report.id)
                             ? "border-yellow-300 bg-yellow-50"
                             : "border-gray-200 hover:bg-gray-100"
                         }`}
-                        onClick={() => handleFavourite(report.id)}
+                        onClick={(e) => {
+                          e.stopPropagation(); // don't trigger row navigation
+                          handleFavourite(report.id);
+                        }}
                       >
                         {favourites.includes(report.id) ? "★" : "☆"}
                       </button>
