@@ -1,7 +1,3 @@
-// src/portals/dret-analytics/reports/toolkit/allToolkits.js
-
-import excelIcon from "../../../../assets/excel-icon.png";
-
 // import individual school configs
 import { AbbeyConfig } from "./primary/AbbeyConfig";
 import { AinthorpeConfig } from "./primary/AinthorpeConfig";
