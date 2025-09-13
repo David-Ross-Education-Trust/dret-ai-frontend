@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { Search, X, Rows, Grid, LayoutGrid } from "lucide-react";
+import { Search, X, Rows, Grid, LayoutGrid, Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import AnalyticsLayout from "../components/layout";
 import { toolkitConfig } from "../components/ToolkitConfig";
@@ -96,7 +96,7 @@ export default function ToolkitReports() {
     }
   }, [showOnlyFaves]);
 
-  // Presets with generous gaps; cosy is larger per your request
+  // Presets with generous gaps; cosy is larger
   const PRESETS = {
     compact: { size: 130, gap: 16 },
     cosy: { size: 190, gap: 24 },
@@ -175,15 +175,24 @@ export default function ToolkitReports() {
               </button>
             </div>
 
-            {/* Favourites filter */}
-            <label className="flex items-center gap-2 text-sm">
-              <input
-                type="checkbox"
-                checked={showOnlyFaves}
-                onChange={(e) => setShowOnlyFaves(e.target.checked)}
+            {/* Favourites filter toggle button */}
+            <button
+              onClick={() => setShowOnlyFaves((v) => !v)}
+              className={`p-2 rounded-full border transition ${
+                showOnlyFaves ? "bg-yellow-100 border-yellow-400" : "border-gray-200 hover:bg-gray-100"
+              }`}
+              title="Toggle favourites only"
+              type="button"
+            >
+              <Star
+                size={18}
+                className={`${
+                  showOnlyFaves ? "text-yellow-500" : "text-gray-400"
+                }`}
+                fill={showOnlyFaves ? "#fde047" : "none"}
+                strokeWidth={1.5}
               />
-              Favourites only
-            </label>
+            </button>
 
             {/* Search */}
             <div className="relative flex-shrink-0 w-[220px] md:w-[260px]">
@@ -225,7 +234,7 @@ export default function ToolkitReports() {
               No toolkits{searchTerm ? " match this search." : "."}
             </div>
           ) : mode === "list" ? (
-            // LIST VIEW — row is clickable; star stays at the end
+            // LIST VIEW — row clickable, star icon at end
             <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
               <ul className="divide-y divide-gray-100">
                 {filtered.map((report) => (
@@ -252,21 +261,25 @@ export default function ToolkitReports() {
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-2">
-                      <button
-                        className={`px-2 py-1 text-sm rounded border ${
-                          favourites.includes(report.id)
-                            ? "border-yellow-300 bg-yellow-50"
-                            : "border-gray-200 hover:bg-gray-100"
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation(); // stop row navigation
+                        handleFavourite(report.id);
+                      }}
+                      className="p-2 rounded-full group transition z-20"
+                      aria-label={favourites.includes(report.id) ? "Unfavourite" : "Favourite"}
+                      type="button"
+                    >
+                      <Star
+                        className={`w-5 h-5 transition-transform duration-300 ${
+                          favourites.includes(report.id) ? "text-yellow-400" : "text-gray-300"
+                        } opacity-80 ${
+                          clickedStar === report.id ? "scale-125 animate-ping-once" : ""
                         }`}
-                        onClick={(e) => {
-                          e.stopPropagation(); // don't trigger row navigation
-                          handleFavourite(report.id);
-                        }}
-                      >
-                        {favourites.includes(report.id) ? "★" : "☆"}
-                      </button>
-                    </div>
+                        strokeWidth={1.5}
+                        fill={favourites.includes(report.id) ? "#fde047" : "none"}
+                      />
+                    </button>
                   </li>
                 ))}
               </ul>
@@ -303,8 +316,8 @@ export default function ToolkitReports() {
             .custom-scrollbar { scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent; }
             .custom-scrollbar::-webkit-scrollbar { width: 6px; }
             .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-            .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 3px; }
-            .custom-scrollbar::-webkit-scrollbar-thumb:hover { background-color: #94a3b8; }
+            .custom-scrollbar-thumb { background-color: #cbd5e1; border-radius: 3px; }
+            .custom-scrollbar-thumb:hover { background-color: #94a3b8; }
           `}
         </style>
       </div>
