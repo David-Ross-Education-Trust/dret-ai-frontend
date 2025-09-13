@@ -1,5 +1,4 @@
-// src/portals/dret-analytics/pages/ToolkitReports.js
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Search, X, Rows, Grid, LayoutGrid } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import AnalyticsLayout from "../components/layout";
@@ -9,11 +8,20 @@ import ToolkitReportCard from "../components/ToolkitReportCard";
 // Persist favourites in localStorage
 function useFavourites(key = "toolkitFavourites") {
   const [favourites, setFavourites] = useState(() => {
-    const stored = localStorage.getItem(key);
-    return stored ? JSON.parse(stored) : [];
+    try {
+      const stored = localStorage.getItem(key);
+      const parsed = stored ? JSON.parse(stored) : [];
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
   });
-  React.useEffect(() => {
-    localStorage.setItem(key, JSON.stringify(favourites));
+  useEffect(() => {
+    try {
+      localStorage.setItem(key, JSON.stringify(favourites));
+    } catch {
+      /* no-op */
+    }
   }, [favourites, key]);
 
   const toggleFavourite = (id) =>
@@ -39,6 +47,12 @@ function openExternalOrRoute(href, navigate) {
   navigate(href);
 }
 
+// Storage keys for view preferences
+const VIEW_STORAGE_KEYS = {
+  mode: "toolkitViewMode",          // "compact" | "cosy" | "list"
+  favesOnly: "toolkitViewFavesOnly" // "true" | "false"
+};
+
 export default function ToolkitReports() {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
@@ -46,9 +60,41 @@ export default function ToolkitReports() {
   const [favourites, toggleFavourite] = useFavourites();
   const [clickedStar, setClickedStar] = useState(null);
 
-  // View mode: compact | cosy | list (British English ✅)
-  const [mode, setMode] = useState("cosy");
-  const [showOnlyFaves, setShowOnlyFaves] = useState(false);
+  // ---- Load persisted view settings (with fallbacks)
+  const [mode, setMode] = useState(() => {
+    try {
+      const stored = localStorage.getItem(VIEW_STORAGE_KEYS.mode);
+      return stored === "compact" || stored === "cosy" || stored === "list" ? stored : "cosy";
+    } catch {
+      return "cosy";
+    }
+  });
+
+  const [showOnlyFaves, setShowOnlyFaves] = useState(() => {
+    try {
+      const stored = localStorage.getItem(VIEW_STORAGE_KEYS.favesOnly);
+      return stored === "true";
+    } catch {
+      return false;
+    }
+  });
+
+  // ---- Persist view settings when they change
+  useEffect(() => {
+    try {
+      localStorage.setItem(VIEW_STORAGE_KEYS.mode, mode);
+    } catch {
+      /* no-op */
+    }
+  }, [mode]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(VIEW_STORAGE_KEYS.favesOnly, String(showOnlyFaves));
+    } catch {
+      /* no-op */
+    }
+  }, [showOnlyFaves]);
 
   // Presets with generous gaps; cosy is larger per your request
   const PRESETS = {
