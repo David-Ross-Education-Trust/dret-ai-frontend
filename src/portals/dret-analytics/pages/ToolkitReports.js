@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { Search, X, LayoutGrid, Rows, Sparkles } from "lucide-react";
+import { Search, X, LayoutGrid, Rows, Grid } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import AnalyticsLayout from "../components/layout";
 import { toolkitConfig } from "../components/ToolkitConfig";
@@ -45,14 +45,14 @@ export default function ToolkitReports() {
   const [favourites, toggleFavourite] = useFavourites();
   const [clickedStar, setClickedStar] = useState(null);
 
-  // View mode: compact | cozy | list
-  const [mode, setMode] = useState("cozy");
+  // View mode: compact | cosy | list
+  const [mode, setMode] = useState("cosy");
   const [showOnlyFaves, setShowOnlyFaves] = useState(false);
 
-  // Updated gaps: more breathing room
+  // Presets with more generous gaps
   const PRESETS = {
-    compact: { size: 130, gap: 14 }, // was 8
-    cozy: { size: 160, gap: 20 },    // was 12
+    compact: { size: 130, gap: 16 },
+    cosy: { size: 190, gap: 24 },   // bumped up size + spacing
     list: { size: 0, gap: 0 },
   };
   const { size, gap } = PRESETS[mode];
@@ -97,7 +97,9 @@ export default function ToolkitReports() {
             {/* View toggle */}
             <div className="hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden">
               <button
-                className={`px-3 py-2 text-sm flex items-center gap-1 ${mode === "compact" ? "bg-gray-100" : ""}`}
+                className={`px-3 py-2 text-sm flex items-center gap-1 ${
+                  mode === "compact" ? "bg-gray-100" : ""
+                }`}
                 onClick={() => setMode("compact")}
                 title="Compact grid"
               >
@@ -105,15 +107,19 @@ export default function ToolkitReports() {
                 Compact
               </button>
               <button
-                className={`px-3 py-2 text-sm flex items-center gap-1 border-l border-gray-200 ${mode === "cozy" ? "bg-gray-100" : ""}`}
-                onClick={() => setMode("cozy")}
-                title="Cozy grid"
+                className={`px-3 py-2 text-sm flex items-center gap-1 border-l border-gray-200 ${
+                  mode === "cosy" ? "bg-gray-100" : ""
+                }`}
+                onClick={() => setMode("cosy")}
+                title="Cosy grid"
               >
-                <LayoutGrid size={16} />
-                Cozy
+                <Grid size={16} />
+                Cosy
               </button>
               <button
-                className={`px-3 py-2 text-sm flex items-center gap-1 border-l border-gray-200 ${mode === "list" ? "bg-gray-100" : ""}`}
+                className={`px-3 py-2 text-sm flex items-center gap-1 border-l border-gray-200 ${
+                  mode === "list" ? "bg-gray-100" : ""
+                }`}
                 onClick={() => setMode("list")}
                 title="List view"
               >
@@ -141,7 +147,9 @@ export default function ToolkitReports() {
                 placeholder="Search toolkits"
                 onFocus={() => setSearchFocused(true)}
                 onBlur={() => setSearchFocused(false)}
-                className={`w-full border ${searchFocused ? "" : "border-gray-300"} rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
+                className={`w-full border ${
+                  searchFocused ? "" : "border-gray-300"
+                } rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
                 style={{
                   borderColor: searchFocused ? TRUST_GREEN : undefined,
                   boxShadow: searchFocused ? `0 0 0 2px ${TRUST_GREEN}40` : undefined,
@@ -170,7 +178,7 @@ export default function ToolkitReports() {
               No toolkits{searchTerm ? " match this search." : "."}
             </div>
           ) : mode === "list" ? (
-            // LIST VIEW — calmer rows
+            // LIST VIEW
             <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
               <ul className="divide-y divide-gray-100">
                 {filtered.map((report) => (
@@ -219,7 +227,7 @@ export default function ToolkitReports() {
               </ul>
             </div>
           ) : (
-            // GRID VIEW — compact or cozy
+            // GRID VIEW
             <div
               className="grid"
               style={{
