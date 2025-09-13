@@ -14,6 +14,8 @@ export default function ToolkitReportCard({
   disabled,
   showSourcePrefix = false,
   showMoreMenu = false,
+  size = "medium", // "compact" | "small" | "medium" | "large" (compact alias provided)
+  subtle = false,   // reduce shadow/border for a calmer grid
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
@@ -26,65 +28,59 @@ export default function ToolkitReportCard({
 
   useEffect(() => {
     if (!showMoreMenu) return;
-
     const handleClickOutside = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
         setMenuOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showMoreMenu]);
 
   const handleCardClick = (e) => {
     if (disabled) return;
-
     const href = report?.href;
     if (href) {
-      // 1) Custom schemes — same-tab hard navigation to avoid blank tab
       if (CUSTOM_SCHEME_RE.test(href)) {
         e.preventDefault();
-        window.location.assign(href);
+        window.location.assign(href); // same-tab; avoids blank tab
         return;
       }
-
-      // 2) Normal web links — open new tab unless parent overrides
       if (/^https?:\/\//i.test(href)) {
-        if (typeof onClick === "function") {
-          onClick(report);
-        } else {
-          window.open(href, "_blank", "noopener,noreferrer");
-        }
+        if (typeof onClick === "function") onClick(report);
+        else window.open(href, "_blank", "noopener,noreferrer");
         return;
       }
-
-      // 3) In-app routes — SPA navigation (or parent handler)
-      if (typeof onClick === "function") {
-        onClick(report);
-      } else {
-        navigate(href);
-      }
+      if (typeof onClick === "function") onClick(report);
+      else navigate(href);
       return;
     }
-
-    // Fallback
     if (typeof onClick === "function") onClick(report);
   };
 
   const browserHref = report?.openInBrowserHref || report?.openInBrowserUrl;
 
+  // Size presets
+  const resolvedSize = size === "compact" ? "small" : size;
+  const sizeClasses =
+    resolvedSize === "small"
+      ? "min-w-[110px] min-h-[110px] max-w-[160px] max-h-[160px]"
+      : resolvedSize === "large"
+      ? "min-w-[160px] min-h-[160px] max-w-[240px] max-h-[240px]"
+      : "min-w-[120px] min-h-[120px] max-w-[180px] max-h-[180px]"; // medium
+
+  const chromeClasses = subtle
+    ? "border border-gray-200 shadow-sm hover:shadow-md"
+    : "border border-gray-100 shadow-md hover:shadow-lg";
+
   return (
     <div
       onClick={handleCardClick}
       className={`
-        bg-white rounded-xl shadow-md hover:shadow-lg
+        bg-white rounded-xl ${chromeClasses}
         transition-all cursor-pointer flex flex-col items-center justify-center
-        aspect-square w-full min-w-[120px] min-h-[120px] max-w-[180px] max-h-[180px]
-        border border-gray-100 relative
-        ${disabled ? "opacity-50 pointer-events-none" : ""}
+        aspect-square w-full ${sizeClasses}
+        relative ${disabled ? "opacity-50 pointer-events-none" : ""}
       `}
     >
       {/* Three dots menu - TOP LEFT */}
@@ -97,23 +93,22 @@ export default function ToolkitReportCard({
             }}
             className="text-gray-400 hover:text-gray-600 p-2 rounded-full transition"
             type="button"
+            aria-label="More"
           >
             <MoreVertical size={16} />
           </button>
 
           <div
-            className={`absolute left-0 top-8 w-40 bg-white border border-gray-200 shadow-md rounded-md z-30 transform transition duration-150 ease-out ${
+            className={`absolute left-0 top-8 w-44 bg-white border border-gray-200 shadow-md rounded-md z-30 transform transition duration-150 ease-out ${
               menuOpen ? "scale-100 opacity-100" : "scale-95 opacity-0 pointer-events-none"
             }`}
             onClick={(e) => e.stopPropagation()}
           >
             <button
-              className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+              className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 disabled:text-gray-300"
               onClick={() => {
                 setMenuOpen(false);
-                if (browserHref) {
-                  window.open(browserHref, "_blank", "noopener,noreferrer");
-                }
+                if (browserHref) window.open(browserHref, "_blank", "noopener,noreferrer");
               }}
               type="button"
               disabled={!browserHref}
@@ -139,25 +134,9 @@ export default function ToolkitReportCard({
           <Star
             className={`w-5 h-5 transition-transform duration-300 ${
               isFavourite ? "text-yellow-400" : "text-gray-300"
-            } opacity-80 ${clickedStar === (report?.id || report?.name) ? "scale-125 animate-ping-once" : ""}`}
+            } opacity-80`}
             strokeWidth={1.5}
             fill={isFavourite ? "#fde047" : "none"}
-            style={{
-              fill: !isFavourite ? "none" : "#fde047",
-              transition: "fill 0.2s",
-            }}
-            onMouseEnter={(ev) => {
-              if (!isFavourite) {
-                ev.currentTarget.style.fill = "#fde047";
-                ev.currentTarget.style.opacity = "1";
-              }
-            }}
-            onMouseLeave={(ev) => {
-              if (!isFavourite) {
-                ev.currentTarget.style.fill = "none";
-                ev.currentTarget.style.opacity = "0.8";
-              }
-            }}
           />
         </button>
       )}
@@ -168,7 +147,7 @@ export default function ToolkitReportCard({
           <img
             src={report.logoUrl}
             alt={`${report?.name} logo`}
-            className="w-20 h-20 object-contain mb-3"
+            className="w-16 h-16 object-contain mb-3"
             style={{ maxWidth: "100%", maxHeight: "100%" }}
           />
         )}

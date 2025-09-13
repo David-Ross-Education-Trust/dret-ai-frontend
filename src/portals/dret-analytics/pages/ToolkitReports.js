@@ -1,27 +1,41 @@
-import React, { useState } from "react";
-import { Search, X } from "lucide-react";
+import React, { useState, useMemo } from "react";
+import { Search, X, LayoutGrid, Rows, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import AnalyticsLayout from "../components/layout";
 import { toolkitConfig } from "../components/ToolkitConfig";
 import ToolkitReportCard from "../components/ToolkitReportCard";
 
-// Custom hook for persisting favourites in localStorage!
+// Custom hook for persisting favourites in localStorage
 function useFavourites(key = "toolkitFavourites") {
   const [favourites, setFavourites] = useState(() => {
     const stored = localStorage.getItem(key);
     return stored ? JSON.parse(stored) : [];
   });
-
   React.useEffect(() => {
     localStorage.setItem(key, JSON.stringify(favourites));
   }, [favourites, key]);
 
   const toggleFavourite = (id) =>
-    setFavourites((prev) =>
-      prev.includes(id) ? prev.filter((fav) => fav !== id) : [...prev, id]
-    );
+    setFavourites((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
 
   return [favourites, toggleFavourite];
+}
+
+// Helper: open links smartly (deep links same-tab; https in new tab; in-app via router)
+const CUSTOM_SCHEME_RE =
+  /^(ms-(excel|word|powerpoint|project|access|onenote|visio|office):|mailto:|tel:)/i;
+
+function openExternalOrRoute(href, navigate) {
+  if (!href) return;
+  if (CUSTOM_SCHEME_RE.test(href)) {
+    window.location.assign(href);
+    return;
+  }
+  if (/^https?:\/\//i.test(href)) {
+    window.open(href, "_blank", "noopener,noreferrer");
+    return;
+  }
+  navigate(href);
 }
 
 export default function ToolkitReports() {
@@ -31,95 +45,204 @@ export default function ToolkitReports() {
   const [favourites, toggleFavourite] = useFavourites();
   const [clickedStar, setClickedStar] = useState(null);
 
-  const toolkitReports = toolkitConfig.filter(
-    (r) =>
-      !r.comingSoon &&
-      (
-        searchTerm.trim() === "" ||
-        (r.name && r.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (r.description && r.description.toLowerCase().includes(searchTerm.toLowerCase()))
-      )
-  );
+  // New UI state
+  const [density, setDensity] = useState("cozy"); // "compact" | "cozy" | "list"
+  const [showOnlyFaves, setShowOnlyFaves] = useState(false);
 
   const TRUST_GREEN = "#205c40";
+
+  const filtered = useMemo(() => {
+    const t = searchTerm.trim().toLowerCase();
+    return toolkitConfig.filter((r) => {
+      if (r.comingSoon) return false;
+      if (showOnlyFaves && !favourites.includes(r.id)) return false;
+      if (!t) return true;
+      return (
+        (r.name && r.name.toLowerCase().includes(t)) ||
+        (r.description && r.description.toLowerCase().includes(t))
+      );
+    });
+  }, [searchTerm, showOnlyFaves, favourites]);
 
   const handleFavourite = (id) => {
     toggleFavourite(id);
     setClickedStar(id);
-    setTimeout(() => setClickedStar(null), 400);
+    setTimeout(() => setClickedStar(null), 300);
   };
+
+  // Layout decisions
+  const gridCols =
+    density === "compact"
+      ? "grid-cols-3 md:grid-cols-5 lg:grid-cols-7 xl:grid-cols-8"
+      : density === "cozy"
+      ? "grid-cols-2 md:grid-cols-4 lg:grid-cols-6"
+      : ""; // list
 
   return (
     <AnalyticsLayout>
       <div
         className="bg-gray-100 min-h-screen h-screen flex flex-col font-avenir"
-        style={{
-          fontFamily: "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
-        }}
+        style={{ fontFamily: "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif" }}
       >
-        {/* --- Top Bar (Updated to match EducationReports) --- */}
+        {/* Top Bar */}
         <div
-          className="shrink-0 z-20 shadow-sm px-8 h-24 flex items-center justify-between"
+          className="shrink-0 z-20 shadow-sm px-6 md:px-8 h-24 flex items-center justify-between"
           style={{ backgroundColor: "#ffffff" }}
         >
           <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
             Education Toolkits
           </h1>
-          <div className="relative flex-shrink-0 w-[240px] ml-4">
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search toolkit reports"
-              onFocus={() => setSearchFocused(true)}
-              onBlur={() => setSearchFocused(false)}
-              className={`w-full border ${
-                searchFocused ? "" : "border-gray-300"
-              } rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
-              style={{
-                borderColor: searchFocused ? TRUST_GREEN : undefined,
-                boxShadow: searchFocused ? `0 0 0 2px ${TRUST_GREEN}40` : undefined,
-                fontFamily: "AvenirLTStdLight, Avenir, sans-serif"
-              }}
-            />
-            {searchTerm && (
+
+          <div className="flex items-center gap-3">
+            {/* Density toggle */}
+            <div className="hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden">
               <button
-                onClick={() => setSearchTerm("")}
-                className="absolute right-9 top-2.5 text-gray-400 hover:text-gray-600"
-                tabIndex={-1}
+                className={`px-3 py-2 text-sm flex items-center gap-1 ${
+                  density === "compact" ? "bg-gray-100" : ""
+                }`}
+                onClick={() => setDensity("compact")}
+                title="Compact grid"
               >
-                <X size={16} />
+                <Sparkles size={16} />
+                Compact
               </button>
-            )}
-            <Search className="absolute right-3 top-2.5 h-4 w-4 text-gray-400" />
+              <button
+                className={`px-3 py-2 text-sm flex items-center gap-1 border-l border-gray-200 ${
+                  density === "cozy" ? "bg-gray-100" : ""
+                }`}
+                onClick={() => setDensity("cozy")}
+                title="Cozy grid"
+              >
+                <LayoutGrid size={16} />
+                Cozy
+              </button>
+              <button
+                className={`px-3 py-2 text-sm flex items-center gap-1 border-l border-gray-200 ${
+                  density === "list" ? "bg-gray-100" : ""
+                }`}
+                onClick={() => setDensity("list")}
+                title="List view"
+              >
+                <Rows size={16} />
+                List
+              </button>
+            </div>
+
+            {/* Favourites filter */}
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={showOnlyFaves}
+                onChange={(e) => setShowOnlyFaves(e.target.checked)}
+              />
+              Favourites only
+            </label>
+
+            {/* Search */}
+            <div className="relative flex-shrink-0 w-[220px] md:w-[260px]">
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Search toolkits"
+                onFocus={() => setSearchFocused(true)}
+                onBlur={() => setSearchFocused(false)}
+                className={`w-full border ${searchFocused ? "" : "border-gray-300"} rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
+                style={{
+                  borderColor: searchFocused ? TRUST_GREEN : undefined,
+                  boxShadow: searchFocused ? `0 0 0 2px ${TRUST_GREEN}40` : undefined,
+                  fontFamily: "AvenirLTStdLight, Avenir, sans-serif",
+                }}
+              />
+              {searchTerm && (
+                <button
+                  onClick={() => setSearchTerm("")}
+                  className="absolute right-9 top-2.5 text-gray-400 hover:text-gray-600"
+                  tabIndex={-1}
+                  aria-label="Clear"
+                >
+                  <X size={16} />
+                </button>
+              )}
+              <Search className="absolute right-3 top-2.5 h-4 w-4 text-gray-400" />
+            </div>
           </div>
         </div>
-        {/* --- End Top Bar --- */}
 
-        {/* --- Report Grid --- */}
-        <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
-            {toolkitReports.length === 0 ? (
-              <div className="col-span-full text-gray-500 italic text-center">
-                No toolkit reports available{searchTerm ? " for this search." : " yet."}
-              </div>
-            ) : (
-              toolkitReports.map((report, idx) => {
-                const CardComponent = report.cardComponent || ToolkitReportCard;
-                return (
-                  <CardComponent
-                    key={report.id || idx}
-                    report={report}
-                    isFavourite={favourites.includes(report.id)}
-                    onFavourite={handleFavourite}
-                    clickedStar={clickedStar}
-                    onClick={() => navigate(report.href)}
-                    disabled={!!report.comingSoon}
-                  />
-                );
-              })
-            )}
-          </div>
+        {/* Content */}
+        <div className="flex-1 overflow-y-auto p-6 md:p-8 custom-scrollbar">
+          {filtered.length === 0 ? (
+            <div className="text-gray-500 italic text-center">
+              No toolkits{searchTerm ? " match this search." : "."}
+            </div>
+          ) : density === "list" ? (
+            // LIST VIEW — calmer, low-visual-noise rows
+            <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+              <ul className="divide-y divide-gray-100">
+                {filtered.map((report) => (
+                  <li
+                    key={report.id}
+                    className="flex items-center justify-between px-4 py-3 hover:bg-gray-50"
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      {report.logoUrl && (
+                        <img
+                          src={report.logoUrl}
+                          alt=""
+                          className="w-8 h-8 object-contain flex-shrink-0"
+                        />
+                      )}
+                      <div className="min-w-0">
+                        <div className="truncate text-sm text-gray-900">{report.name}</div>
+                        {report.sourceToolkit && (
+                          <div className="truncate text-xs text-gray-500">
+                            {report.sourceToolkit}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <button
+                        className="px-2 py-1 text-sm rounded border border-gray-200 hover:bg-gray-100"
+                        onClick={() => openExternalOrRoute(report.href, navigate)}
+                      >
+                        Open
+                      </button>
+                      <button
+                        className={`px-2 py-1 text-sm rounded border ${
+                          favourites.includes(report.id)
+                            ? "border-yellow-300 bg-yellow-50"
+                            : "border-gray-200 hover:bg-gray-100"
+                        }`}
+                        onClick={() => handleFavourite(report.id)}
+                      >
+                        {favourites.includes(report.id) ? "★" : "☆"}
+                      </button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            // GRID VIEW — compact or cozy
+            <div className={`grid ${gridCols} gap-4 md:gap-6`}>
+              {filtered.map((report) => (
+                <ToolkitReportCard
+                  key={report.id}
+                  report={report}
+                  isFavourite={favourites.includes(report.id)}
+                  onFavourite={handleFavourite}
+                  clickedStar={clickedStar}
+                  onClick={() => openExternalOrRoute(report.href, navigate)}
+                  disabled={!!report.comingSoon}
+                  showMoreMenu={Boolean(report.openInBrowserHref || report.openInBrowserUrl)}
+                  size={density === "compact" ? "compact" : "medium"}
+                  subtle={true}
+                />
+              ))}
+            </div>
+          )}
         </div>
 
         <style>
@@ -128,19 +251,10 @@ export default function ToolkitReports() {
               scrollbar-width: thin;
               scrollbar-color: #cbd5e1 transparent;
             }
-            .custom-scrollbar::-webkit-scrollbar {
-              width: 6px;
-            }
-            .custom-scrollbar::-webkit-scrollbar-track {
-              background: transparent;
-            }
-            .custom-scrollbar::-webkit-scrollbar-thumb {
-              background-color: #cbd5e1;
-              border-radius: 3px;
-            }
-            .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-              background-color: #94a3b8;
-            }
+            .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+            .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+            .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 3px; }
+            .custom-scrollbar::-webkit-scrollbar-thumb:hover { background-color: #94a3b8; }
           `}
         </style>
       </div>
