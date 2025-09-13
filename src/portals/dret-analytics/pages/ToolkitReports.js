@@ -1,11 +1,11 @@
 import React, { useState, useMemo } from "react";
-import { Search, X } from "lucide-react";
+import { Search, X, LayoutGrid, Rows, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import AnalyticsLayout from "../components/layout";
 import { toolkitConfig } from "../components/ToolkitConfig";
 import ToolkitReportCard from "../components/ToolkitReportCard";
 
-// Custom hook for persisting favourites in localStorage
+// Persist favourites in localStorage
 function useFavourites(key = "toolkitFavourites") {
   const [favourites, setFavourites] = useState(() => {
     const stored = localStorage.getItem(key);
@@ -21,7 +21,7 @@ function useFavourites(key = "toolkitFavourites") {
   return [favourites, toggleFavourite];
 }
 
-// Helper: open links smartly
+// Smart open: deep links same-tab; https new tab; internal via router
 const CUSTOM_SCHEME_RE =
   /^(ms-(excel|word|powerpoint|project|access|onenote|visio|office):|mailto:|tel:)/i;
 
@@ -45,15 +45,18 @@ export default function ToolkitReports() {
   const [favourites, toggleFavourite] = useFavourites();
   const [clickedStar, setClickedStar] = useState(null);
 
-  // TRUE SIZE SLIDER — controls real card size and grid column count
-  const [sizePx, setSizePx] = useState(160); // base card size
-  const minSize = 110;
-  const maxSize = 220;
-
-  // Slightly scale the gap with card size
-  const gapPx = Math.round(6 + (sizePx - 110) * 0.06); // ~6px at 110 → ~12px at 220
-
+  // View mode: compact | cozy | list
+  const [mode, setMode] = useState("cozy");
   const [showOnlyFaves, setShowOnlyFaves] = useState(false);
+
+  // Real size + spacing presets (feel free to tweak)
+  const PRESETS = {
+    compact: { size: 130, gap: 8 },
+    cozy: { size: 160, gap: 12 },
+    list: { size: 0, gap: 0 },
+  };
+  const { size, gap } = PRESETS[mode];
+
   const TRUST_GREEN = "#205c40";
 
   const filtered = useMemo(() => {
@@ -90,7 +93,35 @@ export default function ToolkitReports() {
             Education Toolkits
           </h1>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            {/* View toggle */}
+            <div className="hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden">
+              <button
+                className={`px-3 py-2 text-sm flex items-center gap-1 ${mode === "compact" ? "bg-gray-100" : ""}`}
+                onClick={() => setMode("compact")}
+                title="Compact grid"
+              >
+                <Sparkles size={16} />
+                Compact
+              </button>
+              <button
+                className={`px-3 py-2 text-sm flex items-center gap-1 border-l border-gray-200 ${mode === "cozy" ? "bg-gray-100" : ""}`}
+                onClick={() => setMode("cozy")}
+                title="Cozy grid"
+              >
+                <LayoutGrid size={16} />
+                Cozy
+              </button>
+              <button
+                className={`px-3 py-2 text-sm flex items-center gap-1 border-l border-gray-200 ${mode === "list" ? "bg-gray-100" : ""}`}
+                onClick={() => setMode("list")}
+                title="List view"
+              >
+                <Rows size={16} />
+                List
+              </button>
+            </div>
+
             {/* Favourites filter */}
             <label className="flex items-center gap-2 text-sm">
               <input
@@ -100,21 +131,6 @@ export default function ToolkitReports() {
               />
               Favourites only
             </label>
-
-            {/* TRUE SIZE SLIDER */}
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-gray-500">Size</span>
-              <input
-                type="range"
-                min={minSize}
-                max={maxSize}
-                value={sizePx}
-                onChange={(e) => setSizePx(parseInt(e.target.value, 10))}
-                className="w-40"
-                aria-label="Card size"
-              />
-              <span className="text-xs w-12 text-right text-gray-600">{sizePx}px</span>
-            </div>
 
             {/* Search */}
             <div className="relative flex-shrink-0 w-[220px] md:w-[260px]">
@@ -153,12 +169,62 @@ export default function ToolkitReports() {
             <div className="text-gray-500 italic text-center">
               No toolkits{searchTerm ? " match this search." : "."}
             </div>
+          ) : mode === "list" ? (
+            // LIST VIEW — calmer rows
+            <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+              <ul className="divide-y divide-gray-100">
+                {filtered.map((report) => (
+                  <li
+                    key={report.id}
+                    className="flex items-center justify-between px-4 py-3 hover:bg-gray-50"
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      {report.logoUrl && (
+                        <img
+                          src={report.logoUrl}
+                          alt=""
+                          className="w-8 h-8 object-contain flex-shrink-0"
+                        />
+                      )}
+                      <div className="min-w-0">
+                        <div className="truncate text-sm text-gray-900">{report.name}</div>
+                        {report.sourceToolkit && (
+                          <div className="truncate text-xs text-gray-500">
+                            {report.sourceToolkit}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <button
+                        className="px-2 py-1 text-sm rounded border border-gray-200 hover:bg-gray-100"
+                        onClick={() => openExternalOrRoute(report.href, navigate)}
+                      >
+                        Open
+                      </button>
+                      <button
+                        className={`px-2 py-1 text-sm rounded border ${
+                          favourites.includes(report.id)
+                            ? "border-yellow-300 bg-yellow-50"
+                            : "border-gray-200 hover:bg-gray-100"
+                        }`}
+                        onClick={() => handleFavourite(report.id)}
+                      >
+                        {favourites.includes(report.id) ? "★" : "☆"}
+                      </button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
           ) : (
+            // GRID VIEW — compact or cozy; real layout sizing
             <div
               className="grid"
               style={{
-                gridTemplateColumns: `repeat(auto-fill, minmax(${sizePx}px, 1fr))`,
-                gap: `${gapPx}px`,
+                gridTemplateColumns: `repeat(auto-fill, minmax(${size}px, 1fr))`,
+                gap: `${gap}px`,
               }}
             >
               {filtered.map((report) => (
@@ -171,7 +237,7 @@ export default function ToolkitReports() {
                   onClick={() => openExternalOrRoute(report.href, navigate)}
                   disabled={!!report.comingSoon}
                   showMoreMenu={Boolean(report.openInBrowserHref || report.openInBrowserUrl)}
-                  layoutSizePx={sizePx}
+                  layoutSizePx={size}
                   subtle={true}
                 />
               ))}

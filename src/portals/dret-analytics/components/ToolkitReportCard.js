@@ -15,7 +15,7 @@ export default function ToolkitReportCard({
   showSourcePrefix = false,
   showMoreMenu = false,
   subtle = true,
-  /** Real layout size in pixels; controls card width & height (square) */
+  /** Square card size in pixels (parent controls real layout) */
   layoutSizePx = 160,
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -42,7 +42,7 @@ export default function ToolkitReportCard({
     if (href) {
       if (CUSTOM_SCHEME_RE.test(href)) {
         e.preventDefault();
-        window.location.assign(href); // same-tab; avoids blank tab
+        window.location.assign(href); // same-tab for deep links
         return;
       }
       if (/^https?:\/\//i.test(href)) {
@@ -63,18 +63,14 @@ export default function ToolkitReportCard({
     ? "border border-gray-200 shadow-sm hover:shadow-md"
     : "border border-gray-100 shadow-md hover:shadow-lg";
 
-  // Logo scales with card size
-  const logoSize = Math.round(layoutSizePx * 0.38); // ~60px at 160px card
+  // Scale inner bits with the card size
+  const logoSize = Math.round(layoutSizePx * 0.38); // ~60px at 160px
+  const nameFont = Math.max(11, Math.round(layoutSizePx * 0.09)); // ~14px at 160px
 
   return (
     <div
       onClick={handleCardClick}
-      className={`
-        bg-white rounded-xl ${chromeClasses}
-        transition-all cursor-pointer flex flex-col items-center justify-center
-        relative
-        ${disabled ? "opacity-50 pointer-events-none" : ""}
-      `}
+      className={`bg-white rounded-xl ${chromeClasses} transition-all cursor-pointer flex flex-col items-center justify-center relative ${disabled ? "opacity-50 pointer-events-none" : ""}`}
       style={{ width: layoutSizePx, height: layoutSizePx }}
     >
       {/* Three dots menu - TOP LEFT */}
@@ -126,9 +122,7 @@ export default function ToolkitReportCard({
           type="button"
         >
           <Star
-            className={`w-5 h-5 transition-transform duration-300 ${
-              isFavourite ? "text-yellow-400" : "text-gray-300"
-            } opacity-80`}
+            className={`w-5 h-5 transition-transform duration-300 ${isFavourite ? "text-yellow-400" : "text-gray-300"} opacity-80`}
             strokeWidth={1.5}
             fill={isFavourite ? "#fde047" : "none"}
           />
@@ -149,7 +143,7 @@ export default function ToolkitReportCard({
           className="text-center font-avenir text-gray-900"
           style={{
             fontFamily: "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
-            fontSize: Math.max(11, Math.round(layoutSizePx * 0.09)), // ~14px at 160px
+            fontSize: nameFont,
             lineHeight: 1.15,
             wordBreak: "break-word",
           }}
