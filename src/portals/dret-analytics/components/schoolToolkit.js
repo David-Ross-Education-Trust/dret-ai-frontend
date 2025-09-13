@@ -20,9 +20,7 @@ function useFavourites(key) {
   useEffect(() => {
     try {
       localStorage.setItem(key, JSON.stringify(favourites));
-    } catch {
-      /* no-op */
-    }
+    } catch {}
   }, [favourites, key]);
 
   const toggleFavourite = (id) =>
@@ -48,10 +46,10 @@ function openExternalOrRoute(href) {
   window.location.assign(href);
 }
 
-// Storage keys for view preferences (per-school suffix will be added)
+// Global keys (match ToolkitReports)
 const VIEW_STORAGE_KEYS = {
-  mode: "toolkitViewMode", // "compact" | "cosy" | "list"
-  favesOnly: "toolkitViewFavesOnly", // "true" | "false"
+  mode: "toolkitViewMode",          // "compact" | "cosy" | "list"
+  favesOnly: "toolkitViewFavesOnly" // "true" | "false"
 };
 
 export default function SchoolToolkit({
@@ -63,36 +61,53 @@ export default function SchoolToolkit({
   const [favourites, toggleFavourite] = useFavourites(storageKey);
   const [clickedStar, setClickedStar] = useState(null);
 
-  // ---- Per-school persisted view settings
+  // ---- View mode: read GLOBAL first, then fallback to per-school, then default
   const [mode, setMode] = useState(() => {
     try {
-      const stored = localStorage.getItem(`${VIEW_STORAGE_KEYS.mode}_${storageKey}`);
-      return stored === "compact" || stored === "cosy" || stored === "list" ? stored : defaultMode;
+      const global = localStorage.getItem(VIEW_STORAGE_KEYS.mode);
+      if (global === "compact" || global === "cosy" || global === "list") return global;
+
+      const legacy = localStorage.getItem(`${VIEW_STORAGE_KEYS.mode}_${storageKey}`);
+      if (legacy === "compact" || legacy === "cosy" || legacy === "list") return legacy;
+
+      return defaultMode;
     } catch {
       return defaultMode;
     }
   });
+
+  // Persist mode to GLOBAL (and also mirror to per-school for backward compat)
   useEffect(() => {
     try {
+      localStorage.setItem(VIEW_STORAGE_KEYS.mode, mode);
       localStorage.setItem(`${VIEW_STORAGE_KEYS.mode}_${storageKey}`, mode);
     } catch {}
   }, [mode, storageKey]);
 
+  // ---- Favourites-only: read GLOBAL first, then per-school
   const [showOnlyFaves, setShowOnlyFaves] = useState(() => {
     try {
-      const stored = localStorage.getItem(`${VIEW_STORAGE_KEYS.favesOnly}_${storageKey}`);
-      return stored === "true";
+      const global = localStorage.getItem(VIEW_STORAGE_KEYS.favesOnly);
+      if (global === "true" || global === "false") return global === "true";
+
+      const legacy = localStorage.getItem(`${VIEW_STORAGE_KEYS.favesOnly}_${storageKey}`);
+      if (legacy === "true" || legacy === "false") return legacy === "true";
+
+      return false;
     } catch {
       return false;
     }
   });
+
+  // Persist favourites-only to GLOBAL (mirror to per-school too)
   useEffect(() => {
     try {
+      localStorage.setItem(VIEW_STORAGE_KEYS.favesOnly, String(showOnlyFaves));
       localStorage.setItem(`${VIEW_STORAGE_KEYS.favesOnly}_${storageKey}`, String(showOnlyFaves));
     } catch {}
   }, [showOnlyFaves, storageKey]);
 
-  // Search (not persisted, to mirror ToolkitReports)
+  // Search (not persisted to keep behaviour aligned with ToolkitReports)
   const [searchTerm, setSearchTerm] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
 
