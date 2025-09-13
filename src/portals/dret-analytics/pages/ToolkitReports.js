@@ -49,10 +49,10 @@ export default function ToolkitReports() {
   const [mode, setMode] = useState("cozy");
   const [showOnlyFaves, setShowOnlyFaves] = useState(false);
 
-  // Real size + spacing presets (feel free to tweak)
+  // Updated gaps: more breathing room
   const PRESETS = {
-    compact: { size: 130, gap: 8 },
-    cozy: { size: 160, gap: 12 },
+    compact: { size: 130, gap: 14 }, // was 8
+    cozy: { size: 160, gap: 20 },    // was 12
     list: { size: 0, gap: 0 },
   };
   const { size, gap } = PRESETS[mode];
@@ -219,7 +219,7 @@ export default function ToolkitReports() {
               </ul>
             </div>
           ) : (
-            // GRID VIEW — compact or cozy; real layout sizing
+            // GRID VIEW — compact or cozy
             <div
               className="grid"
               style={{
