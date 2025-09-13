@@ -117,7 +117,9 @@ export default function ToolkitReportCard({
             e.stopPropagation();
             onFavourite(report?.id || report?.name);
           }}
-          className="absolute top-3 right-3 p-2 rounded-full group transition z-20"
+          className={`absolute ${
+            layoutSizePx <= 140 ? "top-1.5 right-1.5" : "top-3 right-3"
+          } p-2 rounded-full group transition z-20`}
           aria-label={isFavourite ? "Unfavourite" : "Favourite"}
           tabIndex={0}
           type="button"
@@ -125,7 +127,9 @@ export default function ToolkitReportCard({
           <Star
             className={`w-5 h-5 transition-transform duration-300 ${
               isFavourite ? "text-yellow-400" : "text-gray-300"
-            } opacity-80 ${clickedStar === (report?.id || report?.name) ? "scale-125 animate-ping-once" : ""}`}
+            } opacity-80 ${
+              clickedStar === (report?.id || report?.name) ? "scale-125 animate-ping-once" : ""
+            }`}
             strokeWidth={1.5}
             fill={isFavourite ? "#fde047" : "none"}
           />
