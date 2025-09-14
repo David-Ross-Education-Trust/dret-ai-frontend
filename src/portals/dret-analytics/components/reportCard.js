@@ -42,6 +42,7 @@ export default function ReportCard({
     tagPad,
     iconSize,
     contentBottomGapPx,
+    cosy,
   } = useMemo(() => {
     const size = Number(layoutSizePx) || 240;
     const cosy = size >= 260;
@@ -51,7 +52,7 @@ export default function ReportCard({
       titleSize: cosy ? "text-[16px]" : "text-[15px]",
       descSize: cosy ? "text-[12.5px]" : "text-[12px]",
       titleClamp: cosy ? 2 : 1,
-      descClamp: cosy ? 4 : 2, // ✅ 4 lines in cosy, 2 in compact
+      descClamp: cosy ? 4 : 2,
       paddingClass: "p-4",
       paddingStyle: { padding: wantP },
       gapY: cosy ? "gap-2.5" : "gap-2",
@@ -61,6 +62,7 @@ export default function ReportCard({
       tagPad: cosy ? "px-2 py-1" : "px-2 py-0.5",
       iconSize: cosy ? 12 : 11,
       contentBottomGapPx: cosy ? 36 : 34,
+      cosy,
     };
   }, [layoutSizePx]);
 
@@ -73,6 +75,14 @@ export default function ReportCard({
 
   const isDemo =
     report?.demo === true || report?.tag === "Demo" || report?.tag === "DEMO";
+
+  const isDRET = Array.isArray(report?.category)
+    ? report.category.includes("DRET")
+    : report?.category === "DRET";
+
+  // Big decorative corner star sizing/offset (so ~half is off the card)
+  const cornerStarSize = cosy ? 220 : 180;
+  const cornerOffset = cosy ? -56 : -44; // negative pushes it out of the corner a bit
 
   return (
     <div
@@ -98,31 +108,33 @@ export default function ReportCard({
       ].join(" ")}
       style={{ ...paddingStyle, minHeight: minH }}
     >
-      {/* ✅ Background watermark star for DRET */}
-      {Array.isArray(report.category)
-        ? report.category.includes("DRET") && (
-            <img
-              src={dretStar}
-              alt=""
-              className="absolute bottom-2 right-2 w-16 h-16 opacity-10 pointer-events-none select-none"
-            />
-          )
-        : report.category === "DRET" && (
-            <img
-              src={dretStar}
-              alt=""
-              className="absolute bottom-2 right-2 w-16 h-16 opacity-10 pointer-events-none select-none"
-            />
-          )}
+      {/* Decorative DRET corner star (behind content) */}
+      {isDRET && (
+        <img
+          src={dretStar}
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none select-none absolute"
+          style={{
+            width: cornerStarSize,
+            height: cornerStarSize,
+            right: cornerOffset,
+            bottom: cornerOffset,
+            opacity: 0.14,          // subtle transparency
+            transform: "rotate(-12deg)",
+            zIndex: 0,              // ensure it sits behind content
+          }}
+        />
+      )}
 
-      {/* Favourite star */}
+      {/* Favourite star (top-right) */}
       {typeof onFavourite === "function" && (
         <button
           onClick={(e) => {
             e.stopPropagation();
             onFavourite(report.id || report.name);
           }}
-          className="absolute top-3 right-3 p-1.5 rounded-full transition transform hover:scale-110 focus:scale-105 focus:outline-none"
+          className="absolute top-3 right-3 p-1.5 rounded-full transition transform hover:scale-110 focus:scale-105 focus:outline-none z-10"
           aria-label={isFavourite ? "Unfavourite" : "Favourite"}
           type="button"
         >
@@ -140,9 +152,9 @@ export default function ReportCard({
         </button>
       )}
 
-      {/* Main content */}
+      {/* Main content (kept above the corner star) */}
       <div
-        className={`flex flex-col ${gapY} pr-8 mb-8`}
+        className={`relative z-10 flex flex-col ${gapY} pr-8 mb-8`}
         style={{ marginBottom: contentBottomGapPx }}
       >
         <h3
@@ -151,13 +163,6 @@ export default function ReportCard({
           title={report.name}
         >
           {report.name}
-          {isDemo && (
-            <span
-              className={`${tagStyles.Demo} ${tagPad} ml-2 rounded-full font-semibold uppercase tracking-wide`}
-            >
-              Demo
-            </span>
-          )}
         </h3>
         {report.description && (
           <p
@@ -171,8 +176,8 @@ export default function ReportCard({
       </div>
 
       {/* Bottom row: categories left, tags right */}
-      <div className="absolute bottom-3 left-3 right-3 flex justify-between items-center">
-        {/* Categories */}
+      <div className="absolute bottom-3 left-3 right-3 flex justify-between items-center z-10">
+        {/* Categories (left) */}
         <div className={`flex flex-wrap gap-2 ${chipText}`}>
           {Array.isArray(report.category)
             ? report.category
@@ -199,8 +204,15 @@ export default function ReportCard({
               )}
         </div>
 
-        {/* Tags */}
+        {/* Tags (right) */}
         <div className={`flex flex-wrap gap-2 justify-end ${chipText}`}>
+          {isDemo && (
+            <span
+              className={`${tagStyles.Demo} ${tagPad} rounded-full font-semibold uppercase tracking-wide`}
+            >
+              Demo
+            </span>
+          )}
           {report.tag === "New" && (
             <span
               className={`${tagStyles.New} ${tagPad} rounded-full font-medium flex items-center gap-1`}
