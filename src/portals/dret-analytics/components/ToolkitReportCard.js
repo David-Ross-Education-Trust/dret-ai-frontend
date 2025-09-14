@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Star, MoreVertical } from "lucide-react";
 
@@ -63,8 +63,22 @@ export default function ToolkitReportCard({
     ? "border border-gray-200 shadow-sm hover:shadow-md"
     : "border border-gray-100 shadow-md hover:shadow-lg";
 
-  const logoSize = Math.round(layoutSizePx * 0.38);
-  const nameFont = Math.max(11, Math.round(layoutSizePx * 0.09));
+  // --- Make typography match ReportCard ---
+  const { titleClass, lineClamp, logoSize } = useMemo(() => {
+    const cosy = layoutSizePx >= 180; // same idea as report cards' cosy threshold
+    return {
+      titleClass: cosy ? "text-[16px]" : "text-[15px]",
+      lineClamp: cosy ? 2 : 1,
+      logoSize: Math.round(layoutSizePx * 0.38),
+    };
+  }, [layoutSizePx]);
+
+  const clampStyle = {
+    display: "-webkit-box",
+    WebkitBoxOrient: "vertical",
+    WebkitLineClamp: String(lineClamp),
+    overflow: "hidden",
+  };
 
   return (
     <div
@@ -137,7 +151,7 @@ export default function ToolkitReportCard({
       )}
 
       {/* Main content */}
-      <div className="flex flex-col items-center justify-center w-full h-full px-2">
+      <div className="flex flex-col items-center justify-center w-full h-full px-3">
         {report?.logoUrl && (
           <img
             src={report.logoUrl}
@@ -147,13 +161,14 @@ export default function ToolkitReportCard({
           />
         )}
         <div
-          className="text-center font-avenir text-gray-900"
+          className={`text-center font-semibold text-gray-900 ${titleClass}`}
           style={{
-            fontFamily: "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
-            fontSize: nameFont,
+            ...clampStyle,
             lineHeight: 1.15,
+            fontFamily: "system-ui, sans-serif",
             wordBreak: "break-word",
           }}
+          title={displayName}
         >
           {displayName}
         </div>
