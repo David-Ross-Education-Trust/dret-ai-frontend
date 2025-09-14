@@ -130,7 +130,7 @@ export default function ReportCard({
         )}
       </div>
 
-      {/* Tags pinned bottom-left (no divider) */}
+      {/* Tags pinned bottom left (no divider) */}
       <div
         className={`absolute bottom-3 left-3 flex flex-wrap gap-2 items-center ${chipText}`}
       >
