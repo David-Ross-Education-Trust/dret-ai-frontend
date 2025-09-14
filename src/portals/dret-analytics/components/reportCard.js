@@ -82,7 +82,7 @@ export default function ReportCard({
 
   // Big decorative corner star sizing/offset (so ~half is off the card)
   const cornerStarSize = cosy ? 140 : 110;
-  const cornerOffset = cosy ? -72 : -58; // negative pushes it out of the corner a bit
+  const cornerOffset = cosy ? -60 : -50; // negative pushes it out of the corner a bit
 
   return (
     <div
