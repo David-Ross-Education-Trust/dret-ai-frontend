@@ -14,7 +14,7 @@ const categoryColors = {
 const tagStyles = {
   Hot: "bg-red-50 text-red-600",
   New: "bg-green-50 text-green-800",
-  Demo: "bg-violet-50 text-violet-700 border border-violet-200",
+  Demo: "bg-grey-50 text-grey-700 border border-grey-200",
 };
 
 export default function ReportCard({
