@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { Star, Flame, Sparkles } from "lucide-react";
-import dretStar from "../assets/icon.png"; // ✅ DRET star logo
+import dretStar from "../../../assets/icon.png";
 
 const categoryColors = {
   Education: "bg-blue-50 text-blue-800",
