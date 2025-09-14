@@ -107,8 +107,8 @@ export default function HomePage() {
     cosy: { size: 300, gap: 24 },
   };
   const TK_PRESETS = {
-    compact: { size: 130, gap: 16 },
-    cosy: { size: 190, gap: 24 },
+    compact: { size: 140, gap: 16 },
+    cosy: { size: 180, gap: 24 },
   };
   const { size: dashSize, gap: dashGap } =
     mode === "list" ? { size: 0, gap: 0 } : DASH_PRESETS[mode];
