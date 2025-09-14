@@ -23,35 +23,46 @@ export default function ReportCard({
   onClick,
   clickedStar,
   disabled,
-  layoutSizePx,   // optional: dictates compact/cosy scaling
-  subtle = false, // optional: lighter default shadow
+  layoutSizePx,         // optional: page can hint size, but defaults are lean
+  subtle = true,        // default to lighter shadow everywhere
 }) {
   const {
     titleSize,
+    descSize,
+    titleClamp,
     descClamp,
-    padding,
+    paddingClass,
+    paddingStyle,
     gapY,
     footerPadTop,
+    minH,
   } = useMemo(() => {
-    // Heuristics from container size
-    const size = Number(layoutSizePx) || 280; // sensible default
-    const cosy = size >= 280;
+    // Smaller default than before for consistent lean cards
+    const size = Number(layoutSizePx) || 240;    // ← default compact-ish
+    const cosy = size >= 260;                    // gentle upscale threshold
+
+    // Tailwind has no p-4.5; use inline style when needed
+    const wantP = cosy ? 18 : 14;                // 18px vs 14px padding
+
     return {
-      titleSize: cosy ? "text-lg" : "text-base",
+      titleSize: cosy ? "text-[16px]" : "text-[15px]",
+      descSize: cosy ? "text-[12.5px]" : "text-[12px]",
+      titleClamp: cosy ? 2 : 1,
       descClamp: cosy ? 2 : 1,
-      padding: cosy ? "p-5" : "p-4",
-      gapY: cosy ? "gap-3" : "gap-2",
-      footerPadTop: cosy ? "pt-3" : "pt-2",
+      paddingClass: "p-4",                       // base; we’ll override with inline when cosy
+      paddingStyle: { padding: wantP },
+      gapY: cosy ? "gap-2.5" : "gap-2",
+      footerPadTop: cosy ? "pt-2.5" : "pt-2",
+      minH: cosy ? 128 : 118,
     };
   }, [layoutSizePx]);
 
-  // Description clamping style (no Tailwind plugin needed)
-  const clampStyle = {
+  const clamp = (lines) => ({
     display: "-webkit-box",
     WebkitBoxOrient: "vertical",
-    WebkitLineClamp: String(descClamp),
+    WebkitLineClamp: String(lines),
     overflow: "hidden",
-  };
+  });
 
   return (
     <div
@@ -70,24 +81,24 @@ export default function ReportCard({
         subtle ? "shadow-sm hover:shadow-md" : "shadow-md hover:shadow-lg",
         "transition-shadow cursor-pointer",
         "flex flex-col",
-        padding,
+        paddingClass,
         disabled ? "opacity-50 pointer-events-none" : "",
       ].join(" ")}
-      style={{ minHeight: 140 }}
+      style={{ ...paddingStyle, minHeight: minH }}
     >
-      {/* Favourite star */}
+      {/* Favourite */}
       {typeof onFavourite === "function" && (
         <button
           onClick={(e) => {
             e.stopPropagation();
             onFavourite(report.id || report.name);
           }}
-          className="absolute top-3 right-3 p-2 rounded-full transition transform hover:scale-110 focus:scale-105 focus:outline-none"
+          className="absolute top-3 right-3 p-1.5 rounded-full transition transform hover:scale-110 focus:scale-105 focus:outline-none"
           aria-label={isFavourite ? "Unfavourite" : "Favourite"}
           type="button"
         >
           <Star
-            className={`w-5 h-5 ${isFavourite ? "text-yellow-400" : "text-gray-300"} ${
+            className={`w-[18px] h-[18px] ${isFavourite ? "text-yellow-400" : "text-gray-300"} ${
               clickedStar === (report.id || report.name) ? "scale-125 animate-ping-once" : ""
             }`}
             strokeWidth={1.5}
@@ -100,7 +111,7 @@ export default function ReportCard({
       <div className={`flex flex-col ${gapY} pr-8`}>
         <h3
           className={`${titleSize} font-semibold leading-snug text-gray-900`}
-          style={{ fontFamily: "system-ui, sans-serif" }}
+          style={{ ...clamp(titleClamp), fontFamily: "system-ui, sans-serif" }}
           title={report.name}
         >
           {report.name}
@@ -108,8 +119,8 @@ export default function ReportCard({
 
         {report.description && (
           <p
-            className="text-sm text-gray-600 leading-snug"
-            style={{ ...clampStyle, fontFamily: "system-ui, sans-serif" }}
+            className={`${descSize} text-gray-600 leading-snug`}
+            style={{ ...clamp(descClamp), fontFamily: "system-ui, sans-serif" }}
             title={report.description}
           >
             {report.description}
@@ -120,7 +131,8 @@ export default function ReportCard({
       {/* Footer */}
       <div className={`mt-auto ${footerPadTop} border-t border-gray-100`}>
         <div className="flex items-center justify-between pt-2">
-          <div className="flex items-center gap-2 text-xs">
+          {/* Left: tags */}
+          <div className="flex items-center gap-1.5 text-[11px]">
             {report.tag === "New" && (
               <span className={`${tagStyles.New} px-2 py-0.5 rounded-full font-medium flex items-center gap-1`}>
                 <Sparkles className="w-3 h-3" />
@@ -135,15 +147,15 @@ export default function ReportCard({
             )}
           </div>
 
-          {/* Category chips aligned right */}
-          <div className="flex items-center gap-2 text-xs">
+          {/* Right: category chip(s) */}
+          <div className="flex items-center gap-1.5 text-[11px]">
             {Array.isArray(report.category)
               ? report.category
                   .filter((c) => categoryColors[c])
                   .map((cat) => (
                     <span
                       key={cat}
-                      className={`px-2.5 py-1 rounded-full font-medium ${
+                      className={`px-2 py-0.5 rounded-full font-medium ${
                         categoryColors[cat] || "bg-gray-100 text-gray-600"
                       }`}
                     >
@@ -152,7 +164,7 @@ export default function ReportCard({
                   ))
               : categoryColors[report.category] && (
                   <span
-                    className={`px-2.5 py-1 rounded-full font-medium ${
+                    className={`px-2 py-0.5 rounded-full font-medium ${
                       categoryColors[report.category] || "bg-gray-100 text-gray-600"
                     }`}
                   >
