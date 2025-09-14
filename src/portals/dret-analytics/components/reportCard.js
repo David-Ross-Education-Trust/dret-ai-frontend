@@ -36,6 +36,10 @@ export default function ReportCard({
     gapY,
     footerPadTop,
     minH,
+    chipText,
+    catPad,
+    tagPad,
+    iconSize,
   } = useMemo(() => {
     // Smaller default than before for consistent lean cards
     const size = Number(layoutSizePx) || 240;    // ← default compact-ish
@@ -54,6 +58,12 @@ export default function ReportCard({
       gapY: cosy ? "gap-2.5" : "gap-2",
       footerPadTop: cosy ? "pt-2.5" : "pt-2",
       minH: cosy ? 128 : 118,
+
+      // 🔽 scalable chip sizes (category + New/Hot)
+      chipText: cosy ? "text-xs" : "text-[11px]",
+      catPad: cosy ? "px-3 py-1" : "px-2 py-0.5",
+      tagPad: cosy ? "px-2 py-1" : "px-2 py-0.5",
+      iconSize: cosy ? 12 : 11, // Sparkles/Flame icon
     };
   }, [layoutSizePx]);
 
@@ -128,34 +138,38 @@ export default function ReportCard({
         )}
       </div>
 
-      {/* Footer */}
+      {/* Footer (spacing exactly as your snippet) */}
       <div className={`mt-auto ${footerPadTop} border-t border-gray-100`}>
         <div className="flex items-center justify-between pt-2">
-          {/* Left: tags */}
-          <div className="flex items-center gap-1.5 text-[11px]">
+          {/* Left: tags (scaled) */}
+          <div className={`flex items-center gap-1.5 ${chipText}`}>
             {report.tag === "New" && (
-              <span className={`${tagStyles.New} px-2 py-0.5 rounded-full font-medium flex items-center gap-1`}>
-                <Sparkles className="w-3 h-3" />
+              <span
+                className={`${tagStyles.New} ${tagPad} rounded-full font-medium flex items-center gap-1`}
+              >
+                <Sparkles style={{ width: iconSize, height: iconSize }} />
                 New
               </span>
             )}
             {report.tag === "Hot" && (
-              <span className={`${tagStyles.Hot} px-2 py-0.5 rounded-full font-medium flex items-center gap-1`}>
-                <Flame className="w-3 h-3" />
+              <span
+                className={`${tagStyles.Hot} ${tagPad} rounded-full font-medium flex items-center gap-1`}
+              >
+                <Flame style={{ width: iconSize, height: iconSize }} />
                 Hot
               </span>
             )}
           </div>
 
-          {/* Right: category chip(s) */}
-          <div className="flex items-center gap-1.5 text-[11px]">
+          {/* Right: category chip(s) (scaled) */}
+          <div className={`flex items-center gap-1.5 ${chipText}`}>
             {Array.isArray(report.category)
               ? report.category
                   .filter((c) => categoryColors[c])
                   .map((cat) => (
                     <span
                       key={cat}
-                      className={`px-2 py-0.5 rounded-full font-medium ${
+                      className={`${catPad} rounded-full font-medium ${
                         categoryColors[cat] || "bg-gray-100 text-gray-600"
                       }`}
                     >
@@ -164,7 +178,7 @@ export default function ReportCard({
                   ))
               : categoryColors[report.category] && (
                   <span
-                    className={`px-2 py-0.5 rounded-full font-medium ${
+                    className={`${catPad} rounded-full font-medium ${
                       categoryColors[report.category] || "bg-gray-100 text-gray-600"
                     }`}
                   >
