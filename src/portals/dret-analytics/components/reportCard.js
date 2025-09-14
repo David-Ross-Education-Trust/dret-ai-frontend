@@ -23,8 +23,8 @@ export default function ReportCard({
   onClick,
   clickedStar,
   disabled,
-  layoutSizePx,         // optional: page can hint size, but defaults are lean
-  subtle = true,        // default to lighter shadow everywhere
+  layoutSizePx,
+  subtle = true,
 }) {
   const {
     titleSize,
@@ -37,19 +37,17 @@ export default function ReportCard({
     footerPadTop,
     minH,
   } = useMemo(() => {
-    // Smaller default than before for consistent lean cards
-    const size = Number(layoutSizePx) || 240;    // ← default compact-ish
-    const cosy = size >= 260;                    // gentle upscale threshold
+    const size = Number(layoutSizePx) || 240; // lean default
+    const cosy = size >= 260;
 
-    // Tailwind has no p-4.5; use inline style when needed
-    const wantP = cosy ? 18 : 14;                // 18px vs 14px padding
+    const wantP = cosy ? 18 : 14;
 
     return {
       titleSize: cosy ? "text-[16px]" : "text-[15px]",
       descSize: cosy ? "text-[12.5px]" : "text-[12px]",
       titleClamp: cosy ? 2 : 1,
       descClamp: cosy ? 2 : 1,
-      paddingClass: "p-4",                       // base; we’ll override with inline when cosy
+      paddingClass: "p-4",
       paddingStyle: { padding: wantP },
       gapY: cosy ? "gap-2.5" : "gap-2",
       footerPadTop: cosy ? "pt-2.5" : "pt-2",
@@ -147,15 +145,15 @@ export default function ReportCard({
             )}
           </div>
 
-          {/* Right: category chip(s) */}
-          <div className="flex items-center gap-1.5 text-[11px]">
+          {/* Right: category chips — restored “old” look */}
+          <div className="flex items-center gap-2 text-xs">
             {Array.isArray(report.category)
               ? report.category
                   .filter((c) => categoryColors[c])
                   .map((cat) => (
                     <span
                       key={cat}
-                      className={`px-2 py-0.5 rounded-full font-medium ${
+                      className={`px-3 py-1 rounded-full font-medium ${
                         categoryColors[cat] || "bg-gray-100 text-gray-600"
                       }`}
                     >
@@ -164,7 +162,7 @@ export default function ReportCard({
                   ))
               : categoryColors[report.category] && (
                   <span
-                    className={`px-2 py-0.5 rounded-full font-medium ${
+                    className={`px-3 py-1 rounded-full font-medium ${
                       categoryColors[report.category] || "bg-gray-100 text-gray-600"
                     }`}
                   >
