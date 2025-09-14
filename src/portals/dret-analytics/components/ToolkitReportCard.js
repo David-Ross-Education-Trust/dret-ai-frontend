@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Star, MoreVertical } from "lucide-react";
 
@@ -15,6 +15,7 @@ export default function ToolkitReportCard({
   showSourcePrefix = false,
   showMoreMenu = false,
   subtle = true,
+  /** Square card size in pixels (parent controls this) */
   layoutSizePx = 160,
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -41,7 +42,7 @@ export default function ToolkitReportCard({
     if (href) {
       if (CUSTOM_SCHEME_RE.test(href)) {
         e.preventDefault();
-        window.location.assign(href);
+        window.location.assign(href); // same-tab for deep links
         return;
       }
       if (/^https?:\/\//i.test(href)) {
@@ -62,58 +63,8 @@ export default function ToolkitReportCard({
     ? "border border-gray-200 shadow-sm hover:shadow-md"
     : "border border-gray-100 shadow-md hover:shadow-lg";
 
-  // --- responsive sizing tuned for small squares ---
-  const sizing = useMemo(() => {
-    const s = Number(layoutSizePx) || 160;
-    if (s <= 140) {
-      return {
-        titlePx: 13,
-        clamp: 1,
-        logo: Math.round(s * 0.33),
-        padX: 8,
-        starPad: "p-1.5",
-        starPos: "top-1.5 right-1.5",
-      };
-    }
-    if (s <= 160) {
-      return {
-        titlePx: 14,
-        clamp: 1,
-        logo: Math.round(s * 0.34),
-        padX: 10,
-        starPad: "p-2",
-        starPos: "top-2 right-2",
-      };
-    }
-    if (s <= 189) {
-      return {
-        titlePx: 15,
-        clamp: 1,
-        logo: Math.round(s * 0.35),
-        padX: 12,
-        starPad: "p-2",
-        starPos: "top-3 right-3",
-      };
-    }
-    // cosy and up
-    return {
-      titlePx: 16,
-      clamp: 2,
-      logo: Math.round(s * 0.38),
-      padX: 12,
-      starPad: "p-2",
-      starPos: "top-3 right-3",
-    };
-  }, [layoutSizePx]);
-
-  const clampStyle = {
-    display: "-webkit-box",
-    WebkitBoxOrient: "vertical",
-    WebkitLineClamp: String(sizing.clamp),
-    overflow: "hidden",
-    hyphens: "auto",
-    wordBreak: "break-word",
-  };
+  const logoSize = Math.round(layoutSizePx * 0.38);
+  const nameFont = Math.max(11, Math.round(layoutSizePx * 0.09));
 
   return (
     <div
@@ -123,7 +74,7 @@ export default function ToolkitReportCard({
         relative ${disabled ? "opacity-50 pointer-events-none" : ""}`}
       style={{ width: layoutSizePx, height: layoutSizePx }}
     >
-      {/* More menu */}
+      {/* Three dots menu - TOP LEFT */}
       {showMoreMenu && (
         <div className="absolute top-3 left-3 z-20" ref={menuRef}>
           <button
@@ -159,14 +110,16 @@ export default function ToolkitReportCard({
         </div>
       )}
 
-      {/* Favourite */}
+      {/* Star/favourite icon - TOP RIGHT */}
       {typeof onFavourite === "function" && (
         <button
           onClick={(e) => {
             e.stopPropagation();
             onFavourite(report?.id || report?.name);
           }}
-          className={`absolute ${sizing.starPos} ${sizing.starPad} rounded-full group transition z-20`}
+          className={`absolute ${
+            layoutSizePx <= 140 ? "top-1.5 right-1.5" : "top-3 right-3"
+          } p-2 rounded-full group transition z-20`}
           aria-label={isFavourite ? "Unfavourite" : "Favourite"}
           tabIndex={0}
           type="button"
@@ -183,33 +136,24 @@ export default function ToolkitReportCard({
         </button>
       )}
 
-      {/* Content */}
-      <div
-        className="flex flex-col items-center justify-center w-full h-full"
-        style={{ paddingLeft: sizing.padX, paddingRight: sizing.padX }}
-      >
+      {/* Main content */}
+      <div className="flex flex-col items-center justify-center w-full h-full px-2">
         {report?.logoUrl && (
           <img
             src={report.logoUrl}
             alt={`${report?.name} logo`}
             className="object-contain mb-3"
-            style={{
-              width: sizing.logo,
-              height: sizing.logo,
-              maxWidth: "100%",
-              maxHeight: "100%",
-            }}
+            style={{ width: logoSize, height: logoSize, maxWidth: "100%", maxHeight: "100%" }}
           />
         )}
         <div
-          className="text-center font-semibold text-gray-900"
+          className="text-center font-avenir text-gray-900"
           style={{
-            ...clampStyle,
+            fontFamily: "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
+            fontSize: nameFont,
             lineHeight: 1.15,
-            fontFamily: "system-ui, sans-serif",
-            fontSize: sizing.titlePx,
+            wordBreak: "break-word",
           }}
-          title={displayName}
         >
           {displayName}
         </div>
