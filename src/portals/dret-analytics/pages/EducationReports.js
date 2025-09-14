@@ -40,9 +40,8 @@ function openExternalOrRoute(href, navigate) {
 
 // Storage keys for this page (separate from toolkits)
 const VIEW_STORAGE_KEYS = {
-  mode: "educationViewMode",            // "compact" | "cosy" | "list"
-  favesOnly: "educationViewFavesOnly",  // "true" | "false"
-  category: "educationCategoryFilter",  // "" | "DRET" | "Bromcom"
+  mode: "educationViewMode",           // "compact" | "cosy" | "list"
+  favesOnly: "educationViewFavesOnly", // "true" | "false"
 };
 
 export default function EducationReports() {
@@ -82,25 +81,6 @@ export default function EducationReports() {
     } catch { /* no-op */ }
   }, [showOnlyFaves]);
 
-  // Category segmented control: "", "DRET", "Bromcom" (click again to clear) — persisted
-  const [selectedCategory, setSelectedCategory] = useState(() => {
-    try {
-      const stored = localStorage.getItem(VIEW_STORAGE_KEYS.category);
-      return stored === "DRET" || stored === "Bromcom" ? stored : "";
-    } catch {
-      return "";
-    }
-  });
-  useEffect(() => {
-    try {
-      localStorage.setItem(VIEW_STORAGE_KEYS.category, selectedCategory);
-    } catch { /* no-op */ }
-  }, [selectedCategory]);
-
-  const handleCategoryClick = (key) => {
-    setSelectedCategory((prev) => (prev === key ? "" : key));
-  };
-
   // Presets sized for dashboard cards
   const PRESETS = {
     compact: { size: 240, gap: 16 },
@@ -111,7 +91,7 @@ export default function EducationReports() {
 
   const TRUST_GREEN = "#205c40";
 
-  // Filter visible reports (category + search + favourites)
+  // Filter visible reports (still limit to Education: DRET/Bromcom) + search + favourites
   const filtered = useMemo(() => {
     const t = searchTerm.trim().toLowerCase();
 
@@ -125,44 +105,18 @@ export default function EducationReports() {
 
       if (showOnlyFaves && !favourites.includes(r.id)) return false;
 
-      if (selectedCategory) {
-        const match = Array.isArray(r.category)
-          ? r.category.some((c) => String(c).toLowerCase() === selectedCategory.toLowerCase())
-          : String(r.category || "").toLowerCase() === selectedCategory.toLowerCase();
-        if (!match) return false;
-      }
-
       if (!t) return true;
       return (
         (r.name && r.name.toLowerCase().includes(t)) ||
         (r.description && r.description.toLowerCase().includes(t))
       );
     });
-  }, [searchTerm, showOnlyFaves, favourites, selectedCategory]);
+  }, [searchTerm, showOnlyFaves, favourites]);
 
   const handleFavourite = (id) => {
     toggleFavourite(id);
     setClickedStar(id);
     setTimeout(() => setClickedStar(null), 300);
-  };
-
-  // Styles to mirror the view toggle group
-  const groupWrap = "hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden";
-  const btnBase   = "px-3 py-2 text-sm transition-colors focus:outline-none";
-  const btnLeft   = "rounded-l-xl";
-  const btnRight  = "rounded-r-xl";
-  const dividerOnRightBtn = "border-l border-gray-200";
-
-  // Category color states: unselected matches the view toggle (white); selected tinted
-  const catStyles = {
-    DRET: {
-      active: "bg-green-100 text-green-800",
-      inactive: "bg-white text-green-800 hover:bg-green-50",
-    },
-    Bromcom: {
-      active: "bg-red-100 text-red-800",
-      inactive: "bg-white text-red-800 hover:bg-red-50",
-    },
   };
 
   return (
@@ -181,9 +135,9 @@ export default function EducationReports() {
             Education Dashboards
           </h1>
 
-          {/* RIGHT: favourites, DRET/Bromcom segmented, view toggle, search */}
+          {/* RIGHT: favourites, view toggle, search */}
           <div className="flex items-center gap-3">
-            {/* Favourites-only toggle (moved left of DRET/Bromcom) */}
+            {/* Favourites-only toggle */}
             <button
               onClick={() => setShowOnlyFaves((v) => !v)}
               className={`p-2 rounded-full border transition ${
@@ -200,43 +154,8 @@ export default function EducationReports() {
               />
             </button>
 
-            {/* DRET / Bromcom segmented filter (unselected looks like view toggle group) */}
-            <div className={groupWrap} role="tablist" aria-label="Category filter">
-              <button
-                role="tab"
-                aria-selected={selectedCategory === "DRET"}
-                className={[
-                  btnBase,
-                  btnLeft,
-                  selectedCategory === "DRET" ? catStyles.DRET.active : catStyles.DRET.inactive,
-                ].join(" ")}
-                onClick={() => handleCategoryClick("DRET")}
-                type="button"
-                title="DRET"
-              >
-                DRET
-              </button>
-              <button
-                role="tab"
-                aria-selected={selectedCategory === "Bromcom"}
-                className={[
-                  btnBase,
-                  btnRight,
-                  dividerOnRightBtn,
-                  selectedCategory === "Bromcom"
-                    ? catStyles.Bromcom.active
-                    : catStyles.Bromcom.inactive,
-                ].join(" ")}
-                onClick={() => handleCategoryClick("Bromcom")}
-                type="button"
-                title="Bromcom"
-              >
-                Bromcom
-              </button>
-            </div>
-
-            {/* View toggle (unchanged) */}
-            <div className={groupWrap}>
+            {/* View toggle */}
+            <div className="hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden">
               <button
                 className={`px-3 py-2 text-sm flex items-center gap-1 ${mode === "compact" ? "bg-gray-100" : "bg-white hover:bg-gray-50"}`}
                 onClick={() => setMode("compact")}
