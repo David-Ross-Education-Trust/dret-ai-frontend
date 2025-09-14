@@ -134,7 +134,7 @@ export default function ToolkitReports() {
 
   // Presets with generous gaps; cosy is larger
   const PRESETS = {
-    compact: { size: 130, gap: 16 },
+    compact: { size: 140, gap: 16 },
     cosy: { size: 180, gap: 24 },
     list: { size: 0, gap: 0 },
   };
