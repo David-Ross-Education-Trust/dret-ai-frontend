@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { Star, Flame, Sparkles } from "lucide-react";
+import dretStar from "../assets/icon.png"; // ✅ DRET star logo
 
 const categoryColors = {
   Education: "bg-blue-50 text-blue-800",
@@ -50,7 +51,7 @@ export default function ReportCard({
       titleSize: cosy ? "text-[16px]" : "text-[15px]",
       descSize: cosy ? "text-[12.5px]" : "text-[12px]",
       titleClamp: cosy ? 2 : 1,
-      descClamp: cosy ? 4 : 2,
+      descClamp: cosy ? 4 : 2, // ✅ 4 lines in cosy, 2 in compact
       paddingClass: "p-4",
       paddingStyle: { padding: wantP },
       gapY: cosy ? "gap-2.5" : "gap-2",
@@ -97,6 +98,23 @@ export default function ReportCard({
       ].join(" ")}
       style={{ ...paddingStyle, minHeight: minH }}
     >
+      {/* ✅ Background watermark star for DRET */}
+      {Array.isArray(report.category)
+        ? report.category.includes("DRET") && (
+            <img
+              src={dretStar}
+              alt=""
+              className="absolute bottom-2 right-2 w-16 h-16 opacity-10 pointer-events-none select-none"
+            />
+          )
+        : report.category === "DRET" && (
+            <img
+              src={dretStar}
+              alt=""
+              className="absolute bottom-2 right-2 w-16 h-16 opacity-10 pointer-events-none select-none"
+            />
+          )}
+
       {/* Favourite star */}
       {typeof onFavourite === "function" && (
         <button
@@ -133,6 +151,13 @@ export default function ReportCard({
           title={report.name}
         >
           {report.name}
+          {isDemo && (
+            <span
+              className={`${tagStyles.Demo} ${tagPad} ml-2 rounded-full font-semibold uppercase tracking-wide`}
+            >
+              Demo
+            </span>
+          )}
         </h3>
         {report.description && (
           <p
@@ -147,7 +172,7 @@ export default function ReportCard({
 
       {/* Bottom row: categories left, tags right */}
       <div className="absolute bottom-3 left-3 right-3 flex justify-between items-center">
-        {/* Categories (left) */}
+        {/* Categories */}
         <div className={`flex flex-wrap gap-2 ${chipText}`}>
           {Array.isArray(report.category)
             ? report.category
@@ -165,7 +190,8 @@ export default function ReportCard({
             : categoryColors[report.category] && (
                 <span
                   className={`${catPad} rounded-full font-medium ${
-                    categoryColors[report.category] || "bg-gray-100 text-gray-600"
+                    categoryColors[report.category] ||
+                    "bg-gray-100 text-gray-600"
                   }`}
                 >
                   {report.category}
@@ -173,15 +199,8 @@ export default function ReportCard({
               )}
         </div>
 
-        {/* Tags (right) */}
+        {/* Tags */}
         <div className={`flex flex-wrap gap-2 justify-end ${chipText}`}>
-          {isDemo && (
-            <span
-              className={`${tagStyles.Demo} ${tagPad} rounded-full font-semibold uppercase tracking-wide`}
-            >
-              Demo
-            </span>
-          )}
           {report.tag === "New" && (
             <span
               className={`${tagStyles.New} ${tagPad} rounded-full font-medium flex items-center gap-1`}
