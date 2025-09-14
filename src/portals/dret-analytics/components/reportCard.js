@@ -51,7 +51,7 @@ export default function ReportCard({
       titleSize: cosy ? "text-[16px]" : "text-[15px]",
       descSize: cosy ? "text-[12.5px]" : "text-[12px]",
       titleClamp: cosy ? 2 : 1,
-      descClamp: 2,
+      descClamp: 4,
       paddingClass: "p-4",
       paddingStyle: { padding: wantP },
       gapY: cosy ? "gap-2.5" : "gap-2",
