@@ -14,6 +14,7 @@ const categoryColors = {
 const tagStyles = {
   Hot: "bg-red-50 text-red-600",
   New: "bg-green-50 text-green-800",
+  Demo: "bg-violet-50 text-violet-700 border border-violet-200", // NEW
 };
 
 export default function ReportCard({
@@ -49,20 +50,15 @@ export default function ReportCard({
       titleSize: cosy ? "text-[16px]" : "text-[15px]",
       descSize: cosy ? "text-[12.5px]" : "text-[12px]",
       titleClamp: cosy ? 2 : 1,
-      // allow 2 description lines even in compact
-      descClamp: 2,
+      descClamp: 2, // allow 2 lines even in compact
       paddingClass: "p-4",
       paddingStyle: { padding: wantP },
       gapY: cosy ? "gap-2.5" : "gap-2",
-      // slightly taller to fit two desc lines
-      minH: cosy ? 150 : 138,
-
+      minH: cosy ? 150 : 138, // room for 2 lines
       chipText: cosy ? "text-xs" : "text-[11px]",
       catPad: cosy ? "px-3 py-1" : "px-2 py-0.5",
       tagPad: cosy ? "px-2 py-1" : "px-2 py-0.5",
       iconSize: cosy ? 12 : 11,
-
-      // breathing room above bottom chips (keeps chips lower without a divider)
       contentBottomGapPx: cosy ? 36 : 34,
     };
   }, [layoutSizePx]);
@@ -73,6 +69,11 @@ export default function ReportCard({
     WebkitLineClamp: String(lines),
     overflow: "hidden",
   });
+
+  const isDemo =
+    report?.demo === true ||
+    report?.tag === "Demo" ||
+    report?.tag === "DEMO";
 
   return (
     <div
@@ -88,7 +89,6 @@ export default function ReportCard({
       }}
       className={[
         "relative rounded-xl bg-white",
-        // Hover lift + shadow to match ToolkitReportCard
         subtle
           ? "border border-gray-200 shadow-md hover:shadow-lg"
           : "border border-gray-100 shadow-md hover:shadow-xl",
@@ -147,8 +147,18 @@ export default function ReportCard({
         )}
       </div>
 
-      {/* Chips pinned bottom-left (no divider) */}
+      {/* Chips (bottom-left) */}
       <div className={`absolute bottom-3 left-3 flex flex-wrap gap-2 items-center ${chipText}`}>
+        {/* DEMO (new) */}
+        {isDemo && (
+          <span
+            className={`${tagStyles.Demo} ${tagPad} rounded-full font-semibold uppercase tracking-wide`}
+          >
+            Demo
+          </span>
+        )}
+
+        {/* New / Hot */}
         {report.tag === "New" && (
           <span
             className={`${tagStyles.New} ${tagPad} rounded-full font-medium flex items-center gap-1`}
@@ -165,6 +175,8 @@ export default function ReportCard({
             Hot
           </span>
         )}
+
+        {/* Categories */}
         {Array.isArray(report.category)
           ? report.category
               .filter((c) => categoryColors[c])

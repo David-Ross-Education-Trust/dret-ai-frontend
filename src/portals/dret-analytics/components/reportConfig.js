@@ -3,10 +3,10 @@ import PowerBIReportPage from "../reports/education/report";
 export const reportConfig = [
   {
     id: "dret-education-team-report",
-    name: "Education Report [DEMO]",
+    name: "Education Report",
     description: "Education metrics and analysis. This is a demo report, data is not live.",
     category: "DRET",
-    tag: "",
+    tag: "DEMO",
     href: "/analytics/education/dret-education-team-report",
     component: () => (
       <PowerBIReportPage
@@ -20,10 +20,10 @@ export const reportConfig = [
   },
   {
     id: "dret-academy-report",
-    name: "Academy Report [DEMO]",
+    name: "Academy Report",
     description: "Academy-level performance and analysis. This is a demo report, data is not live.",
     category: "DRET",
-    tag: "",
+    tag: "DEMO",
     href: "/analytics/education/dret-academy-report",
     component: () => (
       <PowerBIReportPage
@@ -37,10 +37,10 @@ export const reportConfig = [
   },
   {
     id: "dret-pupil-profile",
-    name: "Pupil Profile [DEMO]",
+    name: "Pupil Profile",
     description: "Detailed profile data for each pupil. This is a demo report, data is not live.",
     category: "DRET",
-    tag: "",
+    tag: "DEMO",
     href: "/analytics/education/dret-pupil-profile",
     component: () => (
       <PowerBIReportPage
