@@ -1,7 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { Search, X, Rows, Grid, LayoutGrid, Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
 import AnalyticsLayout from "../components/layout";
 import { visibleReports } from "../components/reportConfig";
 import ReportCard from "../components/reportCard";
@@ -142,7 +141,9 @@ export default function EducationReports() {
         }
 
         // NEW: special pills
+        // "New" -> tag must be exactly "New"
         if (selectedSpecials.includes("New") && r.tag !== "New") return false;
+        // "Favourites" -> must be in favourites (works alongside the star button toggle)
         if (selectedSpecials.includes("Favourites") && !favourites.includes(r.id)) return false;
 
         // Search
@@ -241,8 +242,8 @@ export default function EducationReports() {
                 onBlur={() => setSearchFocused(false)}
                 className={`w-full border ${searchFocused ? "" : "border-gray-300"} rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
                 style={{
-                  borderColor: searchFocused ? "#205c40" : undefined,
-                  boxShadow: searchFocused ? `0 0 0 2px #205c4040` : undefined,
+                  borderColor: searchFocused ? TRUST_GREEN : undefined,
+                  boxShadow: searchFocused ? `0 0 0 2px ${TRUST_GREEN}40` : undefined,
                   fontFamily: "AvenirLTStdLight, Avenir, sans-serif",
                 }}
               />
@@ -262,7 +263,7 @@ export default function EducationReports() {
           </div>
         </div>
 
-        {/* Filter pills row */}
+        {/* NEW: Filter pills row (like AI tools page) */}
         <div className="px-6 md:px-8 py-3 bg-white/60 backdrop-blur-sm border-b border-gray-100">
           <div className="flex flex-wrap items-center gap-2 max-w-full">
             {/* Specials: New, Favourites */}
