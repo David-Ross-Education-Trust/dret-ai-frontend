@@ -11,6 +11,11 @@ const categoryColors = {
   "IT & Data": "bg-purple-50 text-purple-800",
 };
 
+const tagStyles = {
+  Hot: "bg-red-50 text-red-600",
+  New: "bg-green-50 text-green-800",
+};
+
 export default function ReportCard({
   report,
   isFavourite,
@@ -18,8 +23,8 @@ export default function ReportCard({
   onClick,
   clickedStar,
   disabled,
-  layoutSizePx,
-  subtle = true,
+  layoutSizePx,         // optional: page can hint size, but defaults are lean
+  subtle = true,        // default to lighter shadow everywhere
 }) {
   const {
     titleSize,
@@ -29,24 +34,26 @@ export default function ReportCard({
     paddingClass,
     paddingStyle,
     gapY,
-    chipText,
-    chipPadding,
-    tagPadding,
+    footerPadTop,
+    minH,
   } = useMemo(() => {
-    const size = Number(layoutSizePx) || 240;
-    const cosy = size >= 260;
+    // Smaller default than before for consistent lean cards
+    const size = Number(layoutSizePx) || 240;    // ← default compact-ish
+    const cosy = size >= 260;                    // gentle upscale threshold
+
+    // Tailwind has no p-4.5; use inline style when needed
+    const wantP = cosy ? 18 : 14;                // 18px vs 14px padding
 
     return {
       titleSize: cosy ? "text-[16px]" : "text-[15px]",
-      descSize: cosy ? "text-[13px]" : "text-[12px]",
+      descSize: cosy ? "text-[12.5px]" : "text-[12px]",
       titleClamp: cosy ? 2 : 1,
       descClamp: cosy ? 2 : 1,
-      paddingClass: "p-4",
-      paddingStyle: { padding: cosy ? 18 : 14 },
-      gapY: cosy ? "gap-3" : "gap-2",
-      chipText: cosy ? "text-xs" : "text-[11px]",
-      chipPadding: cosy ? "px-3 py-1" : "px-2.5 py-0.5",
-      tagPadding: cosy ? "px-2 py-1" : "px-2 py-0.5",
+      paddingClass: "p-4",                       // base; we’ll override with inline when cosy
+      paddingStyle: { padding: wantP },
+      gapY: cosy ? "gap-2.5" : "gap-2",
+      footerPadTop: cosy ? "pt-2.5" : "pt-2",
+      minH: cosy ? 128 : 118,
     };
   }, [layoutSizePx]);
 
@@ -73,13 +80,13 @@ export default function ReportCard({
         "relative rounded-xl bg-white",
         subtle ? "shadow-sm hover:shadow-md" : "shadow-md hover:shadow-lg",
         "transition-shadow cursor-pointer",
-        "flex flex-col h-full",
+        "flex flex-col",
         paddingClass,
         disabled ? "opacity-50 pointer-events-none" : "",
       ].join(" ")}
-      style={paddingStyle}
+      style={{ ...paddingStyle, minHeight: minH }}
     >
-      {/* Favourite star */}
+      {/* Favourite */}
       {typeof onFavourite === "function" && (
         <button
           onClick={(e) => {
@@ -91,12 +98,8 @@ export default function ReportCard({
           type="button"
         >
           <Star
-            className={`w-[18px] h-[18px] ${
-              isFavourite ? "text-yellow-400" : "text-gray-300"
-            } ${
-              clickedStar === (report.id || report.name)
-                ? "scale-125 animate-ping-once"
-                : ""
+            className={`w-[18px] h-[18px] ${isFavourite ? "text-yellow-400" : "text-gray-300"} ${
+              clickedStar === (report.id || report.name) ? "scale-125 animate-ping-once" : ""
             }`}
             strokeWidth={1.5}
             fill={isFavourite ? "#fde047" : "none"}
@@ -125,38 +128,34 @@ export default function ReportCard({
         )}
       </div>
 
-      {/* Footer — pushed to bottom, closer to edge */}
-      <div className="mt-auto pt-2 pb-2 border-t border-gray-100">
-        <div className="flex items-center justify-between">
-          {/* Tags */}
-          <div className="flex items-center gap-1.5">
+      {/* Footer */}
+      <div className={`mt-auto ${footerPadTop} border-t border-gray-100`}>
+        <div className="flex items-center justify-between pt-2">
+          {/* Left: tags */}
+          <div className="flex items-center gap-1.5 text-[11px]">
             {report.tag === "New" && (
-              <span
-                className={`${chipText} bg-green-50 text-green-800 ${tagPadding} rounded-full font-medium flex items-center gap-1`}
-              >
+              <span className={`${tagStyles.New} px-2 py-0.5 rounded-full font-medium flex items-center gap-1`}>
                 <Sparkles className="w-3 h-3" />
                 New
               </span>
             )}
             {report.tag === "Hot" && (
-              <span
-                className={`${chipText} bg-red-50 text-red-600 ${tagPadding} rounded-full font-medium flex items-center gap-1`}
-              >
+              <span className={`${tagStyles.Hot} px-2 py-0.5 rounded-full font-medium flex items-center gap-1`}>
                 <Flame className="w-3 h-3" />
                 Hot
               </span>
             )}
           </div>
 
-          {/* Categories */}
-          <div className={`flex items-center gap-2 ${chipText}`}>
+          {/* Right: category chip(s) */}
+          <div className="flex items-center gap-1.5 text-[11px]">
             {Array.isArray(report.category)
               ? report.category
                   .filter((c) => categoryColors[c])
                   .map((cat) => (
                     <span
                       key={cat}
-                      className={`${chipPadding} rounded-full font-medium ${
+                      className={`px-2 py-0.5 rounded-full font-medium ${
                         categoryColors[cat] || "bg-gray-100 text-gray-600"
                       }`}
                     >
@@ -165,7 +164,7 @@ export default function ReportCard({
                   ))
               : categoryColors[report.category] && (
                   <span
-                    className={`${chipPadding} rounded-full font-medium ${
+                    className={`px-2 py-0.5 rounded-full font-medium ${
                       categoryColors[report.category] || "bg-gray-100 text-gray-600"
                     }`}
                   >
