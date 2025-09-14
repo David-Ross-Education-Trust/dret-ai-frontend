@@ -23,8 +23,8 @@ export default function ReportCard({
   onClick,
   clickedStar,
   disabled,
-  layoutSizePx,
-  subtle = true,
+  layoutSizePx,   // optional: dictates compact/cosy scaling
+  subtle = true,  // lighter shadow default
 }) {
   const {
     titleSize,
@@ -35,29 +35,20 @@ export default function ReportCard({
     paddingStyle,
     gapY,
     minH,
-    chipText,
-    catPad,
-    tagPad,
-    iconSize,
   } = useMemo(() => {
     const size = Number(layoutSizePx) || 240;
     const cosy = size >= 260;
-    const wantP = cosy ? 18 : 14;
+    const wantP = cosy ? 18 : 14; // padding in px
 
     return {
       titleSize: cosy ? "text-[16px]" : "text-[15px]",
-      descSize: cosy ? "text-[12.5px]" : "text-[12px]",
+      descSize: cosy ? "text-[13px]" : "text-[12.5px]",
       titleClamp: cosy ? 2 : 1,
-      descClamp: cosy ? 2 : 1,
+      descClamp: cosy ? 3 : 2, // give description 1 more line
       paddingClass: "p-4",
       paddingStyle: { padding: wantP },
-      gapY: cosy ? "gap-2.5" : "gap-2",
-      minH: cosy ? 140 : 130,
-
-      chipText: cosy ? "text-xs" : "text-[11px]",
-      catPad: cosy ? "px-3 py-1" : "px-2 py-0.5",
-      tagPad: cosy ? "px-2 py-1" : "px-2 py-0.5",
-      iconSize: cosy ? 12 : 11,
+      gapY: cosy ? "gap-3" : "gap-2.5",
+      minH: cosy ? 150 : 135, // slightly taller than before
     };
   }, [layoutSizePx]);
 
@@ -83,13 +74,14 @@ export default function ReportCard({
       className={[
         "relative rounded-xl bg-white",
         subtle ? "shadow-sm hover:shadow-md" : "shadow-md hover:shadow-lg",
-        "transition-shadow cursor-pointer flex flex-col",
+        "transition-shadow cursor-pointer",
+        "flex flex-col",
         paddingClass,
         disabled ? "opacity-50 pointer-events-none" : "",
       ].join(" ")}
       style={{ ...paddingStyle, minHeight: minH }}
     >
-      {/* Favourite */}
+      {/* Favourite star */}
       {typeof onFavourite === "function" && (
         <button
           onClick={(e) => {
@@ -101,8 +93,12 @@ export default function ReportCard({
           type="button"
         >
           <Star
-            className={`w-[18px] h-[18px] ${isFavourite ? "text-yellow-400" : "text-gray-300"} ${
-              clickedStar === (report.id || report.name) ? "scale-125 animate-ping-once" : ""
+            className={`w-[18px] h-[18px] ${
+              isFavourite ? "text-yellow-400" : "text-gray-300"
+            } ${
+              clickedStar === (report.id || report.name)
+                ? "scale-125 animate-ping-once"
+                : ""
             }`}
             strokeWidth={1.5}
             fill={isFavourite ? "#fde047" : "none"}
@@ -111,7 +107,7 @@ export default function ReportCard({
       )}
 
       {/* Content */}
-      <div className={`flex flex-col ${gapY} pr-8 mb-8`}>
+      <div className={`flex flex-col ${gapY} pr-8`}>
         <h3
           className={`${titleSize} font-semibold leading-snug text-gray-900`}
           style={{ ...clamp(titleClamp), fontFamily: "system-ui, sans-serif" }}
@@ -119,6 +115,7 @@ export default function ReportCard({
         >
           {report.name}
         </h3>
+
         {report.description && (
           <p
             className={`${descSize} text-gray-600 leading-snug`}
@@ -130,48 +127,47 @@ export default function ReportCard({
         )}
       </div>
 
-      {/* Tags pinned bottom left (no divider) */}
-      <div
-        className={`absolute bottom-3 left-3 flex flex-wrap gap-2 items-center ${chipText}`}
-      >
+      {/* Tags — anchored at bottom */}
+      <div className="mt-auto pt-2 flex flex-wrap gap-2 text-xs items-center">
         {report.tag === "New" && (
           <span
-            className={`${tagStyles.New} ${tagPad} rounded-full font-medium flex items-center gap-1`}
+            className={`${tagStyles.New} px-2 py-0.5 rounded-full font-medium flex items-center gap-1`}
           >
-            <Sparkles style={{ width: iconSize, height: iconSize }} />
+            <Sparkles className="w-3 h-3" />
             New
           </span>
         )}
-        {report.tag === "Hot" && (
-          <span
-            className={`${tagStyles.Hot} ${tagPad} rounded-full font-medium flex items-center gap-1`}
-          >
-            <Flame style={{ width: iconSize, height: iconSize }} />
-            Hot
-          </span>
-        )}
         {Array.isArray(report.category)
-          ? report.category
-              .filter((c) => categoryColors[c])
-              .map((cat) => (
-                <span
-                  key={cat}
-                  className={`${catPad} rounded-full font-medium ${
-                    categoryColors[cat] || "bg-gray-100 text-gray-600"
-                  }`}
-                >
-                  {cat}
-                </span>
-              ))
+          ? report.category.map(
+              (cat) =>
+                categoryColors[cat] && (
+                  <span
+                    key={cat}
+                    className={`px-2 py-0.5 rounded-full font-medium ${
+                      categoryColors[cat] || "bg-gray-100 text-gray-600"
+                    }`}
+                  >
+                    {cat}
+                  </span>
+                )
+            )
           : categoryColors[report.category] && (
               <span
-                className={`${catPad} rounded-full font-medium ${
+                className={`px-2 py-0.5 rounded-full font-medium ${
                   categoryColors[report.category] || "bg-gray-100 text-gray-600"
                 }`}
               >
                 {report.category}
               </span>
             )}
+        {report.tag === "Hot" && (
+          <span
+            className={`${tagStyles.Hot} px-2 py-0.5 rounded-full font-medium flex items-center gap-1`}
+          >
+            <Flame className="w-3 h-3" />
+            Hot
+          </span>
+        )}
       </div>
     </div>
   );
