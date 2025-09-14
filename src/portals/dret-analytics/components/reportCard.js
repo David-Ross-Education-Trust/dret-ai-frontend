@@ -49,12 +49,12 @@ export default function ReportCard({
       titleSize: cosy ? "text-[16px]" : "text-[15px]",
       descSize: cosy ? "text-[12.5px]" : "text-[12px]",
       titleClamp: cosy ? 2 : 1,
-      // ⬇️ allow 2 lines even in compact
+      // allow 2 description lines even in compact
       descClamp: 2,
       paddingClass: "p-4",
       paddingStyle: { padding: wantP },
       gapY: cosy ? "gap-2.5" : "gap-2",
-      // slightly taller to comfortably fit two desc lines
+      // slightly taller to fit two desc lines
       minH: cosy ? 150 : 138,
 
       chipText: cosy ? "text-xs" : "text-[11px]",
@@ -62,7 +62,7 @@ export default function ReportCard({
       tagPad: cosy ? "px-2 py-1" : "px-2 py-0.5",
       iconSize: cosy ? 12 : 11,
 
-      // extra breathing room above the bottom chips
+      // breathing room above bottom chips (keeps chips lower without a divider)
       contentBottomGapPx: cosy ? 36 : 34,
     };
   }, [layoutSizePx]);
@@ -88,8 +88,12 @@ export default function ReportCard({
       }}
       className={[
         "relative rounded-xl bg-white",
-        subtle ? "shadow-sm hover:shadow-md" : "shadow-md hover:shadow-lg",
-        "transition-shadow cursor-pointer flex flex-col",
+        // Hover lift + shadow to match ToolkitReportCard
+        subtle
+          ? "border border-gray-200 shadow-md hover:shadow-lg"
+          : "border border-gray-100 shadow-md hover:shadow-xl",
+        "transition duration-200 transform-gpu hover:-translate-y-0.5",
+        "cursor-pointer flex flex-col",
         paddingClass,
         disabled ? "opacity-50 pointer-events-none" : "",
       ].join(" ")}

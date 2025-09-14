@@ -15,6 +15,7 @@ export default function ToolkitReportCard({
   showSourcePrefix = false,
   showMoreMenu = false,
   subtle = true,
+  /** Square card size in pixels (parent controls this) */
   layoutSizePx = 160,
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -29,7 +30,9 @@ export default function ToolkitReportCard({
   useEffect(() => {
     if (!showMoreMenu) return;
     const handleClickOutside = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) setMenuOpen(false);
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setMenuOpen(false);
+      }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -41,7 +44,7 @@ export default function ToolkitReportCard({
     if (href) {
       if (CUSTOM_SCHEME_RE.test(href)) {
         e.preventDefault();
-        window.location.assign(href);
+        window.location.assign(href); // same-tab for deep links
         return;
       }
       if (/^https?:\/\//i.test(href)) {
@@ -58,10 +61,10 @@ export default function ToolkitReportCard({
 
   const browserHref = report?.openInBrowserHref || report?.openInBrowserUrl;
 
-  // ✨ hover shadow classes restored
+  // Match ReportCard hover behaviour
   const chromeClasses = subtle
-    ? "border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200"
-    : "border border-gray-100 shadow-md hover:shadow-lg transition-shadow duration-200";
+    ? "border border-gray-200 shadow-md hover:shadow-lg transition duration-200 transform-gpu hover:-translate-y-0.5"
+    : "border border-gray-100 shadow-md hover:shadow-xl transition duration-200 transform-gpu hover:-translate-y-0.5";
 
   const logoSize = Math.round(layoutSizePx * 0.38);
   const nameFont = Math.max(11, Math.round(layoutSizePx * 0.09));
@@ -73,8 +76,17 @@ export default function ToolkitReportCard({
         cursor-pointer flex flex-col items-center justify-center
         relative ${disabled ? "opacity-50 pointer-events-none" : ""}`}
       style={{ width: layoutSizePx, height: layoutSizePx }}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (disabled) return;
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onClick?.(report);
+        }
+      }}
     >
-      {/* More menu */}
+      {/* Three dots menu - TOP LEFT */}
       {showMoreMenu && (
         <div className="absolute top-3 left-3 z-20" ref={menuRef}>
           <button
@@ -110,7 +122,7 @@ export default function ToolkitReportCard({
         </div>
       )}
 
-      {/* Favourite */}
+      {/* Star/favourite icon - TOP RIGHT */}
       {typeof onFavourite === "function" && (
         <button
           onClick={(e) => {
@@ -119,16 +131,17 @@ export default function ToolkitReportCard({
           }}
           className={`absolute ${
             layoutSizePx <= 140 ? "top-1.5 right-1.5" : "top-3 right-3"
-          } p-2 rounded-full group transition z-20`}
+          } p-1.5 rounded-full transition transform hover:scale-110 focus:scale-105 focus:outline-none z-20`}
           aria-label={isFavourite ? "Unfavourite" : "Favourite"}
-          tabIndex={0}
           type="button"
         >
           <Star
-            className={`w-5 h-5 transition-transform duration-300 ${
+            className={`w-[18px] h-[18px] ${
               isFavourite ? "text-yellow-400" : "text-gray-300"
-            } opacity-80 ${
-              clickedStar === (report?.id || report?.name) ? "scale-125 animate-ping-once" : ""
+            } ${
+              clickedStar === (report?.id || report?.name)
+                ? "scale-125 animate-ping-once"
+                : ""
             }`}
             strokeWidth={1.5}
             fill={isFavourite ? "#fde047" : "none"}
@@ -137,13 +150,18 @@ export default function ToolkitReportCard({
       )}
 
       {/* Main content */}
-      <div className="flex flex-col items-center justify-center w-full h-full px-2">
+      <div className="flex flex-col items-center justify-center w-full h-full px-2 mb-8">
         {report?.logoUrl && (
           <img
             src={report.logoUrl}
             alt={`${report?.name} logo`}
             className="object-contain mb-3"
-            style={{ width: logoSize, height: logoSize, maxWidth: "100%", maxHeight: "100%" }}
+            style={{
+              width: logoSize,
+              height: logoSize,
+              maxWidth: "100%",
+              maxHeight: "100%",
+            }}
           />
         )}
         <div
