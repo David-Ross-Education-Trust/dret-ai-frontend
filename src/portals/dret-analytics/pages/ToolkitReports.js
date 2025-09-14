@@ -53,7 +53,7 @@ function openExternalOrRoute(href, navigate) {
 const VIEW_STORAGE_KEYS = {
   mode: "toolkitViewMode", // "compact" | "cosy" | "list"
   favesOnly: "toolkitViewFavesOnly", // "true" | "false"
-  phase: "toolkitPhaseFilter", // "", "Primary", "Secondary"
+  phase: "toolkitPhaseFilter", // "All" | "Primary" | "Secondary"
 };
 
 // Known secondary toolkit IDs (others are assumed Primary)
@@ -102,13 +102,13 @@ export default function ToolkitReports() {
     }
   });
 
-  // NEW: Persisted Primary/Secondary filter
+  // NEW: Persisted Phase filter ("All" default)
   const [phase, setPhase] = useState(() => {
     try {
       const stored = localStorage.getItem(VIEW_STORAGE_KEYS.phase);
-      return stored === "Primary" || stored === "Secondary" ? stored : "";
+      return stored === "Primary" || stored === "Secondary" ? stored : "All";
     } catch {
-      return "";
+      return "All";
     }
   });
 
@@ -131,7 +131,7 @@ export default function ToolkitReports() {
 
   useEffect(() => {
     try {
-      localStorage.setItem(VIEW_STORAGE_KEYS.phase, phase || "");
+      localStorage.setItem(VIEW_STORAGE_KEYS.phase, phase || "All");
     } catch {
       /* no-op */
     }
@@ -153,7 +153,7 @@ export default function ToolkitReports() {
       if (r.comingSoon) return false;
 
       // Apply Primary/Secondary filter if chosen
-      if (phase && getPhase(r) !== phase) return false;
+      if (phase !== "All" && getPhase(r) !== phase) return false;
 
       if (showOnlyFaves && !favourites.includes(r.id)) return false;
       if (!t) return true;
@@ -169,6 +169,24 @@ export default function ToolkitReports() {
     setClickedStar(id);
     setTimeout(() => setClickedStar(null), 300);
   };
+
+  const segmentBtn = (label) => (
+    <button
+      key={label}
+      className={[
+        "px-3 py-2 text-sm transition",
+        phase === label
+          ? "text-white"
+          : "bg-white hover:bg-gray-50 text-gray-700",
+      ].join(" ")}
+      style={phase === label ? { backgroundColor: TRUST_GREEN } : undefined}
+      onClick={() => setPhase(phase === label ? "All" : label)}
+      title={`${label} toolkits`}
+      type="button"
+    >
+      {label}
+    </button>
+  );
 
   return (
     <AnalyticsLayout>
@@ -190,42 +208,13 @@ export default function ToolkitReports() {
               Education Toolkits
             </h1>
 
-            {/* Phase segmented control: Primary | Secondary */}
+            {/* Phase segmented control: Primary | All | Secondary */}
             <div className="hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden">
-              {/* Primary */}
-              <button
-                className={[
-                  "px-3 py-2 text-sm transition",
-                  phase === "Primary"
-                    ? "text-white"
-                    : "bg-white hover:bg-gray-50 text-gray-700",
-                ].join(" ")}
-                style={phase === "Primary" ? { backgroundColor: TRUST_GREEN } : undefined}
-                onClick={() => setPhase(phase === "Primary" ? "" : "Primary")}
-                title="Primary toolkits"
-                type="button"
-              >
-                Primary
-              </button>
-
-              {/* Divider */}
+              {segmentBtn("Primary")}
               <div className="h-6 w-px bg-gray-200" />
-
-              {/* Secondary */}
-              <button
-                className={[
-                  "px-3 py-2 text-sm transition",
-                  phase === "Secondary"
-                    ? "text-white"
-                    : "bg-white hover:bg-gray-50 text-gray-700",
-                ].join(" ")}
-                style={phase === "Secondary" ? { backgroundColor: TRUST_GREEN } : undefined}
-                onClick={() => setPhase(phase === "Secondary" ? "" : "Secondary")}
-                title="Secondary toolkits"
-                type="button"
-              >
-                Secondary
-              </button>
+              {segmentBtn("All")}
+              <div className="h-6 w-px bg-gray-200" />
+              {segmentBtn("Secondary")}
             </div>
           </div>
 
@@ -257,7 +246,7 @@ export default function ToolkitReports() {
                     ? "bg-gray-100"
                     : "bg-white hover:bg-gray-50"
                 }`}
-                onClick={() => setMode(mode === "compact" ? "cosy" : "compact")}
+                onClick={() => setMode("compact")}
                 title="Compact grid"
                 type="button"
               >
@@ -269,7 +258,7 @@ export default function ToolkitReports() {
                 className={`px-3 py-2 text-sm flex items-center gap-1 ${
                   mode === "cosy" ? "bg-gray-100" : "bg-white hover:bg-gray-50"
                 }`}
-                onClick={() => setMode(mode === "cosy" ? "compact" : "cosy")}
+                onClick={() => setMode("cosy")}
                 title="Cosy grid"
                 type="button"
               >
@@ -424,7 +413,7 @@ export default function ToolkitReports() {
           {`
             .custom-scrollbar { scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent; }
             .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-            .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+            .custom-scrollbar-track { background: transparent; }
             .custom-scrollbar-thumb { background-color: #cbd5e1; border-radius: 3px; }
             .custom-scrollbar-thumb:hover { background-color: #94a3b8; }
           `}
