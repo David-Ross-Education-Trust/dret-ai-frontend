@@ -146,18 +146,24 @@ export default function EducationReports() {
     setTimeout(() => setClickedStar(null), 300);
   };
 
-  // Segmented control styles
-  const segWrap = "hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden";
-  const segBtnBase = "px-3 py-2 text-sm transition-colors focus:outline-none";
-  const segLeft = "rounded-l-xl";
-  const segRight = "rounded-r-xl";
-  const segDivider = "border-l border-gray-200 h-5";
+  // Styles to mirror the view toggle group
+  const groupWrap = "hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden";
+  const btnBase   = "px-3 py-2 text-sm transition-colors focus:outline-none";
+  const btnLeft   = "rounded-l-xl";
+  const btnRight  = "rounded-r-xl";
+  const dividerOnRightBtn = "border-l border-gray-200";
 
-  // Inactive: white; Active: colored
-  const dretActive = "bg-green-100 text-green-800";
-  const dretInactive = "bg-white text-green-800 hover:bg-green-50";
-  const bromActive = "bg-red-100 text-red-800";
-  const bromInactive = "bg-white text-red-800 hover:bg-red-50";
+  // Category color states: unselected matches the view toggle (white); selected tinted
+  const catStyles = {
+    DRET: {
+      active: "bg-green-100 text-green-800",
+      inactive: "bg-white text-green-800 hover:bg-green-50",
+    },
+    Bromcom: {
+      active: "bg-red-100 text-red-800",
+      inactive: "bg-white text-red-800 hover:bg-red-50",
+    },
+  };
 
   return (
     <AnalyticsLayout>
@@ -175,42 +181,9 @@ export default function EducationReports() {
             Education Dashboards
           </h1>
 
-          {/* RIGHT: category filter, favourites, view toggle, search */}
+          {/* RIGHT: favourites, DRET/Bromcom segmented, view toggle, search */}
           <div className="flex items-center gap-3">
-            {/* DRET/Bromcom segmented filter (to the left of favourites) */}
-            <div className={segWrap} role="tablist" aria-label="Category filter">
-              <button
-                role="tab"
-                aria-selected={selectedCategory === "DRET"}
-                className={[
-                  segBtnBase,
-                  segLeft,
-                  selectedCategory === "DRET" ? dretActive : dretInactive,
-                ].join(" ")}
-                onClick={() => handleCategoryClick("DRET")}
-                type="button"
-                title="DRET"
-              >
-                DRET
-              </button>
-              <div className={segDivider} />
-              <button
-                role="tab"
-                aria-selected={selectedCategory === "Bromcom"}
-                className={[
-                  segBtnBase,
-                  segRight,
-                  selectedCategory === "Bromcom" ? bromActive : bromInactive,
-                ].join(" ")}
-                onClick={() => handleCategoryClick("Bromcom")}
-                type="button"
-                title="Bromcom"
-              >
-                Bromcom
-              </button>
-            </div>
-
-            {/* Favourites-only toggle */}
+            {/* Favourites-only toggle (moved left of DRET/Bromcom) */}
             <button
               onClick={() => setShowOnlyFaves((v) => !v)}
               className={`p-2 rounded-full border transition ${
@@ -227,10 +200,45 @@ export default function EducationReports() {
               />
             </button>
 
-            {/* View toggle */}
-            <div className="hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden">
+            {/* DRET / Bromcom segmented filter (unselected looks like view toggle group) */}
+            <div className={groupWrap} role="tablist" aria-label="Category filter">
               <button
-                className={`px-3 py-2 text-sm flex items-center gap-1 ${mode === "compact" ? "bg-gray-100" : ""}`}
+                role="tab"
+                aria-selected={selectedCategory === "DRET"}
+                className={[
+                  btnBase,
+                  btnLeft,
+                  selectedCategory === "DRET" ? catStyles.DRET.active : catStyles.DRET.inactive,
+                ].join(" ")}
+                onClick={() => handleCategoryClick("DRET")}
+                type="button"
+                title="DRET"
+              >
+                DRET
+              </button>
+              <button
+                role="tab"
+                aria-selected={selectedCategory === "Bromcom"}
+                className={[
+                  btnBase,
+                  btnRight,
+                  dividerOnRightBtn,
+                  selectedCategory === "Bromcom"
+                    ? catStyles.Bromcom.active
+                    : catStyles.Bromcom.inactive,
+                ].join(" ")}
+                onClick={() => handleCategoryClick("Bromcom")}
+                type="button"
+                title="Bromcom"
+              >
+                Bromcom
+              </button>
+            </div>
+
+            {/* View toggle (unchanged) */}
+            <div className={groupWrap}>
+              <button
+                className={`px-3 py-2 text-sm flex items-center gap-1 ${mode === "compact" ? "bg-gray-100" : "bg-white hover:bg-gray-50"}`}
                 onClick={() => setMode("compact")}
                 title="Compact grid"
                 type="button"
@@ -239,7 +247,7 @@ export default function EducationReports() {
                 Compact
               </button>
               <button
-                className={`px-3 py-2 text-sm flex items-center gap-1 border-l border-gray-200 ${mode === "cosy" ? "bg-gray-100" : ""}`}
+                className={`px-3 py-2 text-sm flex items-center gap-1 border-l border-gray-200 ${mode === "cosy" ? "bg-gray-100" : "bg-white hover:bg-gray-50"}`}
                 onClick={() => setMode("cosy")}
                 title="Cosy grid"
                 type="button"
@@ -248,7 +256,7 @@ export default function EducationReports() {
                 Cosy
               </button>
               <button
-                className={`px-3 py-2 text-sm flex items-center gap-1 border-l border-gray-200 ${mode === "list" ? "bg-gray-100" : ""}`}
+                className={`px-3 py-2 text-sm flex items-center gap-1 border-l border-gray-200 ${mode === "list" ? "bg-gray-100" : "bg-white hover:bg-gray-50"}`}
                 onClick={() => setMode("list")}
                 title="List view"
                 type="button"
