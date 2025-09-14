@@ -249,7 +249,7 @@ export default function EducationReports() {
                   isFavourite={favourites.includes(report.id)}
                   onFavourite={handleFavourite}
                   onClick={() => navigate(report.href)}
-                  clickedStar={null}
+                  clickedStar={clickedStar}
                   disabled={!!report.comingSoon}
                   // sizing left to parent (we keep the lean defaults inside card)
                 />
