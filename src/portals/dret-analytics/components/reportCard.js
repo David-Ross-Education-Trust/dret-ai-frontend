@@ -29,8 +29,6 @@ export default function ReportCard({
     paddingClass,
     paddingStyle,
     gapY,
-    footerPadTop,
-    minH,
     chipText,
     chipPadding,
     tagPadding,
@@ -46,11 +44,9 @@ export default function ReportCard({
       paddingClass: "p-4",
       paddingStyle: { padding: cosy ? 18 : 14 },
       gapY: cosy ? "gap-3" : "gap-2",
-      footerPadTop: cosy ? "pt-3" : "pt-2",
-      minH: cosy ? 132 : 120,
       chipText: cosy ? "text-xs" : "text-[11px]",
       chipPadding: cosy ? "px-3 py-1" : "px-2.5 py-0.5",
-      tagPadding: cosy ? "px-2 py-1" : "px-2 py-0.5", // smaller in compact
+      tagPadding: cosy ? "px-2 py-1" : "px-2 py-0.5",
     };
   }, [layoutSizePx]);
 
@@ -77,11 +73,11 @@ export default function ReportCard({
         "relative rounded-xl bg-white",
         subtle ? "shadow-sm hover:shadow-md" : "shadow-md hover:shadow-lg",
         "transition-shadow cursor-pointer",
-        "flex flex-col",
+        "flex flex-col h-full",
         paddingClass,
         disabled ? "opacity-50 pointer-events-none" : "",
       ].join(" ")}
-      style={{ ...paddingStyle, minHeight: minH }}
+      style={paddingStyle}
     >
       {/* Favourite star */}
       {typeof onFavourite === "function" && (
@@ -95,8 +91,12 @@ export default function ReportCard({
           type="button"
         >
           <Star
-            className={`w-[18px] h-[18px] ${isFavourite ? "text-yellow-400" : "text-gray-300"} ${
-              clickedStar === (report.id || report.name) ? "scale-125 animate-ping-once" : ""
+            className={`w-[18px] h-[18px] ${
+              isFavourite ? "text-yellow-400" : "text-gray-300"
+            } ${
+              clickedStar === (report.id || report.name)
+                ? "scale-125 animate-ping-once"
+                : ""
             }`}
             strokeWidth={1.5}
             fill={isFavourite ? "#fde047" : "none"}
@@ -125,11 +125,11 @@ export default function ReportCard({
         )}
       </div>
 
-      {/* Footer */}
-      <div className={`mt-auto ${footerPadTop} border-t border-gray-100`}>
-        <div className="flex items-center justify-between pt-2">
-          {/* Left: tags (moved slightly lower via pt-0.5) */}
-          <div className="flex items-center gap-1.5 pt-0.5">
+      {/* Footer — pushed to bottom, closer to edge */}
+      <div className="mt-auto pt-2 pb-2 border-t border-gray-100">
+        <div className="flex items-center justify-between">
+          {/* Tags */}
+          <div className="flex items-center gap-1.5">
             {report.tag === "New" && (
               <span
                 className={`${chipText} bg-green-50 text-green-800 ${tagPadding} rounded-full font-medium flex items-center gap-1`}
@@ -148,7 +148,7 @@ export default function ReportCard({
             )}
           </div>
 
-          {/* Right: categories */}
+          {/* Categories */}
           <div className={`flex items-center gap-2 ${chipText}`}>
             {Array.isArray(report.category)
               ? report.category
