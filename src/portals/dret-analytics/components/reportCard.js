@@ -23,8 +23,8 @@ export default function ReportCard({
   onClick,
   clickedStar,
   disabled,
-  layoutSizePx,         // optional: page can hint size, but defaults are lean
-  subtle = true,        // default to lighter shadow everywhere
+  layoutSizePx,
+  subtle = true,
 }) {
   const {
     titleSize,
@@ -34,36 +34,30 @@ export default function ReportCard({
     paddingClass,
     paddingStyle,
     gapY,
-    footerPadTop,
     minH,
     chipText,
     catPad,
     tagPad,
     iconSize,
   } = useMemo(() => {
-    // Smaller default than before for consistent lean cards
-    const size = Number(layoutSizePx) || 240;    // ← default compact-ish
-    const cosy = size >= 260;                    // gentle upscale threshold
-
-    // Tailwind has no p-4.5; use inline style when needed
-    const wantP = cosy ? 18 : 14;                // 18px vs 14px padding
+    const size = Number(layoutSizePx) || 240;
+    const cosy = size >= 260;
+    const wantP = cosy ? 18 : 14;
 
     return {
       titleSize: cosy ? "text-[16px]" : "text-[15px]",
       descSize: cosy ? "text-[12.5px]" : "text-[12px]",
       titleClamp: cosy ? 2 : 1,
       descClamp: cosy ? 2 : 1,
-      paddingClass: "p-4",                       // base; we’ll override with inline when cosy
+      paddingClass: "p-4",
       paddingStyle: { padding: wantP },
       gapY: cosy ? "gap-2.5" : "gap-2",
-      footerPadTop: cosy ? "pt-2.5" : "pt-2",
-      minH: cosy ? 128 : 118,
+      minH: cosy ? 140 : 130,
 
-      // 🔽 scalable chip sizes (category + New/Hot)
       chipText: cosy ? "text-xs" : "text-[11px]",
       catPad: cosy ? "px-3 py-1" : "px-2 py-0.5",
       tagPad: cosy ? "px-2 py-1" : "px-2 py-0.5",
-      iconSize: cosy ? 12 : 11, // Sparkles/Flame icon
+      iconSize: cosy ? 12 : 11,
     };
   }, [layoutSizePx]);
 
@@ -89,8 +83,7 @@ export default function ReportCard({
       className={[
         "relative rounded-xl bg-white",
         subtle ? "shadow-sm hover:shadow-md" : "shadow-md hover:shadow-lg",
-        "transition-shadow cursor-pointer",
-        "flex flex-col",
+        "transition-shadow cursor-pointer flex flex-col",
         paddingClass,
         disabled ? "opacity-50 pointer-events-none" : "",
       ].join(" ")}
@@ -118,7 +111,7 @@ export default function ReportCard({
       )}
 
       {/* Content */}
-      <div className={`flex flex-col ${gapY} pr-8`}>
+      <div className={`flex flex-col ${gapY} pr-8 mb-8`}>
         <h3
           className={`${titleSize} font-semibold leading-snug text-gray-900`}
           style={{ ...clamp(titleClamp), fontFamily: "system-ui, sans-serif" }}
@@ -126,7 +119,6 @@ export default function ReportCard({
         >
           {report.name}
         </h3>
-
         {report.description && (
           <p
             className={`${descSize} text-gray-600 leading-snug`}
@@ -138,55 +130,48 @@ export default function ReportCard({
         )}
       </div>
 
-      {/* Footer (spacing exactly as your snippet) */}
-      <div className={`mt-auto ${footerPadTop} border-t border-gray-100`}>
-        <div className="flex items-center justify-between pt-2">
-          {/* Left: tags (scaled) */}
-          <div className={`flex items-center gap-1.5 ${chipText}`}>
-            {report.tag === "New" && (
+      {/* Tags pinned bottom-left (no divider) */}
+      <div
+        className={`absolute bottom-3 left-3 flex flex-wrap gap-2 items-center ${chipText}`}
+      >
+        {report.tag === "New" && (
+          <span
+            className={`${tagStyles.New} ${tagPad} rounded-full font-medium flex items-center gap-1`}
+          >
+            <Sparkles style={{ width: iconSize, height: iconSize }} />
+            New
+          </span>
+        )}
+        {report.tag === "Hot" && (
+          <span
+            className={`${tagStyles.Hot} ${tagPad} rounded-full font-medium flex items-center gap-1`}
+          >
+            <Flame style={{ width: iconSize, height: iconSize }} />
+            Hot
+          </span>
+        )}
+        {Array.isArray(report.category)
+          ? report.category
+              .filter((c) => categoryColors[c])
+              .map((cat) => (
+                <span
+                  key={cat}
+                  className={`${catPad} rounded-full font-medium ${
+                    categoryColors[cat] || "bg-gray-100 text-gray-600"
+                  }`}
+                >
+                  {cat}
+                </span>
+              ))
+          : categoryColors[report.category] && (
               <span
-                className={`${tagStyles.New} ${tagPad} rounded-full font-medium flex items-center gap-1`}
+                className={`${catPad} rounded-full font-medium ${
+                  categoryColors[report.category] || "bg-gray-100 text-gray-600"
+                }`}
               >
-                <Sparkles style={{ width: iconSize, height: iconSize }} />
-                New
+                {report.category}
               </span>
             )}
-            {report.tag === "Hot" && (
-              <span
-                className={`${tagStyles.Hot} ${tagPad} rounded-full font-medium flex items-center gap-1`}
-              >
-                <Flame style={{ width: iconSize, height: iconSize }} />
-                Hot
-              </span>
-            )}
-          </div>
-
-          {/* Right: category chip(s) (scaled) */}
-          <div className={`flex items-center gap-1.5 ${chipText}`}>
-            {Array.isArray(report.category)
-              ? report.category
-                  .filter((c) => categoryColors[c])
-                  .map((cat) => (
-                    <span
-                      key={cat}
-                      className={`${catPad} rounded-full font-medium ${
-                        categoryColors[cat] || "bg-gray-100 text-gray-600"
-                      }`}
-                    >
-                      {cat}
-                    </span>
-                  ))
-              : categoryColors[report.category] && (
-                  <span
-                    className={`${catPad} rounded-full font-medium ${
-                      categoryColors[report.category] || "bg-gray-100 text-gray-600"
-                    }`}
-                  >
-                    {report.category}
-                  </span>
-                )}
-          </div>
-        </div>
       </div>
     </div>
   );
