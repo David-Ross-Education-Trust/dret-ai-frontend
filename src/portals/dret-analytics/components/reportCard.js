@@ -81,8 +81,8 @@ export default function ReportCard({
     : report?.category === "DRET";
 
   // Big decorative corner star sizing/offset (so ~half is off the card)
-  const cornerStarSize = cosy ? 140 : 110;
-  const cornerOffset = cosy ? -60 : -50; // negative pushes it out of the corner a bit
+  const cornerStarSize = cosy ? 180 : 145;
+  const cornerOffset = cosy ? -56 : -44; // negative pushes it out of the corner a bit
 
   return (
     <div
@@ -121,7 +121,7 @@ export default function ReportCard({
             right: cornerOffset,
             bottom: cornerOffset,
             opacity: 0.10,          // subtle transparency
-            transform: "rotate(-9deg)",
+            transform: "rotate(0deg)",
             zIndex: 0,              // ensure it sits behind content
           }}
         />
