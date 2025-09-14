@@ -49,9 +49,27 @@ function openExternalOrRoute(href, navigate) {
 
 // Storage keys for view preferences
 const VIEW_STORAGE_KEYS = {
-  mode: "toolkitViewMode",          // "compact" | "cosy" | "list"
-  favesOnly: "toolkitViewFavesOnly" // "true" | "false"
+  mode: "toolkitViewMode", // "compact" | "cosy" | "list"
+  favesOnly: "toolkitViewFavesOnly", // "true" | "false"
+  phase: "toolkitPhaseFilter", // "", "Primary", "Secondary"
 };
+
+// Known secondary toolkit IDs (others are assumed Primary)
+const SECONDARY_IDS = new Set([
+  "charlesread",
+  "charnwood",
+  "havelock",
+  "humberston",
+  "kevi",
+  "lodgepark",
+  "malcolmarnold",
+  "sgs",
+  "thomasmiddlecott",
+  "bobbymoore",
+  "barneswallis",
+]);
+
+const getPhase = (item) => (SECONDARY_IDS.has(item.id) ? "Secondary" : "Primary");
 
 export default function ToolkitReports() {
   const navigate = useNavigate();
@@ -79,6 +97,16 @@ export default function ToolkitReports() {
     }
   });
 
+  // NEW: Persisted Primary/Secondary filter
+  const [phase, setPhase] = useState(() => {
+    try {
+      const stored = localStorage.getItem(VIEW_STORAGE_KEYS.phase);
+      return stored === "Primary" || stored === "Secondary" ? stored : "";
+    } catch {
+      return "";
+    }
+  });
+
   // ---- Persist view settings when they change
   useEffect(() => {
     try {
@@ -96,6 +124,14 @@ export default function ToolkitReports() {
     }
   }, [showOnlyFaves]);
 
+  useEffect(() => {
+    try {
+      localStorage.setItem(VIEW_STORAGE_KEYS.phase, phase || "");
+    } catch {
+      /* no-op */
+    }
+  }, [phase]);
+
   // Presets with generous gaps; cosy is larger
   const PRESETS = {
     compact: { size: 130, gap: 16 },
@@ -110,6 +146,10 @@ export default function ToolkitReports() {
     const t = searchTerm.trim().toLowerCase();
     return toolkitConfig.filter((r) => {
       if (r.comingSoon) return false;
+
+      // Apply Primary/Secondary filter if chosen
+      if (phase && getPhase(r) !== phase) return false;
+
       if (showOnlyFaves && !favourites.includes(r.id)) return false;
       if (!t) return true;
       return (
@@ -117,7 +157,7 @@ export default function ToolkitReports() {
         (r.description && r.description.toLowerCase().includes(t))
       );
     });
-  }, [searchTerm, showOnlyFaves, favourites]);
+  }, [searchTerm, showOnlyFaves, favourites, phase]);
 
   const handleFavourite = (id) => {
     toggleFavourite(id);
@@ -136,45 +176,52 @@ export default function ToolkitReports() {
           className="shrink-0 z-20 shadow-sm px-6 md:px-8 h-24 flex items-center justify-between"
           style={{ backgroundColor: "#ffffff" }}
         >
-          <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
-            Education Toolkits
-          </h1>
+          {/* Title + Phase segmented filter */}
+          <div className="flex items-center gap-4">
+            <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
+              Education Toolkits
+            </h1>
 
-          <div className="flex items-center gap-3">
-            {/* View toggle */}
+            {/* Phase segmented control: Primary | Secondary */}
             <div className="hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden">
+              {/* Primary */}
               <button
-                className={`px-3 py-2 text-sm flex items-center gap-1 ${
-                  mode === "compact" ? "bg-gray-100" : ""
-                }`}
-                onClick={() => setMode("compact")}
-                title="Compact grid"
+                className={[
+                  "px-3 py-2 text-sm",
+                  "transition",
+                  phase === "Primary"
+                    ? "bg-blue-100 text-blue-800"
+                    : "bg-white hover:bg-gray-50 text-gray-700",
+                ].join(" ")}
+                onClick={() => setPhase(phase === "Primary" ? "" : "Primary")}
+                title="Primary toolkits"
+                type="button"
               >
-                <Grid size={16} />
-                Compact
+                Primary
               </button>
+
+              {/* Divider */}
+              <div className="h-6 w-px bg-gray-200" />
+
+              {/* Secondary */}
               <button
-                className={`px-3 py-2 text-sm flex items-center gap-1 border-l border-gray-200 ${
-                  mode === "cosy" ? "bg-gray-100" : ""
-                }`}
-                onClick={() => setMode("cosy")}
-                title="Cosy grid"
+                className={[
+                  "px-3 py-2 text-sm",
+                  "transition",
+                  phase === "Secondary"
+                    ? "bg-purple-100 text-purple-800"
+                    : "bg-white hover:bg-gray-50 text-gray-700",
+                ].join(" ")}
+                onClick={() => setPhase(phase === "Secondary" ? "" : "Secondary")}
+                title="Secondary toolkits"
+                type="button"
               >
-                <LayoutGrid size={16} />
-                Cosy
-              </button>
-              <button
-                className={`px-3 py-2 text-sm flex items-center gap-1 border-l border-gray-200 ${
-                  mode === "list" ? "bg-gray-100" : ""
-                }`}
-                onClick={() => setMode("list")}
-                title="List view"
-              >
-                <Rows size={16} />
-                List
+                Secondary
               </button>
             </div>
+          </div>
 
+          <div className="flex items-center gap-3">
             {/* Favourites filter toggle button */}
             <button
               onClick={() => setShowOnlyFaves((v) => !v)}
@@ -186,13 +233,50 @@ export default function ToolkitReports() {
             >
               <Star
                 size={18}
-                className={`${
-                  showOnlyFaves ? "text-yellow-500" : "text-gray-400"
-                }`}
+                className={`${showOnlyFaves ? "text-yellow-500" : "text-gray-400"}`}
                 fill={showOnlyFaves ? "#fde047" : "none"}
                 strokeWidth={1.5}
               />
             </button>
+
+            {/* View toggle */}
+            <div className="hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden">
+              <button
+                className={`px-3 py-2 text-sm flex items-center gap-1 ${
+                  mode === "compact" ? "bg-gray-100" : "bg-white hover:bg-gray-50"
+                }`}
+                onClick={() => setMode("compact")}
+                title="Compact grid"
+                type="button"
+              >
+                <Grid size={16} />
+                Compact
+              </button>
+              <div className="h-6 w-px bg-gray-200" />
+              <button
+                className={`px-3 py-2 text-sm flex items-center gap-1 ${
+                  mode === "cosy" ? "bg-gray-100" : "bg-white hover:bg-gray-50"
+                }`}
+                onClick={() => setMode("cosy")}
+                title="Cosy grid"
+                type="button"
+              >
+                <LayoutGrid size={16} />
+                Cosy
+              </button>
+              <div className="h-6 w-px bg-gray-200" />
+              <button
+                className={`px-3 py-2 text-sm flex items-center gap-1 ${
+                  mode === "list" ? "bg-gray-100" : "bg-white hover:bg-gray-50"
+                }`}
+                onClick={() => setMode("list")}
+                title="List view"
+                type="button"
+              >
+                <Rows size={16} />
+                List
+              </button>
+            </div>
 
             {/* Search */}
             <div className="relative flex-shrink-0 w-[220px] md:w-[260px]">
@@ -218,6 +302,7 @@ export default function ToolkitReports() {
                   className="absolute right-9 top-2.5 text-gray-400 hover:text-gray-600"
                   tabIndex={-1}
                   aria-label="Clear"
+                  type="button"
                 >
                   <X size={16} />
                 </button>
