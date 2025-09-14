@@ -54,7 +54,7 @@ export default function ReportCard({
       paddingClass: "p-4",
       paddingStyle: { padding: wantP },
       gapY: cosy ? "gap-2.5" : "gap-2",
-      minH: cosy ? 150 : 138,
+      minH: cosy ? 200 : 138,
       chipText: cosy ? "text-xs" : "text-[11px]",
       catPad: cosy ? "px-3 py-1" : "px-2 py-0.5",
       tagPad: cosy ? "px-2 py-1" : "px-2 py-0.5",
