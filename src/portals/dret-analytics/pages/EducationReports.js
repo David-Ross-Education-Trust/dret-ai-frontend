@@ -44,18 +44,6 @@ const VIEW_STORAGE_KEYS = {
   favesOnly: "educationViewFavesOnly", // "true" | "false"
 };
 
-// Filter pills (DRET / Bromcom only)
-const coreCategories = ["DRET", "Bromcom"];
-const filterColors = {
-  DRET: "bg-green-50 text-green-800 border-green-200",
-  Bromcom: "bg-red-50 text-red-800 border-red-200",
-};
-const filterActiveColors = {
-  DRET: "bg-green-100 text-green-800 border-green-200",
-  Bromcom: "bg-red-100 text-red-800 border-red-200",
-};
-const filterGrey = "bg-gray-200 text-gray-400 border-gray-200";
-
 export default function EducationReports() {
   const navigate = useNavigate();
   const [favourites, toggleFavourite] = useFavourites();
@@ -93,8 +81,11 @@ export default function EducationReports() {
     } catch { /* no-op */ }
   }, [showOnlyFaves]);
 
-  // Category pill state
-  const [selectedCategory, setSelectedCategory] = useState(""); // "", "DRET", "Bromcom"
+  // Category segmented control: "", "DRET", "Bromcom" (click again to clear)
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const handleCategoryClick = (key) => {
+    setSelectedCategory((prev) => (prev === key ? "" : key));
+  };
 
   // Presets sized for dashboard cards
   const PRESETS = {
@@ -111,7 +102,6 @@ export default function EducationReports() {
     const t = searchTerm.trim().toLowerCase();
 
     return visibleReports.filter((r) => {
-      // Only keep Education page categories (DRET / Bromcom)
       const catRaw = Array.isArray(r.category) ? r.category : [r.category];
       const firstCat = (catRaw.filter(Boolean)[0] || "").toLowerCase();
       const inEducation = ["dret", "bromcom"].includes(firstCat);
@@ -119,10 +109,8 @@ export default function EducationReports() {
 
       if (r.status === "coming-soon") return false;
 
-      // Favourites-only toggle button
       if (showOnlyFaves && !favourites.includes(r.id)) return false;
 
-      // Category pill match (if selected)
       if (selectedCategory) {
         const match = Array.isArray(r.category)
           ? r.category.some((c) => String(c).toLowerCase() === selectedCategory.toLowerCase())
@@ -130,7 +118,6 @@ export default function EducationReports() {
         if (!match) return false;
       }
 
-      // Search
       if (!t) return true;
       return (
         (r.name && r.name.toLowerCase().includes(t)) ||
@@ -151,41 +138,35 @@ export default function EducationReports() {
         className="bg-gray-100 min-h-screen h-screen flex flex-col font-avenir"
         style={{ fontFamily: "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif" }}
       >
-        {/* Top Bar (now includes filters, view toggles, star toggle, search) */}
+        {/* Top Bar: left = category segmented control (toggle-to-clear), right = view toggle, star toggle, search */}
         <div
           className="shrink-0 z-20 shadow-sm px-6 md:px-8 h-24 flex items-center justify-between"
           style={{ backgroundColor: "#ffffff" }}
         >
-          {/* Left cluster: DRET/Bromcom filter pills */}
-          <div className="flex flex-wrap items-center gap-2">
-            {coreCategories.map((tag) => {
-              let classNames = `px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center select-none`;
-              if (selectedCategory === tag) {
-                classNames += " " + (filterActiveColors[tag] || "") + " shadow-sm";
-              } else if (selectedCategory && tag !== selectedCategory) {
-                classNames += " " + filterGrey;
-              } else {
-                classNames += " " + (filterColors[tag] || "") + " hover:brightness-95";
-              }
-              return (
-                <span
-                  key={tag}
-                  onClick={() => setSelectedCategory(selectedCategory === tag ? "" : tag)}
-                  className={classNames}
-                  style={{
-                    whiteSpace: "nowrap",
-                    borderWidth: "1px",
-                    transition: "all 0.18s cubic-bezier(.4,0,.2,1)",
-                    fontFamily: "AvenirLTStdLight, Avenir, sans-serif",
-                  }}
-                >
-                  {tag}
-                </span>
-              );
-            })}
+          {/* LEFT: Category segmented control (DRET / Bromcom) */}
+          <div className="hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden">
+            {[
+              { key: "DRET", label: "DRET" },
+              { key: "Bromcom", label: "Bromcom" },
+            ].map(({ key, label }, idx) => (
+              <button
+                key={key}
+                className={[
+                  "px-3 py-2 text-sm",
+                  idx > 0 ? "border-l border-gray-200" : "",
+                  selectedCategory === key ? "bg-gray-100" : "",
+                ].join(" ")}
+                onClick={() => handleCategoryClick(key)}
+                type="button"
+                aria-pressed={selectedCategory === key}
+                title={label}
+              >
+                {label}
+              </button>
+            ))}
           </div>
 
-          {/* Right cluster: view toggle, favourites-only toggle, search */}
+          {/* RIGHT: view toggle, favourites-only toggle, search */}
           <div className="flex items-center gap-3">
             {/* View toggle */}
             <div className="hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden">
@@ -340,8 +321,8 @@ export default function EducationReports() {
           .custom-scrollbar { scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent; }
           .custom-scrollbar::-webkit-scrollbar { width: 6px; }
           .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-          .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 3px; }
-          .custom-scrollbar::-webkit-scrollbar-thumb:hover { background-color: #94a3b8; }
+          .custom-scrollbar-thumb { background-color: #cbd5e1; border-radius: 3px; }
+          .custom-scrollbar-thumb:hover { background-color: #94a3b8; }
         `}</style>
       </div>
     </AnalyticsLayout>
