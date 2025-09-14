@@ -25,7 +25,9 @@ function useFavourites(key = "toolkitFavourites") {
   }, [favourites, key]);
 
   const toggleFavourite = (id) =>
-    setFavourites((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
+    setFavourites((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
 
   return [favourites, toggleFavourite];
 }
@@ -69,7 +71,8 @@ const SECONDARY_IDS = new Set([
   "barneswallis",
 ]);
 
-const getPhase = (item) => (SECONDARY_IDS.has(item.id) ? "Secondary" : "Primary");
+const getPhase = (item) =>
+  SECONDARY_IDS.has(item.id) ? "Secondary" : "Primary";
 
 export default function ToolkitReports() {
   const navigate = useNavigate();
@@ -82,7 +85,9 @@ export default function ToolkitReports() {
   const [mode, setMode] = useState(() => {
     try {
       const stored = localStorage.getItem(VIEW_STORAGE_KEYS.mode);
-      return stored === "compact" || stored === "cosy" || stored === "list" ? stored : "cosy";
+      return stored === "compact" || stored === "cosy" || stored === "list"
+        ? stored
+        : "cosy";
     } catch {
       return "cosy";
     }
@@ -169,7 +174,10 @@ export default function ToolkitReports() {
     <AnalyticsLayout>
       <div
         className="bg-gray-100 min-h-screen h-screen flex flex-col font-avenir"
-        style={{ fontFamily: "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif" }}
+        style={{
+          fontFamily:
+            "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
+        }}
       >
         {/* Top Bar */}
         <div
@@ -187,12 +195,12 @@ export default function ToolkitReports() {
               {/* Primary */}
               <button
                 className={[
-                  "px-3 py-2 text-sm",
-                  "transition",
+                  "px-3 py-2 text-sm transition",
                   phase === "Primary"
-                    ? "bg-blue-100 text-blue-800"
+                    ? "text-white"
                     : "bg-white hover:bg-gray-50 text-gray-700",
                 ].join(" ")}
+                style={phase === "Primary" ? { backgroundColor: TRUST_GREEN } : undefined}
                 onClick={() => setPhase(phase === "Primary" ? "" : "Primary")}
                 title="Primary toolkits"
                 type="button"
@@ -206,12 +214,12 @@ export default function ToolkitReports() {
               {/* Secondary */}
               <button
                 className={[
-                  "px-3 py-2 text-sm",
-                  "transition",
+                  "px-3 py-2 text-sm transition",
                   phase === "Secondary"
-                    ? "bg-purple-100 text-purple-800"
+                    ? "text-white"
                     : "bg-white hover:bg-gray-50 text-gray-700",
                 ].join(" ")}
+                style={phase === "Secondary" ? { backgroundColor: TRUST_GREEN } : undefined}
                 onClick={() => setPhase(phase === "Secondary" ? "" : "Secondary")}
                 title="Secondary toolkits"
                 type="button"
@@ -226,7 +234,9 @@ export default function ToolkitReports() {
             <button
               onClick={() => setShowOnlyFaves((v) => !v)}
               className={`p-2 rounded-full border transition ${
-                showOnlyFaves ? "bg-yellow-100 border-yellow-400" : "border-gray-200 hover:bg-gray-100"
+                showOnlyFaves
+                  ? "bg-yellow-100 border-yellow-400"
+                  : "border-gray-200 hover:bg-gray-100"
               }`}
               title="Toggle favourites only"
               type="button"
@@ -243,9 +253,11 @@ export default function ToolkitReports() {
             <div className="hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden">
               <button
                 className={`px-3 py-2 text-sm flex items-center gap-1 ${
-                  mode === "compact" ? "bg-gray-100" : "bg-white hover:bg-gray-50"
+                  mode === "compact"
+                    ? "bg-gray-100"
+                    : "bg-white hover:bg-gray-50"
                 }`}
-                onClick={() => setMode("compact")}
+                onClick={() => setMode(mode === "compact" ? "cosy" : "compact")}
                 title="Compact grid"
                 type="button"
               >
@@ -257,7 +269,7 @@ export default function ToolkitReports() {
                 className={`px-3 py-2 text-sm flex items-center gap-1 ${
                   mode === "cosy" ? "bg-gray-100" : "bg-white hover:bg-gray-50"
                 }`}
-                onClick={() => setMode("cosy")}
+                onClick={() => setMode(mode === "cosy" ? "compact" : "cosy")}
                 title="Cosy grid"
                 type="button"
               >
@@ -292,7 +304,9 @@ export default function ToolkitReports() {
                 } rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
                 style={{
                   borderColor: searchFocused ? TRUST_GREEN : undefined,
-                  boxShadow: searchFocused ? `0 0 0 2px ${TRUST_GREEN}40` : undefined,
+                  boxShadow: searchFocused
+                    ? `0 0 0 2px ${TRUST_GREEN}40`
+                    : undefined,
                   fontFamily: "AvenirLTStdLight, Avenir, sans-serif",
                 }}
               />
@@ -337,7 +351,9 @@ export default function ToolkitReports() {
                         />
                       )}
                       <div className="min-w-0">
-                        <div className="truncate text-sm text-gray-900">{report.name}</div>
+                        <div className="truncate text-sm text-gray-900">
+                          {report.name}
+                        </div>
                         {report.sourceToolkit && (
                           <div className="truncate text-xs text-gray-500">
                             {report.sourceToolkit}
@@ -352,13 +368,19 @@ export default function ToolkitReports() {
                         handleFavourite(report.id);
                       }}
                       className="p-2 rounded-full group transition z-20"
-                      aria-label={favourites.includes(report.id) ? "Unfavourite" : "Favourite"}
+                      aria-label={
+                        favourites.includes(report.id)
+                          ? "Unfavourite"
+                          : "Favourite"
+                      }
                       type="button"
                     >
                       <Star
                         className={`w-5 h-5 transition-transform duration-300 ${
-                          favourites.includes(report.id) ? "text-yellow-400" : "text-gray-300"
-                        } opacity-80 ${
+                          favourites.includes(report.id)
+                            ? "text-yellow-400"
+                            : "text-gray-300"
+                        } ${
                           clickedStar === report.id ? "scale-125 animate-ping-once" : ""
                         }`}
                         strokeWidth={1.5}
@@ -387,7 +409,9 @@ export default function ToolkitReports() {
                   clickedStar={clickedStar}
                   onClick={() => openExternalOrRoute(report.href, navigate)}
                   disabled={!!report.comingSoon}
-                  showMoreMenu={Boolean(report.openInBrowserHref || report.openInBrowserUrl)}
+                  showMoreMenu={Boolean(
+                    report.openInBrowserHref || report.openInBrowserUrl
+                  )}
                   layoutSizePx={size}
                   subtle={true}
                 />
