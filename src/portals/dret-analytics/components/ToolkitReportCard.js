@@ -15,7 +15,7 @@ export default function ToolkitReportCard({
   showSourcePrefix = false,
   showMoreMenu = false,
   subtle = true,
-  layoutSizePx = 160, // square size in px
+  layoutSizePx = 160, // square size in px (130 compact, ~190 cosy)
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
@@ -58,13 +58,21 @@ export default function ToolkitReportCard({
 
   const browserHref = report?.openInBrowserHref || report?.openInBrowserUrl;
 
-  // Match report-card hover behaviour exactly
+  // Match report-card hover behaviour
   const chromeClasses = subtle
     ? "border border-gray-200 shadow-md hover:shadow-lg"
     : "border border-gray-100 shadow-md hover:shadow-xl";
 
+  // Logo stays as-is
   const logoSize = Math.round(layoutSizePx * 0.38);
-  const nameFont = Math.max(11, Math.round(layoutSizePx * 0.09));
+
+  // ✅ Softer scaling: compact ~12–13px, cosy ~14–15px (not the old ~17px)
+  const nameFont = (() => {
+    const s = Number(layoutSizePx) || 160;
+    if (s <= 150) return Math.max(11, Math.round(s * 0.085)); // compact-ish
+    if (s <= 190) return Math.max(12, Math.round(s * 0.075)); // cosy ramp-down
+    return Math.max(12, Math.round(s * 0.072));               // extra-large safety
+  })();
 
   return (
     <div
@@ -72,7 +80,7 @@ export default function ToolkitReportCard({
       className={[
         "bg-white rounded-xl",
         chromeClasses,
-        "transition-shadow duration-200", // <- key to smooth shadow ramp
+        "transition-shadow duration-200",
         "relative cursor-pointer",
         "flex flex-col items-center justify-center",
         disabled ? "opacity-50 pointer-events-none" : "",
@@ -158,6 +166,10 @@ export default function ToolkitReportCard({
             fontSize: nameFont,
             lineHeight: 1.15,
             wordBreak: "break-word",
+            display: "-webkit-box",
+            WebkitBoxOrient: "vertical",
+            WebkitLineClamp: 2,     // lets cosy wrap more gracefully
+            overflow: "hidden",
           }}
         >
           {displayName}
