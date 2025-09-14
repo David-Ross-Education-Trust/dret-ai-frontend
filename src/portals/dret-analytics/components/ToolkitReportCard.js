@@ -15,8 +15,7 @@ export default function ToolkitReportCard({
   showSourcePrefix = false,
   showMoreMenu = false,
   subtle = true,
-  /** Square card size in pixels (parent controls this) */
-  layoutSizePx = 160,
+  layoutSizePx = 160, // square size in px
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
@@ -42,7 +41,7 @@ export default function ToolkitReportCard({
     if (href) {
       if (CUSTOM_SCHEME_RE.test(href)) {
         e.preventDefault();
-        window.location.assign(href); // same-tab for deep links
+        window.location.assign(href);
         return;
       }
       if (/^https?:\/\//i.test(href)) {
@@ -59,9 +58,9 @@ export default function ToolkitReportCard({
 
   const browserHref = report?.openInBrowserHref || report?.openInBrowserUrl;
 
-  // Report-card style hover shadows (no translate)
+  // Match report-card hover behaviour exactly
   const chromeClasses = subtle
-    ? "border border-gray-200 shadow-sm hover:shadow-lg"
+    ? "border border-gray-200 shadow-md hover:shadow-lg"
     : "border border-gray-100 shadow-md hover:shadow-xl";
 
   const logoSize = Math.round(layoutSizePx * 0.38);
@@ -70,17 +69,17 @@ export default function ToolkitReportCard({
   return (
     <div
       onClick={handleCardClick}
-      className={`
-        bg-white rounded-xl
-        relative flex flex-col items-center justify-center
-        cursor-pointer
-        will-change-[box-shadow] transition duration-200 ease-out
-        ${disabled ? "opacity-50 pointer-events-none" : ""}
-        ${chromeClasses}
-      `}
+      className={[
+        "bg-white rounded-xl",
+        chromeClasses,
+        "transition-shadow duration-200", // <- key to smooth shadow ramp
+        "relative cursor-pointer",
+        "flex flex-col items-center justify-center",
+        disabled ? "opacity-50 pointer-events-none" : "",
+      ].join(" ")}
       style={{ width: layoutSizePx, height: layoutSizePx }}
     >
-      {/* Three dots menu - TOP LEFT */}
+      {/* More menu (top-left) */}
       {showMoreMenu && (
         <div className="absolute top-3 left-3 z-20" ref={menuRef}>
           <button
@@ -88,7 +87,7 @@ export default function ToolkitReportCard({
               e.stopPropagation();
               setMenuOpen((prev) => !prev);
             }}
-            className="text-gray-400 hover:text-gray-600 p-2 rounded-full transition"
+            className="text-gray-400 hover:text-gray-600 p-2 rounded-full transition-colors"
             type="button"
             aria-label="More"
           >
@@ -116,7 +115,7 @@ export default function ToolkitReportCard({
         </div>
       )}
 
-      {/* Star/favourite icon - TOP RIGHT */}
+      {/* Favourite (top-right) */}
       {typeof onFavourite === "function" && (
         <button
           onClick={(e) => {
@@ -142,7 +141,7 @@ export default function ToolkitReportCard({
         </button>
       )}
 
-      {/* Main content (true center) */}
+      {/* Content */}
       <div className="flex-1 flex flex-col items-center justify-center w-full h-full px-2">
         {report?.logoUrl && (
           <img
