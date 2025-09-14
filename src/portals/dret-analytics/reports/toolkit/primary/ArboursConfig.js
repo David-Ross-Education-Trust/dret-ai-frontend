@@ -1,6 +1,6 @@
 import excelIcon from "../../../../../assets/excel-icon.png";
 
-export const TheArboursConfig = [
+export const ArboursConfig = [
   {
     id: "25-26 Baseline Summary",
     name: "25-26 Baseline Summary",

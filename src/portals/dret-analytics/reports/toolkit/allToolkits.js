@@ -1,7 +1,7 @@
 // import individual school configs
 import { AbbeyConfig } from "./primary/AbbeyConfig";
 import { AinthorpeConfig } from "./primary/AinthorpeConfig";
-import { TheArboursConfig } from "./primary/TheArboursConfig";
+import { ArboursConfig } from "./primary/ArboursConfig";
 import { BoothWoodConfig } from "./primary/BoothWoodConfig";
 import { BriarHillConfig } from "./primary/BriarHillConfig";
 import { BringhurstConfig } from "./primary/BringhurstConfig";
@@ -37,6 +37,8 @@ import { MalcolmArnoldConfig } from "./secondary/MalcolmArnoldConfig";
 import { SkegnessConfig } from "./secondary/SkegnessConfig";
 import { ThomasMiddlecottConfig } from "./secondary/ThomasMiddlecottConfig";
 
+import { demoToolkitConfig } from "./DemoToolkitConfig";
+
 // 🔑 helper to normalise school names into URL-friendly keys
 function normaliseSchoolLabel(label) {
   if (!label) return "";
@@ -63,7 +65,7 @@ function withSchoolKey(configArray, schoolName) {
 export const schoolToolkitConfigs = {
   abbey: withSchoolKey(AbbeyConfig, "Abbey Academy"),
   ainthorpe: withSchoolKey(AinthorpeConfig, "Ainthorpe Primary"),
-  thearbours: withSchoolKey(TheArboursConfig, "The Arbours Primary"),
+  arbours: withSchoolKey(ArboursConfig, "The Arbours Primary"),
   boothwood: withSchoolKey(BoothWoodConfig, "Booth Wood Academy"),
   briarhill: withSchoolKey(BriarHillConfig, "Briar Hill Primary"),
   bringhurst: withSchoolKey(BringhurstConfig, "Bringhurst Primary"),
@@ -98,6 +100,8 @@ export const schoolToolkitConfigs = {
   malcolmarnold: withSchoolKey(MalcolmArnoldConfig, "Malcolm Arnold Academy"),
   skegness: withSchoolKey(SkegnessConfig, "Skegness Academy"),
   thomasmiddlecott: withSchoolKey(ThomasMiddlecottConfig, "Thomas Middlecott Academy"),
+
+  demotoolkit: withSchoolKey(demoToolkitConfig, "Demo Toolkit"),
 };
 
 // Flattened list (for homepage, search, etc.)
