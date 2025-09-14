@@ -92,7 +92,7 @@ export default function ReportCard({
         subtle
           ? "border border-gray-200 shadow-md hover:shadow-lg"
           : "border border-gray-100 shadow-md hover:shadow-xl",
-        "transition duration-200 transform-gpu hover:-translate-y-0.5",
+        "transition-shadow duration-200",
         "cursor-pointer flex flex-col",
         paddingClass,
         disabled ? "opacity-50 pointer-events-none" : "",
