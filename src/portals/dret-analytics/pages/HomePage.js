@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, X } from "lucide-react";
+import { Search, X, Rows, Grid, LayoutGrid, Star } from "lucide-react";
 
 import AnalyticsLayout from "../components/layout";
 import ReportCard from "../components/reportCard";
@@ -28,11 +28,7 @@ function normaliseSchoolLabel(label) {
 
 // Build LS key from item metadata (sourceToolkit preferred)
 function storageKeyForItem(item) {
-  const raw =
-    item?.sourceToolkit ||
-    item?.source ||
-    item?.school ||
-    "";
+  const raw = item?.sourceToolkit || item?.source || item?.school || "";
   const school = normaliseSchoolLabel(raw);
   return school ? `toolkitFavourites_${school}` : "toolkitFavourites";
 }
@@ -46,6 +42,26 @@ function readSetFromLS(key) {
   }
 }
 
+// Smart open for toolkit items
+const CUSTOM_SCHEME_RE =
+  /^(ms-(excel|word|powerpoint|project|access|onenote|visio|office):|mailto:|tel:)/i;
+
+function openExternalOrRoute(href, navigate) {
+  if (!href) return;
+  if (CUSTOM_SCHEME_RE.test(href)) {
+    window.location.assign(href);
+    return;
+  }
+  if (/^https?:\/\//i.test(href)) {
+    window.open(href, "_blank", "noopener,noreferrer");
+    return;
+  }
+  navigate(href);
+}
+
+// View mode storage key (one mode applied to both sections)
+const HOME_VIEW_KEY = "homeViewMode"; // "compact" | "cosy" | "list"
+
 export default function HomePage() {
   const [analyticsFavourites, toggleAnalyticsFavourite] =
     useFavourites("analyticsFavourites");
@@ -56,9 +72,7 @@ export default function HomePage() {
 
   useEffect(() => {
     const sets = {};
-    // legacy/global
     sets["toolkitFavourites"] = readSetFromLS("toolkitFavourites");
-    // all per-school keys
     for (const key of Object.keys(localStorage)) {
       if (key.startsWith("toolkitFavourites_")) {
         sets[key] = readSetFromLS(key);
@@ -71,6 +85,35 @@ export default function HomePage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
   const navigate = useNavigate();
+
+  // --- View mode (persisted)
+  const [mode, setMode] = useState(() => {
+    try {
+      const stored = localStorage.getItem(HOME_VIEW_KEY);
+      return stored === "compact" || stored === "cosy" || stored === "list" ? stored : "cosy";
+    } catch {
+      return "cosy";
+    }
+  });
+  useEffect(() => {
+    try {
+      localStorage.setItem(HOME_VIEW_KEY, mode);
+    } catch {}
+  }, [mode]);
+
+  // Presets for each section
+  const DASH_PRESETS = {
+    compact: { size: 240, gap: 16 },
+    cosy: { size: 300, gap: 24 },
+  };
+  const TK_PRESETS = {
+    compact: { size: 130, gap: 16 },
+    cosy: { size: 190, gap: 24 },
+  };
+  const { size: dashSize, gap: dashGap } =
+    mode === "list" ? { size: 0, gap: 0 } : DASH_PRESETS[mode];
+  const { size: tkSize, gap: tkGap } =
+    mode === "list" ? { size: 0, gap: 0 } : TK_PRESETS[mode];
 
   const textMatches = (obj, term) => {
     if (!term) return true;
@@ -96,7 +139,7 @@ export default function HomePage() {
       const key = storageKeyForItem(item);
       return (
         toolkitFavSets[key]?.has?.(item.id) ||
-        toolkitFavSets["toolkitFavourites"]?.has?.(item.id) // legacy/global fallback
+        toolkitFavSets["toolkitFavourites"]?.has?.(item.id)
       );
     },
     [toolkitFavSets]
@@ -120,9 +163,7 @@ export default function HomePage() {
     const targetKey = storageKeyForItem(item);
     const currentArr = JSON.parse(localStorage.getItem(targetKey) || "[]");
     const exists = currentArr.includes(item.id);
-    const next = exists
-      ? currentArr.filter((x) => x !== item.id)
-      : [...currentArr, item.id];
+    const next = exists ? currentArr.filter((x) => x !== item.id) : [...currentArr, item.id];
     localStorage.setItem(targetKey, JSON.stringify(next));
 
     setToolkitFavVersion((v) => v + 1);
@@ -141,59 +182,131 @@ export default function HomePage() {
       >
         {/* Top Bar */}
         <div
-          className="shrink-0 z-20 shadow-sm px-8 h-24 flex items-center justify-between"
+          className="shrink-0 z-20 shadow-sm px-6 md:px-8 h-24 flex items-center justify-between"
           style={{ backgroundColor: "#ffffff" }}
         >
           <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
             Favourites
           </h1>
-          <div className="relative flex-shrink-0 w-[240px] ml-4">
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search favourites"
-              onFocus={() => setSearchFocused(true)}
-              onBlur={() => setSearchFocused(false)}
-              className={`w-full border ${
-                searchFocused ? "" : "border-gray-300"
-              } rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
-              style={{
-                borderColor: searchFocused ? TRUST_GREEN : undefined,
-                boxShadow: searchFocused
-                  ? `0 0 0 2px ${TRUST_GREEN}40`
-                  : undefined,
-              }}
-            />
-            {searchTerm && (
+
+          <div className="flex items-center gap-3">
+            {/* View toggle */}
+            <div className="hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden">
               <button
-                onClick={() => setSearchTerm("")}
-                className="absolute right-9 top-2.5 text-gray-400 hover:text-gray-600"
+                className={`px-3 py-2 text-sm flex items-center gap-1 ${mode === "compact" ? "bg-gray-100" : ""}`}
+                onClick={() => setMode("compact")}
+                title="Compact grid"
+                type="button"
               >
-                <X size={16} />
+                <Grid size={16} />
+                Compact
               </button>
-            )}
-            <Search className="absolute right-3 top-2.5 h-4 w-4 text-gray-400" />
+              <button
+                className={`px-3 py-2 text-sm flex items-center gap-1 border-l border-gray-200 ${mode === "cosy" ? "bg-gray-100" : ""}`}
+                onClick={() => setMode("cosy")}
+                title="Cosy grid"
+                type="button"
+              >
+                <LayoutGrid size={16} />
+                Cosy
+              </button>
+              <button
+                className={`px-3 py-2 text-sm flex items-center gap-1 border-l border-gray-200 ${mode === "list" ? "bg-gray-100" : ""}`}
+                onClick={() => setMode("list")}
+                title="List view"
+                type="button"
+              >
+                <Rows size={16} />
+                List
+              </button>
+            </div>
+
+            {/* Search */}
+            <div className="relative flex-shrink-0 w-[220px] md:w-[260px]">
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Search favourites"
+                onFocus={() => setSearchFocused(true)}
+                onBlur={() => setSearchFocused(false)}
+                className={`w-full border ${searchFocused ? "" : "border-gray-300"} rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
+                style={{
+                  borderColor: searchFocused ? TRUST_GREEN : undefined,
+                  boxShadow: searchFocused ? `0 0 0 2px ${TRUST_GREEN}40` : undefined,
+                }}
+              />
+              {searchTerm && (
+                <button
+                  onClick={() => setSearchTerm("")}
+                  className="absolute right-9 top-2.5 text-gray-400 hover:text-gray-600"
+                  aria-label="Clear"
+                  tabIndex={-1}
+                >
+                  <X size={16} />
+                </button>
+              )}
+              <Search className="absolute right-3 top-2.5 h-4 w-4 text-gray-400" />
+            </div>
           </div>
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-8 custom-scrollbar space-y-12">
+        <div className="flex-1 overflow-y-auto p-6 md:p-8 custom-scrollbar space-y-12">
           {/* Dashboards */}
           <div>
             <h2 className="text-xl font-semibold mb-4" style={{ color: TRUST_GREEN }}>
               Dashboards
             </h2>
-            <div
-              className="grid gap-6"
-              style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}
-            >
-              {favouriteReports.length === 0 ? (
-                <div className="text-gray-500 italic text-center w-full col-span-full">
-                  No favourite dashboards yet.
-                </div>
-              ) : (
-                favouriteReports.map((report, idx) => (
+
+            {favouriteReports.length === 0 ? (
+              <div className="text-gray-500 italic text-center w-full">No favourite dashboards yet.</div>
+            ) : mode === "list" ? (
+              <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                <ul className="divide-y divide-gray-100">
+                  {favouriteReports.map((report) => (
+                    <li
+                      key={report.id}
+                      className="flex items-center justify-between px-4 py-3 hover:bg-gray-50 cursor-pointer"
+                      onClick={() => navigate(report.href)}
+                    >
+                      <div className="min-w-0">
+                        <div className="truncate text-sm text-gray-900">{report.name}</div>
+                        {report.description && (
+                          <div className="truncate text-xs text-gray-500">{report.description}</div>
+                        )}
+                      </div>
+
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDashboardFavourite(report.id);
+                        }}
+                        className="p-2 rounded-full group transition"
+                        aria-label={analyticsFavourites.includes(report.id) ? "Unfavourite" : "Favourite"}
+                        type="button"
+                      >
+                        <Star
+                          className={`w-5 h-5 transition-transform duration-300 ${
+                            analyticsFavourites.includes(report.id) ? "text-yellow-400" : "text-gray-300"
+                          } ${clickedStar === report.id ? "scale-125 animate-ping-once" : ""}`}
+                          strokeWidth={1.5}
+                          fill={analyticsFavourites.includes(report.id) ? "#fde047" : "none"}
+                        />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              <div
+                className="grid"
+                style={{
+                  gridTemplateColumns: `repeat(auto-fill, minmax(${dashSize}px, 1fr))`,
+                  gap: `${dashGap}px`,
+                }}
+              >
+                {favouriteReports.map((report, idx) => (
                   <ReportCard
                     key={report.id || idx}
                     report={report}
@@ -202,10 +315,12 @@ export default function HomePage() {
                     onClick={() => navigate(report.href)}
                     clickedStar={clickedStar}
                     disabled={!!report.comingSoon}
+                    layoutSizePx={dashSize}
+                    subtle
                   />
-                ))
-              )}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Toolkits */}
@@ -213,52 +328,86 @@ export default function HomePage() {
             <h2 className="text-xl font-semibold mb-4" style={{ color: TRUST_GREEN }}>
               Toolkits
             </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
-              {favouriteToolkits.length === 0 ? (
-                <div className="col-span-full text-gray-500 italic text-center">
-                  No favourite toolkits yet.
-                </div>
-              ) : (
-                favouriteToolkits.map((toolkit, idx) => (
+
+            {favouriteToolkits.length === 0 ? (
+              <div className="text-gray-500 italic text-center">No favourite toolkits yet.</div>
+            ) : mode === "list" ? (
+              <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                <ul className="divide-y divide-gray-100">
+                  {favouriteToolkits.map((tk, idx) => (
+                    <li
+                      key={`${storageKeyForItem(tk)}:${tk.id}:${idx}`}
+                      className="flex items-center justify-between px-4 py-3 hover:bg-gray-50 cursor-pointer"
+                      onClick={() => openExternalOrRoute(tk.href, navigate)}
+                    >
+                      <div className="flex items-center gap-3 min-w-0">
+                        {tk.logoUrl && (
+                          <img src={tk.logoUrl} alt="" className="w-6 h-6 object-contain flex-shrink-0" />
+                        )}
+                        <div className="min-w-0">
+                          <div className="truncate text-sm text-gray-900">{tk.name}</div>
+                          {tk.sourceToolkit && (
+                            <div className="truncate text-xs text-gray-500">{tk.sourceToolkit}</div>
+                          )}
+                        </div>
+                      </div>
+
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleToolkitItemFavourite(tk);
+                        }}
+                        className="p-2 rounded-full group transition"
+                        aria-label={isToolkitFavedForItem(tk) ? "Unfavourite" : "Favourite"}
+                        type="button"
+                      >
+                        <Star
+                          className={`w-5 h-5 transition-transform duration-300 ${
+                            isToolkitFavedForItem(tk) ? "text-yellow-400" : "text-gray-300"
+                          } ${clickedStar === `${storageKeyForItem(tk)}:${tk.id}` ? "scale-125 animate-ping-once" : ""}`}
+                          strokeWidth={1.5}
+                          fill={isToolkitFavedForItem(tk) ? "#fde047" : "none"}
+                        />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              <div
+                className="grid"
+                style={{
+                  gridTemplateColumns: `repeat(auto-fill, minmax(${tkSize}px, 1fr))`,
+                  gap: `${tkGap}px`,
+                }}
+              >
+                {favouriteToolkits.map((toolkit, idx) => (
                   <ToolkitReportCard
                     key={`${storageKeyForItem(toolkit)}:${toolkit.id}:${idx}`}
                     report={toolkit}
                     isFavourite={isToolkitFavedForItem(toolkit)}
                     onFavourite={() => toggleToolkitItemFavourite(toolkit)}
-                    onClick={() =>
-                      toolkit.schoolKey
-                        ? navigate(`/analytics/toolkits/${toolkit.schoolKey}`)
-                        : null
-                    }
+                    onClick={() => openExternalOrRoute(toolkit.href, navigate)}
                     clickedStar={clickedStar}
                     disabled={!!toolkit.comingSoon}
                     showSourcePrefix={true}
+                    showMoreMenu={Boolean(toolkit.openInBrowserHref || toolkit.openInBrowserUrl)}
+                    layoutSizePx={tkSize}
+                    subtle
                   />
-                ))
-              )}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
         <style>
           {`
-            .custom-scrollbar {
-              scrollbar-width: thin;
-              scrollbar-color: #cbd5e1 transparent;
-            }
-            .custom-scrollbar::-webkit-scrollbar {
-              width: 6px;
-            }
-            .custom-scrollbar::-webkit-scrollbar-track {
-              background: transparent;
-            }
-            .custom-scrollbar::-webkit-scrollbar-thumb {
-              background-color: #cbd5e1;
-              border-radius: 3px;
-            }
-            .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-              background-color: #94a3b8;
-            }
+            .custom-scrollbar { scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent; }
+            .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+            .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+            .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 3px; }
+            .custom-scrollbar::-webkit-scrollbar-thumb:hover { background-color: #94a3b8; }
           `}
         </style>
       </div>
