@@ -14,8 +14,7 @@ const categoryColors = {
 const tagStyles = {
   Hot: "bg-red-50 text-red-600",
   New: "bg-green-50 text-green-800",
-  // fixed tailwind color names to "gray"
-  Demo: "bg-gray-50 text-gray-700 border border-gray-200",
+  Demo: "bg-grey-50 text-grey-700 border border-grey-200",
 };
 
 export default function ReportCard({
@@ -129,18 +128,11 @@ export default function ReportCard({
         style={{ marginBottom: contentBottomGapPx }}
       >
         <h3
-          className={`${titleSize} font-semibold leading-snug text-gray-900 flex items-center gap-2`}
+          className={`${titleSize} font-semibold leading-snug text-gray-900`}
           style={{ ...clamp(titleClamp), fontFamily: "system-ui, sans-serif" }}
           title={report.name}
         >
           {report.name}
-          {isDemo && (
-            <span
-              className={`${tagStyles.Demo} ${tagPad} rounded-full font-semibold uppercase tracking-wide`}
-            >
-              Demo
-            </span>
-          )}
         </h3>
         {report.description && (
           <p
@@ -153,7 +145,7 @@ export default function ReportCard({
         )}
       </div>
 
-      {/* Bottom row: categories left, tags right (no Demo chip here) */}
+      {/* Bottom row: categories left, tags right */}
       <div className="absolute bottom-3 left-3 right-3 flex justify-between items-center">
         {/* Categories (left) */}
         <div className={`flex flex-wrap gap-2 ${chipText}`}>
@@ -183,6 +175,13 @@ export default function ReportCard({
 
         {/* Tags (right) */}
         <div className={`flex flex-wrap gap-2 justify-end ${chipText}`}>
+          {isDemo && (
+            <span
+              className={`${tagStyles.Demo} ${tagPad} rounded-full font-semibold uppercase tracking-wide`}
+            >
+              Demo
+            </span>
+          )}
           {report.tag === "New" && (
             <span
               className={`${tagStyles.New} ${tagPad} rounded-full font-medium flex items-center gap-1`}
