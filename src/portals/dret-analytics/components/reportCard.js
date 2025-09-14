@@ -97,6 +97,7 @@ export default function ReportCard({
       ].join(" ")}
       style={{ ...paddingStyle, minHeight: minH }}
     >
+      {/* Favourite star */}
       {typeof onFavourite === "function" && (
         <button
           onClick={(e) => {
@@ -121,6 +122,7 @@ export default function ReportCard({
         </button>
       )}
 
+      {/* Main content */}
       <div
         className={`flex flex-col ${gapY} pr-8 mb-8`}
         style={{ marginBottom: contentBottomGapPx }}
@@ -143,57 +145,60 @@ export default function ReportCard({
         )}
       </div>
 
-      {/* ⬇️ moved to bottom-right */}
-      <div
-        className={`absolute bottom-3 right-3 flex flex-wrap gap-2 items-center justify-end text-right ${chipText}`}
-      >
-        {isDemo && (
-          <span
-            className={`${tagStyles.Demo} ${tagPad} rounded-full font-semibold uppercase tracking-wide`}
-          >
-            Demo
-          </span>
-        )}
-
-        {report.tag === "New" && (
-          <span
-            className={`${tagStyles.New} ${tagPad} rounded-full font-medium flex items-center gap-1`}
-          >
-            <Sparkles style={{ width: iconSize, height: iconSize }} />
-            New
-          </span>
-        )}
-        {report.tag === "Hot" && (
-          <span
-            className={`${tagStyles.Hot} ${tagPad} rounded-full font-medium flex items-center gap-1`}
-          >
-            <Flame style={{ width: iconSize, height: iconSize }} />
-            Hot
-          </span>
-        )}
-
-        {Array.isArray(report.category)
-          ? report.category
-              .filter((c) => categoryColors[c])
-              .map((cat) => (
+      {/* Bottom row: categories left, tags right */}
+      <div className="absolute bottom-3 left-3 right-3 flex justify-between items-center">
+        {/* Categories (left) */}
+        <div className={`flex flex-wrap gap-2 ${chipText}`}>
+          {Array.isArray(report.category)
+            ? report.category
+                .filter((c) => categoryColors[c])
+                .map((cat) => (
+                  <span
+                    key={cat}
+                    className={`${catPad} rounded-full font-medium ${
+                      categoryColors[cat] || "bg-gray-100 text-gray-600"
+                    }`}
+                  >
+                    {cat}
+                  </span>
+                ))
+            : categoryColors[report.category] && (
                 <span
-                  key={cat}
                   className={`${catPad} rounded-full font-medium ${
-                    categoryColors[cat] || "bg-gray-100 text-gray-600"
+                    categoryColors[report.category] || "bg-gray-100 text-gray-600"
                   }`}
                 >
-                  {cat}
+                  {report.category}
                 </span>
-              ))
-          : categoryColors[report.category] && (
-              <span
-                className={`${catPad} rounded-full font-medium ${
-                  categoryColors[report.category] || "bg-gray-100 text-gray-600"
-                }`}
-              >
-                {report.category}
-              </span>
-            )}
+              )}
+        </div>
+
+        {/* Tags (right) */}
+        <div className={`flex flex-wrap gap-2 justify-end ${chipText}`}>
+          {isDemo && (
+            <span
+              className={`${tagStyles.Demo} ${tagPad} rounded-full font-semibold uppercase tracking-wide`}
+            >
+              Demo
+            </span>
+          )}
+          {report.tag === "New" && (
+            <span
+              className={`${tagStyles.New} ${tagPad} rounded-full font-medium flex items-center gap-1`}
+            >
+              <Sparkles style={{ width: iconSize, height: iconSize }} />
+              New
+            </span>
+          )}
+          {report.tag === "Hot" && (
+            <span
+              className={`${tagStyles.Hot} ${tagPad} rounded-full font-medium flex items-center gap-1`}
+            >
+              <Flame style={{ width: iconSize, height: iconSize }} />
+              Hot
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );
