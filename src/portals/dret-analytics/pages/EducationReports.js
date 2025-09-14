@@ -40,8 +40,9 @@ function openExternalOrRoute(href, navigate) {
 
 // Storage keys for this page (separate from toolkits)
 const VIEW_STORAGE_KEYS = {
-  mode: "educationViewMode",           // "compact" | "cosy" | "list"
-  favesOnly: "educationViewFavesOnly", // "true" | "false"
+  mode: "educationViewMode",            // "compact" | "cosy" | "list"
+  favesOnly: "educationViewFavesOnly",  // "true" | "false"
+  category: "educationCategoryFilter",  // "" | "DRET" | "Bromcom"
 };
 
 export default function EducationReports() {
@@ -81,8 +82,21 @@ export default function EducationReports() {
     } catch { /* no-op */ }
   }, [showOnlyFaves]);
 
-  // Category segmented control: "", "DRET", "Bromcom" (click again to clear)
-  const [selectedCategory, setSelectedCategory] = useState("");
+  // Category segmented control: "", "DRET", "Bromcom" (click again to clear) — persisted
+  const [selectedCategory, setSelectedCategory] = useState(() => {
+    try {
+      const stored = localStorage.getItem(VIEW_STORAGE_KEYS.category);
+      return stored === "DRET" || stored === "Bromcom" ? stored : "";
+    } catch {
+      return "";
+    }
+  });
+  useEffect(() => {
+    try {
+      localStorage.setItem(VIEW_STORAGE_KEYS.category, selectedCategory);
+    } catch { /* no-op */ }
+  }, [selectedCategory]);
+
   const handleCategoryClick = (key) => {
     setSelectedCategory((prev) => (prev === key ? "" : key));
   };
@@ -132,19 +146,18 @@ export default function EducationReports() {
     setTimeout(() => setClickedStar(null), 300);
   };
 
-  // Colored segment styles for DRET/Bromcom
-  const segBase =
-    "px-3 py-2 text-sm transition-colors";
+  // Segmented control styles
+  const segWrap = "hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden";
+  const segBtnBase = "px-3 py-2 text-sm transition-colors focus:outline-none";
   const segLeft = "rounded-l-xl";
   const segRight = "rounded-r-xl";
-  const segDivider = "border-l border-gray-200";
-  const wrapSeg =
-    "hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden";
+  const segDivider = "border-l border-gray-200 h-5";
 
+  // Inactive: white; Active: colored
   const dretActive = "bg-green-100 text-green-800";
-  const dretInactive = "bg-green-50/60 text-green-800 hover:bg-green-50";
+  const dretInactive = "bg-white text-green-800 hover:bg-green-50";
   const bromActive = "bg-red-100 text-red-800";
-  const bromInactive = "bg-red-50/60 text-red-800 hover:bg-red-50";
+  const bromInactive = "bg-white text-red-800 hover:bg-red-50";
 
   return (
     <AnalyticsLayout>
@@ -157,48 +170,47 @@ export default function EducationReports() {
           className="shrink-0 z-20 shadow-sm px-6 md:px-8 h-24 flex items-center justify-between"
           style={{ backgroundColor: "#ffffff" }}
         >
-          {/* LEFT: Title + Category segmented control */}
-          <div className="flex items-center gap-4">
-            <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
-              Education Dashboards
-            </h1>
-            <div className={wrapSeg}>
-              {/* DRET */}
+          {/* LEFT: Title */}
+          <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
+            Education Dashboards
+          </h1>
+
+          {/* RIGHT: category filter, favourites, view toggle, search */}
+          <div className="flex items-center gap-3">
+            {/* DRET/Bromcom segmented filter (to the left of favourites) */}
+            <div className={segWrap} role="tablist" aria-label="Category filter">
               <button
+                role="tab"
+                aria-selected={selectedCategory === "DRET"}
                 className={[
-                  segBase,
+                  segBtnBase,
                   segLeft,
                   selectedCategory === "DRET" ? dretActive : dretInactive,
                 ].join(" ")}
                 onClick={() => handleCategoryClick("DRET")}
                 type="button"
-                aria-pressed={selectedCategory === "DRET"}
                 title="DRET"
               >
                 DRET
               </button>
-              {/* Divider */}
               <div className={segDivider} />
-              {/* Bromcom */}
               <button
+                role="tab"
+                aria-selected={selectedCategory === "Bromcom"}
                 className={[
-                  segBase,
+                  segBtnBase,
                   segRight,
                   selectedCategory === "Bromcom" ? bromActive : bromInactive,
                 ].join(" ")}
                 onClick={() => handleCategoryClick("Bromcom")}
                 type="button"
-                aria-pressed={selectedCategory === "Bromcom"}
                 title="Bromcom"
               >
                 Bromcom
               </button>
             </div>
-          </div>
 
-          {/* RIGHT: favourites-only, view toggle, search */}
-          <div className="flex items-center gap-3">
-            {/* Favourites-only toggle button (moved left of view toggle) */}
+            {/* Favourites-only toggle */}
             <button
               onClick={() => setShowOnlyFaves((v) => !v)}
               className={`p-2 rounded-full border transition ${
