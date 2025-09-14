@@ -132,42 +132,89 @@ export default function EducationReports() {
     setTimeout(() => setClickedStar(null), 300);
   };
 
+  // Colored segment styles for DRET/Bromcom
+  const segBase =
+    "px-3 py-2 text-sm transition-colors";
+  const segLeft = "rounded-l-xl";
+  const segRight = "rounded-r-xl";
+  const segDivider = "border-l border-gray-200";
+  const wrapSeg =
+    "hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden";
+
+  const dretActive = "bg-green-100 text-green-800";
+  const dretInactive = "bg-green-50/60 text-green-800 hover:bg-green-50";
+  const bromActive = "bg-red-100 text-red-800";
+  const bromInactive = "bg-red-50/60 text-red-800 hover:bg-red-50";
+
   return (
     <AnalyticsLayout>
       <div
         className="bg-gray-100 min-h-screen h-screen flex flex-col font-avenir"
         style={{ fontFamily: "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif" }}
       >
-        {/* Top Bar: left = category segmented control (toggle-to-clear), right = view toggle, star toggle, search */}
+        {/* Top Bar */}
         <div
           className="shrink-0 z-20 shadow-sm px-6 md:px-8 h-24 flex items-center justify-between"
           style={{ backgroundColor: "#ffffff" }}
         >
-          {/* LEFT: Category segmented control (DRET / Bromcom) */}
-          <div className="hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden">
-            {[
-              { key: "DRET", label: "DRET" },
-              { key: "Bromcom", label: "Bromcom" },
-            ].map(({ key, label }, idx) => (
+          {/* LEFT: Title + Category segmented control */}
+          <div className="flex items-center gap-4">
+            <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
+              Education Dashboards
+            </h1>
+            <div className={wrapSeg}>
+              {/* DRET */}
               <button
-                key={key}
                 className={[
-                  "px-3 py-2 text-sm",
-                  idx > 0 ? "border-l border-gray-200" : "",
-                  selectedCategory === key ? "bg-gray-100" : "",
+                  segBase,
+                  segLeft,
+                  selectedCategory === "DRET" ? dretActive : dretInactive,
                 ].join(" ")}
-                onClick={() => handleCategoryClick(key)}
+                onClick={() => handleCategoryClick("DRET")}
                 type="button"
-                aria-pressed={selectedCategory === key}
-                title={label}
+                aria-pressed={selectedCategory === "DRET"}
+                title="DRET"
               >
-                {label}
+                DRET
               </button>
-            ))}
+              {/* Divider */}
+              <div className={segDivider} />
+              {/* Bromcom */}
+              <button
+                className={[
+                  segBase,
+                  segRight,
+                  selectedCategory === "Bromcom" ? bromActive : bromInactive,
+                ].join(" ")}
+                onClick={() => handleCategoryClick("Bromcom")}
+                type="button"
+                aria-pressed={selectedCategory === "Bromcom"}
+                title="Bromcom"
+              >
+                Bromcom
+              </button>
+            </div>
           </div>
 
-          {/* RIGHT: view toggle, favourites-only toggle, search */}
+          {/* RIGHT: favourites-only, view toggle, search */}
           <div className="flex items-center gap-3">
+            {/* Favourites-only toggle button (moved left of view toggle) */}
+            <button
+              onClick={() => setShowOnlyFaves((v) => !v)}
+              className={`p-2 rounded-full border transition ${
+                showOnlyFaves ? "bg-yellow-100 border-yellow-400" : "border-gray-200 hover:bg-gray-100"
+              }`}
+              title="Toggle favourites only"
+              type="button"
+            >
+              <Star
+                size={18}
+                className={`${showOnlyFaves ? "text-yellow-500" : "text-gray-400"}`}
+                fill={showOnlyFaves ? "#fde047" : "none"}
+                strokeWidth={1.5}
+              />
+            </button>
+
             {/* View toggle */}
             <div className="hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden">
               <button
@@ -198,23 +245,6 @@ export default function EducationReports() {
                 List
               </button>
             </div>
-
-            {/* Favourites-only toggle button */}
-            <button
-              onClick={() => setShowOnlyFaves((v) => !v)}
-              className={`p-2 rounded-full border transition ${
-                showOnlyFaves ? "bg-yellow-100 border-yellow-400" : "border-gray-200 hover:bg-gray-100"
-              }`}
-              title="Toggle favourites only"
-              type="button"
-            >
-              <Star
-                size={18}
-                className={`${showOnlyFaves ? "text-yellow-500" : "text-gray-400"}`}
-                fill={showOnlyFaves ? "#fde047" : "none"}
-                strokeWidth={1.5}
-              />
-            </button>
 
             {/* Search */}
             <div className="relative flex-shrink-0 w-[220px] md:w-[260px]">
