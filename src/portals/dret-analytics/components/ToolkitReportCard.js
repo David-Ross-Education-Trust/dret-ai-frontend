@@ -59,10 +59,10 @@ export default function ToolkitReportCard({
 
   const browserHref = report?.openInBrowserHref || report?.openInBrowserUrl;
 
-  // Shadow-only hover (no translate)
+  // Report-card style hover shadows (no translate)
   const chromeClasses = subtle
-    ? "border border-gray-200 shadow-sm hover:shadow-md"
-    : "border border-gray-100 shadow-md hover:shadow-lg";
+    ? "border border-gray-200 shadow-sm hover:shadow-lg"
+    : "border border-gray-100 shadow-md hover:shadow-xl";
 
   const logoSize = Math.round(layoutSizePx * 0.38);
   const nameFont = Math.max(11, Math.round(layoutSizePx * 0.09));
@@ -70,10 +70,14 @@ export default function ToolkitReportCard({
   return (
     <div
       onClick={handleCardClick}
-      className={`bg-white rounded-xl ${chromeClasses}
-        transition-shadow duration-200 cursor-pointer
-        relative flex flex-col items-stretch justify-stretch
-        ${disabled ? "opacity-50 pointer-events-none" : ""}`}
+      className={`
+        bg-white rounded-xl
+        relative flex flex-col items-center justify-center
+        cursor-pointer
+        will-change-[box-shadow] transition duration-200 ease-out
+        ${disabled ? "opacity-50 pointer-events-none" : ""}
+        ${chromeClasses}
+      `}
       style={{ width: layoutSizePx, height: layoutSizePx }}
     >
       {/* Three dots menu - TOP LEFT */}
