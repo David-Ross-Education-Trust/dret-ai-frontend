@@ -14,7 +14,7 @@ const categoryColors = {
 const tagStyles = {
   Hot: "bg-red-50 text-red-600",
   New: "bg-green-50 text-green-800",
-  Demo: "bg-violet-50 text-violet-700 border border-violet-200", // NEW
+  Demo: "bg-violet-50 text-violet-700 border border-violet-200",
 };
 
 export default function ReportCard({
@@ -50,11 +50,11 @@ export default function ReportCard({
       titleSize: cosy ? "text-[16px]" : "text-[15px]",
       descSize: cosy ? "text-[12.5px]" : "text-[12px]",
       titleClamp: cosy ? 2 : 1,
-      descClamp: 2, // allow 2 lines even in compact
+      descClamp: 2,
       paddingClass: "p-4",
       paddingStyle: { padding: wantP },
       gapY: cosy ? "gap-2.5" : "gap-2",
-      minH: cosy ? 150 : 138, // room for 2 lines
+      minH: cosy ? 150 : 138,
       chipText: cosy ? "text-xs" : "text-[11px]",
       catPad: cosy ? "px-3 py-1" : "px-2 py-0.5",
       tagPad: cosy ? "px-2 py-1" : "px-2 py-0.5",
@@ -71,9 +71,7 @@ export default function ReportCard({
   });
 
   const isDemo =
-    report?.demo === true ||
-    report?.tag === "Demo" ||
-    report?.tag === "DEMO";
+    report?.demo === true || report?.tag === "Demo" || report?.tag === "DEMO";
 
   return (
     <div
@@ -99,7 +97,6 @@ export default function ReportCard({
       ].join(" ")}
       style={{ ...paddingStyle, minHeight: minH }}
     >
-      {/* Favourite */}
       {typeof onFavourite === "function" && (
         <button
           onClick={(e) => {
@@ -124,7 +121,6 @@ export default function ReportCard({
         </button>
       )}
 
-      {/* Content */}
       <div
         className={`flex flex-col ${gapY} pr-8 mb-8`}
         style={{ marginBottom: contentBottomGapPx }}
@@ -147,9 +143,10 @@ export default function ReportCard({
         )}
       </div>
 
-      {/* Chips (bottom-left) */}
-      <div className={`absolute bottom-3 left-3 flex flex-wrap gap-2 items-center ${chipText}`}>
-        {/* DEMO (new) */}
+      {/* ⬇️ moved to bottom-right */}
+      <div
+        className={`absolute bottom-3 right-3 flex flex-wrap gap-2 items-center justify-end text-right ${chipText}`}
+      >
         {isDemo && (
           <span
             className={`${tagStyles.Demo} ${tagPad} rounded-full font-semibold uppercase tracking-wide`}
@@ -158,7 +155,6 @@ export default function ReportCard({
           </span>
         )}
 
-        {/* New / Hot */}
         {report.tag === "New" && (
           <span
             className={`${tagStyles.New} ${tagPad} rounded-full font-medium flex items-center gap-1`}
@@ -176,7 +172,6 @@ export default function ReportCard({
           </span>
         )}
 
-        {/* Categories */}
         {Array.isArray(report.category)
           ? report.category
               .filter((c) => categoryColors[c])
