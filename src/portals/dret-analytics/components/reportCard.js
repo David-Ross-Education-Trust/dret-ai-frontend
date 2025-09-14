@@ -11,11 +11,6 @@ const categoryColors = {
   "IT & Data": "bg-purple-50 text-purple-800",
 };
 
-const tagStyles = {
-  Hot: "bg-red-50 text-red-600",
-  New: "bg-green-50 text-green-800",
-};
-
 export default function ReportCard({
   report,
   isFavourite,
@@ -36,22 +31,26 @@ export default function ReportCard({
     gapY,
     footerPadTop,
     minH,
+    chipText,
+    chipPadding,
+    tagPadding,
   } = useMemo(() => {
-    const size = Number(layoutSizePx) || 240; // lean default
+    const size = Number(layoutSizePx) || 240;
     const cosy = size >= 260;
-
-    const wantP = cosy ? 18 : 14;
 
     return {
       titleSize: cosy ? "text-[16px]" : "text-[15px]",
-      descSize: cosy ? "text-[12.5px]" : "text-[12px]",
+      descSize: cosy ? "text-[13px]" : "text-[12px]",
       titleClamp: cosy ? 2 : 1,
       descClamp: cosy ? 2 : 1,
       paddingClass: "p-4",
-      paddingStyle: { padding: wantP },
-      gapY: cosy ? "gap-2.5" : "gap-2",
-      footerPadTop: cosy ? "pt-2.5" : "pt-2",
-      minH: cosy ? 128 : 118,
+      paddingStyle: { padding: cosy ? 18 : 14 },
+      gapY: cosy ? "gap-3" : "gap-2",
+      footerPadTop: cosy ? "pt-3" : "pt-2",
+      minH: cosy ? 132 : 120,
+      chipText: cosy ? "text-xs" : "text-[11px]",
+      chipPadding: cosy ? "px-3 py-1" : "px-2.5 py-0.5",
+      tagPadding: cosy ? "px-2 py-1" : "px-2 py-0.5", // smaller in compact
     };
   }, [layoutSizePx]);
 
@@ -84,7 +83,7 @@ export default function ReportCard({
       ].join(" ")}
       style={{ ...paddingStyle, minHeight: minH }}
     >
-      {/* Favourite */}
+      {/* Favourite star */}
       {typeof onFavourite === "function" && (
         <button
           onClick={(e) => {
@@ -129,31 +128,35 @@ export default function ReportCard({
       {/* Footer */}
       <div className={`mt-auto ${footerPadTop} border-t border-gray-100`}>
         <div className="flex items-center justify-between pt-2">
-          {/* Left: tags */}
-          <div className="flex items-center gap-1.5 text-[11px]">
+          {/* Left: tags (moved slightly lower via pt-0.5) */}
+          <div className="flex items-center gap-1.5 pt-0.5">
             {report.tag === "New" && (
-              <span className={`${tagStyles.New} px-2 py-0.5 rounded-full font-medium flex items-center gap-1`}>
+              <span
+                className={`${chipText} bg-green-50 text-green-800 ${tagPadding} rounded-full font-medium flex items-center gap-1`}
+              >
                 <Sparkles className="w-3 h-3" />
                 New
               </span>
             )}
             {report.tag === "Hot" && (
-              <span className={`${tagStyles.Hot} px-2 py-0.5 rounded-full font-medium flex items-center gap-1`}>
+              <span
+                className={`${chipText} bg-red-50 text-red-600 ${tagPadding} rounded-full font-medium flex items-center gap-1`}
+              >
                 <Flame className="w-3 h-3" />
                 Hot
               </span>
             )}
           </div>
 
-          {/* Right: category chips — restored “old” look */}
-          <div className="flex items-center gap-2 text-xs">
+          {/* Right: categories */}
+          <div className={`flex items-center gap-2 ${chipText}`}>
             {Array.isArray(report.category)
               ? report.category
                   .filter((c) => categoryColors[c])
                   .map((cat) => (
                     <span
                       key={cat}
-                      className={`px-3 py-1 rounded-full font-medium ${
+                      className={`${chipPadding} rounded-full font-medium ${
                         categoryColors[cat] || "bg-gray-100 text-gray-600"
                       }`}
                     >
@@ -162,7 +165,7 @@ export default function ReportCard({
                   ))
               : categoryColors[report.category] && (
                   <span
-                    className={`px-3 py-1 rounded-full font-medium ${
+                    className={`${chipPadding} rounded-full font-medium ${
                       categoryColors[report.category] || "bg-gray-100 text-gray-600"
                     }`}
                   >
