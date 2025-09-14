@@ -153,7 +153,7 @@ export default function EducationReports() {
           (r.description && r.description.toLowerCase().includes(t))
         );
       });
-  }, [visibleReports, searchTerm, showOnlyFaves, favourites, selectedCategory, selectedSpecials]);
+  }, [searchTerm, showOnlyFaves, favourites, selectedCategory, selectedSpecials]);
 
   const handleFavourite = (id) => {
     toggleFavourite(id);
