@@ -97,7 +97,7 @@ export default function ReportCard({
         }
       }}
       className={[
-        "relative rounded-xl bg-white",
+        "relative rounded-xl bg-white overflow-hidden",
         subtle
           ? "border border-gray-200 shadow-md hover:shadow-lg"
           : "border border-gray-100 shadow-md hover:shadow-xl",

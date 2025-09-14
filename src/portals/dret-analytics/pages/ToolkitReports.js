@@ -174,7 +174,7 @@ export default function ToolkitReports() {
     <button
       key={label}
       className={[
-        "px-2.5 py-1.5 text-xs transition",
+        "px-3 py-2 text-sm transition",
         phase === label
           ? "text-white"
           : "bg-white hover:bg-gray-50 text-gray-700",
