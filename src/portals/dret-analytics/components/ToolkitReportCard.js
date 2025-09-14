@@ -15,7 +15,6 @@ export default function ToolkitReportCard({
   showSourcePrefix = false,
   showMoreMenu = false,
   subtle = true,
-  /** Square card size in pixels (parent controls this) */
   layoutSizePx = 160,
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -42,7 +41,7 @@ export default function ToolkitReportCard({
     if (href) {
       if (CUSTOM_SCHEME_RE.test(href)) {
         e.preventDefault();
-        window.location.assign(href); // same-tab for deep links
+        window.location.assign(href);
         return;
       }
       if (/^https?:\/\//i.test(href)) {
@@ -59,9 +58,10 @@ export default function ToolkitReportCard({
 
   const browserHref = report?.openInBrowserHref || report?.openInBrowserUrl;
 
+  // ✨ hover shadow classes restored
   const chromeClasses = subtle
-    ? "border border-gray-200 shadow-sm hover:shadow-md"
-    : "border border-gray-100 shadow-md hover:shadow-lg";
+    ? "border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200"
+    : "border border-gray-100 shadow-md hover:shadow-lg transition-shadow duration-200";
 
   const logoSize = Math.round(layoutSizePx * 0.38);
   const nameFont = Math.max(11, Math.round(layoutSizePx * 0.09));
@@ -70,11 +70,11 @@ export default function ToolkitReportCard({
     <div
       onClick={handleCardClick}
       className={`bg-white rounded-xl ${chromeClasses}
-        transition-all cursor-pointer flex flex-col items-center justify-center
+        cursor-pointer flex flex-col items-center justify-center
         relative ${disabled ? "opacity-50 pointer-events-none" : ""}`}
       style={{ width: layoutSizePx, height: layoutSizePx }}
     >
-      {/* Three dots menu - TOP LEFT */}
+      {/* More menu */}
       {showMoreMenu && (
         <div className="absolute top-3 left-3 z-20" ref={menuRef}>
           <button
@@ -110,7 +110,7 @@ export default function ToolkitReportCard({
         </div>
       )}
 
-      {/* Star/favourite icon - TOP RIGHT */}
+      {/* Favourite */}
       {typeof onFavourite === "function" && (
         <button
           onClick={(e) => {
