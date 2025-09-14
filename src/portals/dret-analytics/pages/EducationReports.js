@@ -44,24 +44,16 @@ const VIEW_STORAGE_KEYS = {
   favesOnly: "educationViewFavesOnly", // "true" | "false"
 };
 
-// --- Filter pills (mirroring the AI tools page style)
-const specialFilters = ["New", "Favourites"];
-const coreCategories = ["DRET", "Bromcom"]; // existing categories on this page
-
+// Filter pills (DRET / Bromcom only)
+const coreCategories = ["DRET", "Bromcom"];
 const filterColors = {
-  New: "bg-green-50 text-green-800 border-green-200",
-  Favourites: "bg-yellow-50 text-yellow-800 border-yellow-200",
   DRET: "bg-green-50 text-green-800 border-green-200",
   Bromcom: "bg-red-50 text-red-800 border-red-200",
 };
-
 const filterActiveColors = {
-  New: "bg-green-100 text-green-800 border-green-200",
-  Favourites: "bg-yellow-100 text-yellow-800 border-yellow-200",
   DRET: "bg-green-100 text-green-800 border-green-200",
   Bromcom: "bg-red-100 text-red-800 border-red-200",
 };
-
 const filterGrey = "bg-gray-200 text-gray-400 border-gray-200";
 
 export default function EducationReports() {
@@ -101,11 +93,10 @@ export default function EducationReports() {
     } catch { /* no-op */ }
   }, [showOnlyFaves]);
 
-  // NEW: filter pill state
-  const [selectedSpecials, setSelectedSpecials] = useState([]); // array of "New", "Favourites"
+  // Category pill state
   const [selectedCategory, setSelectedCategory] = useState(""); // "", "DRET", "Bromcom"
 
-  // Presets sized for dashboard cards (slightly larger than toolkit tiles)
+  // Presets sized for dashboard cards
   const PRESETS = {
     compact: { size: 240, gap: 16 },
     cosy:    { size: 300, gap: 24 },
@@ -115,56 +106,43 @@ export default function EducationReports() {
 
   const TRUST_GREEN = "#205c40";
 
-  // Filter visible reports (category + search + favourites + new pills)
+  // Filter visible reports (category + search + favourites)
   const filtered = useMemo(() => {
     const t = searchTerm.trim().toLowerCase();
 
-    return visibleReports
-      .filter((r) => {
-        // Only keep Education page categories (DRET / Bromcom)
-        const catRaw = Array.isArray(r.category) ? r.category : [r.category];
-        const catLower = (catRaw.filter(Boolean)[0] || "").toLowerCase();
-        const inEducation = ["dret", "bromcom"].includes(catLower);
-        if (!inEducation) return false;
+    return visibleReports.filter((r) => {
+      // Only keep Education page categories (DRET / Bromcom)
+      const catRaw = Array.isArray(r.category) ? r.category : [r.category];
+      const firstCat = (catRaw.filter(Boolean)[0] || "").toLowerCase();
+      const inEducation = ["dret", "bromcom"].includes(firstCat);
+      if (!inEducation) return false;
 
-        if (r.status === "coming-soon") return false;
+      if (r.status === "coming-soon") return false;
 
-        // Existing "favourites only" toggle button (top-right star)
-        if (showOnlyFaves && !favourites.includes(r.id)) return false;
+      // Favourites-only toggle button
+      if (showOnlyFaves && !favourites.includes(r.id)) return false;
 
-        // NEW: pill category filter — if selected, must match
-        if (selectedCategory) {
-          const matchesCat = Array.isArray(r.category)
-            ? r.category.some((c) => String(c).toLowerCase() === selectedCategory.toLowerCase())
-            : String(r.category || "").toLowerCase() === selectedCategory.toLowerCase();
-          if (!matchesCat) return false;
-        }
+      // Category pill match (if selected)
+      if (selectedCategory) {
+        const match = Array.isArray(r.category)
+          ? r.category.some((c) => String(c).toLowerCase() === selectedCategory.toLowerCase())
+          : String(r.category || "").toLowerCase() === selectedCategory.toLowerCase();
+        if (!match) return false;
+      }
 
-        // NEW: special pills
-        // "New" -> tag must be exactly "New"
-        if (selectedSpecials.includes("New") && r.tag !== "New") return false;
-        // "Favourites" -> must be in favourites (works alongside the star button toggle)
-        if (selectedSpecials.includes("Favourites") && !favourites.includes(r.id)) return false;
-
-        // Search
-        if (!t) return true;
-        return (
-          (r.name && r.name.toLowerCase().includes(t)) ||
-          (r.description && r.description.toLowerCase().includes(t))
-        );
-      });
-  }, [searchTerm, showOnlyFaves, favourites, selectedCategory, selectedSpecials]);
+      // Search
+      if (!t) return true;
+      return (
+        (r.name && r.name.toLowerCase().includes(t)) ||
+        (r.description && r.description.toLowerCase().includes(t))
+      );
+    });
+  }, [searchTerm, showOnlyFaves, favourites, selectedCategory]);
 
   const handleFavourite = (id) => {
     toggleFavourite(id);
     setClickedStar(id);
     setTimeout(() => setClickedStar(null), 300);
-  };
-
-  const toggleSpecial = (tag) => {
-    setSelectedSpecials((prev) =>
-      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
-    );
   };
 
   return (
@@ -173,15 +151,41 @@ export default function EducationReports() {
         className="bg-gray-100 min-h-screen h-screen flex flex-col font-avenir"
         style={{ fontFamily: "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif" }}
       >
-        {/* Top Bar */}
+        {/* Top Bar (now includes filters, view toggles, star toggle, search) */}
         <div
           className="shrink-0 z-20 shadow-sm px-6 md:px-8 h-24 flex items-center justify-between"
           style={{ backgroundColor: "#ffffff" }}
         >
-          <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
-            Education Dashboards
-          </h1>
+          {/* Left cluster: DRET/Bromcom filter pills */}
+          <div className="flex flex-wrap items-center gap-2">
+            {coreCategories.map((tag) => {
+              let classNames = `px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center select-none`;
+              if (selectedCategory === tag) {
+                classNames += " " + (filterActiveColors[tag] || "") + " shadow-sm";
+              } else if (selectedCategory && tag !== selectedCategory) {
+                classNames += " " + filterGrey;
+              } else {
+                classNames += " " + (filterColors[tag] || "") + " hover:brightness-95";
+              }
+              return (
+                <span
+                  key={tag}
+                  onClick={() => setSelectedCategory(selectedCategory === tag ? "" : tag)}
+                  className={classNames}
+                  style={{
+                    whiteSpace: "nowrap",
+                    borderWidth: "1px",
+                    transition: "all 0.18s cubic-bezier(.4,0,.2,1)",
+                    fontFamily: "AvenirLTStdLight, Avenir, sans-serif",
+                  }}
+                >
+                  {tag}
+                </span>
+              );
+            })}
+          </div>
 
+          {/* Right cluster: view toggle, favourites-only toggle, search */}
           <div className="flex items-center gap-3">
             {/* View toggle */}
             <div className="hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden">
@@ -263,69 +267,6 @@ export default function EducationReports() {
           </div>
         </div>
 
-        {/* NEW: Filter pills row (like AI tools page) */}
-        <div className="px-6 md:px-8 py-3 bg-white/60 backdrop-blur-sm border-b border-gray-100">
-          <div className="flex flex-wrap items-center gap-2 max-w-full">
-            {/* Specials: New, Favourites */}
-            {specialFilters.map((tag) => {
-              let classNames = `px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center select-none`;
-              if (selectedSpecials.includes(tag)) {
-                classNames += " " + (filterActiveColors[tag] || "") + " shadow-sm";
-              } else {
-                classNames += " " + (filterColors[tag] || "") + " hover:brightness-95";
-              }
-              return (
-                <span
-                  key={tag}
-                  onClick={() => toggleSpecial(tag)}
-                  className={classNames}
-                  style={{
-                    whiteSpace: "nowrap",
-                    borderWidth: "1px",
-                    transition: "all 0.18s cubic-bezier(.4,0,.2,1)",
-                    fontFamily: "AvenirLTStdLight, Avenir, sans-serif",
-                  }}
-                >
-                  {tag}
-                </span>
-              );
-            })}
-
-            <span
-              aria-hidden
-              className="mx-2 h-6 border-l border-gray-300 opacity-60"
-              style={{ display: "inline-block", verticalAlign: "middle" }}
-            />
-
-            {/* Core categories: DRET / Bromcom */}
-            {coreCategories.map((tag) => {
-              let classNames = `px-4 py-1.5 border rounded-full text-xs font-medium cursor-pointer transition-all text-center select-none`;
-              if (selectedCategory === tag) {
-                classNames += " " + (filterActiveColors[tag] || "") + " shadow-sm";
-              } else if (selectedCategory && tag !== selectedCategory) {
-                classNames += " " + filterGrey;
-              } else {
-                classNames += " " + (filterColors[tag] || "") + " hover:brightness-95";
-              }
-              return (
-                <span
-                  key={tag}
-                  onClick={() => setSelectedCategory(selectedCategory === tag ? "" : tag)}
-                  className={classNames}
-                  style={{
-                    whiteSpace: "nowrap",
-                    borderWidth: "1px",
-                    transition: "all 0.18s cubic-bezier(.4,0,.2,1)",
-                    fontFamily: "AvenirLTStdLight, Avenir, sans-serif",
-                  }}
-                >
-                  {tag}
-                </span>
-              );
-            })}
-          </div>
-        </div>
-
         {/* Content */}
         <div className="flex-1 overflow-y-auto p-6 md:p-8 custom-scrollbar">
           {filtered.length === 0 ? (
@@ -370,7 +311,7 @@ export default function EducationReports() {
               </ul>
             </div>
           ) : (
-            // GRID VIEW — auto-fill + minmax; pass through props to ReportCard
+            // GRID VIEW — auto-fill + minmax
             <div
               className="grid"
               style={{
