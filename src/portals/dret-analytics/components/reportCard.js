@@ -1,5 +1,8 @@
 import React, { useMemo } from "react";
 import { Star, Flame, Sparkles } from "lucide-react";
+import dretStar from "../../../assets/icon.png";
+
+const SHOW_DECORATIVE_STAR = false;
 
 const categoryColors = {
   Education: "bg-blue-50 text-blue-800",
@@ -41,6 +44,7 @@ export default function ReportCard({
     tagPad,
     iconSize,
     contentBottomGapPx,
+    cosy,
   } = useMemo(() => {
     const size = Number(layoutSizePx) || 240;
     const cosy = size >= 260;
@@ -60,6 +64,7 @@ export default function ReportCard({
       tagPad: cosy ? "px-2 py-1" : "px-2 py-0.5",
       iconSize: cosy ? 12 : 11,
       contentBottomGapPx: cosy ? 36 : 34,
+      cosy,
     };
   }, [layoutSizePx]);
 
@@ -72,6 +77,9 @@ export default function ReportCard({
 
   const isDemo =
     report?.demo === true || report?.tag === "Demo" || report?.tag === "DEMO";
+
+  const cornerStarSize = cosy ? 140 : 110;
+  const cornerOffset = cosy ? -56 : -44;
 
   return (
     <div
@@ -86,30 +94,49 @@ export default function ReportCard({
         }
       }}
       className={[
-        "relative rounded-xl bg-white",
+        "relative rounded-xl bg-white overflow-hidden",
         subtle
           ? "border border-gray-200 shadow-md hover:shadow-lg"
           : "border border-gray-100 shadow-md hover:shadow-xl",
         "transition-shadow duration-200",
         "cursor-pointer flex flex-col",
+        "group", // enables group-hover
         paddingClass,
         disabled ? "opacity-50 pointer-events-none" : "",
       ].join(" ")}
       style={{ ...paddingStyle, minHeight: minH }}
     >
-      {/* Favourite star */}
+      {/* Decorative DRET corner star */}
+      {SHOW_DECORATIVE_STAR && (
+        <img
+          src={dretStar}
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none select-none absolute opacity-[0.10] group-hover:opacity-[0.30] transition-opacity duration-200"
+          style={{
+            width: cornerStarSize,
+            height: cornerStarSize,
+            right: cornerOffset,
+            bottom: cornerOffset,
+            transform: "rotate(0deg)",
+            zIndex: 0,
+          }}
+        />
+      )}
+
+      {/* Favourite star (top-right) */}
       {typeof onFavourite === "function" && (
         <button
           onClick={(e) => {
             e.stopPropagation();
             onFavourite(report.id || report.name);
           }}
-          className="absolute top-3 right-3 p-1.5 rounded-full transition transform hover:scale-110 focus:scale-105 focus:outline-none"
+          className="absolute top-3 right-3 p-0 w-[22px] h-[22px] flex items-center justify-center rounded-full focus:outline-none z-10"
           aria-label={isFavourite ? "Unfavourite" : "Favourite"}
           type="button"
         >
           <Star
-            className={`w-[18px] h-[18px] ${
+            className={`w-[22px] h-[22px] ${
               isFavourite ? "text-yellow-400" : "text-gray-300"
             } ${
               clickedStar === (report.id || report.name)
@@ -124,7 +151,7 @@ export default function ReportCard({
 
       {/* Main content */}
       <div
-        className={`flex flex-col ${gapY} pr-8 mb-8`}
+        className={`relative z-10 flex flex-col ${gapY} pr-8 mb-8`}
         style={{ marginBottom: contentBottomGapPx }}
       >
         <h3
@@ -145,10 +172,10 @@ export default function ReportCard({
         )}
       </div>
 
-      {/* Bottom row: categories left, tags right */}
-      <div className="absolute bottom-3 left-3 right-3 flex justify-between items-center">
-        {/* Categories (left) */}
+      {/* Bottom row: categories + tags left */}
+      <div className="absolute bottom-3 left-3 right-3 flex justify-between items-center z-10">
         <div className={`flex flex-wrap gap-2 ${chipText}`}>
+          {/* Categories */}
           {Array.isArray(report.category)
             ? report.category
                 .filter((c) => categoryColors[c])
@@ -165,16 +192,15 @@ export default function ReportCard({
             : categoryColors[report.category] && (
                 <span
                   className={`${catPad} rounded-full font-medium ${
-                    categoryColors[report.category] || "bg-gray-100 text-gray-600"
+                    categoryColors[report.category] ||
+                    "bg-gray-100 text-gray-600"
                   }`}
                 >
                   {report.category}
                 </span>
               )}
-        </div>
 
-        {/* Tags (right) */}
-        <div className={`flex flex-wrap gap-2 justify-end ${chipText}`}>
+          {/* Tags */}
           {isDemo && (
             <span
               className={`${tagStyles.Demo} ${tagPad} rounded-full font-semibold uppercase tracking-wide`}
