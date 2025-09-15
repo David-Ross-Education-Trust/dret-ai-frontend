@@ -100,7 +100,7 @@ export default function ReportCard({
           : "border border-gray-100 shadow-md hover:shadow-xl",
         "transition-shadow duration-200",
         "cursor-pointer flex flex-col",
-        "group", // enables group-hover
+        "group",
         paddingClass,
         disabled ? "opacity-50 pointer-events-none" : "",
       ].join(" ")}
@@ -131,12 +131,12 @@ export default function ReportCard({
             e.stopPropagation();
             onFavourite(report.id || report.name);
           }}
-          className="absolute top-3 right-3 p-1.5 rounded-full transition transform hover:scale-110 focus:scale-105 focus:outline-none z-10"
+          className="absolute top-2.5 right-2.5 w-9 h-9 flex items-center justify-center rounded-full hover:bg-black/5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black/10 z-30"
           aria-label={isFavourite ? "Unfavourite" : "Favourite"}
           type="button"
         >
           <Star
-            className={`w-[22x] h-[22px] ${
+            className={`w-[22px] h-[22px] ${
               isFavourite ? "text-yellow-400" : "text-gray-300"
             } ${
               clickedStar === (report.id || report.name)
@@ -151,7 +151,7 @@ export default function ReportCard({
 
       {/* Main content */}
       <div
-        className={`relative z-10 flex flex-col ${gapY} pr-8 mb-8`}
+        className={`relative z-10 flex flex-col ${gapY} pr-12`}
         style={{ marginBottom: contentBottomGapPx }}
       >
         <h3
