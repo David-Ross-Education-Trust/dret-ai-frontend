@@ -112,12 +112,12 @@ export default function ReportCard({
       style={{ ...paddingStyle, minHeight: minH }}
     >
       {/* Decorative DRET corner star */}
-      {SHOW_DECORATIVE_STAR && isDRET && (
+      {SHOW_DECORATIVE_STAR && (
         <img
           src={dretStar}
           alt=""
           aria-hidden="true"
-          className="pointer-events-none select-none absolute opacity-20 group-hover:opacity-35 transition-opacity duration-200"
+          className="pointer-events-none select-none absolute opacity-10 group-hover:opacity-30 transition-opacity duration-200"
           style={{
             width: cornerStarSize,
             height: cornerStarSize,
