@@ -82,10 +82,6 @@ export default function ReportCard({
     ? report.category.includes("DRET")
     : report?.category === "DRET";
 
-  const isBromcom = Array.isArray(report?.category)
-    ? report.category.includes("Bromcom")
-    : report?.category === "BROMCOM";
-
   // Decorative star sizing
   const cornerStarSize = cosy ? 140 : 110;
   const cornerOffset = cosy ? -56 : -44;
@@ -116,12 +112,12 @@ export default function ReportCard({
       style={{ ...paddingStyle, minHeight: minH }}
     >
       {/* Decorative DRET corner star */}
-      {SHOW_DECORATIVE_STAR && isDRET && isBromcom && (
+      {SHOW_DECORATIVE_STAR && (
         <img
           src={dretStar}
           alt=""
           aria-hidden="true"
-          className="pointer-events-none select-none absolute opacity-10 group-hover:opacity-30 transition-opacity duration-200"
+          className="pointer-events-none select-none absolute opacity-[0.10] group-hover:opacity-[0.30] transition-opacity duration-200"
           style={{
             width: cornerStarSize,
             height: cornerStarSize,
