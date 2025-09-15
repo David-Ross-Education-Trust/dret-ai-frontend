@@ -102,7 +102,7 @@ export default function ToolkitReports() {
     }
   });
 
-  // NEW: Persisted Phase filter ("All" default)
+  // Persisted Phase filter ("All" default)
   const [phase, setPhase] = useState(() => {
     try {
       const stored = localStorage.getItem(VIEW_STORAGE_KEYS.phase);
@@ -116,25 +116,19 @@ export default function ToolkitReports() {
   useEffect(() => {
     try {
       localStorage.setItem(VIEW_STORAGE_KEYS.mode, mode);
-    } catch {
-      /* no-op */
-    }
+    } catch {}
   }, [mode]);
 
   useEffect(() => {
     try {
       localStorage.setItem(VIEW_STORAGE_KEYS.favesOnly, String(showOnlyFaves));
-    } catch {
-      /* no-op */
-    }
+    } catch {}
   }, [showOnlyFaves]);
 
   useEffect(() => {
     try {
       localStorage.setItem(VIEW_STORAGE_KEYS.phase, phase || "All");
-    } catch {
-      /* no-op */
-    }
+    } catch {}
   }, [phase]);
 
   // Presets with generous gaps; cosy is larger
@@ -147,22 +141,31 @@ export default function ToolkitReports() {
 
   const TRUST_GREEN = "#205c40";
 
+  // Collator for stable, locale-aware A→Z sorting
+  const collator = useMemo(
+    () => new Intl.Collator("en", { sensitivity: "base" }),
+    []
+  );
+
+  // Filter + sort (alphabetical by name)
   const filtered = useMemo(() => {
     const t = searchTerm.trim().toLowerCase();
-    return toolkitConfig.filter((r) => {
+
+    const pass = toolkitConfig.filter((r) => {
       if (r.comingSoon) return false;
-
-      // Apply Primary/Secondary filter if chosen
       if (phase !== "All" && getPhase(r) !== phase) return false;
-
       if (showOnlyFaves && !favourites.includes(r.id)) return false;
       if (!t) return true;
+
       return (
         (r.name && r.name.toLowerCase().includes(t)) ||
         (r.description && r.description.toLowerCase().includes(t))
       );
     });
-  }, [searchTerm, showOnlyFaves, favourites, phase]);
+
+    // sort A→Z by name
+    return pass.sort((a, b) => collator.compare(a.name, b.name));
+  }, [searchTerm, showOnlyFaves, favourites, phase, collator]);
 
   const handleFavourite = (id) => {
     toggleFavourite(id);
@@ -170,11 +173,12 @@ export default function ToolkitReports() {
     setTimeout(() => setClickedStar(null), 300);
   };
 
+  // Smaller segmented control buttons
   const segmentBtn = (label) => (
     <button
       key={label}
       className={[
-        "px-3 py-2 text-sm transition",
+        "px-2.5 py-1.5 text-xs transition",
         phase === label
           ? "text-white"
           : "bg-white hover:bg-gray-50 text-gray-700",
@@ -211,9 +215,9 @@ export default function ToolkitReports() {
             {/* Phase segmented control: Primary | All | Secondary */}
             <div className="hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden">
               {segmentBtn("Primary")}
-              <div className="h-6 w-px bg-gray-200" />
+              <div className="h-5 w-px bg-gray-200" />
               {segmentBtn("All")}
-              <div className="h-6 w-px bg-gray-200" />
+              <div className="h-5 w-px bg-gray-200" />
               {segmentBtn("Secondary")}
             </div>
           </div>

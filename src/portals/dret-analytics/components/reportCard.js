@@ -78,11 +78,6 @@ export default function ReportCard({
   const isDemo =
     report?.demo === true || report?.tag === "Demo" || report?.tag === "DEMO";
 
-  const isDRET = Array.isArray(report?.category)
-    ? report.category.includes("DRET")
-    : report?.category === "DRET";
-
-  // Decorative star sizing
   const cornerStarSize = cosy ? 140 : 110;
   const cornerOffset = cosy ? -56 : -44;
 
