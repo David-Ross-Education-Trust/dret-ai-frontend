@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { Star, Flame, Sparkles } from "lucide-react";
 import dretStar from "../../../assets/icon.png";
 
-const SHOW_DECORATIVE_STAR = true;
+const SHOW_DECORATIVE_STAR = false;
 
 const categoryColors = {
   Education: "bg-blue-50 text-blue-800",
@@ -136,7 +136,7 @@ export default function ReportCard({
           type="button"
         >
           <Star
-            className={`w-[18px] h-[18px] ${
+            className={`w-[22x] h-[22px] ${
               isFavourite ? "text-yellow-400" : "text-gray-300"
             } ${
               clickedStar === (report.id || report.name)

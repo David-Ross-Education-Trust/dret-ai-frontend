@@ -163,9 +163,12 @@ export default function ToolkitReports() {
       );
     });
 
-    // sort A→Z by name
-    return pass.sort((a, b) => collator.compare(a.name, b.name));
-  }, [searchTerm, showOnlyFaves, favourites, phase, collator]);
+    return results.sort((a, b) => {
+      if (a.id === "demotoolkit") return -1;
+      if (b.id === "demotoolkit") return 1;
+      return a.name.localeCompare(b.name);
+    });
+  }, [searchTerm, showOnlyFaves, favourites, phase]);
 
   const handleFavourite = (id) => {
     toggleFavourite(id);
