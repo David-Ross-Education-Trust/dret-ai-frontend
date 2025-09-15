@@ -12,27 +12,19 @@ const navItems = [
   { label: "Student Hub", icon: "fas fa-user-graduate", to: "/ai/student-hub" },
 ];
 
-const Layout = ({
-  children,
-  disableNavLinks = false,
-  // NEW: configurable target for "Report an issue"
-  reportIssueHref = "/ai/report-issue",
-}) => {
+const Layout = ({ children, disableNavLinks = false }) => {
   const { accounts, instance } = useMsal();
   const account = accounts[0];
   const isSignedIn = !!account;
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
 
-  const handleLogin = () => instance.loginRedirect();
-  const handleLogout = () => instance.logoutRedirect();
+  const handleLogin = () => {
+    instance.loginRedirect();
+  };
 
-  const handleReportIssue = () => {
-    try {
-      window.open(reportIssueHref, "_blank", "noopener,noreferrer");
-    } catch {
-      /* no-op */
-    }
+  const handleLogout = () => {
+    instance.logoutRedirect();
   };
 
   return (
@@ -49,7 +41,6 @@ const Layout = ({
             style={{ display: "block", maxHeight: "90px" }}
           />
         </Link>
-
         {isSignedIn && (
           <div className="p-6 flex flex-col gap-4 overflow-y-auto mt-4 font-avenir">
             {navItems.map((item, index) => {
@@ -106,23 +97,6 @@ const Layout = ({
             })}
           </div>
         )}
-
-        {/* NEW: Report an issue — moved up slightly, no underline/icon, a bit bigger */}
-        {isSignedIn && (
-          <div className="px-4 pb-2 -mt-2">
-            <button
-              onClick={handleReportIssue}
-              type="button"
-              className="text-sm text-white/90 hover:text-white transition-colors"
-              title="Report an issue"
-              aria-label="Report an issue"
-              style={{ fontWeight: 500 }}
-            >
-              Report an issue
-            </button>
-          </div>
-        )}
-
         {isSignedIn && (
           <div className="relative p-4 border-t border-[#184b34] font-avenir">
             <div
@@ -158,7 +132,6 @@ const Layout = ({
           </div>
         )}
       </aside>
-
       <main className="ml-60 w-full min-h-screen overflow-y-auto bg-gray-50 font-avenir">
         {children}
       </main>
