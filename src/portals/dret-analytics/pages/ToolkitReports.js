@@ -32,7 +32,7 @@ function useFavourites(key = "toolkitFavourites") {
   return [favourites, toggleFavourite];
 }
 
-// Smart open: deep links same-tab; https new tab; internal via router
+// Smart open
 const CUSTOM_SCHEME_RE =
   /^(ms-(excel|word|powerpoint|project|access|onenote|visio|office):|mailto:|tel:)/i;
 
@@ -49,14 +49,14 @@ function openExternalOrRoute(href, navigate) {
   navigate(href);
 }
 
-// Storage keys for view preferences
+// Storage keys
 const VIEW_STORAGE_KEYS = {
   mode: "toolkitViewMode", // "compact" | "cosy" | "list"
-  favesOnly: "toolkitViewFavesOnly", // "true" | "false"
+  favesOnly: "toolkitViewFavesOnly",
   phase: "toolkitPhaseFilter", // "All" | "Primary" | "Secondary"
 };
 
-// Known secondary toolkit IDs (others are assumed Primary)
+// Known secondary toolkit IDs
 const SECONDARY_IDS = new Set([
   "charlesread",
   "charnwood",
@@ -81,7 +81,7 @@ export default function ToolkitReports() {
   const [favourites, toggleFavourite] = useFavourites();
   const [clickedStar, setClickedStar] = useState(null);
 
-  // ---- Load persisted view settings (with fallbacks)
+  // ---- Load persisted view settings
   const [mode, setMode] = useState(() => {
     try {
       const stored = localStorage.getItem(VIEW_STORAGE_KEYS.mode);
@@ -102,7 +102,7 @@ export default function ToolkitReports() {
     }
   });
 
-  // Persisted Phase filter ("All" default)
+  // Phase filter ("All" default)
   const [phase, setPhase] = useState(() => {
     try {
       const stored = localStorage.getItem(VIEW_STORAGE_KEYS.phase);
@@ -116,28 +116,22 @@ export default function ToolkitReports() {
   useEffect(() => {
     try {
       localStorage.setItem(VIEW_STORAGE_KEYS.mode, mode);
-    } catch {
-      /* no-op */
-    }
+    } catch {}
   }, [mode]);
 
   useEffect(() => {
     try {
       localStorage.setItem(VIEW_STORAGE_KEYS.favesOnly, String(showOnlyFaves));
-    } catch {
-      /* no-op */
-    }
+    } catch {}
   }, [showOnlyFaves]);
 
   useEffect(() => {
     try {
       localStorage.setItem(VIEW_STORAGE_KEYS.phase, phase || "All");
-    } catch {
-      /* no-op */
-    }
+    } catch {}
   }, [phase]);
 
-  // Presets with generous gaps; cosy is larger
+  // Presets
   const PRESETS = {
     compact: { size: 140, gap: 16 },
     cosy: { size: 180, gap: 24 },
@@ -152,12 +146,8 @@ export default function ToolkitReports() {
     const t = searchTerm.trim().toLowerCase();
     return toolkitConfig.filter((r) => {
       if (r.comingSoon) return false;
-
-      // Apply Primary/Secondary filter if chosen
       if (phase !== "All" && getPhase(r) !== phase) return false;
-
       if (showOnlyFaves && !favourites.includes(r.id)) return false;
-
       if (!t) return true;
       return (
         (r.name && r.name.toLowerCase().includes(t)) ||
@@ -166,7 +156,7 @@ export default function ToolkitReports() {
     });
   }, [searchTerm, showOnlyFaves, favourites, phase]);
 
-  // Sort alphabetically; keep Demo Toolkit first if present
+  // Sort alphabetically; keep Demo Toolkit first
   const sorted = useMemo(() => {
     const arr = [...filtered].sort((a, b) =>
       a.name.localeCompare(b.name, "en", { sensitivity: "base" })
@@ -185,12 +175,12 @@ export default function ToolkitReports() {
     setTimeout(() => setClickedStar(null), 300);
   };
 
-  // Phase segmented control button (Primary, All, Secondary)
+  // Phase segmented control button — now same size as view toggle
   const segmentBtn = (label, withLeftBorder = false) => (
     <button
       key={label}
       className={[
-        "px-2.5 py-1.5 text-[13px] transition",
+        "px-3 py-2 text-sm transition",
         withLeftBorder ? "border-l border-gray-200" : "",
         phase === label
           ? "text-white"
@@ -225,8 +215,8 @@ export default function ToolkitReports() {
               Education Toolkits
             </h1>
 
-            {/* Phase segmented control: Primary | All | Secondary (matches view toggle separators) */}
-            <div className="hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden">
+            {/* Phase segmented control (now same size as view toggle) */}
+            <div className="hidden sm:flex items-center h-10 rounded-xl border border-gray-200 overflow-hidden">
               {segmentBtn("Primary")}
               {segmentBtn("All", true)}
               {segmentBtn("Secondary", true)}
@@ -234,7 +224,7 @@ export default function ToolkitReports() {
           </div>
 
           <div className="flex items-center gap-3">
-            {/* Favourites filter toggle button */}
+            {/* Favourites filter toggle */}
             <button
               onClick={() => setShowOnlyFaves((v) => !v)}
               className={`p-2 rounded-full border transition ${
@@ -247,28 +237,24 @@ export default function ToolkitReports() {
             >
               <Star
                 size={18}
-                className={`${
-                  showOnlyFaves ? "text-yellow-500" : "text-gray-400"
-                }`}
+                className={`${showOnlyFaves ? "text-yellow-500" : "text-gray-400"}`}
                 fill={showOnlyFaves ? "#fde047" : "none"}
                 strokeWidth={1.5}
               />
             </button>
 
-            {/* View toggle */}
-            <div className="hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden">
+            {/* View toggle — icon-only on tighter layouts (text from xl up) */}
+            <div className="hidden sm:flex items-center h-10 rounded-xl border border-gray-200 overflow-hidden">
               <button
                 className={`px-3 py-2 text-sm flex items-center gap-1 ${
-                  mode === "compact"
-                    ? "bg-gray-100"
-                    : "bg-white hover:bg-gray-50"
+                  mode === "compact" ? "bg-gray-100" : "bg-white hover:bg-gray-50"
                 }`}
                 onClick={() => setMode("compact")}
                 title="Compact grid"
                 type="button"
               >
                 <Grid size={16} />
-                Compact
+                <span className="hidden xl:inline">Compact</span>
               </button>
               <div className="h-6 w-px bg-gray-200" />
               <button
@@ -280,7 +266,7 @@ export default function ToolkitReports() {
                 type="button"
               >
                 <LayoutGrid size={16} />
-                Cosy
+                <span className="hidden xl:inline">Cosy</span>
               </button>
               <div className="h-6 w-px bg-gray-200" />
               <button
@@ -292,7 +278,7 @@ export default function ToolkitReports() {
                 type="button"
               >
                 <Rows size={16} />
-                List
+                <span className="hidden xl:inline">List</span>
               </button>
             </div>
 
@@ -339,7 +325,7 @@ export default function ToolkitReports() {
               No toolkits{searchTerm ? " match this search." : "."}
             </div>
           ) : mode === "list" ? (
-            // LIST VIEW — row clickable, star icon at end
+            // LIST VIEW
             <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
               <ul className="divide-y divide-gray-100">
                 {sorted.map((report) => (
@@ -370,7 +356,7 @@ export default function ToolkitReports() {
 
                     <button
                       onClick={(e) => {
-                        e.stopPropagation(); // stop row navigation
+                        e.stopPropagation();
                         handleFavourite(report.id);
                       }}
                       className="p-2 rounded-full group transition z-20"
