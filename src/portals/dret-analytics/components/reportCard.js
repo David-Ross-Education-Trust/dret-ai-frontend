@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { Star, Flame, Sparkles } from "lucide-react";
 import dretStar from "../../../assets/icon.png";
 
-const SHOW_DECORATIVE_STAR = false;
+const SHOW_DECORATIVE_STAR = true;
 
 const categoryColors = {
   Education: "bg-blue-50 text-blue-800",
