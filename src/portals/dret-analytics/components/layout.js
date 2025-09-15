@@ -1,6 +1,7 @@
+// src/portals/dret-analytics/components/layout.js
 import React, { useState } from "react";
 import { useMsal } from "@azure/msal-react";
-import { FiLogOut } from "react-icons/fi";
+import { FiLogOut, FiAlertCircle } from "react-icons/fi";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import { useLocation, Link } from "react-router-dom";
 import dretAnalyticsLogo from "../../../assets/dret-analytics-logo.png";
@@ -20,11 +21,13 @@ const AnalyticsLayout = ({
   allowSidebarMinimise = false,
   hideHeaderWithSidebar = false,
   headerContent = null,
+  // Where the "Report an issue" button points (opens in new tab)
   reportIssueHref = "/analytics/report-issue",
 }) => {
   const { accounts, instance } = useMsal();
   const account = accounts[0];
   const isSignedIn = !!account;
+
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const location = useLocation();
@@ -33,7 +36,6 @@ const AnalyticsLayout = ({
 
   const showHeader = !(hideHeaderWithSidebar && !sidebarOpen);
 
-  const handleLogin = () => instance.loginRedirect();
   const handleLogout = () => instance.logoutRedirect();
   const handleReportIssue = () => {
     try {
@@ -66,9 +68,7 @@ const AnalyticsLayout = ({
                 onClick={() => setSidebarOpen((v) => !v)}
                 aria-label="Collapse sidebar"
                 className="absolute right-2 top-1/2 -translate-y-1/2 bg-white text-[var(--trust-green)] border border-gray-200 rounded-full shadow hover:bg-gray-200 transition-all w-9 h-9 flex items-center justify-center"
-                style={{
-                  boxShadow: "0 2px 8px 0 rgba(32,92,64,0.09)",
-                }}
+                style={{ boxShadow: "0 2px 8px 0 rgba(32,92,64,0.09)" }}
               >
                 <HiChevronLeft size={22} />
               </button>
@@ -81,9 +81,7 @@ const AnalyticsLayout = ({
                 onClick={() => setSidebarOpen((v) => !v)}
                 aria-label="Expand sidebar"
                 className="bg-white text-[var(--trust-green)] border border-gray-200 rounded-full shadow hover:bg-gray-200 transition-all w-9 h-9 flex items-center justify-center"
-                style={{
-                  boxShadow: "0 2px 8px 0 rgba(32,92,64,0.09)",
-                }}
+                style={{ boxShadow: "0 2px 8px 0 rgba(32,92,64,0.09)" }}
               >
                 <HiChevronRight size={22} />
               </button>
@@ -145,10 +143,7 @@ const AnalyticsLayout = ({
                     width="10"
                     height="10"
                     viewBox="0 0 10 10"
-                    style={{
-                      display: "inline-block",
-                      marginRight: "6px",
-                    }}
+                    style={{ display: "inline-block", marginRight: "6px" }}
                   >
                     <circle cx="5" cy="5" r="4" fill="white" />
                   </svg>
@@ -159,7 +154,7 @@ const AnalyticsLayout = ({
           })}
         </nav>
 
-        {/* NEW: Report an issue button */}
+        {/* Report an issue button (above user section) */}
         <div className="mt-6 px-4">
           <button
             onClick={handleReportIssue}
@@ -173,12 +168,12 @@ const AnalyticsLayout = ({
             aria-label="Report an issue"
             title="Report an issue"
           >
-            <FiLogOut className="text-lg" />
+            <FiAlertCircle className="text-lg" />
             {sidebarOpen && <span className="text-sm">Report an issue</span>}
           </button>
         </div>
 
-        {/* User/Profile section */}
+        {/* User/Profile section, pinned to bottom */}
         {isSignedIn && (
           <div className="p-4 border-t border-[#184b34] font-avenir mt-auto">
             <div className="flex items-center justify-between gap-2 p-2 rounded">
@@ -189,9 +184,8 @@ const AnalyticsLayout = ({
                 onClick={handleLogout}
                 aria-label="Sign out"
                 className="bg-white text-[var(--trust-green)] border border-gray-200 rounded-full shadow hover:bg-gray-200 transition-all w-9 h-9 flex items-center justify-center"
-                style={{
-                  boxShadow: "0 2px 8px 0 rgba(32,92,64,0.09)",
-                }}
+                style={{ boxShadow: "0 2px 8px 0 rgba(32,92,64,0.09)" }}
+                title="Sign out"
               >
                 <FiLogOut size={18} />
               </button>
@@ -205,10 +199,7 @@ const AnalyticsLayout = ({
         className={`transition-all duration-300 ${
           sidebarOpen ? "ml-60" : "ml-14"
         } flex-1 min-h-screen bg-gray-50`}
-        style={{
-          maxWidth: "100vw",
-          paddingTop: 0,
-        }}
+        style={{ maxWidth: "100vw", paddingTop: 0 }}
       >
         {showHeader && headerContent}
         {typeof children === "function" ? children({ sidebarOpen }) : children}
