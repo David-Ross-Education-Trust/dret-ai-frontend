@@ -1,7 +1,7 @@
 // src/portals/dret-analytics/components/layout.js
 import React, { useState } from "react";
 import { useMsal } from "@azure/msal-react";
-import { FiLogOut, FiAlertCircle } from "react-icons/fi";
+import { FiLogOut } from "react-icons/fi";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import { useLocation, Link } from "react-router-dom";
 import dretAnalyticsLogo from "../../../assets/dret-analytics-logo.png";
@@ -156,16 +156,16 @@ const AnalyticsLayout = ({
         {/* Bottom stack (only when expanded): Report link + user row */}
         {sidebarOpen && (
           <div className="mt-auto">
-            {/* Report an issue — small, subdued link style */}
-            <div className="px-4 pt-3 pb-2">
+            {/* Report an issue — moved up a tad, no underline/icon, slightly larger */}
+            <div className="px-4 pt-2 pb-2 -mt-1">
               <button
                 onClick={handleReportIssue}
-                className="flex items-center gap-2 text-white/80 hover:text-white text-xs underline-offset-2 hover:underline transition-colors"
+                className="text-sm font-medium text-white/85 hover:text-white transition-colors"
                 aria-label="Report an issue"
                 title="Report an issue"
+                type="button"
               >
-                <FiAlertCircle size={14} className="opacity-90" />
-                <span>Report an issue</span>
+                Report an issue
               </button>
             </div>
 
@@ -181,6 +181,7 @@ const AnalyticsLayout = ({
                     aria-label="Sign out"
                     title="Sign out"
                     className="p-1"
+                    type="button"
                   >
                     <FiLogOut
                       size={18}
