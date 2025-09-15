@@ -112,7 +112,7 @@ export default function ReportCard({
           src={dretStar}
           alt=""
           aria-hidden="true"
-          className="pointer-events-none select-none absolute opacity-[0.10] group-hover:opacity-[0.20] transition-opacity duration-200"
+          className="pointer-events-none select-none absolute opacity-[0.10] group-hover:opacity-[0.15] transition-opacity duration-200"
           style={{
             width: cornerStarSize,
             height: cornerStarSize,
