@@ -71,7 +71,8 @@ const SECONDARY_IDS = new Set([
   "barneswallis",
 ]);
 
-const getPhase = (item) => (SECONDARY_IDS.has(item.id) ? "Secondary" : "Primary");
+const getPhase = (item) =>
+  SECONDARY_IDS.has(item.id) ? "Secondary" : "Primary";
 
 export default function ToolkitReports() {
   const navigate = useNavigate();
@@ -101,7 +102,7 @@ export default function ToolkitReports() {
     }
   });
 
-  // NEW: Persisted Phase filter ("All" default)
+  // Persisted Phase filter ("All" default)
   const [phase, setPhase] = useState(() => {
     try {
       const stored = localStorage.getItem(VIEW_STORAGE_KEYS.phase);
@@ -184,12 +185,16 @@ export default function ToolkitReports() {
     setTimeout(() => setClickedStar(null), 300);
   };
 
-  const segmentBtn = (label) => (
+  // Phase segmented control button (Primary, All, Secondary)
+  const segmentBtn = (label, withLeftBorder = false) => (
     <button
       key={label}
       className={[
-        "px-2.5 py-1.5 text-[13px] transition", // slightly smaller control
-        phase === label ? "text-white" : "bg-white hover:bg-gray-50 text-gray-700",
+        "px-2.5 py-1.5 text-[13px] transition",
+        withLeftBorder ? "border-l border-gray-200" : "",
+        phase === label
+          ? "text-white"
+          : "bg-white hover:bg-gray-50 text-gray-700",
       ].join(" ")}
       style={phase === label ? { backgroundColor: TRUST_GREEN } : undefined}
       onClick={() => setPhase(phase === label ? "All" : label)}
@@ -220,17 +225,15 @@ export default function ToolkitReports() {
               Education Toolkits
             </h1>
 
-            {/* Phase segmented control: Primary | All | Secondary */}
+            {/* Phase segmented control: Primary | All | Secondary (matches view toggle separators) */}
             <div className="hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden">
               {segmentBtn("Primary")}
-              <div className="h-6 w-px bg-gray-200" />
-              {segmentBtn("All")}
-              <div className="h-6 w-px bg-gray-200" />
-              {segmentBtn("Secondary")}
+              {segmentBtn("All", true)}
+              {segmentBtn("Secondary", true)}
             </div>
           </div>
 
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-3">
             {/* Favourites filter toggle button */}
             <button
               onClick={() => setShowOnlyFaves((v) => !v)}
@@ -244,7 +247,9 @@ export default function ToolkitReports() {
             >
               <Star
                 size={18}
-                className={`${showOnlyFaves ? "text-yellow-500" : "text-gray-400"}`}
+                className={`${
+                  showOnlyFaves ? "text-yellow-500" : "text-gray-400"
+                }`}
                 fill={showOnlyFaves ? "#fde047" : "none"}
                 strokeWidth={1.5}
               />
@@ -254,7 +259,9 @@ export default function ToolkitReports() {
             <div className="hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden">
               <button
                 className={`px-3 py-2 text-sm flex items-center gap-1 ${
-                  mode === "compact" ? "bg-gray-100" : "bg-white hover:bg-gray-50"
+                  mode === "compact"
+                    ? "bg-gray-100"
+                    : "bg-white hover:bg-gray-50"
                 }`}
                 onClick={() => setMode("compact")}
                 title="Compact grid"
@@ -380,10 +387,14 @@ export default function ToolkitReports() {
                             ? "text-yellow-400"
                             : "text-gray-300"
                         } ${
-                          clickedStar === report.id ? "scale-125 animate-ping-once" : ""
+                          clickedStar === report.id
+                            ? "scale-125 animate-ping-once"
+                            : ""
                         }`}
                         strokeWidth={1.5}
-                        fill={favourites.includes(report.id) ? "#fde047" : "none"}
+                        fill={
+                          favourites.includes(report.id) ? "#fde047" : "none"
+                        }
                       />
                     </button>
                   </li>
