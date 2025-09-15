@@ -2,7 +2,6 @@ import React, { useMemo } from "react";
 import { Star, Flame, Sparkles } from "lucide-react";
 import dretStar from "../../../assets/icon.png";
 
-// Toggle decorative star easily
 const SHOW_DECORATIVE_STAR = true;
 
 const categoryColors = {
@@ -83,7 +82,7 @@ export default function ReportCard({
     ? report.category.includes("DRET")
     : report?.category === "DRET";
 
-  // Decorative star sizing/offset
+  // Decorative star sizing
   const cornerStarSize = cosy ? 162 : 130;
   const cornerOffset = cosy ? -56 : -44;
 
@@ -100,30 +99,30 @@ export default function ReportCard({
         }
       }}
       className={[
-        "relative rounded-xl bg-white overflow-hidden group", // group for hover/focus
+        "relative rounded-xl bg-white overflow-hidden",
         subtle
           ? "border border-gray-200 shadow-md hover:shadow-lg"
           : "border border-gray-100 shadow-md hover:shadow-xl",
         "transition-shadow duration-200",
         "cursor-pointer flex flex-col",
+        "group", // enables group-hover
         paddingClass,
         disabled ? "opacity-50 pointer-events-none" : "",
       ].join(" ")}
       style={{ ...paddingStyle, minHeight: minH }}
     >
-      {/* Decorative DRET corner star (toggleable) */}
+      {/* Decorative DRET corner star */}
       {SHOW_DECORATIVE_STAR && isDRET && (
         <img
           src={dretStar}
           alt=""
           aria-hidden="true"
-          className="pointer-events-none select-none absolute transition-opacity duration-200 group-hover:opacity-30 group-focus:opacity-30"
+          className="pointer-events-none select-none absolute opacity-20 group-hover:opacity-35 transition-opacity duration-200"
           style={{
             width: cornerStarSize,
             height: cornerStarSize,
             right: cornerOffset,
             bottom: cornerOffset,
-            opacity: 0.14, // base opacity
             transform: "rotate(0deg)",
             zIndex: 0,
           }}
@@ -178,10 +177,10 @@ export default function ReportCard({
         )}
       </div>
 
-      {/* Bottom row: categories left, tags right */}
+      {/* Bottom row: categories + tags left */}
       <div className="absolute bottom-3 left-3 right-3 flex justify-between items-center z-10">
-        {/* Categories (left) */}
         <div className={`flex flex-wrap gap-2 ${chipText}`}>
+          {/* Categories */}
           {Array.isArray(report.category)
             ? report.category
                 .filter((c) => categoryColors[c])
@@ -205,10 +204,8 @@ export default function ReportCard({
                   {report.category}
                 </span>
               )}
-        </div>
 
-        {/* Tags (right) */}
-        <div className={`flex flex-wrap gap-2 justify-end ${chipText}`}>
+          {/* Tags */}
           {isDemo && (
             <span
               className={`${tagStyles.Demo} ${tagPad} rounded-full font-semibold uppercase tracking-wide`}
