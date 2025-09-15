@@ -2,6 +2,9 @@ import React, { useMemo } from "react";
 import { Star, Flame, Sparkles } from "lucide-react";
 import dretStar from "../../../assets/icon.png";
 
+// Toggle decorative star easily
+const SHOW_DECORATIVE_STAR = true;
+
 const categoryColors = {
   Education: "bg-blue-50 text-blue-800",
   DRET: "bg-green-50 text-green-800",
@@ -80,9 +83,9 @@ export default function ReportCard({
     ? report.category.includes("DRET")
     : report?.category === "DRET";
 
-  // Big decorative corner star sizing/offset (so ~half is off the card)
+  // Decorative star sizing/offset
   const cornerStarSize = cosy ? 162 : 130;
-  const cornerOffset = cosy ? -56 : -44; // negative pushes it out of the corner a bit
+  const cornerOffset = cosy ? -56 : -44;
 
   return (
     <div
@@ -97,7 +100,7 @@ export default function ReportCard({
         }
       }}
       className={[
-        "relative rounded-xl bg-white overflow-hidden",
+        "relative rounded-xl bg-white overflow-hidden group", // group for hover/focus
         subtle
           ? "border border-gray-200 shadow-md hover:shadow-lg"
           : "border border-gray-100 shadow-md hover:shadow-xl",
@@ -108,21 +111,21 @@ export default function ReportCard({
       ].join(" ")}
       style={{ ...paddingStyle, minHeight: minH }}
     >
-      {/* Decorative DRET corner star (behind content) */}
-      {isDRET && (
+      {/* Decorative DRET corner star (toggleable) */}
+      {SHOW_DECORATIVE_STAR && isDRET && (
         <img
           src={dretStar}
           alt=""
           aria-hidden="true"
-          className="pointer-events-none select-none absolute"
+          className="pointer-events-none select-none absolute transition-opacity duration-200 group-hover:opacity-30 group-focus:opacity-30"
           style={{
             width: cornerStarSize,
             height: cornerStarSize,
             right: cornerOffset,
             bottom: cornerOffset,
-            opacity: 0.20,          // subtle transparency
+            opacity: 0.14, // base opacity
             transform: "rotate(0deg)",
-            zIndex: 0,              // ensure it sits behind content
+            zIndex: 0,
           }}
         />
       )}
@@ -152,7 +155,7 @@ export default function ReportCard({
         </button>
       )}
 
-      {/* Main content (kept above the corner star) */}
+      {/* Main content */}
       <div
         className={`relative z-10 flex flex-col ${gapY} pr-8 mb-8`}
         style={{ marginBottom: contentBottomGapPx }}
