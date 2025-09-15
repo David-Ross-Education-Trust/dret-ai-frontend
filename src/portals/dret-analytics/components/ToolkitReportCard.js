@@ -29,7 +29,8 @@ export default function ToolkitReportCard({
   useEffect(() => {
     if (!showMoreMenu) return;
     const handleClickOutside = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) setMenuOpen(false);
+      if (menuRef.current && !menuRef.current.contains(e.target))
+        setMenuOpen(false);
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -63,15 +64,15 @@ export default function ToolkitReportCard({
     ? "border border-gray-200 shadow-md hover:shadow-lg"
     : "border border-gray-100 shadow-md hover:shadow-xl";
 
-  // Logo stays as-is
+  // Logo size scales with card size
   const logoSize = Math.round(layoutSizePx * 0.38);
 
-  // ✅ Softer scaling: compact ~12–13px, cosy ~14–15px (not the old ~17px)
+  // ✅ Softer scaling for title font size
   const nameFont = (() => {
     const s = Number(layoutSizePx) || 160;
     if (s <= 150) return Math.max(11, Math.round(s * 0.085)); // compact-ish
     if (s <= 190) return Math.max(12, Math.round(s * 0.075)); // cosy ramp-down
-    return Math.max(12, Math.round(s * 0.072));               // extra-large safety
+    return Math.max(12, Math.round(s * 0.072)); // extra-large safety
   })();
 
   return (
@@ -84,6 +85,7 @@ export default function ToolkitReportCard({
         "relative cursor-pointer",
         "flex flex-col items-center justify-center",
         disabled ? "opacity-50 pointer-events-none" : "",
+        "group", // ✅ added for hover-based styling
       ].join(" ")}
       style={{ width: layoutSizePx, height: layoutSizePx }}
     >
@@ -104,7 +106,9 @@ export default function ToolkitReportCard({
 
           <div
             className={`absolute left-0 top-8 w-44 bg-white border border-gray-200 shadow-md rounded-md z-30 transform transition duration-150 ease-out ${
-              menuOpen ? "scale-100 opacity-100" : "scale-95 opacity-0 pointer-events-none"
+              menuOpen
+                ? "scale-100 opacity-100"
+                : "scale-95 opacity-0 pointer-events-none"
             }`}
             onClick={(e) => e.stopPropagation()}
           >
@@ -112,7 +116,8 @@ export default function ToolkitReportCard({
               className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 disabled:text-gray-300"
               onClick={() => {
                 setMenuOpen(false);
-                if (browserHref) window.open(browserHref, "_blank", "noopener,noreferrer");
+                if (browserHref)
+                  window.open(browserHref, "_blank", "noopener,noreferrer");
               }}
               type="button"
               disabled={!browserHref}
@@ -141,7 +146,9 @@ export default function ToolkitReportCard({
             className={`w-5 h-5 transition-transform duration-300 ${
               isFavourite ? "text-yellow-400" : "text-gray-300"
             } opacity-80 ${
-              clickedStar === (report?.id || report?.name) ? "scale-125 animate-ping-once" : ""
+              clickedStar === (report?.id || report?.name)
+                ? "scale-125 animate-ping-once"
+                : ""
             }`}
             strokeWidth={1.5}
             fill={isFavourite ? "#fde047" : "none"}
@@ -155,20 +162,26 @@ export default function ToolkitReportCard({
           <img
             src={report.logoUrl}
             alt={`${report?.name} logo`}
-            className="object-contain mb-3"
-            style={{ width: logoSize, height: logoSize, maxWidth: "100%", maxHeight: "100%" }}
+            className="object-contain mb-3 opacity-90 group-hover:opacity-100 transition-opacity duration-200"
+            style={{
+              width: logoSize,
+              height: logoSize,
+              maxWidth: "100%",
+              maxHeight: "100%",
+            }}
           />
         )}
         <div
           className="text-center font-avenir text-gray-900"
           style={{
-            fontFamily: "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
+            fontFamily:
+              "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
             fontSize: nameFont,
             lineHeight: 1.15,
             wordBreak: "break-word",
             display: "-webkit-box",
             WebkitBoxOrient: "vertical",
-            WebkitLineClamp: 2,     // lets cosy wrap more gracefully
+            WebkitLineClamp: 2, // lets cosy wrap more gracefully
             overflow: "hidden",
           }}
         >
