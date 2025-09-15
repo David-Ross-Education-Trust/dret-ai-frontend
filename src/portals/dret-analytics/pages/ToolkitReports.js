@@ -71,8 +71,7 @@ const SECONDARY_IDS = new Set([
   "barneswallis",
 ]);
 
-const getPhase = (item) =>
-  SECONDARY_IDS.has(item.id) ? "Secondary" : "Primary";
+const getPhase = (item) => (SECONDARY_IDS.has(item.id) ? "Secondary" : "Primary");
 
 export default function ToolkitReports() {
   const navigate = useNavigate();
@@ -102,7 +101,7 @@ export default function ToolkitReports() {
     }
   });
 
-  // Persisted Phase filter ("All" default)
+  // NEW: Persisted Phase filter ("All" default)
   const [phase, setPhase] = useState(() => {
     try {
       const stored = localStorage.getItem(VIEW_STORAGE_KEYS.phase);
@@ -116,19 +115,25 @@ export default function ToolkitReports() {
   useEffect(() => {
     try {
       localStorage.setItem(VIEW_STORAGE_KEYS.mode, mode);
-    } catch {}
+    } catch {
+      /* no-op */
+    }
   }, [mode]);
 
   useEffect(() => {
     try {
       localStorage.setItem(VIEW_STORAGE_KEYS.favesOnly, String(showOnlyFaves));
-    } catch {}
+    } catch {
+      /* no-op */
+    }
   }, [showOnlyFaves]);
 
   useEffect(() => {
     try {
       localStorage.setItem(VIEW_STORAGE_KEYS.phase, phase || "All");
-    } catch {}
+    } catch {
+      /* no-op */
+    }
   }, [phase]);
 
   // Presets with generous gaps; cosy is larger
@@ -141,34 +146,37 @@ export default function ToolkitReports() {
 
   const TRUST_GREEN = "#205c40";
 
-  // Collator for stable, locale-aware A→Z sorting
-  const collator = useMemo(
-    () => new Intl.Collator("en", { sensitivity: "base" }),
-    []
-  );
-
-  // Filter + sort (alphabetical by name)
+  // Filter visible toolkits
   const filtered = useMemo(() => {
     const t = searchTerm.trim().toLowerCase();
-
-    const pass = toolkitConfig.filter((r) => {
+    return toolkitConfig.filter((r) => {
       if (r.comingSoon) return false;
-      if (phase !== "All" && getPhase(r) !== phase) return false;
-      if (showOnlyFaves && !favourites.includes(r.id)) return false;
-      if (!t) return true;
 
+      // Apply Primary/Secondary filter if chosen
+      if (phase !== "All" && getPhase(r) !== phase) return false;
+
+      if (showOnlyFaves && !favourites.includes(r.id)) return false;
+
+      if (!t) return true;
       return (
         (r.name && r.name.toLowerCase().includes(t)) ||
         (r.description && r.description.toLowerCase().includes(t))
       );
     });
-
-    return results.sort((a, b) => {
-      if (a.id === "demotoolkit") return -1;
-      if (b.id === "demotoolkit") return 1;
-      return a.name.localeCompare(b.name);
-    });
   }, [searchTerm, showOnlyFaves, favourites, phase]);
+
+  // Sort alphabetically; keep Demo Toolkit first if present
+  const sorted = useMemo(() => {
+    const arr = [...filtered].sort((a, b) =>
+      a.name.localeCompare(b.name, "en", { sensitivity: "base" })
+    );
+    const demoIdx = arr.findIndex((x) => x.id === "demotoolkit");
+    if (demoIdx > 0) {
+      const [demo] = arr.splice(demoIdx, 1);
+      arr.unshift(demo);
+    }
+    return arr;
+  }, [filtered]);
 
   const handleFavourite = (id) => {
     toggleFavourite(id);
@@ -176,15 +184,12 @@ export default function ToolkitReports() {
     setTimeout(() => setClickedStar(null), 300);
   };
 
-  // Smaller segmented control buttons
   const segmentBtn = (label) => (
     <button
       key={label}
       className={[
-        "px-2.5 py-1.5 text-xs transition",
-        phase === label
-          ? "text-white"
-          : "bg-white hover:bg-gray-50 text-gray-700",
+        "px-2.5 py-1.5 text-[13px] transition", // slightly smaller control
+        phase === label ? "text-white" : "bg-white hover:bg-gray-50 text-gray-700",
       ].join(" ")}
       style={phase === label ? { backgroundColor: TRUST_GREEN } : undefined}
       onClick={() => setPhase(phase === label ? "All" : label)}
@@ -218,14 +223,14 @@ export default function ToolkitReports() {
             {/* Phase segmented control: Primary | All | Secondary */}
             <div className="hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden">
               {segmentBtn("Primary")}
-              <div className="h-5 w-px bg-gray-200" />
+              <div className="h-6 w-px bg-gray-200" />
               {segmentBtn("All")}
-              <div className="h-5 w-px bg-gray-200" />
+              <div className="h-6 w-px bg-gray-200" />
               {segmentBtn("Secondary")}
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
             {/* Favourites filter toggle button */}
             <button
               onClick={() => setShowOnlyFaves((v) => !v)}
@@ -249,9 +254,7 @@ export default function ToolkitReports() {
             <div className="hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden">
               <button
                 className={`px-3 py-2 text-sm flex items-center gap-1 ${
-                  mode === "compact"
-                    ? "bg-gray-100"
-                    : "bg-white hover:bg-gray-50"
+                  mode === "compact" ? "bg-gray-100" : "bg-white hover:bg-gray-50"
                 }`}
                 onClick={() => setMode("compact")}
                 title="Compact grid"
@@ -324,7 +327,7 @@ export default function ToolkitReports() {
 
         {/* Content */}
         <div className="flex-1 overflow-y-auto p-6 md:p-8 custom-scrollbar">
-          {filtered.length === 0 ? (
+          {sorted.length === 0 ? (
             <div className="text-gray-500 italic text-center">
               No toolkits{searchTerm ? " match this search." : "."}
             </div>
@@ -332,7 +335,7 @@ export default function ToolkitReports() {
             // LIST VIEW — row clickable, star icon at end
             <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
               <ul className="divide-y divide-gray-100">
-                {filtered.map((report) => (
+                {sorted.map((report) => (
                   <li
                     key={report.id}
                     className="flex items-center justify-between px-4 py-3 hover:bg-gray-50 cursor-pointer"
@@ -396,7 +399,7 @@ export default function ToolkitReports() {
                 gap: `${gap}px`,
               }}
             >
-              {filtered.map((report) => (
+              {sorted.map((report) => (
                 <ToolkitReportCard
                   key={report.id}
                   report={report}
