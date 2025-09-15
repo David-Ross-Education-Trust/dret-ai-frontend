@@ -1,7 +1,7 @@
+// src/portals/dret-analytics/components/layout.js
 import React, { useState } from "react";
 import { useMsal } from "@azure/msal-react";
-import { FaUserCircle } from "react-icons/fa";
-import { FiChevronDown } from "react-icons/fi";
+import { FiLogOut, FiAlertCircle } from "react-icons/fi";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import { useLocation, Link } from "react-router-dom";
 import dretAnalyticsLogo from "../../../assets/dret-analytics-logo.png";
@@ -21,11 +21,12 @@ const AnalyticsLayout = ({
   allowSidebarMinimise = false,
   hideHeaderWithSidebar = false,
   headerContent = null,
+  reportIssueHref = "/analytics/report-issue",
 }) => {
   const { accounts, instance } = useMsal();
   const account = accounts[0];
   const isSignedIn = !!account;
-  const [menuOpen, setMenuOpen] = useState(false);
+
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const location = useLocation();
@@ -34,8 +35,14 @@ const AnalyticsLayout = ({
 
   const showHeader = !(hideHeaderWithSidebar && !sidebarOpen);
 
-  const handleLogin = () => instance.loginRedirect();
   const handleLogout = () => instance.logoutRedirect();
+  const handleReportIssue = () => {
+    try {
+      window.open(reportIssueHref, "_blank", "noopener,noreferrer");
+    } catch {
+      /* no-op */
+    }
+  };
 
   return (
     <div className="flex font-avenir h-screen bg-gray-50">
@@ -60,9 +67,7 @@ const AnalyticsLayout = ({
                 onClick={() => setSidebarOpen((v) => !v)}
                 aria-label="Collapse sidebar"
                 className="absolute right-2 top-1/2 -translate-y-1/2 bg-white text-[var(--trust-green)] border border-gray-200 rounded-full shadow hover:bg-gray-200 transition-all w-9 h-9 flex items-center justify-center"
-                style={{
-                  boxShadow: "0 2px 8px 0 rgba(32,92,64,0.09)",
-                }}
+                style={{ boxShadow: "0 2px 8px 0 rgba(32,92,64,0.09)" }}
               >
                 <HiChevronLeft size={22} />
               </button>
@@ -75,9 +80,7 @@ const AnalyticsLayout = ({
                 onClick={() => setSidebarOpen((v) => !v)}
                 aria-label="Expand sidebar"
                 className="bg-white text-[var(--trust-green)] border border-gray-200 rounded-full shadow hover:bg-gray-200 transition-all w-9 h-9 flex items-center justify-center"
-                style={{
-                  boxShadow: "0 2px 8px 0 rgba(32,92,64,0.09)",
-                }}
+                style={{ boxShadow: "0 2px 8px 0 rgba(32,92,64,0.09)" }}
               >
                 <HiChevronRight size={22} />
               </button>
@@ -85,7 +88,7 @@ const AnalyticsLayout = ({
           )
         )}
 
-        {/* Nav: always at the top, under logo */}
+        {/* Nav under logo */}
         <nav className="mt-6 flex flex-col gap-1">
           {navItems.map((item, idx) => {
             const isSelected =
@@ -95,14 +98,13 @@ const AnalyticsLayout = ({
             const isDisabled = !!item.disabled;
 
             if (isDisabled) {
-              // Disabled: non-clickable, muted/greyed, no hover scale, no selected dot
               return (
                 <div
                   key={idx}
                   aria-disabled="true"
                   title={`${item.label} (coming soon)`}
                   className={`
-                    flex items-center px-4 py-3 rounded font-avenir transition-transform duration-150 relative
+                    flex items-center px-4 py-3 rounded transition-transform duration-150 relative
                     ${sidebarOpen ? "" : "justify-center"}
                     opacity-60 cursor-not-allowed
                   `}
@@ -113,19 +115,17 @@ const AnalyticsLayout = ({
                       "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
                   }}
                 >
-                  {/* no dot for disabled */}
                   <span>{sidebarOpen ? item.label : ""}</span>
                 </div>
               );
             }
 
-            // Enabled: behaves as before
             return (
               <Link
                 key={idx}
                 to={item.to}
                 className={`
-                  flex items-center px-4 py-3 rounded font-avenir transition-transform duration-150 relative group
+                  flex items-center px-4 py-3 rounded transition-transform duration-150 relative group
                   hover:scale-[1.04]
                   ${sidebarOpen ? "" : "justify-center"}
                 `}
@@ -142,10 +142,7 @@ const AnalyticsLayout = ({
                     width="10"
                     height="10"
                     viewBox="0 0 10 10"
-                    style={{
-                      display: "inline-block",
-                      marginRight: "6px",
-                    }}
+                    style={{ display: "inline-block", marginRight: "6px" }}
                   >
                     <circle cx="5" cy="5" r="4" fill="white" />
                   </svg>
@@ -156,37 +153,40 @@ const AnalyticsLayout = ({
           })}
         </nav>
 
-        {/* User/Profile section, always pinned to bottom */}
-        {isSignedIn && (
-          <div className="relative p-4 border-t border-[#184b34] font-avenir mt-auto">
-            <div
-              onClick={isSignedIn ? () => setMenuOpen(!menuOpen) : handleLogin}
-              className="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-[#184b34] transition font-avenir"
-            >
-              <FaUserCircle className="text-2xl" />
-              {sidebarOpen &&
-                (isSignedIn ? (
-                  <div className="flex items-center gap-1">
-                    <span className="font-medium text-sm">{account.name}</span>
-                    <FiChevronDown className="text-xs" />
-                  </div>
-                ) : (
-                  <span className="font-medium text-sm">Sign in</span>
-                ))}
+        {/* Bottom stack (only when expanded): Report link + user row */}
+        {sidebarOpen && (
+          <div className="mt-auto">
+            {/* Report an issue — small, subdued link style */}
+            <div className="px-4 pt-3 pb-2">
+              <button
+                onClick={handleReportIssue}
+                className="flex items-center gap-2 text-white/80 hover:text-white text-xs underline-offset-2 hover:underline transition-colors"
+                aria-label="Report an issue"
+                title="Report an issue"
+              >
+                <FiAlertCircle size={14} className="opacity-90" />
+                <span>Report an issue</span>
+              </button>
             </div>
-            {isSignedIn && menuOpen && (
-              <div className="absolute bottom-16 left-4 bg-white text-black rounded shadow-md w-48 z-50 font-avenir">
-                <div
-                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                  onClick={() => alert("Preferences coming soon!")}
-                >
-                  Preferences
-                </div>
-                <div
-                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                  onClick={handleLogout}
-                >
-                  Sign out
+
+            {/* User row */}
+            {isSignedIn && (
+              <div className="px-4 py-3 border-t border-[#184b34]">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-medium text-sm text-white">
+                    {account.name}
+                  </span>
+                  <button
+                    onClick={handleLogout}
+                    aria-label="Sign out"
+                    title="Sign out"
+                    className="p-1"
+                  >
+                    <FiLogOut
+                      size={18}
+                      className="text-white opacity-90 hover:opacity-100 transition-opacity"
+                    />
+                  </button>
                 </div>
               </div>
             )}
@@ -199,10 +199,7 @@ const AnalyticsLayout = ({
         className={`transition-all duration-300 ${
           sidebarOpen ? "ml-60" : "ml-14"
         } flex-1 min-h-screen bg-gray-50`}
-        style={{
-          maxWidth: "100vw",
-          paddingTop: 0,
-        }}
+        style={{ maxWidth: "100vw", paddingTop: 0 }}
       >
         {showHeader && headerContent}
         {typeof children === "function" ? children({ sidebarOpen }) : children}
