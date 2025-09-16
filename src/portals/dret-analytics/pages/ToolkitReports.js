@@ -225,7 +225,7 @@ export default function ToolkitReports() {
           <div className="flex items-center gap-3">
             {/* When search is open on <md, show inline input replacing other icons */}
             {searchOpen ? (
-              <div className="flex items-center md:hidden">
+              <div className="flex items-center lg:hidden">
                 <div className="relative w-[240px]">
                   <input
                     ref={floatingInlineRef}
