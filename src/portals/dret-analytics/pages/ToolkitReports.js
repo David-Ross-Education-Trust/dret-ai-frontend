@@ -211,14 +211,15 @@ export default function ToolkitReports() {
 
           {/* RIGHT: favourites, view toggle, search */}
           <div className="flex items-center gap-3">
-            {/* Favourites filter toggle */}
+            {/* Favourites filter toggle (hide on very small screens) */}
             <button
               onClick={() => setShowOnlyFaves((v) => !v)}
-              className={`p-2 rounded-full border transition ${
+              className={`hidden sm:inline-flex p-2 rounded-full border transition ${
                 showOnlyFaves ? "bg-yellow-100 border-yellow-400" : "border-gray-200 hover:bg-gray-100"
               }`}
               title="Toggle favourites only"
               type="button"
+              aria-label="Toggle favourites only"
             >
               <Star
                 size={18}
@@ -228,7 +229,7 @@ export default function ToolkitReports() {
               />
             </button>
 
-            {/* View toggle — labels hide on smaller screens, icons remain */}
+            {/* View toggle — labels show only on lg+ (icons only earlier) */}
             <div className="hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden">
               <button
                 className={`px-3 py-2 text-sm flex items-center gap-1 ${
@@ -240,7 +241,7 @@ export default function ToolkitReports() {
                 type="button"
               >
                 <Grid size={16} />
-                <span className="hidden md:inline">Compact</span>
+                <span className="hidden lg:inline">Compact</span>
               </button>
               <button
                 className={`px-3 py-2 text-sm flex items-center gap-1 border-l border-gray-200 ${
@@ -252,7 +253,7 @@ export default function ToolkitReports() {
                 type="button"
               >
                 <LayoutGrid size={16} />
-                <span className="hidden md:inline">Cosy</span>
+                <span className="hidden lg:inline">Cosy</span>
               </button>
               <button
                 className={`px-3 py-2 text-sm flex items-center gap-1 border-l border-gray-200 ${
@@ -264,12 +265,12 @@ export default function ToolkitReports() {
                 type="button"
               >
                 <Rows size={16} />
-                <span className="hidden md:inline">List</span>
+                <span className="hidden lg:inline">List</span>
               </button>
             </div>
 
-            {/* Search */}
-            <div className="relative flex-shrink-0 w-[220px] md:w-[260px]">
+            {/* Search (hide on very small screens, shrink as space allows) */}
+            <div className="relative flex-shrink-0 hidden sm:block w-[160px] md:w-[220px] lg:w-[260px]">
               <input
                 type="text"
                 value={searchTerm}
