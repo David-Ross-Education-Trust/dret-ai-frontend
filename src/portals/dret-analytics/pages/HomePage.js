@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState, useCallback } from "react";
+import React, { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search, X, Rows, Grid, LayoutGrid, Star } from "lucide-react";
 
@@ -21,7 +21,7 @@ function normaliseSchoolLabel(label) {
       .replace(/\bToolkit\b/i, "")
       .replace(/\bAcademy\b/i, "")
       .replace(/\bPrimary\b/i, "")
-      .replace(/[\W_]+/g, "") // remove spaces, punctuation, underscores
+      .replace(/[\W_]+/g, "")
       .trim()
   );
 }
@@ -84,6 +84,9 @@ export default function HomePage() {
   const [clickedStar, setClickedStar] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false); // <lg: inline replaces view controls
+  const searchInlineRef = useRef(null);
+
   const navigate = useNavigate();
 
   // --- View mode (persisted)
@@ -171,6 +174,15 @@ export default function HomePage() {
     setTimeout(() => setClickedStar(null), 400);
   };
 
+  // Autofocus inline search when opened
+  useEffect(() => {
+    if (searchOpen && searchInlineRef.current) {
+      const el = searchInlineRef.current;
+      el.focus();
+      el.selectionStart = el.selectionEnd = el.value.length;
+    }
+  }, [searchOpen]);
+
   return (
     <AnalyticsLayout>
       <div
@@ -190,64 +202,115 @@ export default function HomePage() {
           </h1>
 
           <div className="flex items-center gap-3">
-            {/* View toggle */}
-            <div className="hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden">
-              <button
-                className={`px-3 py-2 text-sm flex items-center gap-1 ${mode === "compact" ? "bg-gray-100" : ""}`}
-                onClick={() => setMode("compact")}
-                title="Compact grid"
-                type="button"
-              >
-                <Grid size={16} />
-                Compact
-              </button>
-              <button
-                className={`px-3 py-2 text-sm flex items-center gap-1 border-l border-gray-200 ${mode === "cosy" ? "bg-gray-100" : ""}`}
-                onClick={() => setMode("cosy")}
-                title="Cosy grid"
-                type="button"
-              >
-                <LayoutGrid size={16} />
-                Cosy
-              </button>
-              <button
-                className={`px-3 py-2 text-sm flex items-center gap-1 border-l border-gray-200 ${mode === "list" ? "bg-gray-100" : ""}`}
-                onClick={() => setMode("list")}
-                title="List view"
-                type="button"
-              >
-                <Rows size={16} />
-                List
-              </button>
-            </div>
-
-            {/* Search */}
-            <div className="relative flex-shrink-0 w-[220px] md:w-[260px]">
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search favourites"
-                onFocus={() => setSearchFocused(true)}
-                onBlur={() => setSearchFocused(false)}
-                className={`w-full border ${searchFocused ? "" : "border-gray-300"} rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
-                style={{
-                  borderColor: searchFocused ? TRUST_GREEN : undefined,
-                  boxShadow: searchFocused ? `0 0 0 2px ${TRUST_GREEN}40` : undefined,
-                }}
-              />
-              {searchTerm && (
+            {searchOpen ? (
+              // <lg: inline search replaces the view toggle
+              <div className="flex items-center lg:hidden">
+                <div className="relative w-[240px]">
+                  <input
+                    ref={searchInlineRef}
+                    type="text"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    placeholder="Search favourites"
+                    className="w-full border border-gray-300 rounded-md px-4 py-2 pr-10 text-sm outline-none"
+                  />
+                  {searchTerm && (
+                    <button
+                      onClick={() => setSearchTerm("")}
+                      className="absolute right-9 top-2.5 text-gray-400 hover:text-gray-600"
+                      aria-label="Clear search"
+                      type="button"
+                    >
+                      <X size={16} />
+                    </button>
+                  )}
+                  <Search className="absolute right-3 top-2.5 h-4 w-4 text-gray-400" />
+                </div>
                 <button
-                  onClick={() => setSearchTerm("")}
-                  className="absolute right-9 top-2.5 text-gray-400 hover:text-gray-600"
-                  aria-label="Clear"
-                  tabIndex={-1}
+                  onClick={() => setSearchOpen(false)}
+                  className="ml-2 p-2 rounded-md border border-gray-200 hover:bg-gray-50"
+                  aria-label="Close search"
+                  type="button"
                 >
-                  <X size={16} />
+                  ✕
                 </button>
-              )}
-              <Search className="absolute right-3 top-2.5 h-4 w-4 text-gray-400" />
-            </div>
+              </div>
+            ) : (
+              <>
+                {/* View toggle — labels only on lg+; hide group on <sm */}
+                <div className="hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden">
+                  <button
+                    className={`px-3 py-2 text-sm flex items-center gap-1 ${mode === "compact" ? "bg-gray-100" : ""}`}
+                    onClick={() => setMode("compact")}
+                    title="Compact grid"
+                    aria-label="Compact grid"
+                    type="button"
+                  >
+                    <Grid size={16} />
+                    <span className="hidden lg:inline">Compact</span>
+                  </button>
+                  <button
+                    className={`px-3 py-2 text-sm flex items-center gap-1 border-l border-gray-200 ${mode === "cosy" ? "bg-gray-100" : ""}`}
+                    onClick={() => setMode("cosy")}
+                    title="Cosy grid"
+                    aria-label="Cosy grid"
+                    type="button"
+                  >
+                    <LayoutGrid size={16} />
+                    <span className="hidden lg:inline">Cosy</span>
+                  </button>
+                  <button
+                    className={`px-3 py-2 text-sm flex items-center gap-1 border-l border-gray-200 ${mode === "list" ? "bg-gray-100" : ""}`}
+                    onClick={() => setMode("list")}
+                    title="List view"
+                    aria-label="List view"
+                    type="button"
+                  >
+                    <Rows size={16} />
+                    <span className="hidden lg:inline">List</span>
+                  </button>
+                </div>
+
+                {/* Search: lg+ full input; <lg icon (hidden on <sm) */}
+                <div className="relative flex-shrink-0 hidden lg:block w-[260px]">
+                  <input
+                    type="text"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    placeholder="Search favourites"
+                    onFocus={() => setSearchFocused(true)}
+                    onBlur={() => setSearchFocused(false)}
+                    className={`w-full border ${searchFocused ? "" : "border-gray-300"} rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
+                    style={{
+                      borderColor: searchFocused ? TRUST_GREEN : undefined,
+                      boxShadow: searchFocused ? `0 0 0 2px ${TRUST_GREEN}40` : undefined,
+                    }}
+                  />
+                  {searchTerm && (
+                    <button
+                      onClick={() => setSearchTerm("")}
+                      className="absolute right-9 top-2.5 text-gray-400 hover:text-gray-600"
+                      aria-label="Clear"
+                      tabIndex={-1}
+                    >
+                      <X size={16} />
+                    </button>
+                  )}
+                  <Search className="absolute right-3 top-2.5 h-4 w-4 text-gray-400" />
+                </div>
+
+                {/* Search icon (sm..lg-1) */}
+                <button
+                  className="hidden sm:inline-flex lg:hidden p-2 rounded-md border border-gray-200 hover:bg-gray-50"
+                  aria-label="Open search"
+                  title="Search"
+                  type="button"
+                  onClick={() => setSearchOpen(true)}
+                >
+                  <Search size={18} className="text-gray-600" />
+                </button>
+              </>
+            )}
           </div>
         </div>
 
@@ -405,9 +468,9 @@ export default function HomePage() {
           {`
             .custom-scrollbar { scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent; }
             .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-            .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-            .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 3px; }
-            .custom-scrollbar::-webkit-scrollbar-thumb:hover { background-color: #94a3b8; }
+            .custom-scrollbar-track { background: transparent; }
+            .custom-scrollbar-thumb { background-color: #cbd5e1; border-radius: 3px; }
+            .custom-scrollbar-thumb:hover { background-color: #94a3b8; }
           `}
         </style>
       </div>
