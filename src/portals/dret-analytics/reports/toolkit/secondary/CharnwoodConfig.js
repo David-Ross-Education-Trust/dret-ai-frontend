@@ -2,6 +2,15 @@ import excelIcon from "../../../../../assets/excel-icon.png";
 
 export const CharnwoodConfig = [
   {
+    id: "Academy Context",
+    name: "Academy Context",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Charnwood/Shared%20Documents/Charnwood/2025-26/CWC%20Academy%20Context%20(25-26).xlsx?d=w9901293ceed744e6a0e23a329aab45ab&csf=1&web=1&e=9rdl6n",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Charnwood/Shared%20Documents/Charnwood/2025-26/CWC%20Academy%20Context%20(25-26).xlsx?d=w9901293ceed744e6a0e23a329aab45ab&csf=1&web=1&e=9rdl6n",
+    logoUrl: excelIcon,
+    sourceToolkit: "Charnwood College",
+  },
+  {
     id: "Attendance Tracker",
     name: "Attendance Tracker",
     href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Charnwood/Shared%20Documents/Charnwood/2025-26/CWC%20Attendance%20Tracker%20(25-26).xlsx?d=w3d8dc8201dcf493e856053e7fffad9fc&csf=1&web=1&e=BZgj5o",
@@ -19,15 +28,54 @@ export const CharnwoodConfig = [
     logoUrl: excelIcon,
     sourceToolkit: "Charnwood College",
   },
+
+  // COAP (numeric order)
   {
-    id: "Academy Context",
-    name: "Academy Context",
-    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Charnwood/Shared%20Documents/Charnwood/2025-26/CWC%20Academy%20Context%20(25-26).xlsx?d=w9901293ceed744e6a0e23a329aab45ab&csf=1&web=1&e=9rdl6n",
+    id: "COAP - Year 7",
+    name: "COAP - Year 7",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Charnwood/Shared%20Documents/Charnwood/2025-26/Class%20on%20a%20Page%20(Master%20Files)/CWC%20COAP%20Y7%20(25-26).xlsx?d=wd60123b9806b4c248e5b78b031389a29&csf=1&web=1&e=NT7RFa",
     openInBrowserHref:
-      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Charnwood/Shared%20Documents/Charnwood/2025-26/CWC%20Academy%20Context%20(25-26).xlsx?d=w9901293ceed744e6a0e23a329aab45ab&csf=1&web=1&e=9rdl6n",
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Charnwood/Shared%20Documents/Charnwood/2025-26/Class%20on%20a%20Page%20(Master%20Files)/CWC%20COAP%20Y7%20(25-26).xlsx?d=wd60123b9806b4c248e5b78b031389a29&csf=1&web=1&e=NT7RFa",
     logoUrl: excelIcon,
     sourceToolkit: "Charnwood College",
   },
+  {
+    id: "COAP - Year 8",
+    name: "COAP - Year 8",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Charnwood/Shared%20Documents/Charnwood/2025-26/Class%20on%20a%20Page%20(Master%20Files)/CWC%20COAP%20Y8%20(25-26).xlsx?d=wa3bfa86ecc1c4aa5840f3ebe8f53f366&csf=1&web=1&e=ZhNMTy",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Charnwood/Shared%20Documents/Charnwood/2025-26/Class%20on%20a%20Page%20(Master%20Files)/CWC%20COAP%20Y8%20(25-26).xlsx?d=wa3bfa86ecc1c4aa5840f3ebe8f53f366&csf=1&web=1&e=ZhNMTy",
+    logoUrl: excelIcon,
+    sourceToolkit: "Charnwood College",
+  },
+  {
+    id: "COAP - Year 9",
+    name: "COAP - Year 9",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Charnwood/Shared%20Documents/Charnwood/2025-26/Class%20on%20a%20Page%20(Master%20Files)/CWC%20COAP%20Y9%20(25-26).xlsx?d=w61efd42d6dee43d2a5e4c62141a8a2f6&csf=1&web=1&e=Nev5AG",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Charnwood/Shared%20Documents/Charnwood/2025-26/Class%20on%20a%20Page%20(Master%20Files)/CWC%20COAP%20Y9%20(25-26).xlsx?d=w61efd42d6dee43d2a5e4c62141a8a2f6&csf=1&web=1&e=Nev5AG",
+    logoUrl: excelIcon,
+    sourceToolkit: "Charnwood College",
+  },
+  {
+    id: "COAP - Year 10",
+    name: "COAP - Year 10",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Charnwood/Shared%20Documents/Charnwood/2025-26/Class%20on%20a%20Page%20(Master%20Files)/CWC%20COAP%20Y10%20(25-26).xlsx?d=wda6f49c10ee54cd6934a7908f73969eb&csf=1&web=1&e=etQUO2",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Charnwood/Shared%20Documents/Charnwood/2025-26/Class%20on%20a%20Page%20(Master%20Files)/CWC%20COAP%20Y10%20(25-26).xlsx?d=wda6f49c10ee54cd6934a7908f73969eb&csf=1&web=1&e=etQUO2",
+    logoUrl: excelIcon,
+    sourceToolkit: "Charnwood College",
+  },
+  {
+    id: "COAP - Year 11",
+    name: "COAP - Year 11",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Charnwood/Shared%20Documents/Charnwood/2025-26/Class%20on%20a%20Page%20(Master%20Files)/CWC%20COAP%20Y11%20(25-26).xlsx?d=w3a991acc8d7042ad9ac93fc3f1a9b150&csf=1&web=1&e=E2AX4W",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Charnwood/Shared%20Documents/Charnwood/2025-26/Class%20on%20a%20Page%20(Master%20Files)/CWC%20COAP%20Y11%20(25-26).xlsx?d=w3a991acc8d7042ad9ac93fc3f1a9b150&csf=1&web=1&e=E2AX4W",
+    logoUrl: excelIcon,
+    sourceToolkit: "Charnwood College",
+  },
+
   {
     id: "Inclusion Map",
     name: "Inclusion Map",
@@ -46,6 +94,8 @@ export const CharnwoodConfig = [
     logoUrl: excelIcon,
     sourceToolkit: "Charnwood College",
   },
+
+  // Year trackers (numeric order)
   {
     id: "Year 7 Achievement Tracker",
     name: "Year 7 Achievement Tracker",

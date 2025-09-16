@@ -2,6 +2,15 @@ import excelIcon from "../../../../../assets/excel-icon.png";
 
 export const MalcolmArnoldConfig = [
   {
+    id: "Academy Context",
+    name: "Academy Context",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-MalcolmArnold/Shared%20Documents/Malcolm%20Arnold/2025-26/MAA%20Academy%20Context%20(25-26).xlsx?d=wc6c3d7748dd54f10843137925d48c5e5&csf=1&web=1&e=sjhcqL",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-MalcolmArnold/Shared%20Documents/Malcolm%20Arnold/2025-26/MAA%20Academy%20Context%20(25-26).xlsx?d=wc6c3d7748dd54f10843137925d48c5e5&csf=1&web=1&e=sjhcqL",
+    logoUrl: excelIcon,
+    sourceToolkit: "Malcolm Arnold Academy",
+  },
+  {
     id: "Attendance Tracker",
     name: "Attendance Tracker",
     href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-MalcolmArnold/Shared%20Documents/Malcolm%20Arnold/2025-26/MAA%20Attendance%20Tracker%20(25-26).xlsx?d=w2ba6cd00edbc4bf39eee5136ecab0ef5&csf=1&web=1&e=0cLolh",
@@ -19,15 +28,54 @@ export const MalcolmArnoldConfig = [
     logoUrl: excelIcon,
     sourceToolkit: "Malcolm Arnold Academy",
   },
+
+  // COAP (numeric year order)
   {
-    id: "Academy Context",
-    name: "Academy Context",
-    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-MalcolmArnold/Shared%20Documents/Malcolm%20Arnold/2025-26/MAA%20Academy%20Context%20(25-26).xlsx?d=wc6c3d7748dd54f10843137925d48c5e5&csf=1&web=1&e=sjhcqL",
+    id: "COAP - Year 7",
+    name: "COAP - Year 7",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-MalcolmArnold/Shared%20Documents/Malcolm%20Arnold/2025-26/Class%20on%20a%20Page%20(Master%20Files)/MAA%20COAP%20Y7%20(25-26).xlsx?d=w9e4e4e2583dd42829acb051b6c164710&csf=1&web=1&e=zhdIoX",
     openInBrowserHref:
-      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-MalcolmArnold/Shared%20Documents/Malcolm%20Arnold/2025-26/MAA%20Academy%20Context%20(25-26).xlsx?d=wc6c3d7748dd54f10843137925d48c5e5&csf=1&web=1&e=sjhcqL",
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-MalcolmArnold/Shared%20Documents/Malcolm%20Arnold/2025-26/Class%20on%20a%20Page%20(Master%20Files)/MAA%20COAP%20Y7%20(25-26).xlsx?d=w9e4e4e2583dd42829acb051b6c164710&csf=1&web=1&e=zhdIoX",
     logoUrl: excelIcon,
     sourceToolkit: "Malcolm Arnold Academy",
   },
+  {
+    id: "COAP - Year 8",
+    name: "COAP - Year 8",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-MalcolmArnold/Shared%20Documents/Malcolm%20Arnold/2025-26/Class%20on%20a%20Page%20(Master%20Files)/MAA%20COAP%20Y8%20(25-26).xlsx?d=we71c539edba741438df163e52c162e82&csf=1&web=1&e=9RQXyq",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-MalcolmArnold/Shared%20Documents/Malcolm%20Arnold/2025-26/Class%20on%20a%20Page%20(Master%20Files)/MAA%20COAP%20Y8%20(25-26).xlsx?d=we71c539edba741438df163e52c162e82&csf=1&web=1&e=9RQXyq",
+    logoUrl: excelIcon,
+    sourceToolkit: "Malcolm Arnold Academy",
+  },
+  {
+    id: "COAP - Year 9",
+    name: "COAP - Year 9",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-MalcolmArnold/Shared%20Documents/Malcolm%20Arnold/2025-26/Class%20on%20a%20Page%20(Master%20Files)/MAA%20COAP%20Y9%20(25-26).xlsx?d=wd82e8fcc330a4dd3914a46f67e274beb&csf=1&web=1&e=VYayH2",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-MalcolmArnold/Shared%20Documents/Malcolm%20Arnold/2025-26/Class%20on%20a%20Page%20(Master%20Files)/MAA%20COAP%20Y9%20(25-26).xlsx?d=wd82e8fcc330a4dd3914a46f67e274beb&csf=1&web=1&e=VYayH2",
+    logoUrl: excelIcon,
+    sourceToolkit: "Malcolm Arnold Academy",
+  },
+  {
+    id: "COAP - Year 10",
+    name: "COAP - Year 10",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-MalcolmArnold/Shared%20Documents/Malcolm%20Arnold/2025-26/Class%20on%20a%20Page%20(Master%20Files)/MAA%20COAP%20Y10%20(25-26).xlsx?d=w21a8459e27574955b18a9a166f9ec5b3&csf=1&web=1&e=0JcAZr",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-MalcolmArnold/Shared%20Documents/Malcolm%20Arnold/2025-26/Class%20on%20a%20Page%20(Master%20Files)/MAA%20COAP%20Y10%20(25-26).xlsx?d=w21a8459e27574955b18a9a166f9ec5b3&csf=1&web=1&e=0JcAZr",
+    logoUrl: excelIcon,
+    sourceToolkit: "Malcolm Arnold Academy",
+  },
+  {
+    id: "COAP - Year 11",
+    name: "COAP - Year 11",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-MalcolmArnold/Shared%20Documents/Malcolm%20Arnold/2025-26/Class%20on%20a%20Page%20(Master%20Files)/MAA%20COAP%20Y11%20(25-26).xlsx?d=w8f67b0f1b2bc4beaac1c29da98450d3e&csf=1&web=1&e=eCfAMa",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-MalcolmArnold/Shared%20Documents/Malcolm%20Arnold/2025-26/Class%20on%20a%20Page%20(Master%20Files)/MAA%20COAP%20Y11%20(25-26).xlsx?d=w8f67b0f1b2bc4beaac1c29da98450d3e&csf=1&web=1&e=eCfAMa",
+    logoUrl: excelIcon,
+    sourceToolkit: "Malcolm Arnold Academy",
+  },
+
   {
     id: "Inclusion Map",
     name: "Inclusion Map",
@@ -46,6 +94,8 @@ export const MalcolmArnoldConfig = [
     logoUrl: excelIcon,
     sourceToolkit: "Malcolm Arnold Academy",
   },
+
+  // Year trackers (numeric year order)
   {
     id: "Year 7 Achievement Tracker",
     name: "Year 7 Achievement Tracker",

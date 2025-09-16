@@ -2,6 +2,15 @@ import excelIcon from "../../../../../assets/excel-icon.png";
 
 export const HumberstonConfig = [
   {
+    id: "Academy Context",
+    name: "Academy Context",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Humberston/Shared%20Documents/Humberston/2025-26/HUA%20Academy%20Context%20(25-26).xlsx?d=wd27c9254e80b4daa8d84759c1bc470f9&csf=1&web=1&e=A8VE7k",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Humberston/Shared%20Documents/Humberston/2025-26/HUA%20Academy%20Context%20(25-26).xlsx?d=wd27c9254e80b4daa8d84759c1bc470f9&csf=1&web=1&e=A8VE7k",
+    logoUrl: excelIcon,
+    sourceToolkit: "Humberston Academy",
+  },
+  {
     id: "Attendance Tracker",
     name: "Attendance Tracker",
     href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Humberston/Shared%20Documents/Humberston/2025-26/HUA%20Attendance%20Tracker%20(25-26).xlsx?d=w6924698364754f8baa9cf9632168abc1&csf=1&web=1&e=TBfiqR",
@@ -19,15 +28,54 @@ export const HumberstonConfig = [
     logoUrl: excelIcon,
     sourceToolkit: "Humberston Academy",
   },
+
+  // COAP (numeric year order)
   {
-    id: "Academy Context",
-    name: "Academy Context",
-    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Humberston/Shared%20Documents/Humberston/2025-26/HUA%20Academy%20Context%20(25-26).xlsx?d=wd27c9254e80b4daa8d84759c1bc470f9&csf=1&web=1&e=A8VE7k",
+    id: "COAP - Year 7",
+    name: "COAP - Year 7",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Humberston/Shared%20Documents/Humberston/2025-26/Class%20on%20a%20Page%20(Master%20Files)/HUA%20COAP%20Y7%20(25-26).xlsx?d=w543f6386975e4a0b88f8d7617b34f0a9&csf=1&web=1&e=slXWxG",
     openInBrowserHref:
-      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Humberston/Shared%20Documents/Humberston/2025-26/HUA%20Academy%20Context%20(25-26).xlsx?d=wd27c9254e80b4daa8d84759c1bc470f9&csf=1&web=1&e=A8VE7k",
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Humberston/Shared%20Documents/Humberston/2025-26/Class%20on%20a%20Page%20(Master%20Files)/HUA%20COAP%20Y7%20(25-26).xlsx?d=w543f6386975e4a0b88f8d7617b34f0a9&csf=1&web=1&e=slXWxG",
     logoUrl: excelIcon,
     sourceToolkit: "Humberston Academy",
   },
+  {
+    id: "COAP - Year 8",
+    name: "COAP - Year 8",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Humberston/Shared%20Documents/Humberston/2025-26/Class%20on%20a%20Page%20(Master%20Files)/HUA%20COAP%20Y8%20(25-26).xlsx?d=w75d0a6ae7a8a4514a8b56ebf28b629a1&csf=1&web=1&e=FRrn9T",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Humberston/Shared%20Documents/Humberston/2025-26/Class%20on%20a%20Page%20(Master%20Files)/HUA%20COAP%20Y8%20(25-26).xlsx?d=w75d0a6ae7a8a4514a8b56ebf28b629a1&csf=1&web=1&e=FRrn9T",
+    logoUrl: excelIcon,
+    sourceToolkit: "Humberston Academy",
+  },
+  {
+    id: "COAP - Year 9",
+    name: "COAP - Year 9",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Humberston/Shared%20Documents/Humberston/2025-26/Class%20on%20a%20Page%20(Master%20Files)/HUA%20COAP%20Y9%20(25-26).xlsx?d=w1fe10462aef640f38ed567e5495db9c2&csf=1&web=1&e=NsDwsk",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Humberston/Shared%20Documents/Humberston/2025-26/Class%20on%20a%20Page%20(Master%20Files)/HUA%20COAP%20Y9%20(25-26).xlsx?d=w1fe10462aef640f38ed567e5495db9c2&csf=1&web=1&e=NsDwsk",
+    logoUrl: excelIcon,
+    sourceToolkit: "Humberston Academy",
+  },
+  {
+    id: "COAP - Year 10",
+    name: "COAP - Year 10",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Humberston/Shared%20Documents/Humberston/2025-26/Class%20on%20a%20Page%20(Master%20Files)/HUA%20COAP%20Y10%20(25-26).xlsx?d=wb76de59889a64529ac7b5efd0baa8cf8&csf=1&web=1&e=rddInR",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Humberston/Shared%20Documents/Humberston/2025-26/Class%20on%20a%20Page%20(Master%20Files)/HUA%20COAP%20Y10%20(25-26).xlsx?d=wb76de59889a64529ac7b5efd0baa8cf8&csf=1&web=1&e=rddInR",
+    logoUrl: excelIcon,
+    sourceToolkit: "Humberston Academy",
+  },
+  {
+    id: "COAP - Year 11",
+    name: "COAP - Year 11",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Humberston/Shared%20Documents/Humberston/2025-26/Class%20on%20a%20Page%20(Master%20Files)/HUA%20COAP%20Y11%20(25-26).xlsx?d=wa9ed8f99577f4e91a62f32c8cc9485dc&csf=1&web=1&e=8ZN9JX",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Humberston/Shared%20Documents/Humberston/2025-26/Class%20on%20a%20Page%20(Master%20Files)/HUA%20COAP%20Y11%20(25-26).xlsx?d=wa9ed8f99577f4e91a62f32c8cc9485dc&csf=1&web=1&e=8ZN9JX",
+    logoUrl: excelIcon,
+    sourceToolkit: "Humberston Academy",
+  },
+
   {
     id: "Inclusion Map",
     name: "Inclusion Map",
@@ -46,6 +94,8 @@ export const HumberstonConfig = [
     logoUrl: excelIcon,
     sourceToolkit: "Humberston Academy",
   },
+
+  // Year trackers (numeric order)
   {
     id: "Year 7 Achievement Tracker",
     name: "Year 7 Achievement Tracker",

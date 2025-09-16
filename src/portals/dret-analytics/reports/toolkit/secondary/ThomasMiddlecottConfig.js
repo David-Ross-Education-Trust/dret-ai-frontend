@@ -28,6 +28,54 @@ export const ThomasMiddlecottConfig = [
     logoUrl: excelIcon,
     sourceToolkit: "Thomas Middlecott Academy",
   },
+
+  // COAP (numeric year order)
+  {
+    id: "COAP - Year 7",
+    name: "COAP - Year 7",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-ThomasMiddlecott/Shared%20Documents/Thomas%20Middlecott/2025-26/Class%20on%20a%20Page%20(Master%20Files)/TMA%20COAP%20Y7%20(25-26).xlsx?d=w38479d2e81324695b7fa15bdde678bf4&csf=1&web=1&e=x0iwuc",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-ThomasMiddlecott/Shared%20Documents/Thomas%20Middlecott/2025-26/Class%20on%20a%20Page%20(Master%20Files)/TMA%20COAP%20Y7%20(25-26).xlsx?d=w38479d2e81324695b7fa15bdde678bf4&csf=1&web=1&e=x0iwuc",
+    logoUrl: excelIcon,
+    sourceToolkit: "Thomas Middlecott Academy",
+  },
+  {
+    id: "COAP - Year 8",
+    name: "COAP - Year 8",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-ThomasMiddlecott/Shared%20Documents/Thomas%20Middlecott/2025-26/Class%20on%20a%20Page%20(Master%20Files)/TMA%20COAP%20Y8%20(25-26).xlsx?d=w58a4050c269c40788e2e9bfa69497e56&csf=1&web=1&e=zmkclf",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-ThomasMiddlecott/Shared%20Documents/Thomas%20Middlecott/2025-26/Class%20on%20a%20Page%20(Master%20Files)/TMA%20COAP%20Y8%20(25-26).xlsx?d=w58a4050c269c40788e2e9bfa69497e56&csf=1&web=1&e=zmkclf",
+    logoUrl: excelIcon,
+    sourceToolkit: "Thomas Middlecott Academy",
+  },
+  {
+    id: "COAP - Year 9",
+    name: "COAP - Year 9",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-ThomasMiddlecott/Shared%20Documents/Thomas%20Middlecott/2025-26/Class%20on%20a%20Page%20(Master%20Files)/TMA%20COAP%20Y9%20(25-26).xlsx?d=w4602d4769cf3467d9f7b9b4c420579fc&csf=1&web=1&e=DzfgPS",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-ThomasMiddlecott/Shared%20Documents/Thomas%20Middlecott/2025-26/Class%20on%20a%20Page%20(Master%20Files)/TMA%20COAP%20Y9%20(25-26).xlsx?d=w4602d4769cf3467d9f7b9b4c420579fc&csf=1&web=1&e=DzfgPS",
+    logoUrl: excelIcon,
+    sourceToolkit: "Thomas Middlecott Academy",
+  },
+  {
+    id: "COAP - Year 10",
+    name: "COAP - Year 10",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-ThomasMiddlecott/Shared%20Documents/Thomas%20Middlecott/2025-26/Class%20on%20a%20Page%20(Master%20Files)/TMA%20COAP%20Y10%20(25-26).xlsx?d=w8da92ae4478e4ea38997d5267a88efa6&csf=1&web=1&e=pO5fKu",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-ThomasMiddlecott/Shared%20Documents/Thomas%20Middlecott/2025-26/Class%20on%20a%20Page%20(Master%20Files)/TMA%20COAP%20Y10%20(25-26).xlsx?d=w8da92ae4478e4ea38997d5267a88efa6&csf=1&web=1&e=pO5fKu",
+    logoUrl: excelIcon,
+    sourceToolkit: "Thomas Middlecott Academy",
+  },
+  {
+    id: "COAP - Year 11",
+    name: "COAP - Year 11",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-ThomasMiddlecott/Shared%20Documents/Thomas%20Middlecott/2025-26/Class%20on%20a%20Page%20(Master%20Files)/TMA%20COAP%20Y11%20(25-26).xlsx?d=wb43d9c8443b7497f834cab2ddff353a4&csf=1&web=1&e=Cu8ieZ",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-ThomasMiddlecott/Shared%20Documents/Thomas%20Middlecott/2025-26/Class%20on%20a%20Page%20(Master%20Files)/TMA%20COAP%20Y11%20(25-26).xlsx?d=wb43d9c8443b7497f834cab2ddff353a4&csf=1&web=1&e=Cu8ieZ",
+    logoUrl: excelIcon,
+    sourceToolkit: "Thomas Middlecott Academy",
+  },
+
   {
     id: "Inclusion Map",
     name: "Inclusion Map",
@@ -46,6 +94,8 @@ export const ThomasMiddlecottConfig = [
     logoUrl: excelIcon,
     sourceToolkit: "Thomas Middlecott Academy",
   },
+
+  // Year trackers (numeric year order)
   {
     id: "Year 7 Achievement Tracker",
     name: "Year 7 Achievement Tracker",

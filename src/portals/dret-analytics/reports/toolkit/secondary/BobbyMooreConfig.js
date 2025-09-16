@@ -2,6 +2,15 @@ import excelIcon from "../../../../../assets/excel-icon.png";
 
 export const BobbyMooreConfig = [
   {
+    id: "Academy Context",
+    name: "Academy Context",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-BobbyMoore/Shared%20Documents/Bobby%20Moore/2025-26/BMA%20Academy%20Context%20(25-26).xlsx?d=wd40de18aa3974b549b78d9eb1b1ec830&csf=1&web=1&e=VRayxF",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-BobbyMoore/Shared%20Documents/Bobby%20Moore/2025-26/BMA%20Academy%20Context%20(25-26).xlsx?d=wd40de18aa3974b549b78d9eb1b1ec830&csf=1&web=1&e=VRayxF",
+    logoUrl: excelIcon,
+    sourceToolkit: "Bobby Moore Toolkit",
+  },
+  {
     id: "Attendance Tracker",
     name: "Attendance Tracker",
     href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-BobbyMoore/Shared%20Documents/Bobby%20Moore/2025-26/BMA%20Attendance%20Tracker%20(25-26).xlsx?d=w87716064d46d45ca9add6f226bfb3786&csf=1&web=1&e=flY7m6",
@@ -19,15 +28,63 @@ export const BobbyMooreConfig = [
     logoUrl: excelIcon,
     sourceToolkit: "Bobby Moore Toolkit",
   },
+
+  // COAP
   {
-    id: "Academy Context",
-    name: "Academy Context",
-    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-BobbyMoore/Shared%20Documents/Bobby%20Moore/2025-26/BMA%20Academy%20Context%20(25-26).xlsx?d=wd40de18aa3974b549b78d9eb1b1ec830&csf=1&web=1&e=VRayxF",
+    id: "COAP - Primary Phase",
+    name: "COAP - Primary Phase",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-BobbyMoore/Shared%20Documents/Bobby%20Moore/2025-26/COAP/BMA%20COAP%20(Primary%20Phase)%20(25-26).xlsx?d=wc5224baf097a4c708821a52df9cd3fea&csf=1&web=1&e=WpUa9C",
     openInBrowserHref:
-      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-BobbyMoore/Shared%20Documents/Bobby%20Moore/2025-26/BMA%20Academy%20Context%20(25-26).xlsx?d=wd40de18aa3974b549b78d9eb1b1ec830&csf=1&web=1&e=VRayxF",
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-BobbyMoore/Shared%20Documents/Bobby%20Moore/2025-26/COAP/BMA%20COAP%20(Primary%20Phase)%20(25-26).xlsx?d=wc5224baf097a4c708821a52df9cd3fea&csf=1&web=1&e=WpUa9C",
     logoUrl: excelIcon,
     sourceToolkit: "Bobby Moore Toolkit",
   },
+  {
+    id: "COAP - Year 7",
+    name: "COAP - Year 7",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-BobbyMoore/Shared%20Documents/Bobby%20Moore/2025-26/COAP/BMA%20COAP%20Y7%20(25-26).xlsx?d=w3b60f89a22c34007bc78db8273435338&csf=1&web=1&e=Roql99",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-BobbyMoore/Shared%20Documents/Bobby%20Moore/2025-26/COAP/BMA%20COAP%20Y7%20(25-26).xlsx?d=w3b60f89a22c34007bc78db8273435338&csf=1&web=1&e=Roql99",
+    logoUrl: excelIcon,
+    sourceToolkit: "Bobby Moore Toolkit",
+  },
+  {
+    id: "COAP - Year 8",
+    name: "COAP - Year 8",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-BobbyMoore/Shared%20Documents/Bobby%20Moore/2025-26/COAP/BMA%20COAP%20Y8%20(25-26).xlsx?d=w2d5fb59b95194673a66d76862f9a5b26&csf=1&web=1&e=B2qL63",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-BobbyMoore/Shared%20Documents/Bobby%20Moore/2025-26/COAP/BMA%20COAP%20Y8%20(25-26).xlsx?d=w2d5fb59b95194673a66d76862f9a5b26&csf=1&web=1&e=B2qL63",
+    logoUrl: excelIcon,
+    sourceToolkit: "Bobby Moore Toolkit",
+  },
+  {
+    id: "COAP - Year 9",
+    name: "COAP - Year 9",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-BobbyMoore/Shared%20Documents/Bobby%20Moore/2025-26/COAP/BMA%20COAP%20Y9%20(25-26).xlsx?d=w4c7a91458a7e4d63b952e938413c873f&csf=1&web=1&e=Yeidef",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-BobbyMoore/Shared%20Documents/Bobby%20Moore/2025-26/COAP/BMA%20COAP%20Y9%20(25-26).xlsx?d=w4c7a91458a7e4d63b952e938413c873f&csf=1&web=1&e=Yeidef",
+    logoUrl: excelIcon,
+    sourceToolkit: "Bobby Moore Toolkit",
+  },
+  {
+    id: "COAP - Year 10",
+    name: "COAP - Year 10",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-BobbyMoore/Shared%20Documents/Bobby%20Moore/2025-26/COAP/BMA%20COAP%20Y10%20(25-26).xlsx?d=w8ed0ad759330463da30d016aba814ba2&csf=1&web=1&e=OnPLyl",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-BobbyMoore/Shared%20Documents/Bobby%20Moore/2025-26/COAP/BMA%20COAP%20Y10%20(25-26).xlsx?d=w8ed0ad759330463da30d016aba814ba2&csf=1&web=1&e=OnPLyl",
+    logoUrl: excelIcon,
+    sourceToolkit: "Bobby Moore Toolkit",
+  },
+  {
+    id: "COAP - Year 11",
+    name: "COAP - Year 11",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-BobbyMoore/Shared%20Documents/Bobby%20Moore/2025-26/COAP/BMA%20COAP%20Y11%20(25-26).xlsx?d=w10cf1d42947e449982434286aeee2307&csf=1&web=1&e=suvs4D",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-BobbyMoore/Shared%20Documents/Bobby%20Moore/2025-26/COAP/BMA%20COAP%20Y11%20(25-26).xlsx?d=w10cf1d42947e449982434286aeee2307&csf=1&web=1&e=suvs4D",
+    logoUrl: excelIcon,
+    sourceToolkit: "Bobby Moore Toolkit",
+  },
+
   {
     id: "Inclusion Map",
     name: "Inclusion Map",
@@ -46,6 +103,8 @@ export const BobbyMooreConfig = [
     logoUrl: excelIcon,
     sourceToolkit: "Bobby Moore Toolkit",
   },
+
+  // Achievement Trackers
   {
     id: "Year 7 Achievement Tracker",
     name: "Year 7 Achievement Tracker",

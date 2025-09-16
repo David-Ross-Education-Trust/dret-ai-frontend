@@ -2,6 +2,15 @@ import excelIcon from "../../../../../assets/excel-icon.png";
 
 export const KingEdwardConfig = [
   {
+    id: "Academy Context",
+    name: "Academy Context",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-KEVI/Shared%20Documents/KEVI/2025-26/KEVI%20Academy%20Context%20(25-26).xlsx?d=we6cd853aecf44dd791295da5c76a0c80&csf=1&web=1&e=HdZ4Nq",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-KEVI/Shared%20Documents/KEVI/2025-26/KEVI%20Academy%20Context%20(25-26).xlsx?d=we6cd853aecf44dd791295da5c76a0c80&csf=1&web=1&e=HdZ4Nq",
+    logoUrl: excelIcon,
+    sourceToolkit: "King Edward VI Academy",
+  },
+  {
     id: "Attendance Tracker",
     name: "Attendance Tracker",
     href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-KEVI/Shared%20Documents/KEVI/2025-26/KEVI%20Attendance%20Tracker%20(25-26).xlsx?d=wf28890ba16e5423fb673c6cc45ce24b7&csf=1&web=1&e=6L8cV0",
@@ -19,15 +28,54 @@ export const KingEdwardConfig = [
     logoUrl: excelIcon,
     sourceToolkit: "King Edward VI Academy",
   },
+
+  // COAP (numeric year order)
   {
-    id: "Academy Context",
-    name: "Academy Context",
-    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-KEVI/Shared%20Documents/KEVI/2025-26/KEVI%20Academy%20Context%20(25-26).xlsx?d=we6cd853aecf44dd791295da5c76a0c80&csf=1&web=1&e=HdZ4Nq",
+    id: "COAP - Year 7",
+    name: "COAP - Year 7",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-KEVI/Shared%20Documents/KEVI/2025-26/Class%20on%20a%20Page%20(Master%20Files)/KEVI%20COAP%20Y7%20(25-26).xlsx?d=w680d0ec574404df3928a5ed22e62bf1f&csf=1&web=1&e=szOzHO",
     openInBrowserHref:
-      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-KEVI/Shared%20Documents/KEVI/2025-26/KEVI%20Academy%20Context%20(25-26).xlsx?d=we6cd853aecf44dd791295da5c76a0c80&csf=1&web=1&e=HdZ4Nq",
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-KEVI/Shared%20Documents/KEVI/2025-26/Class%20on%20a%20Page%20(Master%20Files)/KEVI%20COAP%20Y7%20(25-26).xlsx?d=w680d0ec574404df3928a5ed22e62bf1f&csf=1&web=1&e=szOzHO",
     logoUrl: excelIcon,
     sourceToolkit: "King Edward VI Academy",
   },
+  {
+    id: "COAP - Year 8",
+    name: "COAP - Year 8",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-KEVI/Shared%20Documents/KEVI/2025-26/Class%20on%20a%20Page%20(Master%20Files)/KEVI%20COAP%20Y8%20(25-26).xlsx?d=w4ab03798c1704fec89f573a8ebcd06b1&csf=1&web=1&e=9YDUa5",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-KEVI/Shared%20Documents/KEVI/2025-26/Class%20on%20a%20Page%20(Master%20Files)/KEVI%20COAP%20Y8%20(25-26).xlsx?d=w4ab03798c1704fec89f573a8ebcd06b1&csf=1&web=1&e=9YDUa5",
+    logoUrl: excelIcon,
+    sourceToolkit: "King Edward VI Academy",
+  },
+  {
+    id: "COAP - Year 9",
+    name: "COAP - Year 9",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-KEVI/Shared%20Documents/KEVI/2025-26/Class%20on%20a%20Page%20(Master%20Files)/KEVI%20COAP%20Y9%20(25-26).xlsx?d=wbcfa44ad830748be850b213eccf90aa6&csf=1&web=1&e=AutGnu",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-KEVI/Shared%20Documents/KEVI/2025-26/Class%20on%20a%20Page%20(Master%20Files)/KEVI%20COAP%20Y9%20(25-26).xlsx?d=wbcfa44ad830748be850b213eccf90aa6&csf=1&web=1&e=AutGnu",
+    logoUrl: excelIcon,
+    sourceToolkit: "King Edward VI Academy",
+  },
+  {
+    id: "COAP - Year 10",
+    name: "COAP - Year 10",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-KEVI/Shared%20Documents/KEVI/2025-26/Class%20on%20a%20Page%20(Master%20Files)/KEVI%20COAP%20Y10%20(25-26).xlsx?d=w4ebce8915cc44641b34d21e63c618aab&csf=1&web=1&e=EjQpjT",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-KEVI/Shared%20Documents/KEVI/2025-26/Class%20on%20a%20Page%20(Master%20Files)/KEVI%20COAP%20Y10%20(25-26).xlsx?d=w4ebce8915cc44641b34d21e63c618aab&csf=1&web=1&e=EjQpjT",
+    logoUrl: excelIcon,
+    sourceToolkit: "King Edward VI Academy",
+  },
+  {
+    id: "COAP - Year 11",
+    name: "COAP - Year 11",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-KEVI/Shared%20Documents/KEVI/2025-26/Class%20on%20a%20Page%20(Master%20Files)/KEVI%20COAP%20Y11%20(25-26).xlsx?d=wae29ee4f99724c8dbfe6c22139829e96&csf=1&web=1&e=1xDTer",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-KEVI/Shared%20Documents/KEVI/2025-26/Class%20on%20a%20Page%20(Master%20Files)/KEVI%20COAP%20Y11%20(25-26).xlsx?d=wae29ee4f99724c8dbfe6c22139829e96&csf=1&web=1&e=1xDTer",
+    logoUrl: excelIcon,
+    sourceToolkit: "King Edward VI Academy",
+  },
+
   {
     id: "Inclusion Map",
     name: "Inclusion Map",
@@ -46,6 +94,8 @@ export const KingEdwardConfig = [
     logoUrl: excelIcon,
     sourceToolkit: "King Edward VI Academy",
   },
+
+  // Year trackers (numeric year order)
   {
     id: "Year 7 Achievement Tracker",
     name: "Year 7 Achievement Tracker",

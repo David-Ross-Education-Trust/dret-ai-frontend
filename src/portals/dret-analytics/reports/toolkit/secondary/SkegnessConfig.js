@@ -2,6 +2,15 @@ import excelIcon from "../../../../../assets/excel-icon.png";
 
 export const SkegnessConfig = [
   {
+    id: "Academy Context",
+    name: "Academy Context",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Skegness/Shared%20Documents/Skegness/2025-26/SGS%20Academy%20Context%20(25-26).xlsx?d=wcba0b0bd6d5548d7aafbd1bbff44accc&csf=1&web=1&e=3Pbemq",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Skegness/Shared%20Documents/Skegness/2025-26/SGS%20Academy%20Context%20(25-26).xlsx?d=wcba0b0bd6d5548d7aafbd1bbff44accc&csf=1&web=1&e=3Pbemq",
+    logoUrl: excelIcon,
+    sourceToolkit: "Skegness Grammar School",
+  },
+  {
     id: "Attendance Tracker",
     name: "Attendance Tracker",
     href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Skegness/Shared%20Documents/Skegness/2025-26/SGS%20Attendance%20Tracker%20(25-26).xlsx?d=w6855d98058ca46749248002861518a3b&csf=1&web=1&e=UCi56u",
@@ -19,15 +28,54 @@ export const SkegnessConfig = [
     logoUrl: excelIcon,
     sourceToolkit: "Skegness Grammar School",
   },
+
+  // COAP (numeric year order)
   {
-    id: "Academy Context",
-    name: "Academy Context",
-    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Skegness/Shared%20Documents/Skegness/2025-26/SGS%20Academy%20Context%20(25-26).xlsx?d=wcba0b0bd6d5548d7aafbd1bbff44accc&csf=1&web=1&e=3Pbemq",
+    id: "COAP - Year 7",
+    name: "COAP - Year 7",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Skegness/Shared%20Documents/Skegness/2025-26/Class%20on%20a%20Page%20(Master%20Files)/SGS%20COAP%20Y7%20(25-26).xlsx?d=wc402593d06e4452ab72796fc061da7e4&csf=1&web=1&e=0vWc03",
     openInBrowserHref:
-      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Skegness/Shared%20Documents/Skegness/2025-26/SGS%20Academy%20Context%20(25-26).xlsx?d=wcba0b0bd6d5548d7aafbd1bbff44accc&csf=1&web=1&e=3Pbemq",
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Skegness/Shared%20Documents/Skegness/2025-26/Class%20on%20a%20Page%20(Master%20Files)/SGS%20COAP%20Y7%20(25-26).xlsx?d=wc402593d06e4452ab72796fc061da7e4&csf=1&web=1&e=0vWc03",
     logoUrl: excelIcon,
     sourceToolkit: "Skegness Grammar School",
   },
+  {
+    id: "COAP - Year 8",
+    name: "COAP - Year 8",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Skegness/Shared%20Documents/Skegness/2025-26/Class%20on%20a%20Page%20(Master%20Files)/SGS%20COAP%20Y8%20(25-26).xlsx?d=w419b9c22bcba4f1bbdfdd7cf9d2ca577&csf=1&web=1&e=XtQvj8",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Skegness/Shared%20Documents/Skegness/2025-26/Class%20on%20a%20Page%20(Master%20Files)/SGS%20COAP%20Y8%20(25-26).xlsx?d=w419b9c22bcba4f1bbdfdd7cf9d2ca577&csf=1&web=1&e=XtQvj8",
+    logoUrl: excelIcon,
+    sourceToolkit: "Skegness Grammar School",
+  },
+  {
+    id: "COAP - Year 9",
+    name: "COAP - Year 9",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Skegness/Shared%20Documents/Skegness/2025-26/Class%20on%20a%20Page%20(Master%20Files)/SGS%20COAP%20Y9%20(25-26).xlsx?d=w3dcf41f92b6543eab7977e32574df17b&csf=1&web=1&e=oE6uu4",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Skegness/Shared%20Documents/Skegness/2025-26/Class%20on%20a%20Page%20(Master%20Files)/SGS%20COAP%20Y9%20(25-26).xlsx?d=w3dcf41f92b6543eab7977e32574df17b&csf=1&web=1&e=oE6uu4",
+    logoUrl: excelIcon,
+    sourceToolkit: "Skegness Grammar School",
+  },
+  {
+    id: "COAP - Year 10",
+    name: "COAP - Year 10",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Skegness/Shared%20Documents/Skegness/2025-26/Class%20on%20a%20Page%20(Master%20Files)/SGS%20COAP%20Y10%20(25-26).xlsx?d=wbb73e71a873c45719fd017ec86c784cb&csf=1&web=1&e=l7gsdn",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Skegness/Shared%20Documents/Skegness/2025-26/Class%20on%20a%20Page%20(Master%20Files)/SGS%20COAP%20Y10%20(25-26).xlsx?d=wbb73e71a873c45719fd017ec86c784cb&csf=1&web=1&e=l7gsdn",
+    logoUrl: excelIcon,
+    sourceToolkit: "Skegness Grammar School",
+  },
+  {
+    id: "COAP - Year 11",
+    name: "COAP - Year 11",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Skegness/Shared%20Documents/Skegness/2025-26/Class%20on%20a%20Page%20(Master%20Files)/SGS%20COAP%20Y11%20(25-26).xlsx?d=wd6c6e134c32c4dce84e62a7f1bc6a89b&csf=1&web=1&e=Gfq1LK",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Skegness/Shared%20Documents/Skegness/2025-26/Class%20on%20a%20Page%20(Master%20Files)/SGS%20COAP%20Y11%20(25-26).xlsx?d=wd6c6e134c32c4dce84e62a7f1bc6a89b&csf=1&web=1&e=Gfq1LK",
+    logoUrl: excelIcon,
+    sourceToolkit: "Skegness Grammar School",
+  },
+
   {
     id: "E Codes Count",
     name: "E Codes Count",
@@ -55,6 +103,8 @@ export const SkegnessConfig = [
     logoUrl: excelIcon,
     sourceToolkit: "Skegness Grammar School",
   },
+
+  // Year trackers (numeric year order)
   {
     id: "Year 7 Achievement Tracker",
     name: "Year 7 Achievement Tracker",

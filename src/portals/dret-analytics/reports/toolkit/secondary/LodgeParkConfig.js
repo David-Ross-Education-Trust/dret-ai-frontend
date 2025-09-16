@@ -2,6 +2,15 @@ import excelIcon from "../../../../../assets/excel-icon.png";
 
 export const LodgeParkConfig = [
   {
+    id: "Academy Context",
+    name: "Academy Context",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-LodgePark/Shared%20Documents/Lodge%20Park/2025-26/LPA%20Academy%20Context%20(25-26).xlsx?d=w1bbc2e9535ed4bda9512fe36a9da1dd7&csf=1&web=1&e=zLgEY6",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-LodgePark/Shared%20Documents/Lodge%20Park/2025-26/LPA%20Academy%20Context%20(25-26).xlsx?d=w1bbc2e9535ed4bda9512fe36a9da1dd7&csf=1&web=1&e=zLgEY6",
+    logoUrl: excelIcon,
+    sourceToolkit: "Lodge Park Academy",
+  },
+  {
     id: "Attendance Tracker",
     name: "Attendance Tracker",
     href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-LodgePark/Shared%20Documents/Lodge%20Park/2025-26/LPA%20Attendance%20Tracker%20(25-26).xlsx?d=w55a1aae869824fe1884ab9cc621db0ee&csf=1&web=1&e=grbGVh",
@@ -19,15 +28,54 @@ export const LodgeParkConfig = [
     logoUrl: excelIcon,
     sourceToolkit: "Lodge Park Academy",
   },
+
+  // COAP (numeric year order)
   {
-    id: "Academy Context",
-    name: "Academy Context",
-    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-LodgePark/Shared%20Documents/Lodge%20Park/2025-26/LPA%20Academy%20Context%20(25-26).xlsx?d=w1bbc2e9535ed4bda9512fe36a9da1dd7&csf=1&web=1&e=zLgEY6",
+    id: "COAP - Year 7",
+    name: "COAP - Year 7",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-LodgePark/Shared%20Documents/Lodge%20Park/2025-26/Class%20on%20a%20Page%20(Master%20Files)/LPA%20COAP%20Y7%20(25-26).xlsx?d=wded19b03ced7460487293e1e5cdd9ba1&csf=1&web=1&e=cS3e4l",
     openInBrowserHref:
-      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-LodgePark/Shared%20Documents/Lodge%20Park/2025-26/LPA%20Academy%20Context%20(25-26).xlsx?d=w1bbc2e9535ed4bda9512fe36a9da1dd7&csf=1&web=1&e=zLgEY6",
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-LodgePark/Shared%20Documents/Lodge%20Park/2025-26/Class%20on%20a%20Page%20(Master%20Files)/LPA%20COAP%20Y7%20(25-26).xlsx?d=wded19b03ced7460487293e1e5cdd9ba1&csf=1&web=1&e=cS3e4l",
     logoUrl: excelIcon,
     sourceToolkit: "Lodge Park Academy",
   },
+  {
+    id: "COAP - Year 8",
+    name: "COAP - Year 8",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-LodgePark/Shared%20Documents/Lodge%20Park/2025-26/Class%20on%20a%20Page%20(Master%20Files)/LPA%20COAP%20Y8%20(25-26).xlsx?d=wa68f5de46b9f4d93998ec1b099f02dff&csf=1&web=1&e=8qsh2o",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-LodgePark/Shared%20Documents/Lodge%20Park/2025-26/Class%20on%20a%20Page%20(Master%20Files)/LPA%20COAP%20Y8%20(25-26).xlsx?d=wa68f5de46b9f4d93998ec1b099f02dff&csf=1&web=1&e=8qsh2o",
+    logoUrl: excelIcon,
+    sourceToolkit: "Lodge Park Academy",
+  },
+  {
+    id: "COAP - Year 9",
+    name: "COAP - Year 9",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-LodgePark/Shared%20Documents/Lodge%20Park/2025-26/Class%20on%20a%20Page%20(Master%20Files)/LPA%20COAP%20Y9%20(25-26).xlsx?d=wafecd59c60ef43edb4ce5ab578c39a20&csf=1&web=1&e=XeMrvo",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-LodgePark/Shared%20Documents/Lodge%20Park/2025-26/Class%20on%20a%20Page%20(Master%20Files)/LPA%20COAP%20Y9%20(25-26).xlsx?d=wafecd59c60ef43edb4ce5ab578c39a20&csf=1&web=1&e=XeMrvo",
+    logoUrl: excelIcon,
+    sourceToolkit: "Lodge Park Academy",
+  },
+  {
+    id: "COAP - Year 10",
+    name: "COAP - Year 10",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-LodgePark/Shared%20Documents/Lodge%20Park/2025-26/Class%20on%20a%20Page%20(Master%20Files)/LPA%20COAP%20Y10%20(25-26).xlsx?d=wb8af50113a834af28568fdfb19ea486c&csf=1&web=1&e=2KPB1d",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-LodgePark/Shared%20Documents/Lodge%20Park/2025-26/Class%20on%20a%20Page%20(Master%20Files)/LPA%20COAP%20Y10%20(25-26).xlsx?d=wb8af50113a834af28568fdfb19ea486c&csf=1&web=1&e=2KPB1d",
+    logoUrl: excelIcon,
+    sourceToolkit: "Lodge Park Academy",
+  },
+  {
+    id: "COAP - Year 11",
+    name: "COAP - Year 11",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-LodgePark/Shared%20Documents/Lodge%20Park/2025-26/Class%20on%20a%20Page%20(Master%20Files)/LPA%20COAP%20Y11%20(25-26).xlsx?d=w2e8696543190420595d9b79cb2abeb62&csf=1&web=1&e=TxXpuV",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-LodgePark/Shared%20Documents/Lodge%20Park/2025-26/Class%20on%20a%20Page%20(Master%20Files)/LPA%20COAP%20Y11%20(25-26).xlsx?d=w2e8696543190420595d9b79cb2abeb62&csf=1&web=1&e=TxXpuV",
+    logoUrl: excelIcon,
+    sourceToolkit: "Lodge Park Academy",
+  },
+
   {
     id: "Inclusion Map",
     name: "Inclusion Map",
@@ -46,6 +94,8 @@ export const LodgeParkConfig = [
     logoUrl: excelIcon,
     sourceToolkit: "Lodge Park Academy",
   },
+
+  // Year trackers (numeric year order)
   {
     id: "Year 7 Achievement Tracker",
     name: "Year 7 Achievement Tracker",

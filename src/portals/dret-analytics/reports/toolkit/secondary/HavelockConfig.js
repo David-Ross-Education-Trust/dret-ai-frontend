@@ -2,6 +2,15 @@ import excelIcon from "../../../../../assets/excel-icon.png";
 
 export const HavelockConfig = [
   {
+    id: "Academy Context",
+    name: "Academy Context",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Havelock/Shared%20Documents/Havelock/2025-26/HAV%20Academy%20Context%20(25-26).xlsx?d=wdc6a4039baca4d5dba9da3b4fedd1291&csf=1&web=1&e=PKydVI",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Havelock/Shared%20Documents/Havelock/2025-26/HAV%20Academy%20Context%20(25-26).xlsx?d=wdc6a4039baca4d5dba9da3b4fedd1291&csf=1&web=1&e=PKydVI",
+    logoUrl: excelIcon,
+    sourceToolkit: "Havelock Academy",
+  },
+  {
     id: "Attendance Tracker",
     name: "Attendance Tracker",
     href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Havelock/Shared%20Documents/Havelock/2025-26/HAV%20Attendance%20Tracker%20(25-26).xlsx?d=w8efc20b8214b4a1ea6d88bfe510d4525&csf=1&web=1&e=ANQsmp",
@@ -19,15 +28,54 @@ export const HavelockConfig = [
     logoUrl: excelIcon,
     sourceToolkit: "Havelock Academy",
   },
+
+  // COAP (numeric year order)
   {
-    id: "Academy Context",
-    name: "Academy Context",
-    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Havelock/Shared%20Documents/Havelock/2025-26/HAV%20Academy%20Context%20(25-26).xlsx?d=wdc6a4039baca4d5dba9da3b4fedd1291&csf=1&web=1&e=PKydVI",
+    id: "COAP - Year 7",
+    name: "COAP - Year 7",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Havelock/Shared%20Documents/Havelock/2025-26/Class%20on%20a%20Page%20(Master%20Files)/HAV%20COAP%20Y7%20(25-26).xlsx?d=w171b58ee1f9148959d83acc3bd1dae53&csf=1&web=1&e=SnPIlM",
     openInBrowserHref:
-      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Havelock/Shared%20Documents/Havelock/2025-26/HAV%20Academy%20Context%20(25-26).xlsx?d=wdc6a4039baca4d5dba9da3b4fedd1291&csf=1&web=1&e=PKydVI",
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Havelock/Shared%20Documents/Havelock/2025-26/Class%20on%20a%20Page%20(Master%20Files)/HAV%20COAP%20Y7%20(25-26).xlsx?d=w171b58ee1f9148959d83acc3bd1dae53&csf=1&web=1&e=SnPIlM",
     logoUrl: excelIcon,
     sourceToolkit: "Havelock Academy",
   },
+  {
+    id: "COAP - Year 8",
+    name: "COAP - Year 8",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Havelock/Shared%20Documents/Havelock/2025-26/Class%20on%20a%20Page%20(Master%20Files)/HAV%20COAP%20Y8%20(25-26).xlsx?d=w2aa64f4329cd432583b569e97a4c9030&csf=1&web=1&e=swoGfX",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Havelock/Shared%20Documents/Havelock/2025-26/Class%20on%20a%20Page%20(Master%20Files)/HAV%20COAP%20Y8%20(25-26).xlsx?d=w2aa64f4329cd432583b569e97a4c9030&csf=1&web=1&e=swoGfX",
+    logoUrl: excelIcon,
+    sourceToolkit: "Havelock Academy",
+  },
+  {
+    id: "COAP - Year 9",
+    name: "COAP - Year 9",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Havelock/Shared%20Documents/Havelock/2025-26/Class%20on%20a%20Page%20(Master%20Files)/HAV%20COAP%20Y9%20(25-26).xlsx?d=w4810d6e432dd4f7990f2f68dda1c52f1&csf=1&web=1&e=l1Yx1C",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Havelock/Shared%20Documents/Havelock/2025-26/Class%20on%20a%20Page%20(Master%20Files)/HAV%20COAP%20Y9%20(25-26).xlsx?d=w4810d6e432dd4f7990f2f68dda1c52f1&csf=1&web=1&e=l1Yx1C",
+    logoUrl: excelIcon,
+    sourceToolkit: "Havelock Academy",
+  },
+  {
+    id: "COAP - Year 10",
+    name: "COAP - Year 10",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Havelock/Shared%20Documents/Havelock/2025-26/Class%20on%20a%20Page%20(Master%20Files)/HAV%20COAP%20Y10%20(25-26).xlsx?d=wedc88b778e3a48909ea7a6f4fcbacd83&csf=1&web=1&e=fYH2Th",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Havelock/Shared%20Documents/Havelock/2025-26/Class%20on%20a%20Page%20(Master%20Files)/HAV%20COAP%20Y10%20(25-26).xlsx?d=wedc88b778e3a48909ea7a6f4fcbacd83&csf=1&web=1&e=fYH2Th",
+    logoUrl: excelIcon,
+    sourceToolkit: "Havelock Academy",
+  },
+  {
+    id: "COAP - Year 11",
+    name: "COAP - Year 11",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Havelock/Shared%20Documents/Havelock/2025-26/Class%20on%20a%20Page%20(Master%20Files)/HAV%20COAP%20Y11%20(25-26).xlsx?d=we68507e2bf1242c4b7081474385ae189&csf=1&web=1&e=8p91oz",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-Havelock/Shared%20Documents/Havelock/2025-26/Class%20on%20a%20Page%20(Master%20Files)/HAV%20COAP%20Y11%20(25-26).xlsx?d=we68507e2bf1242c4b7081474385ae189&csf=1&web=1&e=8p91oz",
+    logoUrl: excelIcon,
+    sourceToolkit: "Havelock Academy",
+  },
+
   {
     id: "Inclusion Map",
     name: "Inclusion Map",
@@ -46,6 +94,8 @@ export const HavelockConfig = [
     logoUrl: excelIcon,
     sourceToolkit: "Havelock Academy",
   },
+
+  // Year trackers (numeric order)
   {
     id: "Year 7 Achievement Tracker",
     name: "Year 7 Achievement Tracker",

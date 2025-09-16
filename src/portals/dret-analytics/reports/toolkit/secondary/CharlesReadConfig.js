@@ -2,6 +2,15 @@ import excelIcon from "../../../../../assets/excel-icon.png";
 
 export const CharlesReadConfig = [
   {
+    id: "Academy Context",
+    name: "Academy Context",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-CharlesRead/Shared%20Documents/Charles%20Read/2025-26/CRA%20Academy%20Context%20(25-26).xlsx?d=wdb14b340a764413c819b3ce9382fbb55&csf=1&web=1&e=ha8Bse",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-CharlesRead/Shared%20Documents/Charles%20Read/2025-26/CRA%20Academy%20Context%20(25-26).xlsx?d=wdb14b340a764413c819b3ce9382fbb55&csf=1&web=1&e=ha8Bse",
+    logoUrl: excelIcon,
+    sourceToolkit: "Charles Read Academy",
+  },
+  {
     id: "Attendance Tracker",
     name: "Attendance Tracker",
     href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-CharlesRead/Shared%20Documents/Charles%20Read/2025-26/CRA%20Attendance%20Tracker%20(25-26).xlsx?d=w31fc453b4d934ba981173f6109a3131d&csf=1&web=1&e=8UOvTI",
@@ -19,15 +28,54 @@ export const CharlesReadConfig = [
     logoUrl: excelIcon,
     sourceToolkit: "Charles Read Academy",
   },
+
+  // COAP (numeric year order)
   {
-    id: "Academy Context",
-    name: "Academy Context",
-    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-CharlesRead/Shared%20Documents/Charles%20Read/2025-26/CRA%20Academy%20Context%20(25-26).xlsx?d=wdb14b340a764413c819b3ce9382fbb55&csf=1&web=1&e=ha8Bse",
+    id: "COAP - Year 7",
+    name: "COAP - Year 7",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-CharlesRead/Shared%20Documents/Charles%20Read/2025-26/Class%20on%20a%20Page%20(Master%20Files)/CRA%20COAP%20Y7%20(25-26).xlsx?d=w197b83b9cdfc49d596c5f69ba2ce0402&csf=1&web=1&e=7BD0PK",
     openInBrowserHref:
-      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-CharlesRead/Shared%20Documents/Charles%20Read/2025-26/CRA%20Academy%20Context%20(25-26).xlsx?d=wdb14b340a764413c819b3ce9382fbb55&csf=1&web=1&e=ha8Bse",
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-CharlesRead/Shared%20Documents/Charles%20Read/2025-26/Class%20on%20a%20Page%20(Master%20Files)/CRA%20COAP%20Y7%20(25-26).xlsx?d=w197b83b9cdfc49d596c5f69ba2ce0402&csf=1&web=1&e=7BD0PK",
     logoUrl: excelIcon,
     sourceToolkit: "Charles Read Academy",
   },
+  {
+    id: "COAP - Year 8",
+    name: "COAP - Year 8",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-CharlesRead/Shared%20Documents/Charles%20Read/2025-26/Class%20on%20a%20Page%20(Master%20Files)/CRA%20COAP%20Y8%20(25-26).xlsx?d=w4e424305412c44fdbfba0d097612cc62&csf=1&web=1&e=0e5ugn",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-CharlesRead/Shared%20Documents/Charles%20Read/2025-26/Class%20on%20a%20Page%20(Master%20Files)/CRA%20COAP%20Y8%20(25-26).xlsx?d=w4e424305412c44fdbfba0d097612cc62&csf=1&web=1&e=0e5ugn",
+    logoUrl: excelIcon,
+    sourceToolkit: "Charles Read Academy",
+  },
+  {
+    id: "COAP - Year 9",
+    name: "COAP - Year 9",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-CharlesRead/Shared%20Documents/Charles%20Read/2025-26/Class%20on%20a%20Page%20(Master%20Files)/CRA%20COAP%20Y9%20(25-26).xlsx?d=w90da76f942164984a6c9fa871543b48b&csf=1&web=1&e=UoLf5p",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-CharlesRead/Shared%20Documents/Charles%20Read/2025-26/Class%20on%20a%20Page%20(Master%20Files)/CRA%20COAP%20Y9%20(25-26).xlsx?d=w90da76f942164984a6c9fa871543b48b&csf=1&web=1&e=UoLf5p",
+    logoUrl: excelIcon,
+    sourceToolkit: "Charles Read Academy",
+  },
+  {
+    id: "COAP - Year 10",
+    name: "COAP - Year 10",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-CharlesRead/Shared%20Documents/Charles%20Read/2025-26/Class%20on%20a%20Page%20(Master%20Files)/CRA%20COAP%20Y10%20(25-26).xlsx?d=w79d83bc764024a4db58b12d878ce1db3&csf=1&web=1&e=hwVgOq",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-CharlesRead/Shared%20Documents/Charles%20Read/2025-26/Class%20on%20a%20Page%20(Master%20Files)/CRA%20COAP%20Y10%20(25-26).xlsx?d=w79d83bc764024a4db58b12d878ce1db3&csf=1&web=1&e=hwVgOq",
+    logoUrl: excelIcon,
+    sourceToolkit: "Charles Read Academy",
+  },
+  {
+    id: "COAP - Year 11",
+    name: "COAP - Year 11",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-CharlesRead/Shared%20Documents/Charles%20Read/2025-26/Class%20on%20a%20Page%20(Master%20Files)/CRA%20COAP%20Y11%20(25-26).xlsx?d=wd44976353b6c430189c612800dbb7fed&csf=1&web=1&e=5hFGl6",
+    openInBrowserHref:
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-CharlesRead/Shared%20Documents/Charles%20Read/2025-26/Class%20on%20a%20Page%20(Master%20Files)/CRA%20COAP%20Y11%20(25-26).xlsx?d=wd44976353b6c430189c612800dbb7fed&csf=1&web=1&e=5hFGl6",
+    logoUrl: excelIcon,
+    sourceToolkit: "Charles Read Academy",
+  },
+
   {
     id: "Inclusion Map",
     name: "Inclusion Map",
@@ -46,6 +94,8 @@ export const CharlesReadConfig = [
     logoUrl: excelIcon,
     sourceToolkit: "Charles Read Academy",
   },
+
+  // Year trackers (numeric order)
   {
     id: "Year 7 Achievement Tracker",
     name: "Year 7 Achievement Tracker",
