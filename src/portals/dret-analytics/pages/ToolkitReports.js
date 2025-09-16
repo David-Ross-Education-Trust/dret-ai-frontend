@@ -76,8 +76,8 @@ export default function ToolkitReports() {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false); // NEW: icon → expand on small screens
-  const floatingInputRef = useRef(null);
+  const [searchOpen, setSearchOpen] = useState(false); // <md: inline replace controls
+  const floatingInlineRef = useRef(null);
 
   const [favourites, toggleFavourite] = useFavourites();
   const [clickedStar, setClickedStar] = useState(null);
@@ -132,23 +132,13 @@ export default function ToolkitReports() {
     } catch {}
   }, [phase]);
 
-  // Focus floating input when it opens
+  // Focus inline input when opened on <md
   useEffect(() => {
-    if (searchOpen && floatingInputRef.current) {
-      floatingInputRef.current.focus();
-      // move caret to end
-      const el = floatingInputRef.current;
+    if (searchOpen && floatingInlineRef.current) {
+      const el = floatingInlineRef.current;
+      el.focus();
       el.selectionStart = el.selectionEnd = el.value.length;
     }
-  }, [searchOpen]);
-
-  // Close floating search on Escape
-  useEffect(() => {
-    const onKey = (e) => {
-      if (e.key === "Escape") setSearchOpen(false);
-    };
-    if (searchOpen) window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
   }, [searchOpen]);
 
   // Presets
@@ -232,155 +222,144 @@ export default function ToolkitReports() {
           </h1>
 
           {/* RIGHT: favourites, view toggle, search */}
-          <div className="flex items-center gap-3 relative">
-            {/* Favourites filter toggle (hide on very small screens) */}
-            <button
-              onClick={() => setShowOnlyFaves((v) => !v)}
-              className={`hidden sm:inline-flex p-2 rounded-full border transition ${
-                showOnlyFaves ? "bg-yellow-100 border-yellow-400" : "border-gray-200 hover:bg-gray-100"
-              }`}
-              title="Toggle favourites only"
-              type="button"
-              aria-label="Toggle favourites only"
-            >
-              <Star
-                size={18}
-                className={`${showOnlyFaves ? "text-yellow-500" : "text-gray-400"}`}
-                fill={showOnlyFaves ? "#fde047" : "none"}
-                strokeWidth={1.5}
-              />
-            </button>
-
-            {/* View toggle — labels show only on lg+ (icons-only earlier) */}
-            <div className="hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden">
-              <button
-                className={`px-3 py-2 text-sm flex items-center gap-1 ${
-                  mode === "compact" ? "bg-gray-100" : "bg-white hover:bg-gray-50"
-                }`}
-                onClick={() => setMode("compact")}
-                title="Compact grid"
-                aria-label="Compact grid"
-                type="button"
-              >
-                <Grid size={16} />
-                <span className="hidden lg:inline">Compact</span>
-              </button>
-              <button
-                className={`px-3 py-2 text-sm flex items-center gap-1 border-l border-gray-200 ${
-                  mode === "cosy" ? "bg-gray-100" : "bg-white hover:bg-gray-50"
-                }`}
-                onClick={() => setMode("cosy")}
-                title="Cosy grid"
-                aria-label="Cosy grid"
-                type="button"
-              >
-                <LayoutGrid size={16} />
-                <span className="hidden lg:inline">Cosy</span>
-              </button>
-              <button
-                className={`px-3 py-2 text-sm flex items-center gap-1 border-l border-gray-200 ${
-                  mode === "list" ? "bg-gray-100" : "bg-white hover:bg-gray-50"
-                }`}
-                onClick={() => setMode("list")}
-                title="List view"
-                aria-label="List view"
-                type="button"
-              >
-                <Rows size={16} />
-                <span className="hidden lg:inline">List</span>
-              </button>
-            </div>
-
-            {/* Search: lg+ = full input; <lg = icon that expands to floating input */}
-            {/* Desktop / large screens */}
-            <div className="relative flex-shrink-0 hidden lg:block w-[260px]">
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search toolkits"
-                onFocus={() => setSearchFocused(true)}
-                onBlur={() => setSearchFocused(false)}
-                className={`w-full border ${searchFocused ? "" : "border-gray-300"} rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
-                style={{
-                  borderColor: searchFocused ? TRUST_GREEN : undefined,
-                  boxShadow: searchFocused ? `0 0 0 2px ${TRUST_GREEN}40` : undefined,
-                  fontFamily: "AvenirLTStdLight, Avenir, sans-serif",
-                }}
-              />
-              {searchTerm && (
-                <button
-                  onClick={() => setSearchTerm("")}
-                  className="absolute right-9 top-2.5 text-gray-400 hover:text-gray-600"
-                  tabIndex={-1}
-                  aria-label="Clear"
-                  type="button"
-                >
-                  <X size={16} />
-                </button>
-              )}
-              <Search className="absolute right-3 top-2.5 h-4 w-4 text-gray-400" />
-            </div>
-
-            {/* Small/medium screens: icon trigger */}
-            <button
-              className="inline-flex lg:hidden p-2 rounded-md border border-gray-200 hover:bg-gray-50"
-              aria-label="Open search"
-              title="Search"
-              type="button"
-              onClick={() => setSearchOpen((v) => !v)}
-            >
-              <Search size={18} className="text-gray-600" />
-            </button>
-
-            {/* Floating search panel when open (only shown on <lg) */}
-            {searchOpen && (
-              <div
-                className="lg:hidden absolute right-0 top-1/2 -translate-y-1/2 bg-white border border-gray-200 rounded-md shadow-md p-2 w-[240px]"
-                role="dialog"
-                aria-label="Search toolkits"
-              >
-                <div className="relative">
+          <div className="flex items-center gap-3">
+            {/* When search is open on <md, show inline input replacing other icons */}
+            {searchOpen ? (
+              <div className="flex items-center md:hidden">
+                <div className="relative w-[240px]">
                   <input
-                    ref={floatingInputRef}
+                    ref={floatingInlineRef}
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     placeholder="Search toolkits"
-                    onBlur={(e) => {
-                      // close if the panel loses focus and the user hasn't clicked inside the panel
-                      // give a tiny delay to allow clicking the clear/close buttons
-                      setTimeout(() => {
-                        if (!document.activeElement || !e.currentTarget.parentElement?.contains(document.activeElement)) {
-                          setSearchOpen(false);
-                        }
-                      }, 100);
-                    }}
-                    className="w-full border border-gray-300 rounded-md px-4 py-2 pr-16 text-sm outline-none"
+                    className="w-full border border-gray-300 rounded-md px-4 py-2 pr-10 text-sm outline-none"
                     style={{ fontFamily: "AvenirLTStdLight, Avenir, sans-serif" }}
                   />
-                  {/* Clear text */}
                   {searchTerm && (
                     <button
                       onClick={() => setSearchTerm("")}
-                      className="absolute right-10 top-2.5 text-gray-400 hover:text-gray-600"
+                      className="absolute right-9 top-2.5 text-gray-400 hover:text-gray-600"
                       aria-label="Clear search"
                       type="button"
                     >
                       <X size={16} />
                     </button>
                   )}
-                  {/* Close panel */}
+                  <Search className="absolute right-3 top-2.5 h-4 w-4 text-gray-400" />
+                </div>
+                <button
+                  onClick={() => setSearchOpen(false)}
+                  className="ml-2 p-2 rounded-md border border-gray-200 hover:bg-gray-50"
+                  aria-label="Close search"
+                  type="button"
+                >
+                  ✕
+                </button>
+              </div>
+            ) : (
+              <>
+                {/* Favourites filter toggle (hide on <sm and also hidden while searchOpen) */}
+                <button
+                  onClick={() => setShowOnlyFaves((v) => !v)}
+                  className={`hidden sm:inline-flex p-2 rounded-full border transition ${
+                    showOnlyFaves ? "bg-yellow-100 border-yellow-400" : "border-gray-200 hover:bg-gray-100"
+                  }`}
+                  title="Toggle favourites only"
+                  type="button"
+                  aria-label="Toggle favourites only"
+                >
+                  <Star
+                    size={18}
+                    className={`${showOnlyFaves ? "text-yellow-500" : "text-gray-400"}`}
+                    fill={showOnlyFaves ? "#fde047" : "none"}
+                    strokeWidth={1.5}
+                  />
+                </button>
+
+                {/* View toggle — labels show only on lg+ (icons-only earlier); hidden on <sm */}
+                <div className="hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden">
                   <button
-                    onClick={() => setSearchOpen(false)}
-                    className="absolute right-2 top-2.5 text-gray-500 hover:text-gray-700"
-                    aria-label="Close search"
+                    className={`px-3 py-2 text-sm flex items-center gap-1 ${
+                      mode === "compact" ? "bg-gray-100" : "bg-white hover:bg-gray-50"
+                    }`}
+                    onClick={() => setMode("compact")}
+                    title="Compact grid"
+                    aria-label="Compact grid"
                     type="button"
                   >
-                    ✕
+                    <Grid size={16} />
+                    <span className="hidden lg:inline">Compact</span>
+                  </button>
+                  <button
+                    className={`px-3 py-2 text-sm flex items-center gap-1 border-l border-gray-200 ${
+                      mode === "cosy" ? "bg-gray-100" : "bg-white hover:bg-gray-50"
+                    }`}
+                    onClick={() => setMode("cosy")}
+                    title="Cosy grid"
+                    aria-label="Cosy grid"
+                    type="button"
+                  >
+                    <LayoutGrid size={16} />
+                    <span className="hidden lg:inline">Cosy</span>
+                  </button>
+                  <button
+                    className={`px-3 py-2 text-sm flex items-center gap-1 border-l border-gray-200 ${
+                      mode === "list" ? "bg-gray-100" : "bg-white hover:bg-gray-50"
+                    }`}
+                    onClick={() => setMode("list")}
+                    title="List view"
+                    aria-label="List view"
+                    type="button"
+                  >
+                    <Rows size={16} />
+                    <span className="hidden lg:inline">List</span>
                   </button>
                 </div>
-              </div>
+
+                {/* Search:
+                    - md+ = full bar (shows slightly longer than view-toggle labels)
+                    - sm..md-1 = icon (hidden on <sm to match other icons) */}
+                <div className="relative flex-shrink-0 hidden md:block w-[260px]">
+                  <input
+                    type="text"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    placeholder="Search toolkits"
+                    onFocus={() => setSearchFocused(true)}
+                    onBlur={() => setSearchFocused(false)}
+                    className={`w-full border ${searchFocused ? "" : "border-gray-300"} rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
+                    style={{
+                      borderColor: searchFocused ? TRUST_GREEN : undefined,
+                      boxShadow: searchFocused ? `0 0 0 2px ${TRUST_GREEN}40` : undefined,
+                      fontFamily: "AvenirLTStdLight, Avenir, sans-serif",
+                    }}
+                  />
+                  {searchTerm && (
+                    <button
+                      onClick={() => setSearchTerm("")}
+                      className="absolute right-9 top-2.5 text-gray-400 hover:text-gray-600"
+                      tabIndex={-1}
+                      aria-label="Clear"
+                      type="button"
+                    >
+                      <X size={16} />
+                    </button>
+                  )}
+                  <Search className="absolute right-3 top-2.5 h-4 w-4 text-gray-400" />
+                </div>
+
+                {/* Search icon only on sm..md-1; hidden on <sm to match other icons */}
+                <button
+                  className="hidden sm:inline-flex md:hidden p-2 rounded-md border border-gray-200 hover:bg-gray-50"
+                  aria-label="Open search"
+                  title="Search"
+                  type="button"
+                  onClick={() => setSearchOpen(true)}
+                >
+                  <Search size={18} className="text-gray-600" />
+                </button>
+              </>
             )}
           </div>
         </div>
