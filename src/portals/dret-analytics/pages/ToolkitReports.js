@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import { Search, X, Rows, Grid, LayoutGrid, Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import AnalyticsLayout from "../components/layout";
@@ -76,6 +76,9 @@ export default function ToolkitReports() {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false); // NEW: icon → expand on small screens
+  const floatingInputRef = useRef(null);
+
   const [favourites, toggleFavourite] = useFavourites();
   const [clickedStar, setClickedStar] = useState(null);
 
@@ -128,6 +131,25 @@ export default function ToolkitReports() {
       localStorage.setItem(VIEW_STORAGE_KEYS.phase, phase || "All");
     } catch {}
   }, [phase]);
+
+  // Focus floating input when it opens
+  useEffect(() => {
+    if (searchOpen && floatingInputRef.current) {
+      floatingInputRef.current.focus();
+      // move caret to end
+      const el = floatingInputRef.current;
+      el.selectionStart = el.selectionEnd = el.value.length;
+    }
+  }, [searchOpen]);
+
+  // Close floating search on Escape
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === "Escape") setSearchOpen(false);
+    };
+    if (searchOpen) window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [searchOpen]);
 
   // Presets
   const PRESETS = {
@@ -210,7 +232,7 @@ export default function ToolkitReports() {
           </h1>
 
           {/* RIGHT: favourites, view toggle, search */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 relative">
             {/* Favourites filter toggle (hide on very small screens) */}
             <button
               onClick={() => setShowOnlyFaves((v) => !v)}
@@ -229,7 +251,7 @@ export default function ToolkitReports() {
               />
             </button>
 
-            {/* View toggle — labels show only on lg+ (icons only earlier) */}
+            {/* View toggle — labels show only on lg+ (icons-only earlier) */}
             <div className="hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden">
               <button
                 className={`px-3 py-2 text-sm flex items-center gap-1 ${
@@ -269,8 +291,9 @@ export default function ToolkitReports() {
               </button>
             </div>
 
-            {/* Search (hide on very small screens, shrink as space allows) */}
-            <div className="relative flex-shrink-0 hidden sm:block w-[160px] md:w-[220px] lg:w-[260px]">
+            {/* Search: lg+ = full input; <lg = icon that expands to floating input */}
+            {/* Desktop / large screens */}
+            <div className="relative flex-shrink-0 hidden lg:block w-[260px]">
               <input
                 type="text"
                 value={searchTerm}
@@ -298,6 +321,67 @@ export default function ToolkitReports() {
               )}
               <Search className="absolute right-3 top-2.5 h-4 w-4 text-gray-400" />
             </div>
+
+            {/* Small/medium screens: icon trigger */}
+            <button
+              className="inline-flex lg:hidden p-2 rounded-md border border-gray-200 hover:bg-gray-50"
+              aria-label="Open search"
+              title="Search"
+              type="button"
+              onClick={() => setSearchOpen((v) => !v)}
+            >
+              <Search size={18} className="text-gray-600" />
+            </button>
+
+            {/* Floating search panel when open (only shown on <lg) */}
+            {searchOpen && (
+              <div
+                className="lg:hidden absolute right-0 top-1/2 -translate-y-1/2 bg-white border border-gray-200 rounded-md shadow-md p-2 w-[240px]"
+                role="dialog"
+                aria-label="Search toolkits"
+              >
+                <div className="relative">
+                  <input
+                    ref={floatingInputRef}
+                    type="text"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    placeholder="Search toolkits"
+                    onBlur={(e) => {
+                      // close if the panel loses focus and the user hasn't clicked inside the panel
+                      // give a tiny delay to allow clicking the clear/close buttons
+                      setTimeout(() => {
+                        if (!document.activeElement || !e.currentTarget.parentElement?.contains(document.activeElement)) {
+                          setSearchOpen(false);
+                        }
+                      }, 100);
+                    }}
+                    className="w-full border border-gray-300 rounded-md px-4 py-2 pr-16 text-sm outline-none"
+                    style={{ fontFamily: "AvenirLTStdLight, Avenir, sans-serif" }}
+                  />
+                  {/* Clear text */}
+                  {searchTerm && (
+                    <button
+                      onClick={() => setSearchTerm("")}
+                      className="absolute right-10 top-2.5 text-gray-400 hover:text-gray-600"
+                      aria-label="Clear search"
+                      type="button"
+                    >
+                      <X size={16} />
+                    </button>
+                  )}
+                  {/* Close panel */}
+                  <button
+                    onClick={() => setSearchOpen(false)}
+                    className="absolute right-2 top-2.5 text-gray-500 hover:text-gray-700"
+                    aria-label="Close search"
+                    type="button"
+                  >
+                    ✕
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
