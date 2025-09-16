@@ -19,9 +19,7 @@ function useFavourites(key = "toolkitFavourites") {
   useEffect(() => {
     try {
       localStorage.setItem(key, JSON.stringify(favourites));
-    } catch {
-      /* no-op */
-    }
+    } catch {}
   }, [favourites, key]);
 
   const toggleFavourite = (id) =>
@@ -175,16 +173,14 @@ export default function ToolkitReports() {
     setTimeout(() => setClickedStar(null), 300);
   };
 
-  // Phase segmented control button — now same size as view toggle
+  // Phase segmented control button — same style as before
   const segmentBtn = (label, withLeftBorder = false) => (
     <button
       key={label}
       className={[
         "px-3 py-2 text-sm transition",
         withLeftBorder ? "border-l border-gray-200" : "",
-        phase === label
-          ? "text-white"
-          : "bg-white hover:bg-gray-50 text-gray-700",
+        phase === label ? "text-white" : "bg-white hover:bg-gray-50 text-gray-700",
       ].join(" ")}
       style={phase === label ? { backgroundColor: TRUST_GREEN } : undefined}
       onClick={() => setPhase(phase === label ? "All" : label)}
@@ -200,8 +196,7 @@ export default function ToolkitReports() {
       <div
         className="bg-gray-100 min-h-screen h-screen flex flex-col font-avenir"
         style={{
-          fontFamily:
-            "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
+          fontFamily: "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
         }}
       >
         {/* Top Bar */}
@@ -209,28 +204,18 @@ export default function ToolkitReports() {
           className="shrink-0 z-20 shadow-sm px-6 md:px-8 h-24 flex items-center justify-between"
           style={{ backgroundColor: "#ffffff" }}
         >
-          {/* Title + Phase segmented filter */}
-          <div className="flex items-center gap-4">
-            <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
-              Education Toolkits
-            </h1>
+          {/* LEFT: Title (phase control moved out of here) */}
+          <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
+            Education Toolkits
+          </h1>
 
-            {/* Phase segmented control (now same size as view toggle) */}
-            <div className="hidden sm:flex items-center h-10 rounded-xl border border-gray-200 overflow-hidden">
-              {segmentBtn("Primary")}
-              {segmentBtn("All", true)}
-              {segmentBtn("Secondary", true)}
-            </div>
-          </div>
-
+          {/* RIGHT: favourites, view toggle, search */}
           <div className="flex items-center gap-3">
             {/* Favourites filter toggle */}
             <button
               onClick={() => setShowOnlyFaves((v) => !v)}
               className={`p-2 rounded-full border transition ${
-                showOnlyFaves
-                  ? "bg-yellow-100 border-yellow-400"
-                  : "border-gray-200 hover:bg-gray-100"
+                showOnlyFaves ? "bg-yellow-100 border-yellow-400" : "border-gray-200 hover:bg-gray-100"
               }`}
               title="Toggle favourites only"
               type="button"
@@ -291,14 +276,10 @@ export default function ToolkitReports() {
                 placeholder="Search toolkits"
                 onFocus={() => setSearchFocused(true)}
                 onBlur={() => setSearchFocused(false)}
-                className={`w-full border ${
-                  searchFocused ? "" : "border-gray-300"
-                } rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
+                className={`w-full border ${searchFocused ? "" : "border-gray-300"} rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
                 style={{
                   borderColor: searchFocused ? TRUST_GREEN : undefined,
-                  boxShadow: searchFocused
-                    ? `0 0 0 2px ${TRUST_GREEN}40`
-                    : undefined,
+                  boxShadow: searchFocused ? `0 0 0 2px ${TRUST_GREEN}40` : undefined,
                   fontFamily: "AvenirLTStdLight, Avenir, sans-serif",
                 }}
               />
@@ -320,6 +301,15 @@ export default function ToolkitReports() {
 
         {/* Content */}
         <div className="flex-1 overflow-y-auto p-6 md:p-8 custom-scrollbar">
+          {/* Phase segmented control moved here */}
+          <div className="mb-4 md:mb-6">
+            <div className="flex items-center h-10 rounded-xl border border-gray-200 overflow-hidden w-fit">
+              {segmentBtn("Primary")}
+              {segmentBtn("All", true)}
+              {segmentBtn("Secondary", true)}
+            </div>
+          </div>
+
           {sorted.length === 0 ? (
             <div className="text-gray-500 italic text-center">
               No toolkits{searchTerm ? " match this search." : "."}
@@ -361,26 +351,16 @@ export default function ToolkitReports() {
                       }}
                       className="p-2 rounded-full group transition z-20"
                       aria-label={
-                        favourites.includes(report.id)
-                          ? "Unfavourite"
-                          : "Favourite"
+                        favourites.includes(report.id) ? "Unfavourite" : "Favourite"
                       }
                       type="button"
                     >
                       <Star
                         className={`w-5 h-5 transition-transform duration-300 ${
-                          favourites.includes(report.id)
-                            ? "text-yellow-400"
-                            : "text-gray-300"
-                        } ${
-                          clickedStar === report.id
-                            ? "scale-125 animate-ping-once"
-                            : ""
-                        }`}
+                          favourites.includes(report.id) ? "text-yellow-400" : "text-gray-300"
+                        } ${clickedStar === report.id ? "scale-125 animate-ping-once" : ""}`}
                         strokeWidth={1.5}
-                        fill={
-                          favourites.includes(report.id) ? "#fde047" : "none"
-                        }
+                        fill={favourites.includes(report.id) ? "#fde047" : "none"}
                       />
                     </button>
                   </li>
