@@ -228,7 +228,7 @@ export default function ToolkitReports() {
               />
             </button>
 
-            {/* View toggle — EXACT match to EducationReports */}
+            {/* View toggle — labels hide on smaller screens, icons remain */}
             <div className="hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden">
               <button
                 className={`px-3 py-2 text-sm flex items-center gap-1 ${
@@ -236,10 +236,11 @@ export default function ToolkitReports() {
                 }`}
                 onClick={() => setMode("compact")}
                 title="Compact grid"
+                aria-label="Compact grid"
                 type="button"
               >
                 <Grid size={16} />
-                Compact
+                <span className="hidden md:inline">Compact</span>
               </button>
               <button
                 className={`px-3 py-2 text-sm flex items-center gap-1 border-l border-gray-200 ${
@@ -247,10 +248,11 @@ export default function ToolkitReports() {
                 }`}
                 onClick={() => setMode("cosy")}
                 title="Cosy grid"
+                aria-label="Cosy grid"
                 type="button"
               >
                 <LayoutGrid size={16} />
-                Cosy
+                <span className="hidden md:inline">Cosy</span>
               </button>
               <button
                 className={`px-3 py-2 text-sm flex items-center gap-1 border-l border-gray-200 ${
@@ -258,10 +260,11 @@ export default function ToolkitReports() {
                 }`}
                 onClick={() => setMode("list")}
                 title="List view"
+                aria-label="List view"
                 type="button"
               >
                 <Rows size={16} />
-                List
+                <span className="hidden md:inline">List</span>
               </button>
             </div>
 
