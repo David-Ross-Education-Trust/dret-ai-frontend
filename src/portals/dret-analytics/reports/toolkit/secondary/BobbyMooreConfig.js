@@ -40,9 +40,9 @@ export const BobbyMooreConfig = [
   {
     id: "School Around The Child",
     name: "School Around The Child",
-    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-BobbyMoore/Shared%20Documents/Bobby%20Moore/2025-26/BMA%20School%20Around%20The%20Child%20(25-26).xlsx?d=we3dc9fb501aa43a18852f3646d37d0d2&csf=1&web=1&e=gYniGt",
+    href: "ms-excel:ofe|u|https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-BobbyMoore/Shared%20Documents/Bobby%20Moore/2025-26/BMA%20School%20Around%20The%20Child%20(25-26)%20v2.xlsx?d=w0f1f9ffdc7f04c57980be6ab608de333&csf=1&web=1&e=Fag3Uk",
     openInBrowserHref:
-      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-BobbyMoore/Shared%20Documents/Bobby%20Moore/2025-26/BMA%20School%20Around%20The%20Child%20(25-26).xlsx?d=we3dc9fb501aa43a18852f3646d37d0d2&csf=1&web=1&e=gYniGt",
+      "https://davidrosseducationtrust.sharepoint.com/:x:/r/sites/DRET-SecondaryData-BobbyMoore/Shared%20Documents/Bobby%20Moore/2025-26/BMA%20School%20Around%20The%20Child%20(25-26)%20v2.xlsx?d=w0f1f9ffdc7f04c57980be6ab608de333&csf=1&web=1&e=Fag3Uk",
     logoUrl: excelIcon,
     sourceToolkit: "Bobby Moore Toolkit",
   },
