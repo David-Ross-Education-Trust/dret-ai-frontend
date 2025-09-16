@@ -204,7 +204,7 @@ export default function ToolkitReports() {
           className="shrink-0 z-20 shadow-sm px-6 md:px-8 h-24 flex items-center justify-between"
           style={{ backgroundColor: "#ffffff" }}
         >
-          {/* LEFT: Title (phase control moved out of here) */}
+          {/* LEFT: Title */}
           <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
             Education Toolkits
           </h1>
@@ -228,8 +228,8 @@ export default function ToolkitReports() {
               />
             </button>
 
-            {/* View toggle — icon-only on tighter layouts (text from xl up) */}
-            <div className="hidden sm:flex items-center h-10 rounded-xl border border-gray-200 overflow-hidden">
+            {/* View toggle — EXACT match to EducationReports */}
+            <div className="hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden">
               <button
                 className={`px-3 py-2 text-sm flex items-center gap-1 ${
                   mode === "compact" ? "bg-gray-100" : "bg-white hover:bg-gray-50"
@@ -239,11 +239,10 @@ export default function ToolkitReports() {
                 type="button"
               >
                 <Grid size={16} />
-                <span className="hidden xl:inline">Compact</span>
+                Compact
               </button>
-              <div className="h-6 w-px bg-gray-200" />
               <button
-                className={`px-3 py-2 text-sm flex items-center gap-1 ${
+                className={`px-3 py-2 text-sm flex items-center gap-1 border-l border-gray-200 ${
                   mode === "cosy" ? "bg-gray-100" : "bg-white hover:bg-gray-50"
                 }`}
                 onClick={() => setMode("cosy")}
@@ -251,11 +250,10 @@ export default function ToolkitReports() {
                 type="button"
               >
                 <LayoutGrid size={16} />
-                <span className="hidden xl:inline">Cosy</span>
+                Cosy
               </button>
-              <div className="h-6 w-px bg-gray-200" />
               <button
-                className={`px-3 py-2 text-sm flex items-center gap-1 ${
+                className={`px-3 py-2 text-sm flex items-center gap-1 border-l border-gray-200 ${
                   mode === "list" ? "bg-gray-100" : "bg-white hover:bg-gray-50"
                 }`}
                 onClick={() => setMode("list")}
@@ -263,7 +261,7 @@ export default function ToolkitReports() {
                 type="button"
               >
                 <Rows size={16} />
-                <span className="hidden xl:inline">List</span>
+                List
               </button>
             </div>
 
@@ -301,7 +299,7 @@ export default function ToolkitReports() {
 
         {/* Content */}
         <div className="flex-1 overflow-y-auto p-6 md:p-8 custom-scrollbar">
-          {/* Phase segmented control moved here */}
+          {/* Phase segmented control at top of grid/list */}
           <div className="mb-4 md:mb-6">
             <div className="flex items-center h-10 rounded-xl border border-gray-200 overflow-hidden w-fit">
               {segmentBtn("Primary")}
