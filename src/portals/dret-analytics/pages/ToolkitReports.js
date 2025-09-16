@@ -320,7 +320,7 @@ export default function ToolkitReports() {
                 {/* Search:
                     - md+ = full bar (shows slightly longer than view-toggle labels)
                     - sm..md-1 = icon (hidden on <sm to match other icons) */}
-                <div className="relative flex-shrink-0 hidden md:block w-[260px]">
+                <div className="relative flex-shrink-0 hidden lg:block w-[260px]">
                   <input
                     type="text"
                     value={searchTerm}
@@ -351,7 +351,7 @@ export default function ToolkitReports() {
 
                 {/* Search icon only on sm..md-1; hidden on <sm to match other icons */}
                 <button
-                  className="hidden sm:inline-flex md:hidden p-2 rounded-md border border-gray-200 hover:bg-gray-50"
+                  className="hidden sm:inline-flex lg:hidden p-2 rounded-md border border-gray-200 hover:bg-gray-50"
                   aria-label="Open search"
                   title="Search"
                   type="button"
