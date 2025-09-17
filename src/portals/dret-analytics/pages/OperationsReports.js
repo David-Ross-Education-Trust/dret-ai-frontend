@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Search, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import AnalyticsLayout from "../components/layout";
-import { educationReportConfig } from "../reports/educationReportConfig";
+import { reportConfig } from "../reports/reportConfig";
 import ReportCard from "../components/reportCard";
 
 function useFavourites(key = "analyticsFavourites") {
@@ -30,7 +30,7 @@ export default function OperationsReports() {
   const [searchFocused, setSearchFocused] = useState(false);
   const navigate = useNavigate();
 
-  const reports = educationReportConfig.filter(
+  const reports = reportConfig.filter(
     (r) =>
       !r.comingSoon &&
       r.category &&
