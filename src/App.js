@@ -77,7 +77,7 @@ function App() {
                 <Route
                   path="/analytics/governance"
                   element={
-                    <GroupGuard allowedGroups={[GROUPS.GOVERNANCE]}>
+                    <GroupGuard allowedGroups={[GROUPS.GOVERNANCE, GROUPS.WORKING_GROUP]}>
                       <GovernanceReports />
                     </GroupGuard>
                   }
