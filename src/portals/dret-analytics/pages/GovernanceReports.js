@@ -148,7 +148,7 @@ export default function GovernanceReports() {
         >
           {/* LEFT: Title */}
           <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
-            Governance Dashboards
+            Governance Reports
           </h1>
 
           {/* RIGHT: favourites, view toggle, search */}
@@ -162,7 +162,7 @@ export default function GovernanceReports() {
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder="Search governance dashboards"
+                    placeholder="Search dashboards"
                     className="w-full border border-gray-300 rounded-md px-4 py-2 pr-10 text-sm outline-none"
                     style={{ fontFamily: "AvenirLTStdLight, Avenir, sans-serif" }}
                   />
@@ -247,7 +247,7 @@ export default function GovernanceReports() {
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder="Search governance dashboards"
+                    placeholder="Search dashboards"
                     onFocus={() => setSearchFocused(true)}
                     onBlur={() => setSearchFocused(false)}
                     className={`w-full border ${searchFocused ? "" : "border-gray-300"} rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}

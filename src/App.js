@@ -1,4 +1,3 @@
-// src/App.js
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SplashScreen from "./splash/SplashScreen";
@@ -23,7 +22,11 @@ import GovernanceReports from "./portals/dret-analytics/pages/GovernanceReports"
 
 import { reportConfig } from "./portals/dret-analytics/components/reportConfig";
 import SchoolToolkitRouter from "./portals/dret-analytics/reports/toolkit/schoolToolkitRouter";
-import RequireAuth from "./RequireAuth";
+import RequireAuth from "./auth/RequireAuth";
+
+// Group-based guards
+import GroupGuard from "./auth/GroupGuard";
+import { GROUPS } from "./auth/groups";
 
 function App() {
   return (
@@ -54,30 +57,79 @@ function App() {
 
                 {/* Analytics section root pages */}
                 <Route path="/analytics" element={<AnalyticsHomePage />} />
+
+                {/* Education: Education + Working Group */}
                 <Route
                   path="/analytics/education"
-                  element={<EducationReports />}
-                />
-                <Route path="/analytics/toolkits" element={<ToolkitReports />} />
-                <Route
-                  path="/analytics/governance"
-                  element={<GovernanceReports />}
-                />
-                <Route path="/analytics/finance" element={<FinanceReports />} />
-                <Route path="/analytics/hr" element={<HRReports />} />
-                <Route path="/analytics/it-data" element={<ITDataReports />} />
-                <Route
-                  path="/analytics/operations"
-                  element={<OperationsReports />}
+                  element={
+                    <GroupGuard
+                      allowedGroups={[GROUPS.EDUCATION, GROUPS.WORKING_GROUP]}
+                    >
+                      <EducationReports />
+                    </GroupGuard>
+                  }
                 />
 
-                {/* Dynamic school toolkit pages */}
+                {/* Toolkits: no restrictions */}
+                <Route path="/analytics/toolkits" element={<ToolkitReports />} />
+
+                {/* Governance: only Governance */}
+                <Route
+                  path="/analytics/governance"
+                  element={
+                    <GroupGuard allowedGroups={[GROUPS.GOVERNANCE]}>
+                      <GovernanceReports />
+                    </GroupGuard>
+                  }
+                />
+
+                {/* Finance: only Finance */}
+                <Route
+                  path="/analytics/finance"
+                  element={
+                    <GroupGuard allowedGroups={[GROUPS.FINANCE]}>
+                      <FinanceReports />
+                    </GroupGuard>
+                  }
+                />
+
+                {/* HR: only HR */}
+                <Route
+                  path="/analytics/hr"
+                  element={
+                    <GroupGuard allowedGroups={[GROUPS.HR]}>
+                      <HRReports />
+                    </GroupGuard>
+                  }
+                />
+
+                {/* IT & Data: only IT & Data */}
+                <Route
+                  path="/analytics/it-data"
+                  element={
+                    <GroupGuard allowedGroups={[GROUPS.IT_DATA]}>
+                      <ITDataReports />
+                    </GroupGuard>
+                  }
+                />
+
+                {/* Operations: only Operations */}
+                <Route
+                  path="/analytics/operations"
+                  element={
+                    <GroupGuard allowedGroups={[GROUPS.OPERATIONS]}>
+                      <OperationsReports />
+                    </GroupGuard>
+                  }
+                />
+
+                {/* Dynamic school toolkit pages (leave open) */}
                 <Route
                   path="/analytics/toolkits/:schoolKey"
                   element={<SchoolToolkitRouter />}
                 />
 
-                {/* Individual analytics report pages */}
+                {/* Individual analytics report pages (unchanged) */}
                 {reportConfig.map(
                   (report) =>
                     !report.comingSoon && (

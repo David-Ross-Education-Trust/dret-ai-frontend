@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import Layout from "../../../layout";
+import Layout from "../components/layout";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 

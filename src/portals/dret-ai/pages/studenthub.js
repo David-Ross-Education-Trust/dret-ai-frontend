@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Layout from "../../../layout";
+import Layout from "../components/layout";
 import { useMsal } from "@azure/msal-react";
 import { Megaphone } from "lucide-react";
 import { toolsConfig } from "../components/toolConfig";
