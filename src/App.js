@@ -1,11 +1,17 @@
+// src/App.js
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SplashScreen from "./splash/SplashScreen";
+
+// AI portal
 import AiHomePage from "./portals/dret-ai/pages/HomePage";
 import FavouritesPage from "./portals/dret-ai/pages/favourites";
 import MyHub from "./portals/dret-ai/pages/myhub";
 import StudentHub from "./portals/dret-ai/pages/studenthub";
 import ToolsPage from "./portals/dret-ai/pages/tools";
+import { toolsConfig } from "./portals/dret-ai/components/toolConfig";
+
+// Analytics portal
 import AnalyticsHomePage from "./portals/dret-analytics/pages/HomePage";
 import EducationReports from "./portals/dret-analytics/pages/EducationReports";
 import ToolkitReports from "./portals/dret-analytics/pages/ToolkitReports";
@@ -13,7 +19,8 @@ import FinanceReports from "./portals/dret-analytics/pages/FinanceReports";
 import HRReports from "./portals/dret-analytics/pages/HRReports";
 import ITDataReports from "./portals/dret-analytics/pages/ITDataReports";
 import OperationsReports from "./portals/dret-analytics/pages/OperationsReports";
-import { toolsConfig } from "./portals/dret-ai/components/toolConfig";
+import GovernanceReports from "./portals/dret-analytics/pages/GovernanceReports";
+
 import { reportConfig } from "./portals/dret-analytics/components/reportConfig";
 import SchoolToolkitRouter from "./portals/dret-analytics/reports/toolkit/schoolToolkitRouter";
 import RequireAuth from "./RequireAuth";
@@ -52,6 +59,10 @@ function App() {
                   element={<EducationReports />}
                 />
                 <Route path="/analytics/toolkits" element={<ToolkitReports />} />
+                <Route
+                  path="/analytics/governance"
+                  element={<GovernanceReports />}
+                />
                 <Route path="/analytics/finance" element={<FinanceReports />} />
                 <Route path="/analytics/hr" element={<HRReports />} />
                 <Route path="/analytics/it-data" element={<ITDataReports />} />

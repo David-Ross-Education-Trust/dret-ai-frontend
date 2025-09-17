@@ -1,142 +1,213 @@
+// src/portals/dret-analytics/components/layout.js
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
 import { useMsal } from "@azure/msal-react";
-import { FaUserCircle } from "react-icons/fa";
-import { FiChevronDown } from "react-icons/fi";
-import dretaiLogo from "./assets/dretai-logo.png";
+import { FiLogOut } from "react-icons/fi";
+import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
+import { useLocation, Link } from "react-router-dom";
+import dretAnalyticsLogo from "../../../assets/dret-analytics-logo.png";
 
 const navItems = [
-  { label: "Home", icon: "fas fa-home", to: "/ai/home" },
-  { label: "Tools", icon: "fas fa-toolbox", to: "/ai/tools" },
-  { label: "My Hub", icon: "fas fa-th-large", to: "/ai/myhub" },
-  { label: "Student Hub", icon: "fas fa-user-graduate", to: "/ai/student-hub" },
+  { label: "Favourites", to: "/analytics" },
+  { label: "Education Dashboards", to: "/analytics/education" },
+  { label: "Education Toolkits", to: "/analytics/toolkits" },
+  { label: "Governance", to: "/analytics/governance" },
+  { label: "Operations", to: "/analytics/operations", disabled: true },
+  { label: "Finance", to: "/analytics/finance", disabled: true },
+  { label: "HR", to: "/analytics/hr", disabled: true },
+  { label: "IT & Data", to: "/analytics/it-data", disabled: true },
 ];
 
-const Layout = ({ children, disableNavLinks = false }) => {
+const AnalyticsLayout = ({
+  children,
+  allowSidebarMinimise = false,
+  hideHeaderWithSidebar = false,
+  headerContent = null,
+  reportIssueHref = "/analytics/report-issue",
+}) => {
   const { accounts, instance } = useMsal();
   const account = accounts[0];
   const isSignedIn = !!account;
-  const [menuOpen, setMenuOpen] = useState(false);
+
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
   const location = useLocation();
+  const sidebarWidth = 240;
+  const sidebarMiniWidth = 56;
 
-  const handleLogin = () => {
-    instance.loginRedirect();
-  };
+  const showHeader = !(hideHeaderWithSidebar && !sidebarOpen);
 
-  const handleLogout = () => {
-    instance.logoutRedirect();
+  const handleLogout = () => instance.logoutRedirect();
+  const handleReportIssue = () => {
+    try {
+      window.open(reportIssueHref, "_blank", "noopener,noreferrer");
+    } catch {
+      /* no-op */
+    }
   };
 
   return (
-    <div
-      className="flex font-avenir"
-      style={{ fontFamily: "AvenirLTStdLight, Avenir, sans-serif" }}
-    >
-      <aside className="w-60 bg-[var(--trust-green)] text-white h-screen fixed left-0 top-0 flex flex-col justify-between font-avenir">
-        <Link to="/" className="w-full h-24 flex items-center">
-          <img
-            src={dretaiLogo}
-            alt="DRET.AI Logo"
-            className="w-full h-full object-contain"
-            style={{ display: "block", maxHeight: "90px" }}
-          />
-        </Link>
-        {isSignedIn && (
-          <div className="p-6 flex flex-col gap-4 overflow-y-auto mt-4 font-avenir">
-            {navItems.map((item, index) => {
-              const isSelected = location.pathname === item.to;
+    <div className="flex font-avenir h-screen bg-gray-50">
+      {/* Sidebar */}
+      <aside
+        className={`bg-[var(--trust-green)] text-white h-screen transition-all duration-300 flex flex-col fixed top-0 left-0 z-40 shadow-lg ${
+          sidebarOpen ? "w-60" : "w-14"
+        }`}
+        style={{ minWidth: sidebarOpen ? sidebarWidth : sidebarMiniWidth }}
+      >
+        {/* Logo area and chevron toggle */}
+        {sidebarOpen ? (
+          <div className="w-full h-24 flex items-center relative">
+            <img
+              src={dretAnalyticsLogo}
+              alt="Analytics Logo"
+              className="w-full h-full object-contain"
+              style={{ display: "block", maxHeight: "80px" }}
+            />
+            {allowSidebarMinimise && (
+              <button
+                onClick={() => setSidebarOpen((v) => !v)}
+                aria-label="Collapse sidebar"
+                className="absolute right-2 top-1/2 -translate-y-1/2 bg-white text-[var(--trust-green)] border border-gray-200 rounded-full shadow hover:bg-gray-200 transition-all w-9 h-9 flex items-center justify-center"
+                style={{ boxShadow: "0 2px 8px 0 rgba(32,92,64,0.09)" }}
+              >
+                <HiChevronLeft size={22} />
+              </button>
+            )}
+          </div>
+        ) : (
+          allowSidebarMinimise && (
+            <div className="w-full h-24 flex items-center justify-center relative">
+              <button
+                onClick={() => setSidebarOpen((v) => !v)}
+                aria-label="Expand sidebar"
+                className="bg-white text-[var(--trust-green)] border border-gray-200 rounded-full shadow hover:bg-gray-200 transition-all w-9 h-9 flex items-center justify-center"
+                style={{ boxShadow: "0 2px 8px 0 rgba(32,92,64,0.09)" }}
+              >
+                <HiChevronRight size={22} />
+              </button>
+            </div>
+          )
+        )}
 
-              const NavContent = (
+        {/* Nav under logo */}
+        <nav className="mt-6 flex flex-col gap-1">
+          {navItems.map((item, idx) => {
+            const isSelected =
+              location.pathname === item.to ||
+              (item.label === "Favourites" &&
+                location.pathname.startsWith("/analytics/favourites"));
+            const isDisabled = !!item.disabled;
+
+            if (isDisabled) {
+              return (
                 <div
+                  key={idx}
+                  aria-disabled="true"
+                  title={`${item.label} (coming soon)`}
                   className={`
-                    flex items-center px-4 py-2 rounded font-avenir transition-transform duration-150 relative group
-                    ${disableNavLinks ? "opacity-40 pointer-events-none" : "hover:scale-110"}
+                    flex items-center px-4 py-3 rounded transition-transform duration-150 relative
+                    ${sidebarOpen ? "" : "justify-center"}
+                    opacity-60 cursor-not-allowed
                   `}
                   style={{
-                    color: "#fff",
+                    color: "rgba(255,255,255,0.7)",
                     fontWeight: 400,
-                    transition: "transform 0.18s cubic-bezier(.4,0,.2,1)"
+                    fontFamily:
+                      "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
                   }}
                 >
-                  <span
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      position: "relative"
-                    }}
-                  >
-                    {isSelected && (
-                      <svg
-                        width="10"
-                        height="10"
-                        viewBox="0 0 10 10"
-                        style={{
-                          display: "inline-block",
-                          position: "absolute",
-                          left: "-16px",
-                          top: "50%",
-                          transform: "translateY(-50%)"
-                        }}
-                      >
-                        <circle cx="5" cy="5" r="4" fill="white" />
-                      </svg>
-                    )}
-                    <i className={item.icon}></i>
-                  </span>
-                  <span className="ml-2">{item.label}</span>
+                  <span>{sidebarOpen ? item.label : ""}</span>
                 </div>
               );
+            }
 
-              return disableNavLinks ? (
-                <div key={index}>{NavContent}</div>
-              ) : (
-                <Link key={index} to={item.to}>
-                  {NavContent}
-                </Link>
-              );
-            })}
-          </div>
-        )}
-        {isSignedIn && (
-          <div className="relative p-4 border-t border-[#184b34] font-avenir">
-            <div
-              onClick={isSignedIn ? () => setMenuOpen(!menuOpen) : handleLogin}
-              className="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-[#184b34] transition font-avenir"
-            >
-              <FaUserCircle className="text-2xl" />
-              {isSignedIn ? (
-                <div className="flex items-center gap-1">
-                  <span className="font-medium text-sm">{account.name}</span>
-                  <FiChevronDown className="text-xs" />
-                </div>
-              ) : (
-                <span className="font-medium text-sm">Sign in</span>
-              )}
+            return (
+              <Link
+                key={idx}
+                to={item.to}
+                className={`
+                  flex items-center px-4 py-3 rounded transition-transform duration-150 relative group
+                  hover:scale-[1.04]
+                  ${sidebarOpen ? "" : "justify-center"}
+                `}
+                style={{
+                  color: "#fff",
+                  fontWeight: 400,
+                  fontFamily:
+                    "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
+                  transition: "transform 0.18s cubic-bezier(.4,0,.2,1)",
+                }}
+              >
+                {isSelected && (
+                  <svg
+                    width="10"
+                    height="10"
+                    viewBox="0 0 10 10"
+                    style={{ display: "inline-block", marginRight: "6px" }}
+                  >
+                    <circle cx="5" cy="5" r="4" fill="white" />
+                  </svg>
+                )}
+                <span>{sidebarOpen ? item.label : ""}</span>
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* Bottom stack (only when expanded): Report link + user row */}
+        {sidebarOpen && (
+          <div className="mt-auto">
+            {/* Report an issue */}
+            <div className="px-4 pt-2 pb-2 -mt-1">
+              <button
+                onClick={handleReportIssue}
+                className="text-sm font-medium text-white/85 hover:text-white transition-colors"
+                aria-label="Report an issue"
+                title="Report an issue"
+                type="button"
+              >
+                Report an issue
+              </button>
             </div>
-            {isSignedIn && menuOpen && (
-              <div className="absolute bottom-16 left-4 bg-white text-black rounded shadow-md w-48 z-50 font-avenir">
-                <div
-                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                  onClick={() => alert("Preferences coming soon!")}
-                >
-                  Preferences
-                </div>
-                <div
-                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                  onClick={handleLogout}
-                >
-                  Sign out
+
+            {/* User row */}
+            {isSignedIn && (
+              <div className="px-4 py-3 border-t border-[#184b34]">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-medium text-sm text-white">
+                    {account.name}
+                  </span>
+                  <button
+                    onClick={handleLogout}
+                    aria-label="Sign out"
+                    title="Sign out"
+                    className="p-1"
+                    type="button"
+                  >
+                    <FiLogOut
+                      size={18}
+                      className="text-white opacity-90 hover:opacity-100 transition-opacity"
+                    />
+                  </button>
                 </div>
               </div>
             )}
           </div>
         )}
       </aside>
-      <main className="ml-60 w-full min-h-screen overflow-y-auto bg-gray-50 font-avenir">
-        {children}
+
+      {/* Main content */}
+      <main
+        className={`transition-all duration-300 ${
+          sidebarOpen ? "ml-60" : "ml-14"
+        } flex-1 min-h-screen bg-gray-50`}
+        style={{ maxWidth: "100vw", paddingTop: 0 }}
+      >
+        {showHeader && headerContent}
+        {typeof children === "function" ? children({ sidebarOpen }) : children}
       </main>
     </div>
   );
 };
 
-export default Layout;
+export default AnalyticsLayout;
