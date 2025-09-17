@@ -126,7 +126,7 @@ function App() {
                 {/* Dynamic school toolkit pages (leave open) */}
                 <Route
                   path="/analytics/toolkits/:schoolKey"
-                  element={<SchoolToolkitRouter />}
+                  element={<ToolkitRouter />}
                 />
 
                 {/* Individual analytics report pages (unchanged) */}

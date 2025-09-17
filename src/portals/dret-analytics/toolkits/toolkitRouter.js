@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import SchoolToolkit from "../components/schoolToolkit";
 import { schoolToolkitConfigs } from "./allToolkits";
 
-// Same normaliser you’ve been using (no lowercase so storage keys match existing)
 function normaliseSchoolLabel(label) {
   if (!label) return "";
   return (
@@ -11,13 +10,13 @@ function normaliseSchoolLabel(label) {
       .replace(/\bToolkit\b/i, "")
       .replace(/\bAcademy\b/i, "")
       .replace(/\bPrimary\b/i, "")
-      .replace(/[\W_]+/g, "") // remove spaces, punctuation, underscores
+      .replace(/[\W_]+/g, "")
       .trim()
   );
 }
 
 export default function ToolkitRouter() {
-  const { schoolKey } = useParams(); // e.g. "ainthorpe", "barneswallis"
+  const { schoolKey } = useParams();
   const items = schoolToolkitConfigs[schoolKey];
 
   if (!Array.isArray(items) || items.length === 0) {
@@ -28,12 +27,10 @@ export default function ToolkitRouter() {
     );
   }
 
-  // Prefer the readable name from data; fallback to a title-cased key
   const schoolName =
     items[0]?.sourceToolkit ||
     schoolKey.replace(/(^|[-_ ])(\w)/g, (_, __, c) => c.toUpperCase());
 
-  // Preserve your legacy per-school favourites key format
   const storageKey = `toolkitFavourites_${normaliseSchoolLabel(schoolName)}`;
 
   return (
