@@ -6,10 +6,9 @@ html, body, #root {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden; /* ✅ important for inner scroll to work! */
+  overflow: hidden;
 }
 
-/* Custom scroll only in tool area */
 .scroll-area {
   overflow-y: auto;
   scrollbar-width: thin;

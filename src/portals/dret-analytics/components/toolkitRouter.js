@@ -1,4 +1,3 @@
-// src/portals/dret-analytics/reports/toolkit/SchoolToolkitRouter.js
 import React from "react";
 import { useParams } from "react-router-dom";
 import SchoolToolkit from "./schoolToolkit"; // note: lowercase path
