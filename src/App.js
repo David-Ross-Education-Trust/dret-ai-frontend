@@ -20,7 +20,7 @@ import ITDataReports from "./portals/dret-analytics/pages/ITDataReports";
 import OperationsReports from "./portals/dret-analytics/pages/OperationsReports";
 import GovernanceReports from "./portals/dret-analytics/pages/GovernanceReports";
 
-import { reportConfig } from "./portals/dret-analytics/components/reportConfig";
+import { educationReportConfig } from "./portals/dret-analytics/reports/educationReportConfig";
 import ToolkitRouter from "./portals/dret-analytics/toolkits/toolkitRouter";
 import RequireAuth from "./auth/RequireAuth";
 
@@ -130,7 +130,7 @@ function App() {
                 />
 
                 {/* Individual analytics report pages (unchanged) */}
-                {reportConfig.map(
+                {educationReportConfig.map(
                   (report) =>
                     !report.comingSoon && (
                       <Route
