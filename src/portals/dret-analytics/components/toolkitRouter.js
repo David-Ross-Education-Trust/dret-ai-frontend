@@ -1,8 +1,8 @@
 // src/portals/dret-analytics/reports/toolkit/SchoolToolkitRouter.js
 import React from "react";
 import { useParams } from "react-router-dom";
-import SchoolToolkit from "../../components/schoolToolkit"; // note: lowercase path
-import { schoolToolkitConfigs } from "./allToolkits";
+import SchoolToolkit from "./schoolToolkit"; // note: lowercase path
+import { schoolToolkitConfigs } from "../toolkits/allToolkits";
 
 // Same normaliser you’ve been using (no lowercase so storage keys match existing)
 function normaliseSchoolLabel(label) {

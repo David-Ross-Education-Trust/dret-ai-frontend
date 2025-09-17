@@ -37,7 +37,7 @@ import { MalcolmArnoldConfig } from "./secondary/MalcolmArnoldConfig";
 import { SkegnessConfig } from "./secondary/SkegnessConfig";
 import { ThomasMiddlecottConfig } from "./secondary/ThomasMiddlecottConfig";
 
-import { demoToolkitConfig } from "./DemoToolkitConfig";
+import { demoToolkitConfig } from "./demo/DemoToolkitConfig";
 
 // 🔑 helper to normalise school names into URL-friendly keys
 function normaliseSchoolLabel(label) {

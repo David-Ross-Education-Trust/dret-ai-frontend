@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useMsal } from "@azure/msal-react";
 import { PowerBIEmbed } from "powerbi-client-react";
 import { models } from "powerbi-client";
-import AnalyticsLayout from "../../components/layout";
-import { API_SCOPES } from "../../../../auth/msalConfig";
+import AnalyticsLayout from "./layout";
+import { API_SCOPES } from "../../../auth/msalConfig";
 
 export default function PowerBIReportPage({
   reportKey,

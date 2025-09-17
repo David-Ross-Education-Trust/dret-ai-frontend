@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { Search, X, Rows, Grid, LayoutGrid, Star } from "lucide-react";
 import AnalyticsLayout from "./layout";
-import ToolkitReportCard from "./ToolkitReportCard";
+import ToolkitReportCard from "./toolkitCard";
 
 const TRUST_GREEN = "#205c40";
 

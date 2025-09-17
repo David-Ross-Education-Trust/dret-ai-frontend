@@ -21,7 +21,7 @@ import OperationsReports from "./portals/dret-analytics/pages/OperationsReports"
 import GovernanceReports from "./portals/dret-analytics/pages/GovernanceReports";
 
 import { reportConfig } from "./portals/dret-analytics/components/reportConfig";
-import SchoolToolkitRouter from "./portals/dret-analytics/reports/toolkit/schoolToolkitRouter";
+import SchoolToolkitRouter from "./portals/dret-analytics/components/schoolToolkitRouter";
 import RequireAuth from "./auth/RequireAuth";
 
 // Group-based guards

@@ -3,7 +3,7 @@ import { Search, X, Rows, Grid, LayoutGrid, Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import AnalyticsLayout from "../components/layout";
 import { toolkitConfig } from "../components/ToolkitConfig";
-import ToolkitReportCard from "../components/ToolkitReportCard";
+import ToolkitReportCard from "../components/toolkitCard";
 
 // Persist favourites in localStorage
 function useFavourites(key = "toolkitFavourites") {

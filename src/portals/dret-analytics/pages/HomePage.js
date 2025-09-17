@@ -4,11 +4,11 @@ import { Search, X, Rows, Grid, LayoutGrid, Star } from "lucide-react";
 
 import AnalyticsLayout from "../components/layout";
 import ReportCard from "../components/reportCard";
-import ToolkitReportCard from "../components/ToolkitReportCard";
+import ToolkitReportCard from "../components/toolkitCard";
 import { reportConfig } from "../components/reportConfig";
 import { toolkitConfig } from "../components/ToolkitConfig";
-import { demoToolkitConfig } from "../reports/toolkit/DemoToolkitConfig";
-import { allToolkitConfigs } from "../reports/toolkit/allToolkits";
+import { demoToolkitConfig } from "../toolkits/demo/DemoToolkitConfig";
+import { allToolkitConfigs } from "../toolkits/allToolkits";
 import { useFavourites } from "../hooks/useFavourites";
 
 const TRUST_GREEN = "#205c40";
