@@ -5,7 +5,7 @@ import { Search, X, Rows, Grid, LayoutGrid, Star } from "lucide-react";
 import AnalyticsLayout from "../components/layout";
 import ReportCard from "../components/reportCard";
 import ToolkitReportCard from "../components/toolkitCard";
-import { reportConfig } from "../components/reportConfig";
+import { educationReportConfig } from "../reports/educationReportConfig";
 import { toolkitConfig } from "../toolkits/toolkitConfig";
 import { demoToolkitConfig } from "../toolkits/demo/DemoToolkitConfig";
 import { allToolkitConfigs } from "../toolkits/allToolkits";
@@ -128,7 +128,7 @@ export default function HomePage() {
   };
 
   // Dashboards favourites
-  const favouriteReports = reportConfig.filter(
+  const favouriteReports = educationReportConfig.filter(
     (r) =>
       !r.comingSoon &&
       r.id &&

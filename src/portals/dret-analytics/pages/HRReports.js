@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Search, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import AnalyticsLayout from "../components/layout";
-import { reportConfig } from "../reports/educationReportConfig";
+import { educationReportConfig } from "../reports/educationReportConfig";
 import ReportCard from "../components/reportCard";
 
 // Custom hook for persisting favourites in localStorage
@@ -31,7 +31,7 @@ export default function EducationReports() {
   const [searchFocused, setSearchFocused] = useState(false);
   const navigate = useNavigate();
 
-  const educationReports = reportConfig.filter(
+  const educationReports = educationReportConfig.filter(
     (r) =>
       !r.comingSoon &&
       r.category &&
