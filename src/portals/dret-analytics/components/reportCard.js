@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { Star, Flame, Sparkles } from "lucide-react";
 import dretStar from "../../../assets/icon.png";
+import bromcomLogo from "../../../assets/bromcom.png";
 
 const SHOW_DECORATIVE_STAR = true;
 
@@ -81,6 +82,10 @@ export default function ReportCard({
   const cornerStarSize = cosy ? 140 : 110;
   const cornerOffset = cosy ? -56 : -44;
 
+  // pick logo depending on category
+  const decorativeLogo =
+    report?.category === "Bromcom" ? bromcomLogo : dretStar;
+
   return (
     <div
       role="button"
@@ -106,10 +111,10 @@ export default function ReportCard({
       ].join(" ")}
       style={{ ...paddingStyle, minHeight: minH }}
     >
-      {/* Decorative DRET corner star */}
+      {/* Decorative corner logo (DRET or Bromcom) */}
       {SHOW_DECORATIVE_STAR && (
         <img
-          src={dretStar}
+          src={decorativeLogo}
           alt=""
           aria-hidden="true"
           className="pointer-events-none select-none absolute opacity-[0.02] group-hover:opacity-[0.05] transition-opacity duration-200"
