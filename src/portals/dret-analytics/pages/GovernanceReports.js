@@ -6,7 +6,7 @@ import AnalyticsLayout from "../components/layout";
 import { visibleReports } from "../components/reportConfig";
 import ReportCard from "../components/reportCard";
 
-// Persist favourites in localStorage (scoped to Governance)
+// Persist favourites in localStorage (scoped to Governance!)
 function useFavourites(key = "governanceFavourites") {
   const [favourites, setFavourites] = useState(() => {
     try {
