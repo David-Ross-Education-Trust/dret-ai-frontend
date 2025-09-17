@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useMsal } from "@azure/msal-react";
 import { FaUserCircle } from "react-icons/fa";
 import { FiChevronDown } from "react-icons/fi";
-import dretaiLogo from "./assets/dretai-logo.png";
+import dretaiLogo from "../../../assets/dretai-logo.png";
 
 const navItems = [
   { label: "Home", icon: "fas fa-home", to: "/ai/home" },
