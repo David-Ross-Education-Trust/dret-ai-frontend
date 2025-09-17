@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect, useRef } from "react";
 import { Search, X, Rows, Grid, LayoutGrid, Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import AnalyticsLayout from "../components/layout";
-import { visibleReports } from "../reports/educationReportConfig";
+import { visibleReports } from "../components/reportConfig";
 import ReportCard from "../components/reportCard";
 
 // Persist favourites in localStorage

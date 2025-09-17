@@ -1,4 +1,3 @@
-// src/App.js
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SplashScreen from "./pages/SplashScreen";
@@ -21,19 +20,15 @@ import ITDataReports from "./portals/dret-analytics/pages/ITDataReports";
 import OperationsReports from "./portals/dret-analytics/pages/OperationsReports";
 import GovernanceReports from "./portals/dret-analytics/pages/GovernanceReports";
 
-// Aggregated report routes (ensure this file exists and exports an array)
 import { reportConfig } from "./portals/dret-analytics/components/reportConfig";
-
-// If your file is actually "ToolkitRouter.jsx" with a capital T, match the casing here.
 import ToolkitRouter from "./portals/dret-analytics/toolkits/toolkitRouter";
-
 import RequireAuth from "./auth/RequireAuth";
 
-function App() {
-  // Safety fallbacks so .map never crashes during testing
-  const toolDefs = Array.isArray(toolsConfig) ? toolsConfig : [];
-  const reportRoutes = Array.isArray(reportConfig) ? reportConfig : [];
+// Group-based guards
+import GroupGuard from "./auth/GroupGuard";
+import { GROUPS } from "./auth/groups";
 
+function App() {
   return (
     <Router>
       <Routes>
@@ -49,7 +44,7 @@ function App() {
                 <Route path="/ai/myhub" element={<MyHub />} />
                 <Route path="/ai/student-hub" element={<StudentHub />} />
                 <Route path="/ai/tools" element={<ToolsPage />} />
-                {toolDefs.map(
+                {toolsConfig.map(
                   (tool) =>
                     !tool.comingSoon && (
                       <Route
@@ -63,44 +58,79 @@ function App() {
                 {/* Analytics section root pages */}
                 <Route path="/analytics" element={<AnalyticsHomePage />} />
 
-                {/* Education (unguarded for now) */}
+                {/* Education: Education + Working Group */}
                 <Route
                   path="/analytics/education"
-                  element={<EducationReports />}
+                  element={
+                    <GroupGuard
+                      allowedGroups={[GROUPS.EDUCATION, GROUPS.WORKING_GROUP]}
+                    >
+                      <EducationReports />
+                    </GroupGuard>
+                  }
                 />
 
-                {/* Toolkits: no restrictions (unchanged) */}
+                {/* Toolkits: no restrictions */}
                 <Route path="/analytics/toolkits" element={<ToolkitReports />} />
 
-                {/* Governance (unguarded for now) */}
+                {/* Governance: only Governance */}
                 <Route
                   path="/analytics/governance"
-                  element={<GovernanceReports />}
+                  element={
+                    <GroupGuard allowedGroups={[GROUPS.GOVERNANCE, GROUPS.WORKING_GROUP]}>
+                      <GovernanceReports />
+                    </GroupGuard>
+                  }
                 />
 
-                {/* Finance (unguarded for now) */}
-                <Route path="/analytics/finance" element={<FinanceReports />} />
+                {/* Finance: only Finance */}
+                <Route
+                  path="/analytics/finance"
+                  element={
+                    <GroupGuard allowedGroups={[GROUPS.FINANCE]}>
+                      <FinanceReports />
+                    </GroupGuard>
+                  }
+                />
 
-                {/* HR (unguarded for now) */}
-                <Route path="/analytics/hr" element={<HRReports />} />
+                {/* HR: only HR */}
+                <Route
+                  path="/analytics/hr"
+                  element={
+                    <GroupGuard allowedGroups={[GROUPS.HR]}>
+                      <HRReports />
+                    </GroupGuard>
+                  }
+                />
 
-                {/* IT & Data (unguarded for now) */}
-                <Route path="/analytics/it-data" element={<ITDataReports />} />
+                {/* IT & Data: only IT & Data */}
+                <Route
+                  path="/analytics/it-data"
+                  element={
+                    <GroupGuard allowedGroups={[GROUPS.IT_DATA]}>
+                      <ITDataReports />
+                    </GroupGuard>
+                  }
+                />
 
-                {/* Operations (unguarded for now) */}
+                {/* Operations: only Operations */}
                 <Route
                   path="/analytics/operations"
-                  element={<OperationsReports />}
+                  element={
+                    <GroupGuard allowedGroups={[GROUPS.OPERATIONS]}>
+                      <OperationsReports />
+                    </GroupGuard>
+                  }
                 />
 
-                {/* Dynamic school toolkit pages */}
+                {/* Dynamic school toolkit pages (leave open) */}
                 <Route
                   path="/analytics/toolkits/:schoolKey"
                   element={<ToolkitRouter />}
                 />
 
-                {/* Individual analytics report pages */}
-                {reportRoutes.map(
+                {/* Individual analytics report pages (unchanged) */}
+                {reportConfig.map(
                   (report) =>
                     !report.comingSoon && (
                       <Route
