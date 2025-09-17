@@ -15,7 +15,7 @@ export default function ToolkitReportCard({
   showSourcePrefix = false,
   showMoreMenu = false,
   subtle = true,
-  layoutSizePx = 160, // square size in px (130 compact, ~190 cosy)
+  layoutSizePx = 160,
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
@@ -59,20 +59,17 @@ export default function ToolkitReportCard({
 
   const browserHref = report?.openInBrowserHref || report?.openInBrowserUrl;
 
-  // Match report-card hover behaviour
   const chromeClasses = subtle
     ? "border border-gray-200 shadow-md hover:shadow-lg"
     : "border border-gray-100 shadow-md hover:shadow-xl";
 
-  // Logo size scales with card size
   const logoSize = Math.round(layoutSizePx * 0.38);
 
-  // ✅ Softer scaling for title font size
   const nameFont = (() => {
     const s = Number(layoutSizePx) || 160;
-    if (s <= 150) return Math.max(11, Math.round(s * 0.085)); // compact-ish
-    if (s <= 190) return Math.max(12, Math.round(s * 0.075)); // cosy ramp-down
-    return Math.max(12, Math.round(s * 0.072)); // extra-large safety
+    if (s <= 150) return Math.max(11, Math.round(s * 0.085));
+    if (s <= 190) return Math.max(12, Math.round(s * 0.075));
+    return Math.max(12, Math.round(s * 0.072));
   })();
 
   return (
@@ -85,7 +82,7 @@ export default function ToolkitReportCard({
         "relative cursor-pointer",
         "flex flex-col items-center justify-center",
         disabled ? "opacity-50 pointer-events-none" : "",
-        "group", // ✅ added for hover-based styling
+        "group",
       ].join(" ")}
       style={{ width: layoutSizePx, height: layoutSizePx }}
     >
@@ -181,7 +178,7 @@ export default function ToolkitReportCard({
             wordBreak: "break-word",
             display: "-webkit-box",
             WebkitBoxOrient: "vertical",
-            WebkitLineClamp: 2, // lets cosy wrap more gracefully
+            WebkitLineClamp: 2,
             overflow: "hidden",
           }}
         >

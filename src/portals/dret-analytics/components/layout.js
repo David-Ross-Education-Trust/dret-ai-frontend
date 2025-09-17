@@ -1,4 +1,3 @@
-// src/portals/dret-analytics/components/layout.js
 import React, { useState } from "react";
 import { useMsal } from "@azure/msal-react";
 import { FiLogOut } from "react-icons/fi";

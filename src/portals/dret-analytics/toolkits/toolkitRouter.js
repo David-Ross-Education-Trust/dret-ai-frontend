@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import SchoolToolkit from "./schoolToolkit"; // note: lowercase path
-import { schoolToolkitConfigs } from "../toolkits/allToolkits";
+import SchoolToolkit from "../components/schoolToolkit";
+import { schoolToolkitConfigs } from "./allToolkits";
 
 // Same normaliser you’ve been using (no lowercase so storage keys match existing)
 function normaliseSchoolLabel(label) {
@@ -16,7 +16,7 @@ function normaliseSchoolLabel(label) {
   );
 }
 
-export default function SchoolToolkitRouter() {
+export default function ToolkitRouter() {
   const { schoolKey } = useParams(); // e.g. "ainthorpe", "barneswallis"
   const items = schoolToolkitConfigs[schoolKey];
 

@@ -1,4 +1,3 @@
-// reports/education/report.js
 import React, { useEffect, useState } from "react";
 import { useMsal } from "@azure/msal-react";
 import { PowerBIEmbed } from "powerbi-client-react";

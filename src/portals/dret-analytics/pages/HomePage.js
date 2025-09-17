@@ -6,7 +6,7 @@ import AnalyticsLayout from "../components/layout";
 import ReportCard from "../components/reportCard";
 import ToolkitReportCard from "../components/toolkitCard";
 import { reportConfig } from "../components/reportConfig";
-import { toolkitConfig } from "../components/ToolkitConfig";
+import { toolkitConfig } from "../toolkits/toolkitConfig";
 import { demoToolkitConfig } from "../toolkits/demo/DemoToolkitConfig";
 import { allToolkitConfigs } from "../toolkits/allToolkits";
 import { useFavourites } from "../hooks/useFavourites";

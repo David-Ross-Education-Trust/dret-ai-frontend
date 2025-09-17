@@ -21,7 +21,7 @@ import OperationsReports from "./portals/dret-analytics/pages/OperationsReports"
 import GovernanceReports from "./portals/dret-analytics/pages/GovernanceReports";
 
 import { reportConfig } from "./portals/dret-analytics/components/reportConfig";
-import ToolkitRouter from "./portals/dret-analytics/components/toolkitRouter";
+import ToolkitRouter from "./portals/dret-analytics/toolkits/toolkitRouter";
 import RequireAuth from "./auth/RequireAuth";
 
 // Group-based guards
