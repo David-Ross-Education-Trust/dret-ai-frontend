@@ -10,6 +10,7 @@ const navItems = [
   { label: "Favourites", to: "/analytics" },
   { label: "Education Dashboards", to: "/analytics/education" },
   { label: "Education Toolkits", to: "/analytics/toolkits" },
+  { label: "Governance", to: "/analytics/governance" },
   { label: "Operations", to: "/analytics/operations", disabled: true },
   { label: "Finance", to: "/analytics/finance", disabled: true },
   { label: "HR", to: "/analytics/hr", disabled: true },
@@ -156,7 +157,7 @@ const AnalyticsLayout = ({
         {/* Bottom stack (only when expanded): Report link + user row */}
         {sidebarOpen && (
           <div className="mt-auto">
-            {/* Report an issue — moved up a tad, no underline/icon, slightly larger */}
+            {/* Report an issue */}
             <div className="px-4 pt-2 pb-2 -mt-1">
               <button
                 onClick={handleReportIssue}
