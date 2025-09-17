@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import SplashScreen from "./splash/SplashScreen";
+import SplashScreen from "./pages/SplashScreen";
 
 // AI portal
 import AiHomePage from "./portals/dret-ai/pages/HomePage";
