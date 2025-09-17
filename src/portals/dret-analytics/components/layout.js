@@ -9,7 +9,7 @@ const navItems = [
   { label: "Favourites", to: "/analytics" },
   { label: "Education Dashboards", to: "/analytics/education" },
   { label: "Education Toolkits", to: "/analytics/toolkits" },
-  { label: "Governance", to: "/analytics/governance" },
+  { label: "Governance", to: "/analytics/governance", disabled: true },
   { label: "Operations", to: "/analytics/operations", disabled: true },
   { label: "Finance", to: "/analytics/finance", disabled: true },
   { label: "HR", to: "/analytics/hr", disabled: true },
