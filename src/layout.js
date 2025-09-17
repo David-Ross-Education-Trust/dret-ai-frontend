@@ -4,7 +4,7 @@ import { useMsal } from "@azure/msal-react";
 import { FiLogOut } from "react-icons/fi";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import { useLocation, Link } from "react-router-dom";
-import dretAnalyticsLogo from "../../../assets/dret-analytics-logo.png";
+import dretAnalyticsLogo from "./assets/dret-analytics-logo.png";
 
 const navItems = [
   { label: "Favourites", to: "/analytics" },
