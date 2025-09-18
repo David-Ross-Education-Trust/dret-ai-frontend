@@ -6,7 +6,7 @@
 
 @layer base {
   html, body {
-    font-family: "Avenir LT Std", Avenir, ui-sans-serif, system-ui, sans-serif;
+    font-family: 'Avenir LT Std', 'Inter', ui-sans-serif, system-ui, sans-serif;
     font-weight: 400;
   }
 }
@@ -36,6 +36,7 @@ html, body, #root {
 .scroll-area::-webkit-scrollbar-thumb:hover {
   background-color: #94a3b8;
 }
+
 .font-avenir {
-  font-family: "Avenir LT Std", Avenir, ui-sans-serif, system-ui, sans-serif;
+  font-family: 'Avenir LT Std', 'Inter', ui-sans-serif, system-ui, sans-serif;
 }
