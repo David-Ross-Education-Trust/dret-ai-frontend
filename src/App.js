@@ -22,7 +22,7 @@ import GovernanceReports from "./portals/dret-analytics/pages/GovernanceReports"
 
 // Configs
 import { reportConfig as educationReportConfig } from "./portals/dret-analytics/components/reportConfig";
-import { reportConfig as governanceReportConfig } from "./portals/dret-analytics/reports/GovernanceReportsConfig";
+import { reportConfig as governanceReportConfig } from "./portals/dret-analytics/reports/GovernanceConfig";
 
 import ToolkitRouter from "./portals/dret-analytics/toolkits/toolkitRouter";
 import RequireAuth from "./auth/RequireAuth";
