@@ -112,8 +112,7 @@ export default function ReportCard({
 
   const sectionLabel = getPrimarySectionLabel(report);
 
-  const decorativeLogo =
-    sectionLabel === "Bromcom" ? bromcomLogo : dretStar;
+  const decorativeLogo = sectionLabel === "Bromcom" ? bromcomLogo : dretStar;
 
   const showDecorative = SHOW_DECORATIVE_STAR && !!sectionLabel;
 
@@ -254,4 +253,14 @@ export default function ReportCard({
           )}
           {report.tag === "Hot" && (
             <span
-              className={`${tagStyles.H
+              className={`${tagStyles.Hot} ${tagPad} rounded-full font-medium flex items-center gap-1`}
+            >
+              <Flame style={{ width: iconSize, height: iconSize }} />
+              Hot
+            </span>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
