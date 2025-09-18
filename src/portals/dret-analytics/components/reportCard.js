@@ -9,6 +9,7 @@ const categoryColors = {
   Education: "bg-blue-50 text-blue-800",
   DRET: "bg-green-50 text-green-800",
   Bromcom: "bg-blue-50 text-blue-800",
+  Governance: "bg-indigo-50 text-indigo-800",
   Operations: "bg-green-50 text-green-800",
   HR: "bg-yellow-50 text-yellow-800",
   Finance: "bg-red-50 text-red-800",
@@ -18,8 +19,33 @@ const categoryColors = {
 const tagStyles = {
   Hot: "bg-red-50 text-red-600",
   New: "bg-green-50 text-green-800",
-  Demo: "bg-grey-50 text-grey-700 border border-grey-200",
+  Demo: "bg-gray-50 text-gray-700 border border-gray-200",
 };
+
+const SECTION_LABELS = new Set([
+  "DRET",
+  "Education",
+  "Bromcom",
+  "Governance",
+  "Operations",
+  "Finance",
+  "HR",
+  "IT & Data",
+]);
+
+function getPrimarySectionLabel(report) {
+  const cats = Array.isArray(report?.category)
+    ? report.category.filter(Boolean)
+    : [report?.category].filter(Boolean);
+
+  for (const c of cats) {
+    if (SECTION_LABELS.has(c)) return c;
+  }
+  if (typeof report?.tag === "string" && SECTION_LABELS.has(report.tag)) {
+    return report.tag;
+  }
+  return null;
+}
 
 export default function ReportCard({
   report,
@@ -82,9 +108,12 @@ export default function ReportCard({
   const cornerStarSize = cosy ? 140 : 110;
   const cornerOffset = cosy ? -56 : -44;
 
-  // pick logo depending on category
+  const sectionLabel = getPrimarySectionLabel(report);
+
   const decorativeLogo =
-    report?.category === "Bromcom" ? bromcomLogo : dretStar;
+    sectionLabel === "Bromcom" ? bromcomLogo : dretStar;
+
+  const showDecorative = SHOW_DECORATIVE_STAR && !!sectionLabel;
 
   return (
     <div
@@ -105,14 +134,14 @@ export default function ReportCard({
           : "border border-gray-100 shadow-md hover:shadow-xl",
         "transition-shadow duration-200",
         "cursor-pointer flex flex-col",
-        "group", // enables group-hover
+        "group",
         paddingClass,
         disabled ? "opacity-50 pointer-events-none" : "",
       ].join(" ")}
       style={{ ...paddingStyle, minHeight: minH }}
     >
-      {/* Decorative corner logo (DRET or Bromcom) */}
-      {SHOW_DECORATIVE_STAR && (
+      {/* Decorative corner logo (now driven by category or tag) */}
+      {showDecorative && (
         <img
           src={decorativeLogo}
           alt=""
@@ -223,14 +252,4 @@ export default function ReportCard({
           )}
           {report.tag === "Hot" && (
             <span
-              className={`${tagStyles.Hot} ${tagPad} rounded-full font-medium flex items-center gap-1`}
-            >
-              <Flame style={{ width: iconSize, height: iconSize }} />
-              Hot
-            </span>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
+              className={`${tagStyles.H
