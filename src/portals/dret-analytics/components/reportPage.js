@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useMsal } from "@azure/msal-react";
 import { PowerBIEmbed } from "powerbi-client-react";
 import { models } from "powerbi-client";
@@ -14,8 +14,8 @@ export default function PowerBIReportPage({
   const { instance, accounts } = useMsal();
   const [embedInfo, setEmbedInfo] = useState(null);
   const [error, setError] = useState(null);
+  const abortRef = useRef(null);
 
-  // --- iPad/Safari viewport fix: set --vh to visible viewport height
   useEffect(() => {
     const setVhVar = () => {
       const vh = (window.visualViewport?.height || window.innerHeight) * 0.01;
@@ -30,98 +30,87 @@ export default function PowerBIReportPage({
     };
   }, []);
 
-  useEffect(() => {
-    async function fetchEmbedToken() {
-      if (!accounts[0]) return;
+  const fetchEmbedToken = useCallback(async () => {
+    if (!accounts[0]) return;
+    setError(null);
+    setEmbedInfo(null);
+    abortRef.current?.abort();
+    const ac = new AbortController();
+    abortRef.current = ac;
 
-      // Helper to get an access token for your backend API
-      const getApiToken = async (forceRefresh = false) => {
-        try {
-          return await instance.acquireTokenSilent({
-            account: accounts[0],
-            scopes: API_SCOPES,
-            forceRefresh,
-          });
-        } catch (e) {
-          if (e?.errorCode === "interaction_required") {
-            await instance.acquireTokenRedirect({ scopes: API_SCOPES });
-            return null; // control returns here after redirect
-          }
-          throw e;
-        }
-      };
-
+    const getApiToken = async (forceRefresh = false) => {
       try {
-        let tokenResp = await getApiToken(false);
-        if (!tokenResp) return;
+        return await instance.acquireTokenSilent({
+          account: accounts[0],
+          scopes: API_SCOPES,
+          forceRefresh,
+        });
+      } catch (e) {
+        if (e?.errorCode === "interaction_required") {
+          await instance.acquireTokenRedirect({ scopes: API_SCOPES });
+          return null;
+        }
+        throw e;
+      }
+    };
 
-        let res = await fetch(
+    try {
+      let tokenResp = await getApiToken(false);
+      if (!tokenResp) return;
+
+      const post = async (accessToken) =>
+        fetch(
           "https://dretai-backend-fkf6bhgug2f3eney.uksouth-01.azurewebsites.net/api/powerbi/embed-token",
           {
             method: "POST",
             headers: {
-              Authorization: `Bearer ${tokenResp.accessToken}`, // ✅ access token to backend
+              Authorization: `Bearer ${accessToken}`,
               "Content-Type": "application/json",
             },
             body: JSON.stringify({ reportKey }),
+            signal: ac.signal,
           }
         );
 
-        // One-shot retry with forceRefresh if unauthorized (key rollover / clock skew)
-        if (res.status === 401) {
-          tokenResp = await getApiToken(true);
-          if (!tokenResp) return;
-          res = await fetch(
-            "https://dretai-backend-fkf6bhgug2f3eney.uksouth-01.azurewebsites.net/api/powerbi/embed-token",
-            {
-              method: "POST",
-              headers: {
-                Authorization: `Bearer ${tokenResp.accessToken}`,
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ reportKey }),
-            }
-          );
-        }
-
-        const data = await res.json();
-        if (!res.ok || data.error) {
-          throw new Error(data.error || `Embed token fetch failed (${res.status})`);
-        }
-        setEmbedInfo(data);
-      } catch (err) {
-        setError(err.message || "Failed to load report");
+      let res = await post(tokenResp.accessToken);
+      if (res.status === 401) {
+        tokenResp = await getApiToken(true);
+        if (!tokenResp) return;
+        res = await post(tokenResp.accessToken);
       }
-    }
 
-    fetchEmbedToken();
+      const text = await res.text();
+      const data = text ? JSON.parse(text) : {};
+      if (!res.ok || data.error) {
+        throw new Error(data.error || `Embed token fetch failed (${res.status})`);
+      }
+      if (!ac.signal.aborted) setEmbedInfo(data);
+    } catch (err) {
+      if (err?.name === "AbortError") return;
+      setError(err?.message || "Failed to load report");
+    }
   }, [accounts, instance, reportKey]);
+
+  useEffect(() => {
+    fetchEmbedToken();
+    return () => abortRef.current?.abort();
+  }, [fetchEmbedToken]);
 
   return (
     <AnalyticsLayout allowSidebarMinimise hideHeaderWithSidebar>
       {({ sidebarOpen }) => {
-        // Prefer 100svh; fall back to --vh for older Safari
         const fullSVH = "100svh";
         const fullFallback = "calc(var(--vh, 1vh) * 100)";
-
-        const cardHeight = sidebarOpen
-          ? `calc(${fullSVH} - 7.25rem)` // 6rem header + 1.25rem gap
-          : fullSVH;
-        const cardHeightFallback = sidebarOpen
-          ? `calc(${fullFallback} - 7.25rem)`
-          : fullFallback;
-
-        const outerPadding = sidebarOpen ? "px-2 sm:px-4 md:px-6" : "p-0";  // page gutters
-        const innerPadding = sidebarOpen ? "p-4 sm:p-5 md:p-6" : "p-0";     // white border thickness
+        const cardHeight = sidebarOpen ? `calc(${fullSVH} - 7.25rem)` : fullSVH;
+        const cardHeightFallback = sidebarOpen ? `calc(${fullFallback} - 7.25rem)` : fullFallback;
+        const outerPadding = sidebarOpen ? "px-2 sm:px-4 md:px-6" : "p-0";
+        const innerPadding = sidebarOpen ? "p-4 sm:p-5 md:p-6" : "p-0";
 
         return (
-          <div
-            className="flex flex-col min-h-[100svh] bg-gray-50"
-            style={{ minHeight: fullFallback }}
-          >
+          <div className="flex flex-col min-h-[100svh] bg-gray-50 font-avenir" style={{ minHeight: fullFallback }}>
             {sidebarOpen && (
               <div className="shrink-0 z-20 shadow-sm px-8 h-24 flex items-center justify-between bg-white">
-                <h1 className="text-2xl font-bold" style={{ color: "#205c40" }}>
+                <h1 className="text-2xl font-extrabold font-avenir" style={{ color: "#205c40" }}>
                   {title}
                 </h1>
                 <div className="relative flex-shrink-0 w-[240px] ml-4" />
@@ -133,18 +122,30 @@ export default function PowerBIReportPage({
                 className="flex-grow flex-shrink bg-white rounded-xl shadow-md w-full flex flex-col border border-gray-200 min-h-0"
                 style={{
                   marginTop: sidebarOpen ? "1.25rem" : "0",
-                  // Use the smaller of svh and fallback to avoid overshoot on iPad
                   height: `min(${cardHeight}, ${cardHeightFallback})`,
                   overflow: "hidden",
                 }}
+                aria-busy={!embedInfo && !error}
+                aria-live="polite"
               >
-                {error && <div className="text-red-600 p-4">{error}</div>}
+                {error && (
+                  <div className="text-red-600 p-4 flex items-center justify-between">
+                    <span className="text-sm">{error}</span>
+                    <button
+                      onClick={fetchEmbedToken}
+                      className="text-sm px-3 py-1.5 rounded-md border border-gray-300 hover:bg-gray-50"
+                      type="button"
+                    >
+                      Retry
+                    </button>
+                  </div>
+                )}
+
                 {!embedInfo && !error && (
-                  <div className="text-gray-500 p-4">Loading Power BI report...</div>
+                  <div className="text-gray-500 p-4 text-sm">Loading Power BI report...</div>
                 )}
 
                 {embedInfo && (
-                  // Inner padding reads as a thicker white border when sidebar is open
                   <div className={`${innerPadding} h-full w-full`}>
                     <div className="w-full h-full rounded-lg overflow-hidden">
                       <PowerBIEmbed
@@ -161,7 +162,7 @@ export default function PowerBIReportPage({
                             },
                             filterPaneEnabled: showFilters,
                             navContentPaneEnabled: true,
-                            background: models.BackgroundType.Transparent, // avoids grey edges
+                            background: models.BackgroundType.Transparent,
                           },
                           viewMode: models.ViewMode.View,
                         }}
