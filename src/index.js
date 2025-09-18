@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './fonts/fonts.css';
 import './index.css';
 import App from './App';
 
@@ -12,7 +11,7 @@ const msalInstance = new PublicClientApplication(msalConfig);
 
 async function main() {
   try {
-    await msalInstance.initialize(); // ✅ Ensure MSAL is ready before usage
+    await msalInstance.initialize();
 
     const root = ReactDOM.createRoot(document.getElementById('root'));
     root.render(
