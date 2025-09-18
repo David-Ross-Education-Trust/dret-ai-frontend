@@ -39,7 +39,6 @@ function getPrimarySectionLabel(report) {
   const cats = Array.isArray(report?.category)
     ? report.category.filter(Boolean)
     : [report?.category].filter(Boolean);
-
   for (const c of cats) {
     if (SECTION_LABELS.has(c)) return c;
   }
@@ -49,7 +48,7 @@ function getPrimarySectionLabel(report) {
   return null;
 }
 
-export default function ReportCard({
+function ReportCard({
   report,
   isFavourite,
   onFavourite,
@@ -78,7 +77,6 @@ export default function ReportCard({
     const size = Number(layoutSizePx) || 240;
     const cosy = size >= 260;
     const wantP = cosy ? 18 : 14;
-
     return {
       titleSize: cosy ? "text-[16px]" : "text-[15px]",
       descSize: cosy ? "text-[12.5px]" : "text-[12px]",
@@ -104,16 +102,16 @@ export default function ReportCard({
     overflow: "hidden",
   });
 
-  const isDemo =
-    report?.demo === true || report?.tag === "Demo" || report?.tag === "DEMO";
+  const tagLower = typeof report?.tag === "string" ? report.tag.toLowerCase() : "";
+  const isDemo = report?.demo === true || tagLower === "demo" || tagLower === "demo".toLowerCase();
+  const isNewTag = tagLower === "new";
+  const isHotTag = tagLower === "hot";
 
   const cornerStarSize = cosy ? 140 : 110;
   const cornerOffset = cosy ? -56 : -44;
 
   const sectionLabel = getPrimarySectionLabel(report);
-
   const decorativeLogo = sectionLabel === "Bromcom" ? bromcomLogo : dretStar;
-
   const showDecorative = SHOW_DECORATIVE_STAR && !!sectionLabel;
 
   return (
@@ -129,7 +127,7 @@ export default function ReportCard({
         }
       }}
       className={[
-        "relative rounded-xl bg-white overflow-hidden",
+        "relative rounded-xl bg-white overflow-hidden font-avenir",
         subtle
           ? "border border-gray-200 shadow-md hover:shadow-lg"
           : "border border-gray-100 shadow-md hover:shadow-xl",
@@ -141,9 +139,10 @@ export default function ReportCard({
       ].join(" ")}
       style={{ ...paddingStyle, minHeight: minH }}
     >
-      {/* Decorative corner logo (now driven by category or tag) */}
       {showDecorative && (
         <img
+          loading="lazy"
+          decoding="async"
           src={decorativeLogo}
           alt=""
           aria-hidden="true"
@@ -159,7 +158,6 @@ export default function ReportCard({
         />
       )}
 
-      {/* Favourite star (top-right) */}
       {typeof onFavourite === "function" && (
         <button
           onClick={(e) => {
@@ -168,6 +166,8 @@ export default function ReportCard({
           }}
           className="absolute top-3 right-3 p-0 w-[22px] h-[22px] flex items-center justify-center rounded-full focus:outline-none z-10"
           aria-label={isFavourite ? "Unfavourite" : "Favourite"}
+          aria-pressed={isFavourite}
+          title={isFavourite ? "Unfavourite" : "Favourite"}
           type="button"
         >
           <Star
@@ -184,22 +184,21 @@ export default function ReportCard({
         </button>
       )}
 
-      {/* Main content */}
       <div
         className={`relative z-10 flex flex-col ${gapY} pr-8 mb-8`}
         style={{ marginBottom: contentBottomGapPx }}
       >
         <h3
-          className={`${titleSize} font-semibold leading-snug text-gray-900`}
-          style={{ ...clamp(titleClamp), fontFamily: "system-ui, sans-serif" }}
+          className={`${titleSize} font-semibold leading-snug text-gray-900 font-avenir`}
+          style={{ ...clamp(titleClamp) }}
           title={report.name}
         >
           {report.name}
         </h3>
         {report.description && (
           <p
-            className={`${descSize} text-gray-600 leading-snug`}
-            style={{ ...clamp(descClamp), fontFamily: "system-ui, sans-serif" }}
+            className={`${descSize} text-gray-600 leading-snug font-avenir`}
+            style={{ ...clamp(descClamp) }}
             title={report.description}
           >
             {report.description}
@@ -207,10 +206,8 @@ export default function ReportCard({
         )}
       </div>
 
-      {/* Bottom row: categories + tags left */}
       <div className="absolute bottom-3 left-3 right-3 flex justify-between items-center z-10">
         <div className={`flex flex-wrap gap-2 ${chipText}`}>
-          {/* Categories */}
           {Array.isArray(report.category)
             ? report.category
                 .filter((c) => categoryColors[c])
@@ -227,34 +224,26 @@ export default function ReportCard({
             : categoryColors[report.category] && (
                 <span
                   className={`${catPad} rounded-full font-medium ${
-                    categoryColors[report.category] ||
-                    "bg-gray-100 text-gray-600"
+                    categoryColors[report.category] || "bg-gray-100 text-gray-600"
                   }`}
                 >
                   {report.category}
                 </span>
               )}
 
-          {/* Tags */}
           {isDemo && (
-            <span
-              className={`${tagStyles.Demo} ${tagPad} rounded-full font-semibold uppercase tracking-wide`}
-            >
+            <span className={`${tagStyles.Demo} ${tagPad} rounded-full font-semibold uppercase tracking-wide`}>
               Demo
             </span>
           )}
-          {report.tag === "New" && (
-            <span
-              className={`${tagStyles.New} ${tagPad} rounded-full font-medium flex items-center gap-1`}
-            >
+          {isNewTag && (
+            <span className={`${tagStyles.New} ${tagPad} rounded-full font-medium flex items-center gap-1`}>
               <Sparkles style={{ width: iconSize, height: iconSize }} />
               New
             </span>
           )}
-          {report.tag === "Hot" && (
-            <span
-              className={`${tagStyles.Hot} ${tagPad} rounded-full font-medium flex items-center gap-1`}
-            >
+          {isHotTag && (
+            <span className={`${tagStyles.Hot} ${tagPad} rounded-full font-medium flex items-center gap-1`}>
               <Flame style={{ width: iconSize, height: iconSize }} />
               Hot
             </span>
@@ -264,3 +253,5 @@ export default function ReportCard({
     </div>
   );
 }
+
+export default React.memo(ReportCard);
