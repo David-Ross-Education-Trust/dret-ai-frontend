@@ -6,7 +6,7 @@ export const reportConfig = [
     name: "Education Report",
     description: "Education metrics and analysis. This is a demo report, data is not live.",
     category: "DRET",
-    tag: "DEMO",
+    tag: "Demo",
     href: "/analytics/education/dret-education-team-report",
     component: () => (
       <PowerBIReportPage
@@ -23,7 +23,7 @@ export const reportConfig = [
     name: "Academy Report",
     description: "Academy-level performance and analysis. This is a demo report, data is not live.",
     category: "DRET",
-    tag: "DEMO",
+    tag: "Demo",
     href: "/analytics/education/dret-academy-report",
     component: () => (
       <PowerBIReportPage
@@ -40,7 +40,7 @@ export const reportConfig = [
     name: "Pupil Profile",
     description: "Detailed profile data for each pupil. This is a demo report, data is not live.",
     category: "DRET",
-    tag: "DEMO",
+    tag: "Demo",
     href: "/analytics/education/dret-pupil-profile",
     component: () => (
       <PowerBIReportPage
@@ -224,8 +224,8 @@ export const reportConfig = [
   },
 ];
 
-export const isActive  = (r) => r.status === "active";
-export const isVisible = (r) => r.status !== "hidden"; // active or coming-soon
+export const isActive = (r) => r.status === "active";
+export const isVisible = (r) => r.status !== "hidden";
 
-export const activeReports  = reportConfig.filter(isActive);   // use for routes
-export const visibleReports = reportConfig.filter(isVisible);  // use for cards/menus
+export const activeReports = reportConfig.filter(isActive);
+export const visibleReports = reportConfig.filter(isVisible);
