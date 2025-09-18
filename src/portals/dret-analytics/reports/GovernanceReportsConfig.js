@@ -1,4 +1,4 @@
-import PowerBIReportPage from "./reportPage";
+import PowerBIReportPage from "../components/reportPage";
 
 export const reportConfig = [
   {
