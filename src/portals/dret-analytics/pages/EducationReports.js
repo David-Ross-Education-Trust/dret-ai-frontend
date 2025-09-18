@@ -5,7 +5,6 @@ import AnalyticsLayout from "../components/layout";
 import { visibleReports } from "../components/reportConfig";
 import ReportCard from "../components/reportCard";
 
-// Persist favourites in localStorage
 function useFavourites(key = "analyticsFavourites") {
   const [favourites, setFavourites] = useState(() => {
     try {
@@ -19,7 +18,7 @@ function useFavourites(key = "analyticsFavourites") {
   useEffect(() => {
     try {
       localStorage.setItem(key, JSON.stringify(favourites));
-    } catch { /* no-op */ }
+    } catch {}
   }, [favourites, key]);
 
   const toggleFavourite = (id) =>
@@ -28,7 +27,6 @@ function useFavourites(key = "analyticsFavourites") {
   return [favourites, toggleFavourite];
 }
 
-// Smart open: external links in new tab, relative paths via router
 function openExternalOrRoute(href, navigate) {
   if (!href) return;
   if (/^https?:\/\//i.test(href)) {
@@ -38,10 +36,9 @@ function openExternalOrRoute(href, navigate) {
   navigate(href);
 }
 
-// Storage keys for this page (separate from toolkits)
 const VIEW_STORAGE_KEYS = {
-  mode: "educationViewMode",           // "compact" | "cosy" | "list"
-  favesOnly: "educationViewFavesOnly", // "true" | "false"
+  mode: "educationViewMode",
+  favesOnly: "educationViewFavesOnly",
 };
 
 export default function EducationReports() {
@@ -51,10 +48,10 @@ export default function EducationReports() {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false); // <lg: inline replace controls
+  const [searchOpen, setSearchOpen] = useState(false);
   const searchInlineRef = useRef(null);
+  const searchDesktopRef = useRef(null);
 
-  // View settings (persisted)
   const [mode, setMode] = useState(() => {
     try {
       const stored = localStorage.getItem(VIEW_STORAGE_KEYS.mode);
@@ -66,7 +63,7 @@ export default function EducationReports() {
   useEffect(() => {
     try {
       localStorage.setItem(VIEW_STORAGE_KEYS.mode, mode);
-    } catch { /* no-op */ }
+    } catch {}
   }, [mode]);
 
   const [showOnlyFaves, setShowOnlyFaves] = useState(() => {
@@ -80,33 +77,27 @@ export default function EducationReports() {
   useEffect(() => {
     try {
       localStorage.setItem(VIEW_STORAGE_KEYS.favesOnly, String(showOnlyFaves));
-    } catch { /* no-op */ }
+    } catch {}
   }, [showOnlyFaves]);
 
-  // Presets sized for dashboard cards
   const PRESETS = {
     compact: { size: 240, gap: 16 },
-    cosy:    { size: 300, gap: 24 },
-    list:    { size: 0,   gap: 0  },
+    cosy: { size: 300, gap: 24 },
+    list: { size: 0, gap: 0 },
   };
   const { size, gap } = PRESETS[mode];
 
   const TRUST_GREEN = "#205c40";
 
-  // Filter visible reports (limit to Education: DRET/Bromcom) + search + favourites
   const filtered = useMemo(() => {
     const t = searchTerm.trim().toLowerCase();
-
     return visibleReports.filter((r) => {
       const catRaw = Array.isArray(r.category) ? r.category : [r.category];
       const firstCat = (catRaw.filter(Boolean)[0] || "").toLowerCase();
       const inEducation = ["dret", "bromcom"].includes(firstCat);
       if (!inEducation) return false;
-
       if (r.status === "coming-soon") return false;
-
       if (showOnlyFaves && !favourites.includes(r.id)) return false;
-
       if (!t) return true;
       return (
         (r.name && r.name.toLowerCase().includes(t)) ||
@@ -121,7 +112,6 @@ export default function EducationReports() {
     setTimeout(() => setClickedStar(null), 300);
   };
 
-  // Autofocus when inline search opens
   useEffect(() => {
     if (searchOpen && searchInlineRef.current) {
       const el = searchInlineRef.current;
@@ -130,26 +120,37 @@ export default function EducationReports() {
     }
   }, [searchOpen]);
 
+  useEffect(() => {
+    const onKey = (e) => {
+      const k = e.key?.toLowerCase();
+      if ((e.metaKey || e.ctrlKey) && k === "k") {
+        e.preventDefault();
+        if (window.innerWidth < 1024) setSearchOpen(true);
+        const target = window.innerWidth >= 1024 ? searchDesktopRef.current : searchInlineRef.current;
+        if (target) {
+          target.focus();
+          target.selectionStart = target.selectionEnd = target.value.length;
+        }
+      }
+      if (k === "escape") {
+        if (searchOpen) setSearchOpen(false);
+        if (searchTerm) setSearchTerm("");
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [searchOpen, searchTerm]);
+
   return (
     <AnalyticsLayout>
-      <div
-        className="bg-gray-100 min-h-screen h-screen flex flex-col font-avenir"
-        style={{ fontFamily: "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif" }}
-      >
-        {/* Top Bar */}
-        <div
-          className="shrink-0 z-20 shadow-sm px-6 md:px-8 h-24 flex items-center justify-between"
-          style={{ backgroundColor: "#ffffff" }}
-        >
-          {/* LEFT: Title */}
-          <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
+      <div className="bg-gray-100 min-h-screen h-screen flex flex-col font-avenir">
+        <div className="shrink-0 z-20 shadow-sm px-6 md:px-8 h-24 flex items-center justify-between" style={{ backgroundColor: "#ffffff" }}>
+          <h1 className="text-2xl font-extrabold" style={{ color: TRUST_GREEN }}>
             Education Dashboards
           </h1>
 
-          {/* RIGHT: favourites, view toggle, search */}
           <div className="flex items-center gap-3">
             {searchOpen ? (
-              // On <lg, inline search replaces the other controls
               <div className="flex items-center lg:hidden">
                 <div className="relative w-[240px]">
                   <input
@@ -157,9 +158,14 @@ export default function EducationReports() {
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Escape") {
+                        setSearchTerm("");
+                        setSearchOpen(false);
+                      }
+                    }}
                     placeholder="Search dashboards"
-                    className="w-full border border-gray-300 rounded-md px-4 py-2 pr-10 text-sm outline-none"
-                    style={{ fontFamily: "AvenirLTStdLight, Avenir, sans-serif" }}
+                    className="w-full border border-gray-300 rounded-md px-4 py-2 pr-10 text-sm outline-none font-avenir"
                   />
                   {searchTerm && (
                     <button
@@ -184,7 +190,6 @@ export default function EducationReports() {
               </div>
             ) : (
               <>
-                {/* Favourites-only toggle (hide on <sm to match policy) */}
                 <button
                   onClick={() => setShowOnlyFaves((v) => !v)}
                   className={`hidden sm:inline-flex p-2 rounded-full border transition ${
@@ -193,6 +198,7 @@ export default function EducationReports() {
                   title="Toggle favourites only"
                   type="button"
                   aria-label="Toggle favourites only"
+                  aria-pressed={showOnlyFaves}
                 >
                   <Star
                     size={18}
@@ -202,7 +208,6 @@ export default function EducationReports() {
                   />
                 </button>
 
-                {/* View toggle — labels only on lg+; hide group on <sm */}
                 <div className="hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden">
                   <button
                     className={`px-3 py-2 text-sm flex items-center gap-1 ${mode === "compact" ? "bg-gray-100" : "bg-white hover:bg-gray-50"}`}
@@ -236,20 +241,22 @@ export default function EducationReports() {
                   </button>
                 </div>
 
-                {/* Search: lg+ full input; <lg icon (hidden on <sm) */}
                 <div className="relative flex-shrink-0 hidden lg:block w-[260px]">
                   <input
+                    ref={searchDesktopRef}
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     placeholder="Search dashboards"
                     onFocus={() => setSearchFocused(true)}
                     onBlur={() => setSearchFocused(false)}
-                    className={`w-full border ${searchFocused ? "" : "border-gray-300"} rounded-md px-4 py-2 pr-10 text-sm outline-none transition`}
+                    onKeyDown={(e) => {
+                      if (e.key === "Escape") setSearchTerm("");
+                    }}
+                    className={`w-full border ${searchFocused ? "" : "border-gray-300"} rounded-md px-4 py-2 pr-10 text-sm outline-none transition font-avenir`}
                     style={{
                       borderColor: searchFocused ? TRUST_GREEN : undefined,
                       boxShadow: searchFocused ? `0 0 0 2px ${TRUST_GREEN}40` : undefined,
-                      fontFamily: "AvenirLTStdLight, Avenir, sans-serif",
                     }}
                   />
                   {searchTerm && (
@@ -266,11 +273,10 @@ export default function EducationReports() {
                   <Search className="absolute right-3 top-2.5 h-4 w-4 text-gray-400" />
                 </div>
 
-                {/* Search icon (sm..lg-1) */}
                 <button
                   className="hidden sm:inline-flex lg:hidden p-2 rounded-md border border-gray-200 hover:bg-gray-50"
                   aria-label="Open search"
-                  title="Search"
+                  title="Search (Ctrl/Cmd+K)"
                   type="button"
                   onClick={() => setSearchOpen(true)}
                 >
@@ -281,21 +287,27 @@ export default function EducationReports() {
           </div>
         </div>
 
-        {/* Content */}
         <div className="flex-1 overflow-y-auto p-6 md:p-8 custom-scrollbar">
           {filtered.length === 0 ? (
             <div className="text-gray-500 italic text-center">
               No dashboards{searchTerm ? " match this search." : "."}
             </div>
           ) : mode === "list" ? (
-            // LIST VIEW — row clickable, star at end
             <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
               <ul className="divide-y divide-gray-100">
                 {filtered.map((report) => (
                   <li
+                    role="button"
+                    tabIndex={0}
                     key={report.id}
                     className="flex items-center justify-between px-4 py-3 hover:bg-gray-50 cursor-pointer"
                     onClick={() => openExternalOrRoute(report.href, navigate)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        openExternalOrRoute(report.href, navigate);
+                      }
+                    }}
                   >
                     <div className="min-w-0">
                       <div className="truncate text-sm text-gray-900">{report.name}</div>
@@ -310,6 +322,8 @@ export default function EducationReports() {
                       }}
                       className="p-2 rounded-full group transition"
                       aria-label={favourites.includes(report.id) ? "Unfavourite" : "Favourite"}
+                      aria-pressed={favourites.includes(report.id)}
+                      title={favourites.includes(report.id) ? "Unfavourite" : "Favourite"}
                       type="button"
                     >
                       <Star
@@ -325,7 +339,6 @@ export default function EducationReports() {
               </ul>
             </div>
           ) : (
-            // GRID VIEW — auto-fill + minmax
             <div
               className="grid"
               style={{
