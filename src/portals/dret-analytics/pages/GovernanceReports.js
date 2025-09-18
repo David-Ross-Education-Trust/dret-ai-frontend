@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect, useRef } from "react";
 import { Search, X, Rows, Grid, LayoutGrid, Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import AnalyticsLayout from "../components/layout";
-import { visibleReports } from "../components/GovernanceReportsConfig";
+import { visibleReports } from "../reports/GovernanceReportsConfig";
 import ReportCard from "../components/reportCard";
 
 function useFavourites(key = "governanceFavourites") {
