@@ -1,30 +1,22 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-    "./public/index.html"
-  ],
+  content: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
   theme: {
     extend: {
       colors: {
         'trust-green': '#205c40',
         'trust-green-dark': '#184b34',
         'trust-green-light': '#7d9286',
-        'trust-green-light-2': '#d6dbd9', // ✅ Newly added
+        'trust-green-light-2': '#d6dbd9',
         'note-yellow': '#fff9b1',
         'note-yellow-dark': '#eedc85',
       },
       fontFamily: {
-        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        avenir: ['AvenirLTStdLight', 'Avenir', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans: ['"Avenir LT Std"', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        avenir: ['"Avenir LT Std"', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
-      borderRadius: {
-        xl: '1rem',
-        '2xl': '1.5rem',
-      },
-      animation: {
-        'ping-once': 'pingOnce 0.4s ease-out',
-      },
+      borderRadius: { xl: '1rem', '2xl': '1.5rem' },
+      animation: { 'ping-once': 'pingOnce 0.4s ease-out' },
       keyframes: {
         pingOnce: {
           '0%': { transform: 'scale(1)', opacity: '1' },
@@ -39,14 +31,14 @@ module.exports = {
             fontFamily: theme('fontFamily.sans').join(', '),
             h1: {
               color: theme('colors.trust-green'),
-              fontWeight: '700',
+              fontWeight: '900',              // <- use the 95 face
               fontSize: '2rem',
               marginTop: '0',
               marginBottom: '0.7em',
             },
             h2: {
               color: theme('colors.trust-green'),
-              fontWeight: '600',
+              fontWeight: '700',
               fontSize: '1.35rem',
               marginTop: '1.2em',
               marginBottom: '0.5em',
@@ -95,41 +87,17 @@ module.exports = {
               marginLeft: '0',
               borderRadius: '0.5em',
             },
-            ul: {
-              paddingLeft: '1.2em',
-              marginTop: '0.3em',
-              marginBottom: '0.7em',
-            },
-            ol: {
-              paddingLeft: '1.2em',
-              marginTop: '0.3em',
-              marginBottom: '0.7em',
-            },
-            'ul > li::marker': {
-              color: theme('colors.trust-green'),
-            },
-            'ol > li::marker': {
-              color: theme('colors.trust-green'),
-            },
-            hr: {
-              borderColor: theme('colors.trust-green'),
-              marginTop: '2em',
-              marginBottom: '2em',
-            },
-            table: {
-              borderColor: theme('colors.gray.200'),
-            },
-            th: {
-              backgroundColor: theme('colors.trust-green'),
-              color: theme('colors.white'),
-              fontWeight: '600',
-            },
+            ul: { paddingLeft: '1.2em', marginTop: '0.3em', marginBottom: '0.7em' },
+            ol: { paddingLeft: '1.2em', marginTop: '0.3em', marginBottom: '0.7em' },
+            'ul > li::marker': { color: theme('colors.trust-green') },
+            'ol > li::marker': { color: theme('colors.trust-green') },
+            hr: { borderColor: theme('colors.trust-green'), marginTop: '2em', marginBottom: '2em' },
+            table: { borderColor: theme('colors.gray.200') },
+            th: { backgroundColor: theme('colors.trust-green'), color: theme('colors.white'), fontWeight: '600' },
           },
         },
       }),
     },
   },
-  plugins: [
-    require('@tailwindcss/typography'),
-  ],
+  plugins: [require('@tailwindcss/typography')],
 };
