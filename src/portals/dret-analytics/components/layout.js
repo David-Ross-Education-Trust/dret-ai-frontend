@@ -44,7 +44,10 @@ const AnalyticsLayout = ({
 
   return (
     <div className="flex font-avenir h-screen bg-gray-50">
+      <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:bg-white focus:text-[var(--trust-green)] focus:px-3 focus:py-2 focus:rounded">Skip to content</a>
       <aside
+        id="sidebar"
+        aria-label="Primary"
         className={`text-white h-screen transition-all duration-300 flex flex-col fixed top-0 left-0 z-40 shadow-lg ${sidebarOpen ? "w-60" : "w-14"}`}
         style={{
           minWidth: sidebarOpen ? sidebarWidth : sidebarMiniWidth,
@@ -62,8 +65,11 @@ const AnalyticsLayout = ({
               <button
                 onClick={() => setSidebarOpen((v) => !v)}
                 aria-label="Collapse sidebar"
+                aria-expanded={sidebarOpen}
+                aria-controls="sidebar"
                 className="absolute right-2 top-1/2 -translate-y-1/2 bg-white text-[var(--trust-green)] border border-gray-200 rounded-full shadow hover:bg-gray-200 transition-all w-9 h-9 flex items-center justify-center"
                 style={{ boxShadow: "0 2px 8px 0 rgba(32,92,64,0.09)" }}
+                type="button"
               >
                 <HiChevronLeft size={22} />
               </button>
@@ -75,8 +81,11 @@ const AnalyticsLayout = ({
               <button
                 onClick={() => setSidebarOpen((v) => !v)}
                 aria-label="Expand sidebar"
+                aria-expanded={sidebarOpen}
+                aria-controls="sidebar"
                 className="bg-white text-[var(--trust-green)] border border-gray-200 rounded-full shadow hover:bg-gray-200 transition-all w-9 h-9 flex items-center justify-center"
                 style={{ boxShadow: "0 2px 8px 0 rgba(32,92,64,0.09)" }}
+                type="button"
               >
                 <HiChevronRight size={22} />
               </button>
@@ -84,7 +93,7 @@ const AnalyticsLayout = ({
           )
         )}
 
-        <nav className="mt-6 flex flex-col gap-1">
+        <nav className="mt-6 flex flex-col gap-1" role="navigation" aria-label="Primary">
           {navItems.map((item) => {
             const isSelected =
               location.pathname === item.to ||
@@ -108,7 +117,7 @@ const AnalyticsLayout = ({
               <Link
                 key={item.to}
                 to={item.to}
-                className={`flex items-center px-4 py-3 rounded transition-transform duration-150 relative group hover:scale-[1.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 ${sidebarOpen ? "" : "justify-center"} text-white font-normal`}
+                className={`flex items-center px-4 py-3 rounded transition-transform duration-150 relative group motion-safe:hover:scale-[1.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 ${sidebarOpen ? "" : "justify-center"} text-white font-normal`}
                 aria-current={isSelected ? "page" : undefined}
               >
                 {isSelected && (
@@ -117,6 +126,7 @@ const AnalyticsLayout = ({
                     height="10"
                     viewBox="0 0 10 10"
                     style={{ display: "inline-block", marginRight: "6px" }}
+                    aria-hidden="true"
                   >
                     <circle cx="5" cy="5" r="4" fill="white" />
                   </svg>
@@ -167,6 +177,7 @@ const AnalyticsLayout = ({
       </aside>
 
       <main
+        id="main"
         className={`transition-all duration-300 ${sidebarOpen ? "ml-60" : "ml-14"} flex-1 min-h-screen bg-gray-50 max-w-full`}
         style={{ paddingTop: 0 }}
       >
