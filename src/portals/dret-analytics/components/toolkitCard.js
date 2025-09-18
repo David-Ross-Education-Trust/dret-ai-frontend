@@ -2,8 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Star, MoreVertical } from "lucide-react";
 
-const CUSTOM_SCHEME_RE =
-  /^(ms-(excel|word|powerpoint|project|access|onenote|visio|office):|mailto:|tel:)/i;
+const CUSTOM_SCHEME_RE = /^(ms-(excel|word|powerpoint|project|access|onenote|visio|office):|mailto:|tel:)/i;
 
 export default function ToolkitReportCard({
   report,
@@ -29,32 +28,44 @@ export default function ToolkitReportCard({
   useEffect(() => {
     if (!showMoreMenu) return;
     const handleClickOutside = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target))
-        setMenuOpen(false);
+      if (menuRef.current && !menuRef.current.contains(e.target)) setMenuOpen(false);
+    };
+    const handleEsc = (e) => {
+      if (e.key === "Escape") setMenuOpen(false);
     };
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEsc);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEsc);
+    };
   }, [showMoreMenu]);
 
-  const handleCardClick = (e) => {
+  const handleCardActivate = () => {
     if (disabled) return;
     const href = report?.href;
-    if (href) {
-      if (CUSTOM_SCHEME_RE.test(href)) {
-        e.preventDefault();
-        window.location.assign(href);
-        return;
-      }
-      if (/^https?:\/\//i.test(href)) {
-        if (typeof onClick === "function") onClick(report);
-        else window.open(href, "_blank", "noopener,noreferrer");
-        return;
-      }
+    if (!href) {
       if (typeof onClick === "function") onClick(report);
-      else navigate(href);
+      return;
+    }
+    if (CUSTOM_SCHEME_RE.test(href)) {
+      window.location.assign(href);
+      return;
+    }
+    if (/^https?:\/\//i.test(href)) {
+      if (typeof onClick === "function") onClick(report);
+      else window.open(href, "_blank", "noopener,noreferrer");
       return;
     }
     if (typeof onClick === "function") onClick(report);
+    else navigate(href);
+  };
+
+  const handleCardKeyDown = (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      handleCardActivate();
+    }
   };
 
   const browserHref = report?.openInBrowserHref || report?.openInBrowserUrl;
@@ -74,19 +85,22 @@ export default function ToolkitReportCard({
 
   return (
     <div
-      onClick={handleCardClick}
+      role="button"
+      tabIndex={0}
+      onClick={handleCardActivate}
+      onKeyDown={handleCardKeyDown}
       className={[
         "bg-white rounded-xl",
         chromeClasses,
         "transition-shadow duration-200",
         "relative cursor-pointer",
         "flex flex-col items-center justify-center",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-300",
         disabled ? "opacity-50 pointer-events-none" : "",
         "group",
       ].join(" ")}
       style={{ width: layoutSizePx, height: layoutSizePx }}
     >
-      {/* More menu (top-left) */}
       {showMoreMenu && (
         <div className="absolute top-3 left-3 z-20" ref={menuRef}>
           <button
@@ -97,27 +111,31 @@ export default function ToolkitReportCard({
             className="text-gray-400 hover:text-gray-600 p-2 rounded-full transition-colors"
             type="button"
             aria-label="More"
+            aria-haspopup="menu"
+            aria-expanded={menuOpen}
+            aria-controls={`menu-${report?.id || report?.name || "item"}`}
+            title="More"
           >
             <MoreVertical size={16} />
           </button>
 
           <div
+            id={`menu-${report?.id || report?.name || "item"}`}
             className={`absolute left-0 top-8 w-44 bg-white border border-gray-200 shadow-md rounded-md z-30 transform transition duration-150 ease-out ${
-              menuOpen
-                ? "scale-100 opacity-100"
-                : "scale-95 opacity-0 pointer-events-none"
+              menuOpen ? "scale-100 opacity-100" : "scale-95 opacity-0 pointer-events-none"
             }`}
             onClick={(e) => e.stopPropagation()}
+            role="menu"
           >
             <button
               className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 disabled:text-gray-300"
               onClick={() => {
                 setMenuOpen(false);
-                if (browserHref)
-                  window.open(browserHref, "_blank", "noopener,noreferrer");
+                if (browserHref) window.open(browserHref, "_blank", "noopener,noreferrer");
               }}
               type="button"
               disabled={!browserHref}
+              role="menuitem"
             >
               Open in browser
             </button>
@@ -125,27 +143,23 @@ export default function ToolkitReportCard({
         </div>
       )}
 
-      {/* Favourite (top-right) */}
       {typeof onFavourite === "function" && (
         <button
           onClick={(e) => {
             e.stopPropagation();
             onFavourite(report?.id || report?.name);
           }}
-          className={`absolute ${
-            layoutSizePx <= 140 ? "top-1.5 right-1.5" : "top-3 right-3"
-          } p-2 rounded-full group transition z-20`}
+          className={`absolute ${layoutSizePx <= 140 ? "top-1.5 right-1.5" : "top-3 right-3"} p-2 rounded-full group transition z-20`}
           aria-label={isFavourite ? "Unfavourite" : "Favourite"}
-          tabIndex={0}
+          aria-pressed={isFavourite}
+          title={isFavourite ? "Unfavourite" : "Favourite"}
           type="button"
         >
           <Star
             className={`w-5 h-5 transition-transform duration-300 ${
               isFavourite ? "text-yellow-400" : "text-gray-300"
             } opacity-80 ${
-              clickedStar === (report?.id || report?.name)
-                ? "scale-125 animate-ping-once"
-                : ""
+              clickedStar === (report?.id || report?.name) ? "scale-125 animate-ping-once" : ""
             }`}
             strokeWidth={1.5}
             fill={isFavourite ? "#fde047" : "none"}
@@ -153,10 +167,12 @@ export default function ToolkitReportCard({
         </button>
       )}
 
-      {/* Content */}
       <div className="flex-1 flex flex-col items-center justify-center w-full h-full px-2">
         {report?.logoUrl && (
           <img
+            loading="lazy"
+            decoding="async"
+            draggable={false}
             src={report.logoUrl}
             alt={`${report?.name} logo`}
             className="object-contain mb-3 opacity-90 group-hover:opacity-100 transition-opacity duration-200"
@@ -171,8 +187,6 @@ export default function ToolkitReportCard({
         <div
           className="text-center font-avenir text-gray-900"
           style={{
-            fontFamily:
-              "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
             fontSize: nameFont,
             lineHeight: 1.15,
             wordBreak: "break-word",
@@ -181,6 +195,7 @@ export default function ToolkitReportCard({
             WebkitLineClamp: 2,
             overflow: "hidden",
           }}
+          title={displayName}
         >
           {displayName}
         </div>
