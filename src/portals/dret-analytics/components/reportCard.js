@@ -14,6 +14,7 @@ const categoryColors = {
   HR: "bg-yellow-50 text-yellow-800",
   Finance: "bg-red-50 text-red-800",
   "IT & Data": "bg-purple-50 text-purple-800",
+  "Data Protection": "bg-teal-50 text-teal-800",
 };
 
 const tagStyles = {
@@ -31,6 +32,7 @@ const SECTION_LABELS = new Set([
   "Finance",
   "HR",
   "IT & Data",
+  "Data Protection",
 ]);
 
 function getPrimarySectionLabel(report) {

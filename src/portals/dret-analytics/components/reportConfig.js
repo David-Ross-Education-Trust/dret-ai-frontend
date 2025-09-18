@@ -55,7 +55,7 @@ export const reportConfig = [
   {
     id: "bromcom-attendance",
     name: "Attendance Overview",
-    description: "Attendance data analysis tools.",
+    description: "Attendance data analysis.",
     category: "Bromcom",
     tag: "",
     href: "/analytics/education/bromcom-attendance",
@@ -140,7 +140,7 @@ export const reportConfig = [
   {
     id: "bromcom-ks4-performance",
     name: "KS4 Performance",
-    description: "Progress 8 and other metric analysis tools.",
+    description: "Progress 8 and other metric analysis.",
     category: "Bromcom",
     tag: "",
     href: "/analytics/education/bromcom-ks4-performance",
@@ -174,7 +174,7 @@ export const reportConfig = [
   {
     id: "bromcom-suspensions-exclusions",
     name: "Suspensions & Exclusions",
-    description: "Suspension and permanent exclusion analysis tools.",
+    description: "Suspension and permanent exclusion analysis.",
     category: "Bromcom",
     tag: "",
     href: "/analytics/education/bromcom-suspensions-exclusions",

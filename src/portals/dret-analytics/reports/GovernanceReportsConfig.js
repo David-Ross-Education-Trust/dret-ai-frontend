@@ -5,7 +5,7 @@ export const reportConfig = [
     id: "data-protection",
     name: "Data Protection Dashboard",
     description: "",
-    category: "DRET",
+    category: "Data Protection",
     tag: "",
     href: "/analytics/governance/data-protection",
     component: () => (
