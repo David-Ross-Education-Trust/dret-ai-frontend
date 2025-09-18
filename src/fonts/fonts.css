@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Avenir LT Std";
-  src: url("./AvenirLTStdLight.ttf") format("truetype"); /* Light (35) */
+  src: url("./AvenirLTStdLight.ttf") format("truetype");
   font-weight: 300;
   font-style: normal;
   font-display: swap;
@@ -8,7 +8,7 @@
 
 @font-face {
   font-family: "Avenir LT Std";
-  src: url("./AvenirLT-45.ttf") format("truetype"); /* Book (45) ~ Regular */
+  src: url("./AvenirLT-45.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -16,7 +16,7 @@
 
 @font-face {
   font-family: "Avenir LT Std";
-  src: url("./AvenirLT-45Oblique.ttf") format("truetype"); /* Book Italic */
+  src: url("./AvenirLT-45Oblique.ttf") format("truetype");
   font-weight: 400;
   font-style: italic;
   font-display: swap;
@@ -24,7 +24,7 @@
 
 @font-face {
   font-family: "Avenir LT Std";
-  src: url("./AvenirLT-65.ttf") format("truetype"); /* Medium (65) ~ Semibold */
+  src: url("./AvenirLT-65.ttf") format("truetype");
   font-weight: 600;
   font-style: normal;
   font-display: swap;
@@ -32,7 +32,7 @@
 
 @font-face {
   font-family: "Avenir LT Std";
-  src: url("./AvenirLT-85.ttf") format("truetype"); /* Heavy (85) ~ ExtraBold */
+  src: url("./AvenirLT-85.ttf") format("truetype");
   font-weight: 800;
   font-style: normal;
   font-display: swap;
@@ -40,7 +40,7 @@
 
 @font-face {
   font-family: "Avenir LT Std";
-  src: url("./AvenirLT-95.ttf") format("truetype"); /* Black (95) */
+  src: url("./AvenirLT-95.ttf") format("truetype");
   font-weight: 900;
   font-style: normal;
   font-display: swap;

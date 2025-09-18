@@ -39,28 +39,24 @@ const AnalyticsLayout = ({
   const handleReportIssue = () => {
     try {
       window.open(reportIssueHref, "_blank", "noopener,noreferrer");
-    } catch {
-      /* no-op */
-    }
+    } catch {}
   };
 
   return (
     <div className="flex font-avenir h-screen bg-gray-50">
-      {/* Sidebar */}
       <aside
-        className={`bg-[var(--trust-green)] text-white h-screen transition-all duration-300 flex flex-col fixed top-0 left-0 z-40 shadow-lg ${
-          sidebarOpen ? "w-60" : "w-14"
-        }`}
-        style={{ minWidth: sidebarOpen ? sidebarWidth : sidebarMiniWidth }}
+        className={`text-white h-screen transition-all duration-300 flex flex-col fixed top-0 left-0 z-40 shadow-lg ${sidebarOpen ? "w-60" : "w-14"}`}
+        style={{
+          minWidth: sidebarOpen ? sidebarWidth : sidebarMiniWidth,
+          backgroundColor: "var(--trust-green, #205c40)",
+        }}
       >
-        {/* Logo area and chevron toggle */}
         {sidebarOpen ? (
           <div className="w-full h-24 flex items-center relative">
             <img
               src={dretAnalyticsLogo}
               alt="Analytics Logo"
-              className="w-full h-full object-contain"
-              style={{ display: "block", maxHeight: "80px" }}
+              className="block w-full h-full max-h-20 object-contain"
             />
             {allowSidebarMinimise && (
               <button
@@ -88,26 +84,20 @@ const AnalyticsLayout = ({
           )
         )}
 
-        {/* Nav under logo */}
         <nav className="mt-6 flex flex-col gap-1">
-          {navItems.map((item, idx) => {
+          {navItems.map((item) => {
             const isSelected =
               location.pathname === item.to ||
-              (item.label === "Favourites" &&
-                location.pathname.startsWith("/analytics/favourites"));
+              (item.label === "Favourites" && location.pathname.startsWith("/analytics/favourites"));
             const isDisabled = !!item.disabled;
 
             if (isDisabled) {
               return (
                 <div
-                  key={idx}
+                  key={item.to}
                   aria-disabled="true"
                   title={`${item.label} (coming soon)`}
-                  className={`
-                    flex items-center px-4 py-3 rounded transition-transform duration-150 relative
-                    ${sidebarOpen ? "" : "justify-center"}
-                    opacity-60 cursor-not-allowed text-white/70 font-normal
-                  `}
+                  className={`flex items-center px-4 py-3 rounded transition-transform duration-150 relative ${sidebarOpen ? "" : "justify-center"} opacity-60 cursor-not-allowed text-white/70 font-normal`}
                 >
                   <span>{sidebarOpen ? item.label : ""}</span>
                 </div>
@@ -116,14 +106,10 @@ const AnalyticsLayout = ({
 
             return (
               <Link
-                key={idx}
+                key={item.to}
                 to={item.to}
-                className={`
-                  flex items-center px-4 py-3 rounded transition-transform duration-150 relative group
-                  hover:scale-[1.04]
-                  ${sidebarOpen ? "" : "justify-center"}
-                  text-white font-normal
-                `}
+                className={`flex items-center px-4 py-3 rounded transition-transform duration-150 relative group hover:scale-[1.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 ${sidebarOpen ? "" : "justify-center"} text-white font-normal`}
+                aria-current={isSelected ? "page" : undefined}
               >
                 {isSelected && (
                   <svg
@@ -141,10 +127,8 @@ const AnalyticsLayout = ({
           })}
         </nav>
 
-        {/* Bottom stack (only when expanded): Report link + user row */}
         {sidebarOpen && (
           <div className="mt-auto">
-            {/* Report an issue */}
             <div className="px-4 pt-2 pb-2 -mt-1">
               <button
                 onClick={handleReportIssue}
@@ -157,12 +141,11 @@ const AnalyticsLayout = ({
               </button>
             </div>
 
-            {/* User row */}
             {isSignedIn && (
               <div className="px-4 py-3 border-t border-[#184b34]">
                 <div className="flex items-center justify-between gap-2">
-                  <span className="font-medium text-sm text-white">
-                    {account.name}
+                  <span className="font-medium text-sm text-white truncate" title={account?.name || ""}>
+                    {account?.name}
                   </span>
                   <button
                     onClick={handleLogout}
@@ -183,12 +166,9 @@ const AnalyticsLayout = ({
         )}
       </aside>
 
-      {/* Main content */}
       <main
-        className={`transition-all duration-300 ${
-          sidebarOpen ? "ml-60" : "ml-14"
-        } flex-1 min-h-screen bg-gray-50`}
-        style={{ maxWidth: "100vw", paddingTop: 0 }}
+        className={`transition-all duration-300 ${sidebarOpen ? "ml-60" : "ml-14"} flex-1 min-h-screen bg-gray-50 max-w-full`}
+        style={{ paddingTop: 0 }}
       >
         {showHeader && headerContent}
         {typeof children === "function" ? children({ sidebarOpen }) : children}
