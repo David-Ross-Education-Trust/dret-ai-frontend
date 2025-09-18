@@ -106,14 +106,8 @@ const AnalyticsLayout = ({
                   className={`
                     flex items-center px-4 py-3 rounded transition-transform duration-150 relative
                     ${sidebarOpen ? "" : "justify-center"}
-                    opacity-60 cursor-not-allowed
+                    opacity-60 cursor-not-allowed text-white/70 font-normal
                   `}
-                  style={{
-                    color: "rgba(255,255,255,0.7)",
-                    fontWeight: 400,
-                    fontFamily:
-                      "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
-                  }}
                 >
                   <span>{sidebarOpen ? item.label : ""}</span>
                 </div>
@@ -128,14 +122,8 @@ const AnalyticsLayout = ({
                   flex items-center px-4 py-3 rounded transition-transform duration-150 relative group
                   hover:scale-[1.04]
                   ${sidebarOpen ? "" : "justify-center"}
+                  text-white font-normal
                 `}
-                style={{
-                  color: "#fff",
-                  fontWeight: 400,
-                  fontFamily:
-                    "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif",
-                  transition: "transform 0.18s cubic-bezier(.4,0,.2,1)",
-                }}
               >
                 {isSelected && (
                   <svg

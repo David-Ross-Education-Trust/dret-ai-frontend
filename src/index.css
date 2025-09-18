@@ -1,4 +1,4 @@
-@import "./styles/fonts.css";  /* <-- make sure this path matches where fonts.css lives */
+@import "./fonts/fonts.css";  /* <-- make sure this path matches where fonts.css lives */
 
 @tailwind base;
 @tailwind components;
