@@ -2,10 +2,9 @@ import React, { useState, useMemo, useEffect, useRef } from "react";
 import { Search, X, Rows, Grid, LayoutGrid, Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import AnalyticsLayout from "../components/layout";
-import { visibleReports } from "../reports/governanceReportConfig";
+import { visibleReports } from "../components/GovernanceReportsConfig";
 import ReportCard from "../components/reportCard";
 
-// Persist favourites in localStorage (scoped to Governance!)
 function useFavourites(key = "governanceFavourites") {
   const [favourites, setFavourites] = useState(() => {
     try {
@@ -28,7 +27,6 @@ function useFavourites(key = "governanceFavourites") {
   return [favourites, toggleFavourite];
 }
 
-// Smart open: external links in new tab, relative paths via router
 function openExternalOrRoute(href, navigate) {
   if (!href) return;
   if (/^https?:\/\//i.test(href)) {
@@ -38,7 +36,6 @@ function openExternalOrRoute(href, navigate) {
   navigate(href);
 }
 
-// Storage keys for this page (separate from Education/Toolkits)
 const VIEW_STORAGE_KEYS = {
   mode: "governanceViewMode",           // "compact" | "cosy" | "list"
   favesOnly: "governanceViewFavesOnly", // "true" | "false"
@@ -54,7 +51,6 @@ export default function GovernanceReports() {
   const [searchOpen, setSearchOpen] = useState(false);
   const searchInlineRef = useRef(null);
 
-  // View settings (persisted)
   const [mode, setMode] = useState(() => {
     try {
       const stored = localStorage.getItem(VIEW_STORAGE_KEYS.mode);
@@ -83,7 +79,6 @@ export default function GovernanceReports() {
     } catch { /* no-op */ }
   }, [showOnlyFaves]);
 
-  // Presets sized for dashboard cards
   const PRESETS = {
     compact: { size: 240, gap: 16 },
     cosy:    { size: 300, gap: 24 },
@@ -93,21 +88,10 @@ export default function GovernanceReports() {
 
   const TRUST_GREEN = "#205c40";
 
-  // Filter visible reports to Governance + search + favourites
   const filtered = useMemo(() => {
     const t = searchTerm.trim().toLowerCase();
 
     return visibleReports.filter((r) => {
-      // Category can be string or array — consider any "governance" tag a match
-      const cats = (Array.isArray(r.category) ? r.category : [r.category])
-        .filter(Boolean)
-        .map((c) => String(c).toLowerCase());
-
-      const inGovernance =
-        cats.includes("governance") ||
-        cats.some((c) => c.includes("governance")); // handles e.g. "Trust Governance"
-
-      if (!inGovernance) return false;
       if (r.status === "coming-soon") return false;
       if (showOnlyFaves && !favourites.includes(r.id)) return false;
 
@@ -125,7 +109,6 @@ export default function GovernanceReports() {
     setTimeout(() => setClickedStar(null), 300);
   };
 
-  // Autofocus when inline search opens
   useEffect(() => {
     if (searchOpen && searchInlineRef.current) {
       const el = searchInlineRef.current;
@@ -147,13 +130,12 @@ export default function GovernanceReports() {
         >
           {/* LEFT: Title */}
           <h1 className="text-2xl font-bold" style={{ color: TRUST_GREEN }}>
-            Governance Reports
+            Governance Dashboards
           </h1>
 
           {/* RIGHT: favourites, view toggle, search */}
           <div className="flex items-center gap-3">
             {searchOpen ? (
-              // On <lg, inline search replaces the other controls
               <div className="flex items-center lg:hidden">
                 <div className="relative w-[240px]">
                   <input
@@ -188,7 +170,7 @@ export default function GovernanceReports() {
               </div>
             ) : (
               <>
-                {/* Favourites-only toggle (hide on <sm) */}
+                {/* Favourites-only toggle */}
                 <button
                   onClick={() => setShowOnlyFaves((v) => !v)}
                   className={`hidden sm:inline-flex p-2 rounded-full border transition ${
@@ -206,7 +188,7 @@ export default function GovernanceReports() {
                   />
                 </button>
 
-                {/* View toggle — labels only on lg+; hide group on <sm */}
+                {/* View toggle */}
                 <div className="hidden sm:flex items-center rounded-xl border border-gray-200 overflow-hidden">
                   <button
                     className={`px-3 py-2 text-sm flex items-center gap-1 ${mode === "compact" ? "bg-gray-100" : "bg-white hover:bg-gray-50"}`}
@@ -240,7 +222,7 @@ export default function GovernanceReports() {
                   </button>
                 </div>
 
-                {/* Search: lg+ full input; <lg icon (hidden on <sm) */}
+                {/* Search (lg+) */}
                 <div className="relative flex-shrink-0 hidden lg:block w-[260px]">
                   <input
                     type="text"
@@ -292,7 +274,7 @@ export default function GovernanceReports() {
               No dashboards{searchTerm ? " match this search." : "."}
             </div>
           ) : mode === "list" ? (
-            // LIST VIEW — row clickable, star at end
+            // LIST VIEW
             <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
               <ul className="divide-y divide-gray-100">
                 {filtered.map((report) => (
@@ -329,7 +311,7 @@ export default function GovernanceReports() {
               </ul>
             </div>
           ) : (
-            // GRID VIEW — auto-fill + minmax
+            // GRID VIEW
             <div
               className="grid"
               style={{
@@ -360,12 +342,6 @@ export default function GovernanceReports() {
           .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
           .custom-scrollbar-thumb { background-color: #cbd5e1; border-radius: 3px; }
           .custom-scrollbar-thumb:hover { background-color: #94a3b8; }
-          .animate-ping-once { animation: pingOnce 0.3s ease-out; }
-          @keyframes pingOnce {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-          }
         `}</style>
       </div>
     </AnalyticsLayout>

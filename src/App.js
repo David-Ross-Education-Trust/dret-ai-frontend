@@ -20,7 +20,10 @@ import ITDataReports from "./portals/dret-analytics/pages/ITDataReports";
 import OperationsReports from "./portals/dret-analytics/pages/OperationsReports";
 import GovernanceReports from "./portals/dret-analytics/pages/GovernanceReports";
 
-import { reportConfig } from "./portals/dret-analytics/components/reportConfig";
+// Configs
+import { reportConfig as educationReportConfig } from "./portals/dret-analytics/components/reportConfig";
+import { reportConfig as governanceReportConfig } from "./portals/dret-analytics/components/GovernanceReportsConfig";
+
 import ToolkitRouter from "./portals/dret-analytics/toolkits/toolkitRouter";
 import RequireAuth from "./auth/RequireAuth";
 
@@ -29,6 +32,11 @@ import GroupGuard from "./auth/GroupGuard";
 import { GROUPS } from "./auth/groups";
 
 function App() {
+  const allReportConfigs = [
+    ...educationReportConfig,
+    ...governanceReportConfig,
+  ];
+
   return (
     <Router>
       <Routes>
@@ -73,11 +81,13 @@ function App() {
                 {/* Toolkits: no restrictions */}
                 <Route path="/analytics/toolkits" element={<ToolkitReports />} />
 
-                {/* Governance: only Governance */}
+                {/* Governance: Governance + Working Group */}
                 <Route
                   path="/analytics/governance"
                   element={
-                    <GroupGuard allowedGroups={[GROUPS.GOVERNANCE, GROUPS.WORKING_GROUP]}>
+                    <GroupGuard
+                      allowedGroups={[GROUPS.GOVERNANCE, GROUPS.WORKING_GROUP]}
+                    >
                       <GovernanceReports />
                     </GroupGuard>
                   }
@@ -129,8 +139,8 @@ function App() {
                   element={<ToolkitRouter />}
                 />
 
-                {/* Individual analytics report pages (unchanged) */}
-                {reportConfig.map(
+                {/* Individual analytics report pages (Education + Governance) */}
+                {allReportConfigs.map(
                   (report) =>
                     !report.comingSoon && (
                       <Route

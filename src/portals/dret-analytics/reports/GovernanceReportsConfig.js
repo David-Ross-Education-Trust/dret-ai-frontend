@@ -1,10 +1,10 @@
-import PowerBIReportPage from "../components/reportPage";
+import PowerBIReportPage from "./reportPage";
 
-export const governanceReportConfig = [
+export const reportConfig = [
   {
     id: "data-protection",
     name: "Data Protection Dashboard",
-    description: "Trust-wide data protection and compliance overview.",
+    description: "",
     category: "DRET",
     tag: "",
     href: "/analytics/governance/data-protection",
@@ -18,10 +18,11 @@ export const governanceReportConfig = [
     ),
     status: "active",
   },
+
 ];
 
 export const isActive  = (r) => r.status === "active";
-export const isVisible = (r) => r.status !== "hidden";
+export const isVisible = (r) => r.status !== "hidden"; // active or coming-soon
 
-export const activeReports  = governanceReportConfig.filter(isActive);
-export const visibleReports = governanceReportConfig.filter(isVisible);
+export const activeReports   = reportConfig.filter(isActive);   // use for routes
+export const visibleReports  = reportConfig.filter(isVisible);  // use for cards/menus
