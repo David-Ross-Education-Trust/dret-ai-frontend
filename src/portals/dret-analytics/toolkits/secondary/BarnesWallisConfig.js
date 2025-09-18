@@ -29,7 +29,7 @@ export const BarnesWallisConfig = [
     sourceToolkit: "Barnes Wallis Toolkit",
   },
 
-  // COAP (numeric order)
+  // COAP - (numeric order)
   {
     id: "COAP - Year 7",
     name: "COAP - Year 7",
