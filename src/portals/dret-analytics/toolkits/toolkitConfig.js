@@ -1,4 +1,3 @@
-// 1) Logos
 import dretLogo from "../../../assets/icon.png";
 import AbbeyLogo from "../../../assets/Abbey_CE_thumb.jpg";
 import AinthorpeLogo from "../../../assets/Ainthorpe_Primary_School_thumb.jpg";
@@ -37,9 +36,7 @@ import WoldLogo from "../../../assets/Wold_Academy_thumb.jpg";
 import BobbyMooreLogo from "../../../assets/BMA_thumb.png";
 import BarnesWallisLogo from "../../../assets/Barnes_Wallis_thumb.jpg";
 
-// 2) Pure data: NO component imports, ids match allToolkits.js keys
 export const toolkitConfig = [
-  // Demo
   {
     id: "demotoolkit",
     name: "Demo Toolkit",
@@ -51,7 +48,6 @@ export const toolkitConfig = [
     comingSoon: false,
   },
 
-  // Schools
   { id: "abbey", name: "Abbey Academy", description: "Abbey Academy Toolkit.", category: "Toolkit", tag: "", href: "/analytics/toolkits/abbey", logoUrl: AbbeyLogo, comingSoon: false },
   { id: "ainthorpe", name: "Ainthorpe Primary School", description: "Ainthorpe Primary School Toolkit.", category: "Toolkit", tag: "", href: "/analytics/toolkits/ainthorpe", logoUrl: AinthorpeLogo, comingSoon: false },
   { id: "arbours", name: "The Arbours Primary School", description: "The Arbours Primary School Toolkit.", category: "Toolkit", tag: "", href: "/analytics/toolkits/arbours", logoUrl: TheArboursLogo, comingSoon: false },

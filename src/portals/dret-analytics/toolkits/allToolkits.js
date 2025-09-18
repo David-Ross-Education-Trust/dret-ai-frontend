@@ -1,4 +1,3 @@
-// import individual school configs
 import { AbbeyConfig } from "./primary/AbbeyConfig";
 import { AinthorpeConfig } from "./primary/AinthorpeConfig";
 import { ArboursConfig } from "./primary/ArboursConfig";
@@ -39,29 +38,26 @@ import { ThomasMiddlecottConfig } from "./secondary/ThomasMiddlecottConfig";
 
 import { demoToolkitConfig } from "./demo/DemoToolkitConfig";
 
-// 🔑 helper to normalise school names into URL-friendly keys
 function normaliseSchoolLabel(label) {
   if (!label) return "";
   return label
     .replace(/\bToolkit\b/i, "")
     .replace(/\bAcademy\b/i, "")
     .replace(/\bPrimary\b/i, "")
-    .replace(/[\W_]+/g, "") // remove spaces, punctuation, underscores
+    .replace(/[\W_]+/g, "")
     .trim()
     .toLowerCase();
 }
 
-// 🔧 helper to attach schoolKey to every config item
 function withSchoolKey(configArray, schoolName) {
   const schoolKey = normaliseSchoolLabel(schoolName);
   return configArray.map((item) => ({
     ...item,
     schoolKey,
-    sourceToolkit: schoolName, // keep readable name
+    sourceToolkit: schoolName,
   }));
 }
 
-// Grouped configs per school
 export const schoolToolkitConfigs = {
   abbey: withSchoolKey(AbbeyConfig, "Abbey Academy"),
   ainthorpe: withSchoolKey(AinthorpeConfig, "Ainthorpe Primary"),
@@ -104,5 +100,4 @@ export const schoolToolkitConfigs = {
   demotoolkit: withSchoolKey(demoToolkitConfig, "Demo Toolkit"),
 };
 
-// Flattened list (for homepage, search, etc.)
 export const allToolkitConfigs = Object.values(schoolToolkitConfigs).flat();
