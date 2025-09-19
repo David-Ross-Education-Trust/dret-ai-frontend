@@ -195,7 +195,7 @@ export default function ToolkitReports() {
 
   return (
     <AnalyticsLayout>
-      <div className="bg-gray-100 min-h-screen h-screen flex flex-col font-avenir" style={{ fontFamily: "AvenirLTStdLight, Avenir, ui-sans-serif, system-ui, sans-serif" }}>
+      <div className="bg-gray-100 min-h-screen h-screen flex flex-col font-avenir">
         <div className="shrink-0 z-20 shadow-sm px-6 md:px-8 h-24 flex items-center justify-between" style={{ backgroundColor: "#ffffff" }}>
           <h1 className="text-2xl font-extrabold" style={{ color: TRUST_GREEN }}>Education Toolkits</h1>
           <div className="flex items-center gap-3">
