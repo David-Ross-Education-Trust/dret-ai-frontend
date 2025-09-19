@@ -110,7 +110,7 @@ export default function PowerBIReportPage({
           <div className="flex flex-col min-h-[100svh] bg-gray-50 font-avenir" style={{ minHeight: fullFallback }}>
             {sidebarOpen && (
               <div className="shrink-0 z-20 shadow-sm px-8 h-24 flex items-center justify-between bg-white">
-                <h1 className="text-2xl font-extrabold font-avenir" style={{ color: "#205c40" }}>
+                <h1 className="text-2xl font-black font-avenir" style={{ color: "#205c40" }}>
                   {title}
                 </h1>
                 <div className="relative flex-shrink-0 w-[240px] ml-4" />
