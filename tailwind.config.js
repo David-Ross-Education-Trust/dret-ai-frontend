@@ -31,7 +31,7 @@ module.exports = {
             fontFamily: theme('fontFamily.sans').join(', '),
             h1: {
               color: theme('colors.trust-green'),
-              fontWeight: '900',              // <- use the 95 face
+              fontWeight: '900',
               fontSize: '2rem',
               marginTop: '0',
               marginBottom: '0.7em',
