@@ -29,7 +29,7 @@ export const BobbyMooreConfig = [
     sourceToolkit: "Bobby Moore Toolkit",
   },
 
-  // COAP files
+  // COAP
   {
     id: "COAP - Primary Phase",
     name: "COAP - Primary Phase",
